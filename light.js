@@ -1,5 +1,6 @@
 var Light = (function() {
 	'use strict';
+
 	//sugary checks
 	var isFunction = function(u) {
 		return typeof u === 'function';
@@ -14,6 +15,38 @@ var Light = (function() {
 		return u === null;
 	};
 	var inaction = function(args){return args};
+
+	var addClass = function(el, name) {
+		if (!name || !el) {return; }
+		if (el.classList && el.classList.add) {
+			el.classList.add(name);
+			return;
+		}
+		var classes = el.className.split(' ');
+		if (~classes.indexOf(name)) {return; }
+		classes.push(name);
+		el.className = classes.join(' ');
+	};
+
+	var Classes = {
+		fromTag:function(tag) {
+			return this.create(tag, tag);
+		},
+		create:function(name, tag, inherits){
+			var src = `
+				(function(element, constructor) {
+					function ${name}() {
+						constructor.call(this, '${tag}');
+						this.identity = '${tag}';
+					}
+					${name}.prototype = Object.create(element.prototype);
+					${name}.constructor = ${name};
+					return ${name};					
+				})
+			`;
+			return eval.call(window, src)(inherits || element, Methods.constructor);
+		}
+	};
 
 	var Methods = {
 		Add:{
@@ -90,7 +123,16 @@ var Light = (function() {
 				});
 				return results;
 			},
+			object:function(assignments) {
+				var results = {};
+				Object.keys(assignments).forEach((name) => {
+					var method = assignments[name];
+					results[name] = this.on(name, method);
+				});
+				return results;
+			},
 			string:function(name, method){
+				if (!isFunction(method)) {return; }
 				var events = ((this.private || {}).Events || {});
 				var pool = events[name];
 				var self = this;
@@ -127,9 +169,14 @@ var Light = (function() {
 				});
 				return results;
 			},
+			light:function(instance) {
+				if (instance.remove) {
+					return instance.remove();
+				}
+			},
 			undefined:function(){
 				this.trigger('destructed');
-				Syrup.Destructors.standard.call(this);
+				return this.destructor();
 			}
 		},
 		Trigger:{
@@ -139,6 +186,12 @@ var Light = (function() {
 					results.push(this.trigger(item, args));
 				});
 				return results;
+			},
+			object:function(assignments) {
+				Object.keys(assignments).forEach((name) => {
+					var args = assignments[name];
+					this.trigger(name, args);
+				});
 			},
 			string:function(name, args){
 				if (!this.element){return false;}
@@ -216,8 +269,29 @@ var Light = (function() {
 				method.call(this);
 				return this;
 			}
+		},
+		constructor:function(tag) {
+			tag = (isString(tag) ? tag : 'div');
+			this.uid = Utils.uid();
+			this.element = document.createElement(tag);
+			this.element.uid = this.uid;
+			this.private = {};
+			this.private.Events = {};
+			Utils.addEventedProperty(this, 'identity');
+			this.on('identityChanged', (e) => {
+				if (e && e.detail && e.detail.new){
+					if (this.element && e.detail.new){
+						addClass(this.element, e.detail.new);
+					}
+				}
+			});
+			this.identity = tag;
+			var inline = new CSS.inline(this);
+			this.style = inline;
+			this.trigger('constructed');
 		}
 	};
+
 	var Utils = {
 		uid:(function(){
 			var prefix = '';
@@ -237,7 +311,7 @@ var Light = (function() {
 				if (u === null){return 'null'}
 				if (u.constructor === Array){return 'array'}
 				if (u instanceof Element){return 'element'}
-				if (u instanceof light){return 'light'}
+				if (u instanceof element){return 'light'}
 				if (u instanceof RegExp){return 'regex'}
 			}
 			if (t === 'string'){
@@ -399,7 +473,7 @@ var Light = (function() {
 								var val = styles[style];
 								added += (equivalent[style] || style)+':'+val+';';
 							});
-							var me = '['+type+']';
+							var me = '.'+type;
 							var rule = selector.replace(/\[this\]/g, me)+'{'+added+'}';
 							return rule;
 						};
@@ -412,7 +486,7 @@ var Light = (function() {
 									mediaQuery = selector;
 									Utils.getAllPropertyNames(styles).forEach(function(mqSelector){
 										var mqSelectedStyles = styles[mqSelector];
-										if (typeof mqSelectedStyles === 'object' && mqSelectedStyles.constructor !== Array){
+										if (isObject(mqSelectedStyles) && mqSelectedStyles.constructor !== Array){
 											var rule = createRule(mqSelector, mqSelectedStyles);
 											added+='\t'+rule+'\n';
 										}
@@ -514,24 +588,7 @@ var Light = (function() {
 
 	class element {
 		constructor(tag){
-			tag = (isString(tag) ? tag : 'div');
-			this.uid = Utils.uid();
-			this.element = document.createElement(tag);
-			this.element.uid = this.uid;
-			this.private = {};
-			this.private.Events = {};
-			Utils.addEventedProperty(this, 'identity');
-			this.on('identityChanged', (e) => {
-				if (e && e.detail && e.detail.new){
-					if (this.element){
-						this.element.classList.add(e.detail.new);
-					}
-				}
-			});
-			this.identity = tag;
-			var inline = new CSS.inline(this);
-			this.style = inline;
-			this.trigger('constructed');
+			Methods.constructor.call(this, tag);
 		}
 		add(item) {
 			var type = Utils.getType(item);
@@ -559,13 +616,13 @@ var Light = (function() {
 			return (action || inaction).call(this, event, args);
 		}
 		find(what) {
-			var type = Utils.getType(item);
+			var type = Utils.getType(what);
 			var action = Methods.Find[type];
 			return (action || inaction([])).call(this, what);
 		}
 		with(method) {
 			var type = Utils.getType(method);
-			var action = Methods.Remove[type];
+			var action = Methods.With[type];
 			return (action || inaction).call(this, method);
 		}
 		children(callback) {
@@ -632,11 +689,41 @@ var Light = (function() {
 			_private = null;
 			_parent = null;
 			_children = null;
+			return true;
 		}
 	}
-	return {
+
+	var exported = {
 		element:element,
 		Elements:{},
-		Markup:{} //parse, coalesce
+		Markup:{}
 	};
+
+	[
+		'a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio',
+		'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button',
+		'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command',
+		'datalist', 'dd', 'del', 'details', 'dfn', 'dir', 'div', 'dl', 'dt',
+		'em', 'embed',
+		'fieldset', 'figcaption', 'figure', 'footer', 'form',
+		'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html',
+		'i', 'iframe', 'img', 'input', 'ins',
+		'kbd', 'keygen',
+		'label', 'legend', 'li', 'link',
+		'main', 'map', 'mark', 'menu', 'meta', 'meter',
+		'nav', 'noscript',
+		'object', 'ol', 'optgroup', 'option', 'output',
+		'p', 'param', 'pre', 'progress',
+		'q',
+		'rp', 'rt', 'ruby',
+		's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup',
+		'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track',
+		'u', 'ul',
+		'video',
+		'wbr'
+	].forEach((tag) => {
+		exported.Elements[tag] = Classes.fromTag(tag);
+	});
+
+	return exported
 })();
