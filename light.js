@@ -14,8 +14,30 @@ var Light = (function() {
 	var isNull = function(u) {
 		return u === null;
 	};
-	var inaction = function(args){return args};
-
+	var isArray = function(u) {
+		return Array.isArray(u);
+	};
+	var isLight = function(u) {
+		return (u instanceof element);
+	};
+	var isElement = function(u) {
+		return (u instanceof Element);
+	};
+	var isRegex = function(u) {
+		return (u instanceof RegExp);
+	};
+	var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
+	var isHTML = function(u) {
+		return htmlRegex.test(u);
+	};
+	var isPath = function(u) {
+		return (u[0] === '@');
+	};
+	var unhandled = function(args){return args};
+	var cacheable = function(name) {
+		exported.Cache = (exported.Cache || {});
+		exported.Cache[name] = (exported.Cache[name] || {});
+	};
 	var addClass = function(el, name) {
 		if (!name || !el) {return; }
 		if (el.classList && el.classList.add) {
@@ -27,6 +49,7 @@ var Light = (function() {
 		classes.push(name);
 		el.className = classes.join(' ');
 	};
+
 
 	var Classes = {
 		fromTag:function(tag) {
@@ -270,10 +293,121 @@ var Light = (function() {
 				return this;
 			}
 		},
+		Do:{
+			array:function(collection){
+				var results = [];
+				collection.forEach((item) => {
+					results.push(this.do(item));
+				});
+				return results;
+			},
+			object:function(macro) {
+				var results = {};
+				Object.keys(macro).forEach((command) => {
+					results[command] = this.do(command, macro[command]);
+				});
+				return results;
+			},
+			string:function(command, args) {
+				if (isFunction(this[command])) {
+					if (isArray(args)) {
+						return this[command].apply(this, args);
+					}
+					return this[command](args);
+				}
+			},
+			path:function(command, args) {
+				var path = Paths.getWithContext(this, command);
+				if (!path || !path.context || !path.property) {return; }
+				var method = path.context[path.property];
+				if (isFunction(method)) {
+					if (isArray(args)) {
+						return method.apply(path.context, args);
+					}
+					return method.call(path.context, args);
+				}
+			}
+		},
+		Get:{
+			array:function(collection) {
+				var results = [];
+				collection.forEach((item) => {
+					results.push(this.get(item));
+				});
+				return results;
+			},
+			string:function(property) {
+				if (!property) {return; }
+				if (!this.hasOwnProperty(property)) {return; }
+				return this[property];
+			},
+			path:function(path) {
+				return Paths.get(this, path);
+			}
+		},
+		Set:{
+			object:function(assignments) {
+				var results = {};
+				Object.keys(assignments).forEach((command) => {
+					results[command] = this.set(command, assignments[command]);
+				});
+				return results;
+			},
+			string:function(property, value) {
+				if (!property) {return; }
+				if (!this.hasOwnProperty(property)) {return; }
+				this[property] = value;
+				return value;
+			},
+			path:function(path, value) {
+				return Paths.set(this, path, value);
+			}
+		},
+		Text:{
+			string:function(text) {
+				if (this.private && this.element) {
+					if (!this.private.text) {
+						var text = document.createTextNode(text);
+						this.private.text = text;
+						this.element.appendChild(text);
+						return true;
+					}
+					this.private.text.nodeValue = text;
+					return true;
+				}
+				return false;
+			}
+		},
+		DoToEach:{
+			string:function(command, args) {
+				var results = [];
+				this.forEach((item) => {
+					if (isFunction(item[command])) {
+						results.push(item[command].apply(item, args));
+						return;
+					}
+					results.push(undefined);
+				});
+				return results;
+			}
+		},
+		Constructor:{
+			element:function(el) {
+				this.element = el;
+			},
+			string:function(tag) {
+				tag = (tag || 'div');
+				this.element = document.createElement(tag);
+			}
+		},
 		constructor:function(tag) {
-			tag = (isString(tag) ? tag : 'div');
+			var type = Utils.getType(tag);
+			var action = Methods.Constructor[type];
+			(action || function(){
+				tag = 'div';
+				Methods.Constructor.string.call(this, tag);
+			}).call(this, tag);
 			this.uid = Utils.uid();
-			this.element = document.createElement(tag);
 			this.element.uid = this.uid;
 			this.private = {};
 			this.private.Events = {};
@@ -289,6 +423,7 @@ var Light = (function() {
 			var inline = new CSS.inline(this);
 			this.style = inline;
 			this.trigger('constructed');
+			return this;
 		}
 	};
 
@@ -306,21 +441,18 @@ var Light = (function() {
 			}				
 		})(),
 		getType:function(u){
-			var t = typeof u;
-			if (t === 'object'){
-				if (u === null){return 'null'}
-				if (u.constructor === Array){return 'array'}
-				if (u instanceof Element){return 'element'}
-				if (u instanceof element){return 'light'}
-				if (u instanceof RegExp){return 'regex'}
+			var type = typeof u;
+			var subtypes = Types[type];
+			if (!subtypes) {
+				return type;
 			}
-			if (t === 'string'){
-				var rHTML = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
-				if (rHTML.test(u)){
-					return 'html';
+			for (var name in subtypes) {
+				let subtype = subtypes[name];
+				if (subtype(u)) {
+					return name;
 				}
 			}
-			return t;
+			return type;
 		},
 		addEventedProperty:function(host, name, defaultValue){
 			var value = defaultValue;
@@ -586,6 +718,159 @@ var Light = (function() {
 		})()
 	};
 
+	var Types = {
+		object:{
+			null:isNull,
+			array:isArray,
+			element:isElement,
+			light:isLight,
+			regex:isRegex
+		},
+		string:{
+			html:isHTML,
+			path:isPath
+		}
+	};
+
+	var Paths = {
+		getter:function(obj, prop) {
+			if (!isObject(obj)) {return; }
+			return obj[prop];
+		},
+		setter:function(obj, path, value) {
+			var parts = path.substring(1).split('.');
+			if (!parts.length) {return; }
+			if (parts.length === 1) {
+				obj[parts[0]] = value;
+				return true;
+			}
+			var tail = parts.splice(parts.length - 1, 1);
+			var reference = Paths.get(obj, parts);
+			if (reference) {
+				reference[tail[0]] = value;
+				return true;
+			}
+			return false;
+		},
+		get:function(obj, path) {
+			if (isString(path)) {
+				return path.substring(1).split('.').reduce(Paths.getter, obj);
+			}
+			if (isArray(path)) {
+				return path.reduce(Paths.getter, obj);
+			}
+		},
+		set:function(obj, path, value) {
+			return Paths.setter(obj, path, value);
+		},
+		getWithContext:function(obj, path) {
+			var parts = path.substring(1).split('.');
+			if (!parts.length) {return; }
+			if (parts.length === 1) {
+				return {
+					context:obj,
+					property:parts[0]
+				};
+			}
+			var tail = parts.splice(parts.length - 1, 1);
+			var reference = Paths.get(obj, parts);
+			if (reference) {
+				return {
+					context:reference,
+					property:tail[0]
+				};
+			}
+			return false;
+		}
+	};
+
+	var Parser = {
+		Types:{
+			default:function(node) {
+
+			},
+			template:function(node) {},
+			class:function(node) {}
+		},
+		// :function(node){
+		// 	var tag = node.tagName.toLowerCase();
+		// 	cacheable('Classes');
+		// 	if (exported.Cache.Classes) {}
+		// 	var type = tag.split('-').reduce(Paths.getter, exported.Elements);
+		// 	var instance = new type();
+		// },
+		parse:function(html, source) {
+			var container = document.createElement('container');
+			container.innerHTML = html;
+			var root = container.firstChild;
+			var tag = root.tagName.toLowerCase();
+
+
+		}
+	};
+
+	class collection extends Array {
+		constructor(target) {
+			super();
+			if (isArray(target)) {
+				target.forEach((item) => {
+					this.push(item);
+				});
+			}
+		}
+		doToEach(method, args) {
+			var type = Utils.getType(method);
+			var action = Methods.DoToEach[type];
+			return (action || unhandled).call(this, method, args);
+		}
+	}
+
+	class elements extends collection {
+		constructor() {
+			super();
+			return this.doToEach('constructor', arguments);
+		}
+		text() {
+			return this.doToEach('text', arguments);
+		}
+		add() {
+			return this.doToEach('add', arguments);
+		}
+		addTo() {
+			return this.doToEach('addTo', arguments);
+		}
+		remove() {
+			return this.doToEach('remove', arguments);
+		}
+		on() {
+			return this.doToEach('on', arguments);
+		}
+		trigger() {
+			return this.doToEach('trigger', arguments);
+		}
+		find() {
+			return this.doToEach('find', arguments);
+		}
+		with() {
+			return this.doToEach('with', arguments);
+		}
+		do() {
+			return this.doToEach('do', arguments);
+		}
+		get() {
+			return this.doToEach('get', arguments);
+		}
+		set() {
+			return this.doToEach('set', arguments);
+		}
+		children() {
+			return this.doToEach('children', arguments);
+		}
+		destructor() {
+			return this.doToEach('destructor', arguments);
+		}
+	}
+
 	class element {
 		constructor(tag){
 			Methods.constructor.call(this, tag);
@@ -593,37 +878,57 @@ var Light = (function() {
 		add(item) {
 			var type = Utils.getType(item);
 			var action = Methods.Add[type];
-			return (action || inaction).call(this, item);
+			return (action || unhandled).call(this, item);
 		}
 		addTo(item) {
 			var type = Utils.getType(item);
 			var action = Methods.AddTo[type];
-			return (action || inaction).call(this, item);
+			return (action || unhandled).call(this, item);
 		}
 		remove(item) {
 			var type = Utils.getType(item);
 			var action = Methods.Remove[type];
-			return (action || inaction).call(this, item);
+			return (action || unhandled).call(this, item);
 		}
 		on(event, method) {
 			var type = Utils.getType(event);
 			var action = Methods.On[type];
-			return (action || inaction).call(this, event, method);
+			return (action || unhandled).call(this, event, method);
 		}
 		trigger(event, args) {
 			var type = Utils.getType(event);
 			var action = Methods.Trigger[type];
-			return (action || inaction).call(this, event, args);
+			return (action || unhandled).call(this, event, args);
 		}
 		find(what) {
 			var type = Utils.getType(what);
 			var action = Methods.Find[type];
-			return (action || inaction([])).call(this, what);
+			return (action || unhandled([])).call(this, what);
 		}
 		with(method) {
 			var type = Utils.getType(method);
 			var action = Methods.With[type];
-			return (action || inaction).call(this, method);
+			return (action || unhandled).call(this, method);
+		}
+		do(method, args) {
+			var type = Utils.getType(method);
+			var action = Methods.Do[type];
+			return (action || unhandled).call(this, method, args);
+		}
+		get(property) {
+			var type = Utils.getType(property);
+			var action = Methods.Get[type];
+			return (action || unhandled).call(this, property);
+		}
+		set(property, value) {
+			var type = Utils.getType(property);
+			var action = Methods.Set[type];
+			return (action || unhandled).call(this, property, value);
+		}
+		text(text) {
+			var type = Utils.getType(text);
+			var action = Methods.Text[type];
+			return (action || unhandled).call(this, text);
 		}
 		children(callback) {
 			var results = [];
@@ -663,7 +968,7 @@ var Light = (function() {
 			if (_parent){
 				if (_private && _private.mapped){
 					var map = _private.mapped[_parent.uid];
-					if (map && map.constructor === Array){
+					if (map && isArray(map)){
 						map.forEach((name) => {
 							delete _parent[name];
 						});
@@ -696,7 +1001,8 @@ var Light = (function() {
 	var exported = {
 		element:element,
 		Elements:{},
-		Markup:{}
+		Markup:{},
+		Cache:{}
 	};
 
 	[
