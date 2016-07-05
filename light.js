@@ -3,16 +3,16 @@ var Light = (function() {
 
 	//sugary checks
 	var isFunction = function(u) {
-		return typeof u === 'function';
+		return (typeof u === 'function');
 	};
 	var isString = function(u) {
-		return typeof u === 'string';
+		return (typeof u === 'string');
 	};
 	var isObject = function(u) {
-		return typeof u === 'object';
+		return (typeof u === 'object');
 	};
 	var isNull = function(u) {
-		return u === null;
+		return (u === null);
 	};
 	var isArray = function(u) {
 		return Array.isArray(u);
@@ -33,6 +33,10 @@ var Light = (function() {
 	var isPath = function(u) {
 		return (u[0] === '@');
 	};
+	var Natives = {};
+	var isNativeTag = function(u) {
+		return Natives[u];
+	};
 	var unhandled = function(args){return args};
 	var cacheable = function(name) {
 		exported.Cache = (exported.Cache || {});
@@ -49,7 +53,6 @@ var Light = (function() {
 		classes.push(name);
 		el.className = classes.join(' ');
 	};
-
 
 	var Classes = {
 		fromTag:function(tag) {
@@ -1071,6 +1074,7 @@ var Light = (function() {
 		'video',
 		'wbr'
 	].forEach((tag) => {
+		Natives[tag] = true;
 		exported.Elements[tag] = Classes.fromTag(tag);
 	});
 
