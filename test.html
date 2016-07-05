@@ -74,6 +74,11 @@
 				t.do('@element.setAttribute', ['style', 'background:purple']);
 				t.text('yolo');
 
+				var mdiv = document.createElement('div');
+				mdiv.setAttribute('style', 'background:yellow');
+				var m = new Light.element(mdiv);
+				m.addTo(document.body);
+
 			}
 
 		</script>

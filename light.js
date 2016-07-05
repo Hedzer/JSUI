@@ -119,6 +119,9 @@ var Light = (function() {
 					}
 					this.element.appendChild(fragment);			
 				}
+			},
+			path:function(prop) {
+				return Methods.Add.string.call(this, prop);
 			}
 		},
 		AddTo:{
@@ -154,7 +157,7 @@ var Light = (function() {
 				});
 				return results;
 			},
-			string:function(name, method){
+			string:function(name, method) {
 				if (!isFunction(method)) {return; }
 				var events = ((this.private || {}).Events || {});
 				var pool = events[name];
@@ -182,6 +185,9 @@ var Light = (function() {
 					removeAll:Events.removeAll
 				};
 				return handle;
+			},
+			path:function(name, method) {
+				return Methods.On.string.call(this, name, method);
 			}
 		},
 		Remove:{
@@ -221,6 +227,9 @@ var Light = (function() {
 				var event = new CustomEvent(name, {"detail": args});
 				this.element.dispatchEvent(event);
 				return true;
+			},
+			path:function(name, args) {
+				return Methods.Trigger.string.call(this, name, args);
 			}
 		},
 		Find:{
@@ -271,6 +280,9 @@ var Light = (function() {
 				results = this.element.querySelectorAll(query);
 				results = (!results || results === null ? [] : results);
 				return results;
+			},
+			path:function(query) {
+				return Methods.Find.string.call(this, query);
 			},
 			undefined:function(){
 				var results = [];
@@ -376,6 +388,9 @@ var Light = (function() {
 					return true;
 				}
 				return false;
+			},
+			path:function(text) {
+				return Methods.Text.string.call(this, text);
 			}
 		},
 		DoToEach:{
@@ -389,28 +404,39 @@ var Light = (function() {
 					results.push(undefined);
 				});
 				return results;
+			},
+			path:function(command, args) {
+				//WIP
 			}
 		},
 		Constructor:{
 			element:function(el) {
 				this.element = el;
+				return el.tagName.toLowerCase();
 			},
 			string:function(tag) {
 				tag = (tag || 'div');
 				this.element = document.createElement(tag);
+				return tag;
 			}
 		},
 		constructor:function(tag) {
-			var type = Utils.getType(tag);
-			var action = Methods.Constructor[type];
-			(action || function(){
-				tag = 'div';
-				Methods.Constructor.string.call(this, tag);
-			}).call(this, tag);
-			this.uid = Utils.uid();
-			this.element.uid = this.uid;
+			//create private store
 			this.private = {};
 			this.private.Events = {};
+
+			//select the proper constructor action
+			var type = Utils.getType(tag);
+			var action = Methods.Constructor[type];
+			tag = (action || function(){
+				return Methods.Constructor.string.call(this, 'div');
+			}).call(this, tag);
+
+			//set up ids
+			this.uid = Utils.uid();
+			this.element.uid = this.uid;
+
+			//setup first identity+event
 			Utils.addEventedProperty(this, 'identity');
 			this.on('identityChanged', (e) => {
 				if (e && e.detail && e.detail.new){
@@ -420,8 +446,12 @@ var Light = (function() {
 				}
 			});
 			this.identity = tag;
+
+			//add styling capabilities
 			var inline = new CSS.inline(this);
 			this.style = inline;
+
+			//signal that this class has been built
 			this.trigger('constructed');
 			return this;
 		}
@@ -494,7 +524,20 @@ var Light = (function() {
 				} while ((obj = Object.getPrototypeOf(obj)) && obj !== oProto);
 				return props;
 			};
-		})()
+		})(),
+		getTextNodes:function(el, stopAtFirst){
+			var nodes = [];
+			for (var i = 0; i < el.childNodes.length; i++) {
+				var node = el.childNodes[i];
+				if (node.nodeName === "#text") {
+					nodes.push(node);
+					if (stopAtFirst) {
+						break;
+					}
+				}
+			}
+			return nodes;
+		}
 	};
 
 	var Events = {
@@ -786,11 +829,11 @@ var Light = (function() {
 
 	var Parser = {
 		Types:{
-			default:function(node) {
+			default:function(node, source) {
 
 			},
-			template:function(node) {},
-			class:function(node) {}
+			template:function(node, source) {},
+			class:function(node, source) {}
 		},
 		// :function(node){
 		// 	var tag = node.tagName.toLowerCase();
@@ -804,8 +847,8 @@ var Light = (function() {
 			container.innerHTML = html;
 			var root = container.firstChild;
 			var tag = root.tagName.toLowerCase();
-
-
+			var parser = Parser.Types[tag];
+			return (action || Parser.default).call(this, root, (source || output.Elements));
 		}
 	};
 
