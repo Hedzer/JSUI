@@ -37,6 +37,9 @@ var Light = (function() {
 	var isNativeTag = function(u) {
 		return Natives[u];
 	};
+	var isTextNode = function(u) {
+ 		return (u && u.nodeName === "#text");
+	};
 	var unhandled = function(args){return args};
 	var cacheable = function(name) {
 		exported.Cache = (exported.Cache || {});
@@ -53,14 +56,41 @@ var Light = (function() {
 		classes.push(name);
 		el.className = classes.join(' ');
 	};
-
+	var getTagName = function(el) {
+		return el.tagName.toLowerCase();
+	};
+	var doOrSet = function(obj, prop, value) {
+		if (obj.hasOwnProperty(prop)) {
+			if (isFunction(obj[prop])) {
+				obj[prop].apply(obj, value);
+				return true;
+			}
+			obj[prop] = value;
+			return true;
+		}
+		return false;
+	};
+	var debounce = function(fn, time) {
+		if (isFunction(fn)) {
+			var dbcTimer;
+			return function() {
+				clearTimeout(dbcTimer);
+				dbcTimer = setTimeout(fn, time);
+			};
+		}
+	};
+	var capitalize = function(style){return style.charAt(0).toUpperCase() + style.slice(1);};
+	var uncapitalize = function(style){return style.charAt(0).toLowerCase() + style.slice(1);};
+	var feval = function(code) {
+		return (new Function(code))();
+	}
 	var Classes = {
 		fromTag:function(tag) {
 			return this.create(tag, tag);
 		},
 		create:function(name, tag, inherits){
 			var src = `
-				(function(element, constructor) {
+				return (function(element, constructor) {
 					function ${name}() {
 						constructor.call(this, '${tag}');
 						this.identity = '${tag}';
@@ -70,7 +100,7 @@ var Light = (function() {
 					return ${name};					
 				})
 			`;
-			return eval.call(window, src)(inherits || element, Methods.constructor);
+			return feval.call(window, src)(inherits || element, Methods.constructor);
 		}
 	};
 
@@ -89,7 +119,7 @@ var Light = (function() {
 					instance.private.parent = this;
 				}
 				var options = {
-					as:function(name){
+					as:(function(name){
 						if (name){
 							this[name] = instance;
 							instance.private.mapped = (instance.private.mapped || {});
@@ -98,7 +128,7 @@ var Light = (function() {
 							map[this.uid].push(name);
 						}
 						return instance;
-					}
+					}).bind(this)
 				};
 				return options;
 			},
@@ -110,7 +140,7 @@ var Light = (function() {
 				return results;
 			},
 			string:function(prop){
-				Utils.addEventedProperty(this, prop);
+				Tools.addEventedProperty(this, prop);
 			},
 			html:function(markup){
 				if (this.element && this.element.appendChild){
@@ -178,7 +208,7 @@ var Light = (function() {
 					this.element.addEventListener(name, hook, false);
 				}
 				if (typeof method === 'function'){
-					var eid = Utils.uid();
+					var eid = Tools.uid();
 					pool[eid] = method;
 				}
 				var handle = {
@@ -415,7 +445,7 @@ var Light = (function() {
 		Constructor:{
 			element:function(el) {
 				this.element = el;
-				return el.tagName.toLowerCase();
+				return getTagName(el);
 			},
 			string:function(tag) {
 				tag = (tag || 'div');
@@ -429,18 +459,18 @@ var Light = (function() {
 			this.private.Events = {};
 
 			//select the proper constructor action
-			var type = Utils.getType(tag);
+			var type = Tools.getType(tag);
 			var action = Methods.Constructor[type];
 			tag = (action || function(){
 				return Methods.Constructor.string.call(this, 'div');
 			}).call(this, tag);
 
 			//set up ids
-			this.uid = Utils.uid();
+			this.uid = Tools.uid();
 			this.element.uid = this.uid;
 
 			//setup first identity+event
-			Utils.addEventedProperty(this, 'identity');
+			Tools.addEventedProperty(this, 'identity');
 			this.on('identityChanged', (e) => {
 				if (e && e.detail && e.detail.new){
 					if (this.element && e.detail.new){
@@ -451,8 +481,8 @@ var Light = (function() {
 			this.identity = tag;
 
 			//add styling capabilities
-			var inline = new CSS.inline(this);
-			this.style = inline;
+			var styler = new CSS.styler(this);
+			this.style = styler;
 
 			//signal that this class has been built
 			this.trigger('constructed');
@@ -460,7 +490,7 @@ var Light = (function() {
 		}
 	};
 
-	var Utils = {
+	var Tools = {
 		uid:(function(){
 			var prefix = '';
 			var current = 0;
@@ -504,7 +534,7 @@ var Light = (function() {
 							new:value
 						};
 						if (this.trigger){
-							this.trigger(name+'Changed', data);
+							this.trigger(`${name}Changed`, data);
 							this.trigger('Changed', data);
 						}
 					}
@@ -532,7 +562,7 @@ var Light = (function() {
 			var nodes = [];
 			for (var i = 0; i < el.childNodes.length; i++) {
 				var node = el.childNodes[i];
-				if (node.nodeName === "#text") {
+				if (isTextNode(node)) {
 					nodes.push(node);
 					if (stopAtFirst) {
 						break;
@@ -555,24 +585,22 @@ var Light = (function() {
 	};
 
 	var CSS = {
-		inline:(function(){
+		styler:(function(){
 			var equivalent = {};
-			var capitalized = function(style){return style.charAt(0).toUpperCase() + style.slice(1);};
-			var uncapitalized = function(style){return style.charAt(0).toLowerCase() + style.slice(1);};
 			var vendors = [
 				'webkit',
 				'moz',
 				'ms',
 				'o'
 			];
-			class inline {
+			class styler {
 				constructor(host) {
 					this.private = {};
 					this.Host = host;
 				}
 			}
 			function addInlineStyleProperty(key, name){
-				Object.defineProperty(inline.prototype, (name || key), {
+				Object.defineProperty(styler.prototype, (name || key), {
 					get:function(){
 						if (this.Host && this.Host.element && this.Host.element.style){
 							var element = this.Host.element;
@@ -615,14 +643,14 @@ var Light = (function() {
 					var prefix = '-'+vendor+'-';
 					if (~name.indexOf(prefix)){
 						var w3cKey = key;
-						w3cKey = uncapitalized(w3cKey.replace(vendor, ''));
+						w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
 						equivalent[w3cKey] = name;
 						equivalent[name.replace(prefix,'')] = name;
 						addInlineStyleProperty(key, w3cKey);
 					}
 				});
 			});
-			Object.defineProperty(inline.prototype, 'sheet', {
+			Object.defineProperty(styler.prototype, 'sheet', {
 				get:function(){
 					var host = this.Host;
 					if (host && host.identity && host.element){
@@ -647,7 +675,7 @@ var Light = (function() {
 						var isNew = false;
 						var createRule = function(selector, styles){
 							var added = '';
-							Utils.getAllPropertyNames(styles).forEach(function(style){
+							Tools.getAllPropertyNames(styles).forEach(function(style){
 								var val = styles[style];
 								added += (equivalent[style] || style)+':'+val+';';
 							});
@@ -656,13 +684,13 @@ var Light = (function() {
 							return rule;
 						};
 						var setStyles = function(){
-							Utils.getAllPropertyNames(value).forEach(function(selector){
+							Tools.getAllPropertyNames(value).forEach(function(selector){
 								var styles = value[selector];
 								var added = '\n';
 								var mediaQuery = '';
 								if (selector.trim()[0] === '@'){
 									mediaQuery = selector;
-									Utils.getAllPropertyNames(styles).forEach(function(mqSelector){
+									Tools.getAllPropertyNames(styles).forEach(function(mqSelector){
 										var mqSelectedStyles = styles[mqSelector];
 										if (isObject(mqSelectedStyles) && mqSelectedStyles.constructor !== Array){
 											var rule = createRule(mqSelector, mqSelectedStyles);
@@ -749,10 +777,10 @@ var Light = (function() {
 				},
 				configurable:true
 			});
-			Object.defineProperty(inline.prototype, 'inline', {
+			Object.defineProperty(styler.prototype, 'inline', {
 				set:function(value){
 					if (typeof value === 'object' && value.constructor !== Array){
-						Utils.getAllPropertyNames(value).forEach((style) => {
+						Tools.getAllPropertyNames(value).forEach((style) => {
 							var val = value[style];
 							this[style] = val;
 						});
@@ -760,7 +788,7 @@ var Light = (function() {
 				},
 				configurable:true
 			});
-			return inline;
+			return styler;
 		})()
 	};
 
@@ -830,28 +858,121 @@ var Light = (function() {
 		}
 	};
 
-	var Parser = {
-		Types:{
-			default:function(node, source) {
 
+	var Parser = {
+		Tools:{
+			getFirstNonTextChild: function(node) {
+				if (isElement(node)) {
+					var children = node.childNodes;
+					var count = children.length;
+					var root;
+					for (var i = 0; i < count; i++) {
+						if (!isTextNode(children[i])) {
+							root = children[i];
+							break;
+						}
+					}
+					return root;
+				}
 			},
-			template:function(node, source) {},
-			class:function(node, source) {}
+			htmlToInstructions:function(node, classes, state) {
+				state = (state || {
+					map:{},
+					count:0
+				});
+				var tag = getTagName(node);
+				var type = tag.split('-').reduce(Paths.getter, classes);
+				state.map[tag] = type;
+			}
 		},
-		// :function(node){
-		// 	var tag = node.tagName.toLowerCase();
-		// 	cacheable('Classes');
-		// 	if (exported.Cache.Classes) {}
-		// 	var type = tag.split('-').reduce(Paths.getter, exported.Elements);
-		// 	var instance = new type();
-		// },
-		parse:function(html, source) {
-			var container = document.createElement('container');
-			container.innerHTML = html;
-			var root = container.firstChild;
-			var tag = root.tagName.toLowerCase();
+		Events:{
+			onParsedElementChanged: function(ev) {
+				var data = (ev ? ev.detail : false);
+				if (data) {
+					var owner = data.owner;
+					var attribute = data.property;
+					var value = data.new;
+					if (owner && owner.element && isFunction(owner.element.getAttribute)) {
+						owner.element.getAttribute(attribute, (isObject(value) ? JSON.stringify(value) : value));
+					}							
+				}
+			}
+		},
+		Types:{
+			default:function(node, classes) {
+				var tag = getTagName(node);
+				var type = tag.split('-').reduce(Paths.getter, classes);
+				if (!type) {
+					//WARN
+					return undefined;
+				}
+				var instance = new type();
+				var attributes = node.attributes;
+				var isNative = isNativeTag(tag);
+				for (var i = attributes.length - 1; i >= 0; i--) {
+					var attribute = attributes[i];
+					var name = attribute.name;
+					var value = attribute.value;
+					instance.element.setAttribute(name, value);
+					if (instance.hasOwnProperty(name)) {
+						doOrSet(instance, name, value);
+						continue;
+					}
+					instance.add(name);
+					instance.on(`${name}Changed`, Parser.Events.onParsedElementChanged);
+					instance[name] = value;
+				};					
+				var children = node.childNodes;
+				var count = children.length;
+				var textNodes = [];
+				for (var i = 0; i < count; i++) {
+					(function(child) {
+						if (isTextNode(child)) {
+							var node = document.createTextNode("");
+							instance.element.appendChild(node);
+							instance.private.text = node;
+							textNodes.push({node:node, value:child.nodeValue});
+							return true;
+						}
+						var as = child.getAttribute('as');
+						var handle = instance.add(Parser.Types.default(child, classes));
+						if (as) {
+							if (handle && isFunction(handle.as)) {
+								handle.as(as);
+							}						
+						}
+						return false;
+					})(children[i]);
+				}
+				//for some reason, text nodes need to be set at the end
+				textNodes.forEach((textNode) => {
+					textNode.node.nodeValue = textNode.value;
+				});
+				return instance;
+			},
+			class:function(node, classes) {
+				var children = node.childNodes;
+				var count = children.length;
+				var root = Parser.Tools.getFirstNonTextChild(node);
+				//WIP, create a new class based off of markup
+			}
+		},
+		parse:function(html, classes) {
+			var container;
+			if (isString(html)) {
+				container = document.createElement('container');
+				container.innerHTML = html;				
+			}
+			if (isElement(html)) {
+				container = html;
+			}
+			if (!container) {return; }
+			var children = container.childNodes;
+			var count = children.length;
+			var root = Parser.Tools.getFirstNonTextChild(container);
+			var tag = getTagName(root);
 			var parser = Parser.Types[tag];
-			return (action || Parser.default).call(this, root, (source || output.Elements));
+			return (parser || Parser.Types.default).call(this, root, (classes || exported.Elements));
 		}
 	};
 
@@ -865,7 +986,7 @@ var Light = (function() {
 			}
 		}
 		doToEach(method, args) {
-			var type = Utils.getType(method);
+			var type = Tools.getType(method);
 			var action = Methods.DoToEach[type];
 			return (action || unhandled).call(this, method, args);
 		}
@@ -922,57 +1043,57 @@ var Light = (function() {
 			Methods.constructor.call(this, tag);
 		}
 		add(item) {
-			var type = Utils.getType(item);
+			var type = Tools.getType(item);
 			var action = Methods.Add[type];
 			return (action || unhandled).call(this, item);
 		}
 		addTo(item) {
-			var type = Utils.getType(item);
+			var type = Tools.getType(item);
 			var action = Methods.AddTo[type];
 			return (action || unhandled).call(this, item);
 		}
 		remove(item) {
-			var type = Utils.getType(item);
+			var type = Tools.getType(item);
 			var action = Methods.Remove[type];
 			return (action || unhandled).call(this, item);
 		}
 		on(event, method) {
-			var type = Utils.getType(event);
+			var type = Tools.getType(event);
 			var action = Methods.On[type];
 			return (action || unhandled).call(this, event, method);
 		}
 		trigger(event, args) {
-			var type = Utils.getType(event);
+			var type = Tools.getType(event);
 			var action = Methods.Trigger[type];
 			return (action || unhandled).call(this, event, args);
 		}
 		find(what) {
-			var type = Utils.getType(what);
+			var type = Tools.getType(what);
 			var action = Methods.Find[type];
 			return (action || unhandled([])).call(this, what);
 		}
 		with(method) {
-			var type = Utils.getType(method);
+			var type = Tools.getType(method);
 			var action = Methods.With[type];
 			return (action || unhandled).call(this, method);
 		}
 		do(method, args) {
-			var type = Utils.getType(method);
+			var type = Tools.getType(method);
 			var action = Methods.Do[type];
 			return (action || unhandled).call(this, method, args);
 		}
 		get(property) {
-			var type = Utils.getType(property);
+			var type = Tools.getType(property);
 			var action = Methods.Get[type];
 			return (action || unhandled).call(this, property);
 		}
 		set(property, value) {
-			var type = Utils.getType(property);
+			var type = Tools.getType(property);
 			var action = Methods.Set[type];
 			return (action || unhandled).call(this, property, value);
 		}
 		text(text) {
-			var type = Utils.getType(text);
+			var type = Tools.getType(text);
 			var action = Methods.Text[type];
 			return (action || unhandled).call(this, text);
 		}
@@ -1047,7 +1168,9 @@ var Light = (function() {
 	var exported = {
 		element:element,
 		Elements:{},
-		Markup:{},
+		Markup:{
+			parse:Parser.parse
+		},
 		Cache:{}
 	};
 

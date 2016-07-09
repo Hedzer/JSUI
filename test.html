@@ -5,80 +5,95 @@
 	<body>
 		<script type="text/javascript">
 			for (var i = 0; i < 1; i++) {
-				var x = new Light.element();
-				x.addTo(document.body);
-				x.style.sheet = {
-					"[this]": {
-						width:"100px",
-						height:"100px",
-						background:"red"
-					}
-				};
+				// var x = new Light.element();
+				// x.addTo(document.body);
+				// x.style.sheet = {
+				// 	"[this]": {
+				// 		width:"100px",
+				// 		height:"100px",
+				// 		background:"red"
+				// 	}
+				// };
 
-				setTimeout(function(){
-					x.style.inline = {
-						width:"200px",
-						height:"200px",
-						background:"blue"
-					};
-					//x.remove();
-				}, 1000);
+				// setTimeout(function(){
+				// 	x.style.inline = {
+				// 		width:"200px",
+				// 		height:"200px",
+				// 		background:"blue"
+				// 	};
+				// 	//x.remove();
+				// }, 1000);
 
-				class butts extends Light.element {
-					constructor() {
-						super('ul');
-						this.identity = 'butts';
-					}
-				}
-				var y = new butts();
-				y.addTo(document.body);
-				y.style.sheet = {
-					"[this]": {
-						width:"100px",
-						height:"100px",
-						background:"red"
-					}
-				};
+				// class butts extends Light.element {
+				// 	constructor() {
+				// 		super('ul');
+				// 		this.identity = 'butts';
+				// 	}
+				// }
+				// var y = new butts();
+				// y.addTo(document.body);
+				// y.style.sheet = {
+				// 	"[this]": {
+				// 		width:"100px",
+				// 		height:"100px",
+				// 		background:"red"
+				// 	}
+				// };
 
-				setTimeout(function(){
-					y.style.inline = {
-						width:"200px",
-						height:"200px",
-						background:"blue"
-					};
-				}, 1000);
-				y.with(function() {
-					console.log(this);
-				});
-				//y.remove();
-				var t = new Light.Elements.main();
-				t.with(function(){
-					this.style.inline = {
-						width:"200px",
-						height:"200px",
-						background:"green"
-					};					
-				});
-
-				t.add(new Light.Elements.div());
-				t.addTo(document.body);
-				// t.on('click', function(e){
-				// 	console.log('click', e);
+				// setTimeout(function(){
+				// 	y.style.inline = {
+				// 		width:"200px",
+				// 		height:"200px",
+				// 		background:"blue"
+				// 	};
+				// }, 1000);
+				// y.with(function() {
+				// 	console.log(this);
 				// });
-				var handle = t.on(['click', 'dblclick'], function(e){
-					console.log('click', e);
-					handle.forEach(function(h){h.remove()})
-				});
-				//t.element.textContent = 'yolo';
-				console.log(t.find('.div'));
-				t.do('@element.setAttribute', ['style', 'background:purple']);
-				t.text('yolo');
+				// //y.remove();
+				// var t = new Light.Elements.main();
+				// t.with(function(){
+				// 	this.style.inline = {
+				// 		width:"200px",
+				// 		height:"200px",
+				// 		background:"green"
+				// 	};					
+				// });
 
-				var mdiv = document.createElement('div');
-				mdiv.setAttribute('style', 'background:yellow');
-				var m = new Light.element(mdiv);
-				m.addTo(document.body);
+				// t.add(new Light.Elements.div());
+				// t.addTo(document.body);
+				// // t.on('click', function(e){
+				// // 	console.log('click', e);
+				// // });
+				// var handle = t.on(['click', 'dblclick'], function(e){
+				// 	console.log('click', e);
+				// 	handle.forEach(function(h){h.remove()})
+				// });
+				// //t.element.textContent = 'yolo';
+				// console.log(t.find('.div'));
+				// t.do('@element.setAttribute', ['style', 'background:purple']);
+				// t.text('yolo');
 
+				// var mdiv = document.createElement('div');
+				// mdiv.setAttribute('style', 'background:yellow');
+				// var m = new Light.element(mdiv);
+				// m.addTo(document.body);
+				var page = (Light.Markup.parse('\
+					<table>\
+						<div>\
+						bullfrog\
+							<ul as="List">\
+								<li as="Item">hello</li>\
+							</ul>\
+						</div>\
+					</table>\
+				'));
+				console.log(page);
+				if (page) {
+					page.addTo(document.body);
+				}
+				
+				
 			}
 
 		</script>
