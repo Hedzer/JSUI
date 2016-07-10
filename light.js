@@ -8,17 +8,26 @@ var Light = (function() {
 	var isString = function(u) {
 		return (typeof u === 'string');
 	};
+	var isEmptyString = function(u) {
+		return (u === "");
+	};
 	var isObject = function(u) {
 		return (typeof u === 'object');
 	};
 	var isNull = function(u) {
 		return (u === null);
 	};
+	var isUndefined = function(u) {
+		return (typeof u === 'undefined');
+	};
 	var isArray = function(u) {
 		return Array.isArray(u);
 	};
 	var isLight = function(u) {
 		return (u instanceof element);
+	};
+	var isUninstancedLight = function(u) {
+		return (u.prototype instanceof element);
 	};
 	var isElement = function(u) {
 		return (u instanceof Element);
@@ -84,11 +93,39 @@ var Light = (function() {
 	var feval = function(code) {
 		return (new Function(code))();
 	}
+
+	var childNodes = function(node, callback) {
+		if (!isFunction(callback)) {
+			return;
+		}
+		if (isElement(node)) {
+			var count = node.childNodes.length;
+			for (var i = 0; i < count; i++) {
+				var child = node.childNodes[i];
+				if (callback(child)) {break; }
+			}
+		}
+	};
+	var nodeAttributes = function(node, callback) {
+		if (!isFunction(callback)) {
+			return;
+		}
+		if (isElement(node)) {
+			var attributes = node.attributes;
+			for (var i = attributes.length - 1; i >= 0; i--) {
+				var attribute = attributes[i];
+				var name = attribute.name;
+				var value = attribute.value;
+				callback(name, value, attribute);
+			};
+		}
+	};
+
 	var Classes = {
 		fromTag:function(tag) {
 			return this.create(tag, tag);
 		},
-		create:function(name, tag, inherits){
+		create:function(name, tag, inherits, constructor){
 			var src = `
 				return (function(element, constructor) {
 					function ${name}() {
@@ -100,7 +137,7 @@ var Light = (function() {
 					return ${name};					
 				})
 			`;
-			return feval.call(window, src)(inherits || element, Methods.constructor);
+			return feval.call(window, src)(inherits || element, (constructor || Methods.constructor));
 		}
 	};
 
@@ -424,6 +461,60 @@ var Light = (function() {
 			},
 			path:function(text) {
 				return Methods.Text.string.call(this, text);
+			}
+		},
+		Attribute:{
+			Get:{
+				undefined:function() {
+					var results = {};
+					nodeAttributes(this.element, (attribute, value, ref) => {
+						results[attribute] = value;
+					});
+					return results;
+				},
+				string:function(name) {
+					return this.element.getAttribute(name);
+				},
+				path:function() {
+					return Methods.Attribute.string.apply(this, arguments);
+				},
+				array:function(collection) {
+					var results = {};
+					collection.forEach((attribute) => {
+						results[attribute] = this.attribute(attribute);
+					});
+					return results;
+				},
+				object:function(macro){
+					return Methods.Attribute.Set.object.call(this, macro);
+				}
+			},
+			Set:{
+				string:function(name, value) {
+					if (isUndefined(value) || isNull(value)) {
+						this.element.removeAttribute(name);
+						return true;
+					}
+					this.element.setAttribute(name, value);
+					return true;
+				},
+				path:function() {
+					return Methods.Attribute.string.apply(this, arguments);
+				},
+				array:function(collection, value) {
+					var results = [];
+					collection.forEach((attribute) => {
+						results.push(this.attribute(attribute, value));
+					});
+					return results;
+				},
+				object:function(macro, value){
+					var result = (isObject(value) ? value : {});
+					Object.keys(macro).forEach((attribute) => {
+						results[attribute] = this.attribute(attribute, macro[attribute]);
+					});
+					return results;
+				}
 			}
 		},
 		DoToEach:{
@@ -863,26 +954,92 @@ var Light = (function() {
 		Tools:{
 			getFirstNonTextChild: function(node) {
 				if (isElement(node)) {
-					var children = node.childNodes;
-					var count = children.length;
 					var root;
-					for (var i = 0; i < count; i++) {
-						if (!isTextNode(children[i])) {
-							root = children[i];
-							break;
-						}
-					}
+					childNodes(node, (child) => {
+						if (!isTextNode(child)) {
+							root = child;
+							return true;
+						}			
+					});
 					return root;
 				}
 			},
-			htmlToInstructions:function(node, classes, state) {
-				state = (state || {
-					map:{},
-					count:0
-				});
+			htmlToInstructions: function(node, classes, state) {
+				var isRoot = false;
+				if (!state) {
+					state = {
+						map:{},
+						aliases:{},
+						Counts:{
+							element:0,
+							instance:0,
+							text:0
+						}
+					};
+					isRoot = true;				
+				}
 				var tag = getTagName(node);
-				var type = tag.split('-').reduce(Paths.getter, classes);
-				state.map[tag] = type;
+				var directory = state.map[tag];
+				var alias;
+				if (!directory) {
+					var type = tag.split('-').reduce(Paths.getter, classes);
+					if (!isUninstancedLight(type)) {return; }
+					alias = 'element'+state.Counts.element;
+					state.Counts.element++;
+					directory = {
+						type:type,
+						alias:alias
+					};
+					state.map[tag] = directory;
+					state.aliases[alias] = directory;
+				}
+				if (!alias) {alias = directory.alias};
+				var as = node.getAttribute('as');
+				var name = 'instance'+state.Counts.instance;
+				state.Counts.instance++;
+				var comments = "\t\/\/ "+(as || 'Anonymous Element');
+				var instantiation = `\tvar ${name} = ` + (isRoot ? 'this' :  `new ${alias}();`);
+
+				var assignments = [];
+				var instructions = [];
+				var texts = [];
+				childNodes(node, (child) => {
+					if (isTextNode(child)) {
+						var textName = 'text'+state.Counts.text;
+						instructions.push(`\tvar ${textName} = document.createTextNode('');`);
+						instructions.push(`\t${name}.element.appendChild(${textName});`);
+						assignments.push({
+							name:textName,
+							value:child.nodeValue
+						});
+						state.Counts.text++;
+						return;
+					}
+					instructions.push('\n');
+					var instruction = Parser.Tools.htmlToInstructions(child, classes, state);
+					var childName = instruction.name;
+					instructions.push(instruction.code);
+					instructions.push('\n\t\/\/ Adding Children');
+					instructions.push(`\t${name}.add(${childName})`+(as ? `.as('${as}')` : '')+';');
+					instructions.push('\n\t\/\/ Text Node Assignments');
+					texts.push(instruction.text);
+					return;
+				});
+				//add the last text as primary
+				var lastText = assignments[assignments.length - 1];
+				var lastTextName = lastText.name;
+				instructions.push(`\t${name}.private.text = ${lastTextName};`);
+				assignments = Array.prototype.concat.apply(assignments, texts);
+				instructions = instructions.join('\n');
+				return {
+					tag:tag,
+					directory:directory,
+					name:name,
+					code:[comments, instantiation, instructions].join('\n'),
+					as:as,
+					text:assignments,
+					state:state
+				};	
 			}
 		},
 		Events:{
@@ -899,7 +1056,7 @@ var Light = (function() {
 			}
 		},
 		Types:{
-			default:function(node, classes) {
+			default:function(node, classes, container) {
 				var tag = getTagName(node);
 				var type = tag.split('-').reduce(Paths.getter, classes);
 				if (!type) {
@@ -921,39 +1078,79 @@ var Light = (function() {
 					instance.add(name);
 					instance.on(`${name}Changed`, Parser.Events.onParsedElementChanged);
 					instance[name] = value;
-				};					
-				var children = node.childNodes;
-				var count = children.length;
+				};
 				var textNodes = [];
-				for (var i = 0; i < count; i++) {
-					(function(child) {
-						if (isTextNode(child)) {
-							var node = document.createTextNode("");
-							instance.element.appendChild(node);
-							instance.private.text = node;
-							textNodes.push({node:node, value:child.nodeValue});
-							return true;
-						}
-						var as = child.getAttribute('as');
-						var handle = instance.add(Parser.Types.default(child, classes));
-						if (as) {
-							if (handle && isFunction(handle.as)) {
-								handle.as(as);
-							}						
-						}
-						return false;
-					})(children[i]);
-				}
+				childNodes(node, (child) => {
+					if (isTextNode(child)) {
+						var node = document.createTextNode("");
+						instance.element.appendChild(node);
+						instance.private.text = node;
+						textNodes.push({node:node, value:child.nodeValue});
+						return;
+					}
+					var as = child.getAttribute('as');
+					var handle = instance.add(Parser.Types.default(child, classes));
+					if (as) {
+						if (handle && isFunction(handle.as)) {
+							handle.as(as);
+						}						
+					}
+					return;
+				});
 				//for some reason, text nodes need to be set at the end
 				textNodes.forEach((textNode) => {
 					textNode.node.nodeValue = textNode.value;
 				});
 				return instance;
 			},
-			class:function(node, classes) {
+			class:function(node, classes, container) {
 				var children = node.childNodes;
 				var count = children.length;
 				var root = Parser.Tools.getFirstNonTextChild(node);
+				if (!root) {return; }
+				var tag = getTagName(root);
+				var name = (container.getAttribute('name') || 'Anonymous'+Tools.uid());
+				var inherits = container.getAttribute('inherits');
+				var parent;
+				if (inherits) {
+					parent = inherits.split('-').reduce(Paths.getter, classes);
+				}
+				parent = (parent || exported.Elements.div);
+				var instruction = Parser.Tools.htmlToInstructions(root, classes);
+				var aliases = Object.keys(instruction.state.aliases);
+				//build headers
+				var header = ['\n\t\/\/ Imports'];
+				aliases.forEach((alias) => {
+					header.push(`\tvar ${alias} = classes.${alias}.type;`);
+				});
+				header.push('\n');
+				//build text
+				var texts = {};
+				var textNodes = [];
+				instruction.text.forEach((text) => {
+					var name = text.name;
+					var value = text.value;
+					texts[name] = value;
+					textNodes.push(`\t${name}.nodeValue = texts.${name};`);
+				});
+				var built = 
+					`\n return (function compile(classes, texts, constructor, inherits) {\n` +
+						header.join('\n') +
+						`\n\tfunction ${name}() { \n` +
+							`\inherits.constructor.call(this, '${tag}'); \n` +
+							`\tthis.identity = '${name}'; \n\n` +
+							`\t\/\/ Generated \n` +
+							instruction.code + '\n\n' +
+							`\t\/\/ Assign Text Values \n` +
+							textNodes.join('\n') + 
+						`\n}\n` +
+						`\n\t${name}.prototype = Object.create(inherits.prototype);\n` +
+						`\n\t${name}.constructor = ${name};\n` +
+						`\t return ${name};\n` +
+					`});`
+				;
+				var compiled = feval.call(window, built)(instruction.state.aliases, texts, Methods.constructor, parent);
+				return compiled;
 				//WIP, create a new class based off of markup
 			}
 		},
@@ -967,12 +1164,10 @@ var Light = (function() {
 				container = html;
 			}
 			if (!container) {return; }
-			var children = container.childNodes;
-			var count = children.length;
 			var root = Parser.Tools.getFirstNonTextChild(container);
 			var tag = getTagName(root);
 			var parser = Parser.Types[tag];
-			return (parser || Parser.Types.default).call(this, root, (classes || exported.Elements));
+			return (parser || Parser.Types.default).call(this, root, (classes || exported.Elements), root);
 		}
 	};
 
@@ -996,9 +1191,6 @@ var Light = (function() {
 		constructor() {
 			super();
 			return this.doToEach('constructor', arguments);
-		}
-		text() {
-			return this.doToEach('text', arguments);
 		}
 		add() {
 			return this.doToEach('add', arguments);
@@ -1029,6 +1221,12 @@ var Light = (function() {
 		}
 		set() {
 			return this.doToEach('set', arguments);
+		}
+		text() {
+			return this.doToEach('text', arguments);
+		}
+		attribute() {
+			return this.doToEach('attribute', arguments);
 		}
 		children() {
 			return this.doToEach('children', arguments);
@@ -1096,6 +1294,13 @@ var Light = (function() {
 			var type = Tools.getType(text);
 			var action = Methods.Text[type];
 			return (action || unhandled).call(this, text);
+		}
+		attribute(name, value) {
+			if (!isElement(this.element) || isEmptyString(name)) {return; }
+			var type = Tools.getType(name);
+			var isSet = (arguments.length > 1);
+			var action = Methods.Attribute[(isSet ? 'Set' : 'Get')][type];
+			return (action || unhandled).apply(this, name, value);
 		}
 		children(callback) {
 			var results = [];

@@ -79,18 +79,19 @@
 				// var m = new Light.element(mdiv);
 				// m.addTo(document.body);
 				var page = (Light.Markup.parse('\
-					<table>\
-						<div>\
+					<class name="Wibble" inherits="main">\
+						<span>\
 						bullfrog\
 							<ul as="List">\
 								<li as="Item">hello</li>\
 							</ul>\
-						</div>\
-					</table>\
+						</span>\
+					</class>\
 				'));
-				console.log(page);
+				// console.log(page);
+				// console.log(document.write("<pre>" + page + "</pre>"));
 				if (page) {
-					page.addTo(document.body);
+					(new page()).addTo(document.body);
 				}
 				
 				
