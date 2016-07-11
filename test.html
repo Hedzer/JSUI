@@ -1,85 +1,85 @@
 <html>
 	<head>
-		<script type="text/javascript" src="light.js"></script>
+		<script type="text/javascript" src="light.es6.js"></script>
 	</head>
 	<body>
 		<script type="text/javascript">
 			for (var i = 0; i < 1; i++) {
-				// var x = new Light.element();
-				// x.addTo(document.body);
-				// x.style.sheet = {
-				// 	"[this]": {
-				// 		width:"100px",
-				// 		height:"100px",
-				// 		background:"red"
-				// 	}
-				// };
+				var x = new Light.element();
+				x.addTo(document.body);
+				x.style.sheet = {
+					"[this]": {
+						width:"100px",
+						height:"100px",
+						background:"red"
+					}
+				};
 
 				// setTimeout(function(){
-				// 	x.style.inline = {
-				// 		width:"200px",
-				// 		height:"200px",
-				// 		background:"blue"
-				// 	};
-				// 	//x.remove();
+					x.style.inline = {
+						width:"200px",
+						height:"200px",
+						background:"blue"
+					};
+					//x.remove();
 				// }, 1000);
 
-				// class butts extends Light.element {
-				// 	constructor() {
-				// 		super('ul');
-				// 		this.identity = 'butts';
-				// 	}
-				// }
-				// var y = new butts();
-				// y.addTo(document.body);
-				// y.style.sheet = {
-				// 	"[this]": {
-				// 		width:"100px",
-				// 		height:"100px",
-				// 		background:"red"
-				// 	}
-				// };
+				class butts extends Light.element {
+					constructor() {
+						super('ul');
+						this.identity = 'butts';
+					}
+				}
+				var y = new butts();
+				y.addTo(document.body);
+				y.style.sheet = {
+					"[this]": {
+						width:"100px",
+						height:"100px",
+						background:"red"
+					}
+				};
 
 				// setTimeout(function(){
-				// 	y.style.inline = {
-				// 		width:"200px",
-				// 		height:"200px",
-				// 		background:"blue"
-				// 	};
+					y.style.inline = {
+						width:"200px",
+						height:"200px",
+						background:"blue"
+					};
 				// }, 1000);
-				// y.with(function() {
-				// 	console.log(this);
-				// });
-				// //y.remove();
-				// var t = new Light.Elements.main();
-				// t.with(function(){
-				// 	this.style.inline = {
-				// 		width:"200px",
-				// 		height:"200px",
-				// 		background:"green"
-				// 	};					
-				// });
+				y.with(function() {
+					//console.log(this);
+				});
+				//y.remove();
+				var t = new Light.Elements.main();
+				t.with(function(){
+					this.style.inline = {
+						width:"200px",
+						height:"200px",
+						background:"green"
+					};					
+				});
 
-				// t.add(new Light.Elements.div());
-				// t.addTo(document.body);
-				// // t.on('click', function(e){
-				// // 	console.log('click', e);
-				// // });
-				// var handle = t.on(['click', 'dblclick'], function(e){
+				t.add(new Light.Elements.div());
+				t.addTo(document.body);
+				// t.on('click', function(e){
 				// 	console.log('click', e);
-				// 	handle.forEach(function(h){h.remove()})
 				// });
-				// //t.element.textContent = 'yolo';
-				// console.log(t.find('.div'));
-				// t.do('@element.setAttribute', ['style', 'background:purple']);
-				// t.text('yolo');
+				var handle = t.on(['click', 'dblclick'], function(e){
+					console.log('click', e);
+					handle.forEach(function(h){h.remove()})
+				});
+				//t.element.textContent = 'yolo';
+				//console.log(t.find('.div'));
+				t.do('@element.setAttribute', ['style', 'background:purple']);
+				t.text('yolo');
 
-				// var mdiv = document.createElement('div');
-				// mdiv.setAttribute('style', 'background:yellow');
-				// var m = new Light.element(mdiv);
-				// m.addTo(document.body);
-				var page = (Light.Markup.parse('\
-					<class name="Wibble" inherits="main">\
+				var mdiv = document.createElement('div');
+				mdiv.setAttribute('style', 'background:yellow');
+				var meee = new Light.element(mdiv);
+				meee.addTo(document.body);
+				var html = '\
+					<class name="Wibble" inherits="main" tag="pre">\
 						<span>\
 						bullfrog\
 							<ul as="List">\
@@ -87,9 +87,10 @@
 							</ul>\
 						</span>\
 					</class>\
-				'));
-				// console.log(page);
-				// console.log(document.write("<pre>" + page + "</pre>"));
+				';
+				var page = (Light.Markup.parse(html));
+				console.log(page);
+				//console.log(document.write("<pre>" + page + "</pre>"));
 				if (page) {
 					(new page()).addTo(document.body);
 				}

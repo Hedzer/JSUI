@@ -126,6 +126,8 @@ var Light = (function() {
 			return this.create(tag, tag);
 		},
 		create:function(name, tag, inherits, constructor){
+			var inherit = (inherits || element);
+			var construct = (constructor || Methods.constructor);
 			var src = `
 				return (function(element, constructor) {
 					function ${name}() {
@@ -137,7 +139,7 @@ var Light = (function() {
 					return ${name};					
 				})
 			`;
-			return feval.call(window, src)(inherits || element, (constructor || Methods.constructor));
+			return feval.call(window, src)(inherit, construct);
 		}
 	};
 
@@ -570,6 +572,7 @@ var Light = (function() {
 				}
 			});
 			this.identity = tag;
+			this.is = tag;
 
 			//add styling capabilities
 			var styler = new CSS.styler(this);
@@ -684,13 +687,8 @@ var Light = (function() {
 				'ms',
 				'o'
 			];
-			class styler {
-				constructor(host) {
-					this.private = {};
-					this.Host = host;
-				}
-			}
-			function addInlineStyleProperty(key, name){
+
+			var addInlineStyleProperty = function(key, name){
 				Object.defineProperty(styler.prototype, (name || key), {
 					get:function(){
 						if (this.Host && this.Host.element && this.Host.element.style){
@@ -721,13 +719,114 @@ var Light = (function() {
 					configurable:true,
 					enumerable:true
 				});
+			};
+			var createRule = function(selector, type, styles){
+				var added = '';
+				Tools.getAllPropertyNames(styles).forEach(function(style){
+					var val = styles[style];
+					added += (equivalent[style] || style)+':'+val+';';
+				});
+				var me = '.'+type;
+				var rule = selector.replace(/\[this\]/g, me)+'{'+added+'}';
+				return rule;
+			};
+			var setStyles = function(sheet, type, value, host, _private){
+				Tools.getAllPropertyNames(value).forEach(function(selector){
+					var styles = value[selector];
+					var added = '\n';
+					var mediaQuery = '';
+					if (selector.trim()[0] === '@'){
+						mediaQuery = selector;
+						Tools.getAllPropertyNames(styles).forEach(function(mqSelector){
+							var mqSelectedStyles = styles[mqSelector];
+							if (isObject(mqSelectedStyles) && mqSelectedStyles.constructor !== Array){
+								var rule = createRule(mqSelector, type, mqSelectedStyles);
+								added+='\t'+rule+'\n';
+							}
+						});
+						var mqRule = selector+'{'+added+'}';
+						if (sheet.sheet && sheet.sheet.insertRule){
+							sheet.sheet.insertRule(mqRule, 0);
+						}
+						return;
+					} else {
+						var rule = createRule(selector, type, styles);
+						if (sheet.sheet && sheet.sheet.insertRule){
+							sheet.sheet.insertRule(rule, 0);
+						}
+						return;
+					}
+				});	
+			};
+			var createSheet = function(sheet, type, value, host, _private){
+				sheet = document.createElement('style');
+				sheet.id = type+'-stylesheet';
+				sheet.appendChild(document.createTextNode(''));
+				sheet.setAttribute('data-use-count', '0');
+				sheet.ocss = value;
+				(document.head || document.body).appendChild(sheet);
+				return sheet;								
+			};
+			var increaseCount = function(sheet, type, value, host, _private){
+				_private.style = (_private.style || {});
+				_private.style.sheet = (_private.style.sheet || {});
+				if (_private.style.sheet.counted){return;}
+				var count = sheet.getAttribute('data-use-count');
+				count = (parseInt(count) || 0);
+				count++;
+				sheet.setAttribute('data-use-count', count+'');
+				_private.style.sheet.counted = true;
+				host.on('destructed', function(){
+					decreaseCount(sheet, type, value, host, _private);
+				});			
+			};
+			var decreaseCount = function(sheet, type, value, host, _private){
+				var sheet = document.querySelector('#'+type+'-stylesheet');
+				if (sheet){
+					_private.style = (_private.style || {});
+					_private.style.sheet = (_private.style.sheet || {});
+					var count = sheet.getAttribute('data-use-count');
+					count = (parseInt(count) || 0);
+					count--;
+					sheet.setAttribute('data-use-count', count+'');
+					if (!count){
+						destroySheet(sheet, type, value, host, _private);
+					}
+				}
+			};
+			var destroySheet = function(sheet, type, value, host, _private){
+				if (typeof sheet.remove == 'function'){
+					sheet.remove();
+				} else {
+					if (sheet.parentNode){
+						sheet.parentNode.removeChild(sheet);
+					}
+				}
+			};
+			var checkForChange = function(sheet, type, value, host, _private){
+				if (sheet && sheet.ocss && sheet.ocss !== value){
+					var count = sheet.getAttribute('data-use-count');
+					count = (parseInt(count) || 0);
+					destroySheet(sheet, type, value, host, _private);
+					createSheet(sheet, type, value, host, _private);
+					setStyles(sheet, type, value, host, _private);
+					sheet.setAttribute('data-use-count', count+'');
+				}
+			};
+			class styler {
+				constructor(host) {
+					this.private = {};
+					this.Host = host;
+				}
 			}
-			var faux = document.createElement('faux');
-			Object.getOwnPropertyNames(faux.style).forEach(function(key){
-				faux.style[key] = 'inherit';
-				var name = (faux.getAttribute('style') || '').split(':')[0];
+
+
+			var example = document.createElement('div');
+			Object.getOwnPropertyNames(example.style).forEach(function(key){
+				example.style[key] = 'inherit';
+				var name = (example.getAttribute('style') || '').split(':')[0];
 				equivalent[key] = name;
-				faux.setAttribute('style', '');
+				example.setAttribute('style', '');
 				addInlineStyleProperty(key);
 				addInlineStyleProperty(key, name);
 				vendors.forEach(function(vendor){
@@ -756,113 +855,21 @@ var Light = (function() {
 					return null;
 				},
 				set:function(value){
-					if (typeof value !== 'object'){return;}
+					if (!isObject(value)){return;}
 					var host = this.Host;
-					var priv = this.Host.private;
+					var _private = this.Host.private;
 					if (host && host.identity && host.element){
 						var type = host.identity;
 						var element = host.element;
 						var sheet = document.querySelector('#'+type+'-stylesheet');
 						var isNew = false;
-						var createRule = function(selector, styles){
-							var added = '';
-							Tools.getAllPropertyNames(styles).forEach(function(style){
-								var val = styles[style];
-								added += (equivalent[style] || style)+':'+val+';';
-							});
-							var me = '.'+type;
-							var rule = selector.replace(/\[this\]/g, me)+'{'+added+'}';
-							return rule;
-						};
-						var setStyles = function(){
-							Tools.getAllPropertyNames(value).forEach(function(selector){
-								var styles = value[selector];
-								var added = '\n';
-								var mediaQuery = '';
-								if (selector.trim()[0] === '@'){
-									mediaQuery = selector;
-									Tools.getAllPropertyNames(styles).forEach(function(mqSelector){
-										var mqSelectedStyles = styles[mqSelector];
-										if (isObject(mqSelectedStyles) && mqSelectedStyles.constructor !== Array){
-											var rule = createRule(mqSelector, mqSelectedStyles);
-											added+='\t'+rule+'\n';
-										}
-									});
-									var mqRule = selector+'{'+added+'}';
-									if (sheet.sheet && sheet.sheet.insertRule){
-										sheet.sheet.insertRule(mqRule, 0);
-									}
-									return;
-								} else {
-									var rule = createRule(selector, styles);
-									if (sheet.sheet && sheet.sheet.insertRule){
-										sheet.sheet.insertRule(rule, 0);
-									}
-									return;
-								}
-							});	
-						};
-						var createSheet = function(){
-							sheet = document.createElement('style');
-							sheet.id = type+'-stylesheet';
-							sheet.appendChild(document.createTextNode(''));
-							sheet.setAttribute('data-use-count', '0');
-							sheet.ocss = value;
-							(document.head || document.body).appendChild(sheet);								
-						};
-						var increaseCount = function(){
-							priv.style = (priv.style || {});
-							priv.style.sheet = (priv.style.sheet || {});
-							if (priv.style.sheet.counted){return;}
-							var count = sheet.getAttribute('data-use-count');
-							count = (parseInt(count) || 0);
-							count++;
-							sheet.setAttribute('data-use-count', count+'');
-							priv.style.sheet.counted = true;
-							host.on('destructed', function(){
-								decreaseCount();
-							});			
-						};
-						var decreaseCount = function(){
-							var sheet = document.querySelector('#'+type+'-stylesheet');
-							if (sheet){
-								priv.style = (priv.style || {});
-								priv.style.sheet = (priv.style.sheet || {});
-								var count = sheet.getAttribute('data-use-count');
-								count = (parseInt(count) || 0);
-								count--;
-								sheet.setAttribute('data-use-count', count+'');
-								if (!count){
-									destroySheet();
-								}									
-							}
-						};
-						var destroySheet = function(){
-							if (typeof sheet.remove == 'function'){
-								sheet.remove();
-							} else {
-								if (sheet.parentNode){
-									sheet.parentNode.removeChild(sheet);
-								}
-							}
-						};
-						var checkForChange = function(){
-							if (sheet && sheet.ocss && sheet.ocss !== value){
-								var count = sheet.getAttribute('data-use-count');
-								count = (parseInt(count) || 0);
-								destroySheet();
-								createSheet();
-								setStyles();
-								sheet.setAttribute('data-use-count', count+'');
-							}
-						};
-						checkForChange();
+						checkForChange(value, type, value, host, _private);
 						if (!sheet){
 							isNew = true;
-							createSheet();
-							setStyles();								
+							sheet = createSheet(value, type, value, host, _private);
+							setStyles(sheet, type, value, host, _private);
 						}
-						increaseCount();
+						increaseCount(sheet, type, value, host, _private);
 						return value;
 					}
 				},
@@ -870,7 +877,7 @@ var Light = (function() {
 			});
 			Object.defineProperty(styler.prototype, 'inline', {
 				set:function(value){
-					if (typeof value === 'object' && value.constructor !== Array){
+					if (isObject(value) && !isArray(value)){
 						Tools.getAllPropertyNames(value).forEach((style) => {
 							var val = value[style];
 							this[style] = val;
@@ -879,6 +886,7 @@ var Light = (function() {
 				},
 				configurable:true
 			});
+
 			return styler;
 		})()
 	};
@@ -1111,11 +1119,12 @@ var Light = (function() {
 				var tag = getTagName(root);
 				var name = (container.getAttribute('name') || 'Anonymous'+Tools.uid());
 				var inherits = container.getAttribute('inherits');
+				var asTag = (container.getAttribute('tag') || tag);
 				var parent;
 				if (inherits) {
 					parent = inherits.split('-').reduce(Paths.getter, classes);
 				}
-				parent = (parent || exported.Elements.div);
+				parent = (parent || element);
 				var instruction = Parser.Tools.htmlToInstructions(root, classes);
 				var aliases = Object.keys(instruction.state.aliases);
 				//build headers
@@ -1134,10 +1143,11 @@ var Light = (function() {
 					textNodes.push(`\t${name}.nodeValue = texts.${name};`);
 				});
 				var built = 
-					`\n return (function compile(classes, texts, constructor, inherits) {\n` +
+					`\n return (function compile(element, constructor, classes, texts, inherits) {\n` +
 						header.join('\n') +
 						`\n\tfunction ${name}() { \n` +
-							`\inherits.constructor.call(this, '${tag}'); \n` +
+							`\tconstructor = (inherits === element ? constructor : inherits.constructor);\n` +
+							`\tconstructor.call(this, '${asTag}'); \n` +
 							`\tthis.identity = '${name}'; \n\n` +
 							`\t\/\/ Generated \n` +
 							instruction.code + '\n\n' +
@@ -1149,9 +1159,14 @@ var Light = (function() {
 						`\t return ${name};\n` +
 					`});`
 				;
-				var compiled = feval.call(window, built)(instruction.state.aliases, texts, Methods.constructor, parent);
+				var compiled = feval.call(window, built)(
+					element,
+					Methods.constructor,
+					instruction.state.aliases,
+					texts,
+					parent
+				);
 				return compiled;
-				//WIP, create a new class based off of markup
 			}
 		},
 		parse:function(html, classes) {
