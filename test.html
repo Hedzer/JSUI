@@ -90,6 +90,8 @@
 				';
 				var page = (Light.Markup.parse(html));
 				console.log(page);
+				var m = new page();
+				console.log('is ', m.is);
 				//console.log(document.write("<pre>" + page + "</pre>"));
 				if (page) {
 					(new page()).addTo(document.body);

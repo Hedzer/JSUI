@@ -92,7 +92,7 @@ var Light = (function() {
 	var uncapitalize = function(style){return style.charAt(0).toLowerCase() + style.slice(1);};
 	var feval = function(code) {
 		return (new Function(code))();
-	}
+	};
 
 	var childNodes = function(node, callback) {
 		if (!isFunction(callback)) {
@@ -567,12 +567,13 @@ var Light = (function() {
 			this.on('identityChanged', (e) => {
 				if (e && e.detail && e.detail.new){
 					if (this.element && e.detail.new){
-						addClass(this.element, e.detail.new);
+						var name = e.detail.new;
+						if (!name) {return; }
+						addClass(this.element, name);
 					}
 				}
 			});
 			this.identity = tag;
-			this.is = tag;
 
 			//add styling capabilities
 			var styler = new CSS.styler(this);
@@ -588,7 +589,7 @@ var Light = (function() {
 		uid:(function(){
 			var prefix = '';
 			var current = 0;
-			var max = Number.MAX_SAFE_INTEGER - 5;
+			var max = Number.MAX_SAFE_INTEGER - 1;
 			return function uid(){
 				if (current > max){
 					prefix += current;
@@ -957,7 +958,6 @@ var Light = (function() {
 		}
 	};
 
-
 	var Parser = {
 		Tools:{
 			getFirstNonTextChild: function(node) {
@@ -1203,8 +1203,8 @@ var Light = (function() {
 	}
 
 	class elements extends collection {
-		constructor() {
-			super();
+		constructor(target) {
+			super(target);
 			return this.doToEach('constructor', arguments);
 		}
 		add() {
@@ -1376,6 +1376,7 @@ var Light = (function() {
 					delete _children[key];
 				});
 			}
+			var _behaviors = _this.behaviors
 			//ensure GC picks em' up
 			_element = null;
 			_private = null;
@@ -1385,9 +1386,17 @@ var Light = (function() {
 		}
 	}
 
+	class behavior {
+		static attach(to) {}
+		static detach(from) {}
+	}
+	behavior.identity = 'none';
+
 	var exported = {
 		element:element,
 		Elements:{},
+		behavior:behavior,
+		Behaviors:{},
 		Markup:{
 			parse:Parser.parse
 		},
@@ -1418,7 +1427,8 @@ var Light = (function() {
 		'wbr'
 	].forEach((tag) => {
 		Natives[tag] = true;
-		exported.Elements[tag] = Classes.fromTag(tag);
+		var primary = Classes.fromTag(tag);
+		exported.Elements[tag] = primary;
 	});
 
 	return exported
