@@ -1,4 +1,4 @@
-var Light = (function() {
+var JSUI = (function() {
 	'use strict';
 
 	//sugary checks
@@ -23,10 +23,10 @@ var Light = (function() {
 	var isArray = function(u) {
 		return Array.isArray(u);
 	};
-	var isLight = function(u) {
+	var isJSUI = function(u) {
 		return (u instanceof element);
 	};
-	var isUninstancedLight = function(u) {
+	var isUninstancedJSUI = function(u) {
 		return (u.prototype instanceof element);
 	};
 	var isElement = function(u) {
@@ -150,7 +150,7 @@ var Light = (function() {
 					this.element.appendChild(element);
 				}
 			},
-			light:function(instance){
+			jsui:function(instance){
 				if (this.element && instance.element){
 					this.element.appendChild(instance.element);
 					this.private.children = (this.private.children || {});
@@ -202,7 +202,7 @@ var Light = (function() {
 					element.appendChild(this.element);
 				}
 			},
-			light:function(instance){
+			jsui:function(instance){
 				return instance.add(this);
 			},
 			array:function(collection){
@@ -270,7 +270,7 @@ var Light = (function() {
 				});
 				return results;
 			},
-			light:function(instance) {
+			jsui:function(instance) {
 				if (instance.remove) {
 					return instance.remove();
 				}
@@ -314,8 +314,8 @@ var Light = (function() {
 			},
 			function:function(method){
 				var results = [];
-				var isLight = element.isPrototypeOf(method.prototype);
-				if (isLight){
+				var isJSUI = element.isPrototypeOf(method.prototype);
+				if (isJSUI){
 					var proto = method.prototype;
 					this.children(function(child){
 						if (proto.isPrototypeOf(child)){
@@ -325,7 +325,7 @@ var Light = (function() {
 				}
 				return results;
 			},
-			light:function(proto){
+			jsui:function(proto){
 				var results = [];
 				this.children(function(child){
 					if (child instanceof proto){
@@ -897,7 +897,7 @@ var Light = (function() {
 			null:isNull,
 			array:isArray,
 			element:isElement,
-			light:isLight,
+			jsui:isJSUI,
 			regex:isRegex
 		},
 		string:{
@@ -991,7 +991,7 @@ var Light = (function() {
 				var alias;
 				if (!directory) {
 					var type = tag.split('-').reduce(Paths.getter, classes);
-					if (!isUninstancedLight(type)) {return; }
+					if (!isUninstancedJSUI(type)) {return; }
 					alias = 'element'+state.Counts.element;
 					state.Counts.element++;
 					directory = {

@@ -1,11 +1,11 @@
 <html>
 	<head>
-		<script type="text/javascript" src="light.es6.js"></script>
+		<script type="text/javascript" src="JSUI.es6.js"></script>
 	</head>
 	<body>
 		<script type="text/javascript">
 			for (var i = 0; i < 1; i++) {
-				var x = new Light.element();
+				var x = new JSUI.element();
 				x.addTo(document.body);
 				x.style.sheet = {
 					"[this]": {
@@ -24,7 +24,7 @@
 					//x.remove();
 				// }, 1000);
 
-				class butts extends Light.element {
+				class butts extends JSUI.element {
 					constructor() {
 						super('ul');
 						this.identity = 'butts';
@@ -51,7 +51,7 @@
 					//console.log(this);
 				});
 				//y.remove();
-				var t = new Light.Elements.main();
+				var t = new JSUI.Elements.main();
 				t.with(function(){
 					this.style.inline = {
 						width:"200px",
@@ -60,7 +60,7 @@
 					};					
 				});
 
-				t.add(new Light.Elements.div());
+				t.add(new JSUI.Elements.div());
 				t.addTo(document.body);
 				// t.on('click', function(e){
 				// 	console.log('click', e);
@@ -76,7 +76,7 @@
 
 				var mdiv = document.createElement('div');
 				mdiv.setAttribute('style', 'background:yellow');
-				var meee = new Light.element(mdiv);
+				var meee = new JSUI.element(mdiv);
 				meee.addTo(document.body);
 				var html = '\
 					<class name="Wibble" inherits="main" tag="pre">\
@@ -88,7 +88,7 @@
 						</span>\
 					</class>\
 				';
-				var page = (Light.Markup.parse(html));
+				var page = (JSUI.Markup.parse(html));
 				console.log(page);
 				var m = new page();
 				console.log('is ', m.is);
