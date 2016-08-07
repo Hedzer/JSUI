@@ -13,9 +13,9 @@
 	<body>
 		<script type="text/javascript">
 			//instatiate
-			requirejs(['JSUI', 'elements/paradigm/application'],
-			function (jsui, application) {
-				window.app = (new application());
+			requirejs(['JSUI', 'elements/paradigm/feature'],
+			function (jsui, feature) {
+				window.app = (new feature());
 				window.app.addTo(document.body);
 			});
 		</script>

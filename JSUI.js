@@ -3,60 +3,69 @@ define(function(require, exports, module) {
 		'use strict';
 
 		//sugary checks
-		var isFunction = function(u) {
+		function isFunction(u) {
 			return (typeof u === 'function');
 		};
-		var isString = function(u) {
+		function isString(u) {
 			return (typeof u === 'string');
 		};
-		var isEmptyString = function(u) {
+		function isNumber(u) {
+			return (typeof u === 'number');
+		};
+		function isEmptyString(u) {
 			return (u === "");
 		};
-		var isObject = function(u) {
+		function isObject(u) {
 			return (typeof u === 'object');
 		};
-		var isNull = function(u) {
+		function isNull(u) {
 			return (u === null);
 		};
-		var isUndefined = function(u) {
+		function isUndefined(u) {
 			return (typeof u === 'undefined');
 		};
-		var isArray = function(u) {
+		function isArray(u) {
 			return Array.isArray(u);
 		};
-		var isJSUI = function(u) {
+		function isJSUI(u) {
 			return (u instanceof element);
 		};
-		var isUninstancedJSUI = function(u) {
+		function isUJSUI(u) {
 			return (u.prototype instanceof element);
 		};
-		var isElement = function(u) {
+		function isStyleRule(u) {
+			return (u instanceof styleSheetRule);
+		};
+		function isUStyleRule(u) {
+			return (u.prototype instanceof styleSheetRule);
+		};
+		function isElement(u) {
 			return (u instanceof Element);
 		};
-		var isRegex = function(u) {
+		function isRegex(u) {
 			return (u instanceof RegExp);
 		};
 		var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
-		var isHTML = function(u) {
+		function isHTML(u) {
 			return htmlRegex.test(u);
 		};
-		var isPath = function(u) {
+		function isPath(u) {
 			return (u[0] === '@');
 		};
 		var Natives = {};
-		var isNativeTag = function(u) {
+		function isNativeTag(u) {
 			return Natives[u];
 		};
-		var isTextNode = function(u) {
+		function isTextNode(u) {
 	 		return (u && u.nodeName === "#text");
 		};
-		var unhandled = function(args){return args};
-		var cacheable = function(name) {
+		function unhandled(args){return args};
+		function cacheable(name) {
 			exported.Cache = (exported.Cache || {});
 			exported.Cache[name] = (exported.Cache[name] || {});
 		};
-		var addClass = function(el, name) {
-			if (!name || !el) {return; }
+		function addClass(el, name) {
+			if (!name || !isElement(el)) {return; }
 			if (el.classList && el.classList.add) {
 				el.classList.add(name);
 				return;
@@ -66,10 +75,10 @@ define(function(require, exports, module) {
 			classes.push(name);
 			el.className = classes.join(' ');
 		};
-		var getTagName = function(el) {
+		function getTagName(el) {
 			return el.tagName.toLowerCase();
 		};
-		var doOrSet = function(obj, prop, value) {
+		function doOrSet(obj, prop, value) {
 			if (obj.hasOwnProperty(prop)) {
 				if (isFunction(obj[prop])) {
 					obj[prop].apply(obj, value);
@@ -80,7 +89,7 @@ define(function(require, exports, module) {
 			}
 			return false;
 		};
-		var debounce = function(fn, time) {
+		function debounce(fn, time) {
 			if (isFunction(fn)) {
 				var dbcTimer;
 				return function() {
@@ -89,13 +98,17 @@ define(function(require, exports, module) {
 				};
 			}
 		};
-		var capitalize = function(style){return style.charAt(0).toUpperCase() + style.slice(1);};
-		var uncapitalize = function(style){return style.charAt(0).toLowerCase() + style.slice(1);};
-		var feval = function(code) {
+		function capitalize(style){
+			return style.charAt(0).toUpperCase() + style.slice(1);
+		};
+		function uncapitalize(style){
+			return style.charAt(0).toLowerCase() + style.slice(1);
+		};
+		function feval(code) {
 			return (new Function(code))();
 		};
 
-		var childNodes = function(node, callback) {
+		function childNodes(node, callback) {
 			if (!isFunction(callback)) {
 				return;
 			}
@@ -107,7 +120,7 @@ define(function(require, exports, module) {
 				}
 			}
 		};
-		var nodeAttributes = function(node, callback) {
+		function nodeAttributes(node, callback) {
 			if (!isFunction(callback)) {
 				return;
 			}
@@ -133,7 +146,7 @@ define(function(require, exports, module) {
 					return (function(element, constructor) {
 						function ${name}() {
 							constructor.call(this, '${tag}');
-							this.identity = '${tag}';
+							this.type = '${tag}';
 						}
 						${name}.prototype = Object.create(element.prototype);
 						${name}.constructor = ${name};
@@ -166,6 +179,8 @@ define(function(require, exports, module) {
 								var map = instance.private.mapped;
 								map[this.uid] = (map[this.uid] || []);
 								map[this.uid].push(name);
+								instance.attribute('as', name);
+								addClass(instance.element, name);
 							}
 							return instance;
 						}).bind(this)
@@ -197,7 +212,7 @@ define(function(require, exports, module) {
 					return Methods.Add.string.call(this, prop);
 				},
 				function:function(method) {
-					if (isUninstancedJSUI(method)) {
+					if (isUJSUI(method)) {
 						return this.add(new method());
 					}
 				}
@@ -243,7 +258,7 @@ define(function(require, exports, module) {
 					if (!pool){
 						events[name] = {};
 						pool = events[name];
-						var hook = function() {
+						function hook() {
 							var args = arguments;
 							Object.keys(pool).forEach(function(id) {
 								var method = pool[id];
@@ -553,10 +568,6 @@ define(function(require, exports, module) {
 				}
 			},
 			constructor:function(tag) {
-				//create private store
-				this.private = {};
-				this.private.Events = {};
-
 				//select the proper constructor action
 				var type = Tools.getType(tag);
 				var action = Methods.Constructor[type];
@@ -565,12 +576,11 @@ define(function(require, exports, module) {
 				}).call(this, tag);
 
 				//set up ids
-				this.uid = Tools.uid();
 				this.element.uid = this.uid;
 
-				//setup first identity+event
-				Tools.addEventedProperty(this, 'identity');
-				this.on('identityChanged', (e) => {
+				//setup first type+event
+				Tools.addEventedProperty(this, 'type');
+				this.on('typeChanged', (e) => {
 					if (e && e.detail && e.detail.new){
 						if (this.element && e.detail.new){
 							var name = e.detail.new;
@@ -579,7 +589,7 @@ define(function(require, exports, module) {
 						}
 					}
 				});
-				this.identity = tag;
+				this.type = tag;
 
 				//add styling capabilities
 				var styler = new CSS.styler(this);
@@ -674,6 +684,17 @@ define(function(require, exports, module) {
 			}
 		};
 
+		var Sorters = {
+			styleSheetRule:function(a, b) {
+				var importance = b.importance - a.importance;
+				var created = b.private.created - a.private.created;
+				if (!importance) {
+					return created;
+				}
+				return importance;
+			}
+		};
+
 		var Events = {
 			remove:function(){
 				delete this.pool[this.id];
@@ -685,7 +706,386 @@ define(function(require, exports, module) {
 			}
 		};
 
+		var Style = {
+			Sheets: {}
+		};
+
+		class extendible {
+			constructor() {
+				this.private = {
+					Events:{},
+					Hooks:{}
+				};
+			}
+			add(item, value) {
+				if (isString(item)) {
+					Tools.addEventedProperty(this, item);
+					return;
+				}
+				if (isArray(item)) {
+					item.forEach((key) => {
+						this.add(key, value);
+					});
+					return;
+				}
+				if (isObject(item)) {
+					Object.keys(item).forEach((key) => {
+						this.add(key, item[key]);
+					});
+				}
+			}
+			remove(item) {
+				if (isString(item)) {
+					delete this[item];
+					return;
+				}
+				if (isArray(item)) {
+					item.forEach((value) => {
+						this.remove(value);
+					});
+				}
+			}
+			on(name, method) {
+				if (isString(name) && isFunction(method)) {
+					var events = ((this.private || {}).Events || {});
+					var hooks = ((this.private || {}).Hooks || {});
+					var pool = events[name];
+					var self = this;
+					if (!pool){
+						events[name] = {};
+						pool = events[name];
+						function hook() {
+							var args = arguments;
+							Object.keys(pool).forEach(function(id) {
+								var method = pool[id];
+								method.apply(self, args);
+							});
+						};
+						hooks[name] = hook;
+					}
+					if (typeof method === 'function'){
+						var eid = Tools.uid();
+						pool[eid] = method;
+					}
+					var handle = {
+						id:eid,
+						pool:pool,
+						remove:Events.remove,
+						removeAll:Events.removeAll
+					};
+					return handle;
+				}
+			}
+			trigger(event, args) {
+				var hooks = ((this.private || {}).Hooks || {});
+				var hook = hooks[event];
+				if (isFunction(hook)) {
+					hook(args);
+				}
+			}
+			destructor() {
+				Object.keys(this).forEach((key) => {
+					delete this[key];
+				});
+			}
+		}
+
+		class distinct extends extendible {
+			constructor() {
+				super();
+				this.uid = Tools.uid();
+			}
+		}
+
+		class styleable extends distinct {
+			add(style) {
+				if (isStyleRule(style)) {
+
+				}
+			}
+		}
+		//a stylesheet contains stylegroups, when rendered, the groups are compiled and rendered
+		/*
+			A stylesheet class contains stylegroups.
+			when a sheet class is rendered, it's groups are compiled and added to the context sheet
+		*/
+
+		class styleSheet extends distinct {
+			constructor(context) {
+				super();
+				context = (context || 'page');
+
+				this.private.rules = {};
+				this.private.timer = false;
+				this.private.element = false;
+				this.private.context = context;
+
+				var contextSheet = Style.Sheets[context];
+				if (contextSheet) {
+					this.private = contextSheet.private;
+					return this;
+				}
+
+				var element = document.createElement('style');
+				element.appendChild(document.createTextNode(""));
+				element.setAttribute('id', `style-${context}`);
+				document.head.appendChild(element);
+				this.private.element = element;
+				Style.Sheets[context] = this;
+			}
+			add(rule) {
+				if (isStyleRule(rule)) {
+					var rules = this.private.rules;
+					if (!rules[rule.uid]) {
+						rules[rule.uid] = rule;
+						return this.render(50);
+					}
+					return true;
+				}
+				if (isUStyleRule(rule)) {
+					return this.add(new rule(this.context));
+				}
+			}
+			remove(rule) {
+				var rules = this.private.rules;
+				if (isString(rule)) {
+					if (rules[rule]) {
+						delete rules[rule];
+						this.render(50);
+					}
+					return;
+				}
+				if (isStyleRule(rule)) {
+					this.remove(rule.uid);
+				}
+			}
+			get context() {
+				return this.private.context;
+			}
+			get variables() {}
+			set variables(vars) {}
+			get sorter() {
+				if (this.private.sorter) {
+					return this.private.sorter;
+				}
+				return Sorters.styleSheetRule;
+			}
+			set sorter(method) {
+				if (isFunction(method)) {
+					this.private.sorter = method;
+				}
+			}
+			render(timeout) {
+				var rules = this.private.rules;
+				clearTimeout(this.private.timer);
+				if (isNumber(timeout)) {
+					this.private.timer = setTimeout(this.render.bind(this), timeout);
+					return;
+				}
+
+				//create the stylesheet and disable it
+				var element = document.createElement('style');
+				element.setAttribute('id', `style-${this.context}`);
+				element.appendChild(document.createTextNode(""));
+				document.head.appendChild(element);
+				element.sheet.disabled = true;
+
+				//fetch all the rules and organize them
+				var articles = [];
+				Object.keys(rules).forEach((uid) => {
+					var rule = rules[uid];
+					articles.push(rule);
+				});
+				articles.sort(this.sorter);
+
+				//render each rule
+				articles.forEach((rule) => {
+					var value = rule.render(this.context);
+					element.sheet.insertRule(value, rule.importance);
+				});
+				
+				//enable the new stylesheet and remove the old one
+				element.sheet.disabled = false;
+				document.head.removeChild(this.private.element);
+				this.private.element = element;
+				this.trigger('rendered');
+			}
+		}
+
+		class styleRules extends distinct {}
+
+		class styleSheetRule extends styleRules {
+			constructor(selector, properties) {
+				super();
+				this.private.importance = 0;
+				this.private.created = new Date().valueOf();
+				this.private.styles = {};
+				if (selector) {
+					this.selector = selector;
+				}
+				if (isObject(properties)) {
+					this.set(properties);
+				}
+			}
+			get selector() {
+				return this.private.selector;
+			}
+			set selector(selector) {
+				var self = this;
+				var changed = () => {
+					var old = this.private.selector;
+					this.trigger('selectorChanged', {
+						owner: self,
+						old: old,
+						new: selector
+					});					
+				};
+
+				if (isString(selector)) {
+					this.private.selector = selector;
+					changed();
+					return;
+				}
+				//will need array and object
+			}
+			get media() {
+				return this.private.media;
+			}
+			set media(media) {
+				var self = this;
+				var changed = () => {
+					var old = this.private.media;
+					this.trigger('mediaChanged', {
+						owner: self,
+						old: old,
+						new: media
+					});					
+				};
+
+				if (isString(media)) {
+					this.private.media = media;
+					changed();
+					return;
+				}
+				//will need array and object
+			}
+			get importance() {
+				return (this.private.importance || 0);
+			}
+			set importance(zindex) {
+				if (isNumber(zindex)) {
+					this.private.importance = zindex;
+				}
+				this.trigger('importanceChanged');
+			}
+			get context() {
+				return (this.private.context || 'page');
+			}
+			set context(context) {
+				this.private.context = context;
+				this.trigger('contextChanged');
+			}
+			set(name, value) {
+				if (isObject(name)) {
+					Object.keys(name).forEach((key) => {
+						var value = name[key];
+						this[key] = value;
+					});
+					return;
+				}
+				if (isString(name)) {
+					if (arguments.length > 1) {
+						if (isString(value)) {
+							this[name] = value;
+						}
+						//there will be room here for functions and other stuff
+					}
+				}
+			}
+			render(context) {
+				context = (context || this.private.context || 'page');
+				var sheet = Style.Sheets[context] || new styleSheet(context);
+				if (!sheet.private.rules[this.uid]) {
+					sheet.add(this);
+					return;
+				}
+
+				if (!this.selector) {
+					var error = new JSUIError();
+					error.throw();
+				}
+				var styles = [];
+				var rendered = '';
+				Object.keys(this.private.styles).forEach((key) => {
+					var name = CSS.equivalents[key];
+					var value = this.private.styles[key];
+					//needs handlers for values
+					styles.push(`${name}: ${value};`);
+				});
+				var selector = this.selector;
+				var media = this.media;
+				var tab = (media ? '\t' : '');
+				//needs handers for selectors
+				var styleText = styles.join(`\n\t${tab}`);
+				rendered = `${tab}${selector} {\n\t${tab}${styleText}\n${tab}}`;
+				if (media) {
+					rendered = `${media} {\n${rendered}\n}`;
+				}
+				return rendered;
+			}
+		}
+
+		class styleVariables extends distinct {
+			constructor() {
+				super();
+			}
+			add(name, value) {
+				if (isString(name)) {
+					Tools.addEventedProperty(this, name, value);
+					this.trigger('variableAdded', {
+						name: name,
+						value: value
+					});
+					return;
+				}
+				if (isObject(name)) {
+					Object.keys(name).forEach((key) => {
+						this.add(key, name[key]);
+					});
+				}
+			}
+			remove(name) {
+				if (isString(name)) {
+					if (this[name]) {
+						delete this[name];
+						trigger('variableRemoved', name);
+						return true;
+					}
+					return false;
+				}
+				if (isArray(name)) {
+					name.forEach((key) => {
+						this.remove(key);
+					});
+					return true;
+				}
+			}
+		}
+
 		var CSS = {
+			/*
+				Stylesheet types
+					1. Reset
+					2. Application
+					3. Page 
+			*/
+			vendors: [
+				'webkit',
+				'moz',
+				'ms',
+				'o'
+			],
+			equivalents: {},
 			styler:(function(){
 				var equivalent = {};
 				var vendors = [
@@ -826,8 +1226,6 @@ define(function(require, exports, module) {
 						this.Host = host;
 					}
 				}
-
-
 				var example = document.createElement('div');
 				Object.getOwnPropertyNames(example.style).forEach(function(key){
 					example.style[key] = 'inherit';
@@ -850,8 +1248,8 @@ define(function(require, exports, module) {
 				Object.defineProperty(styler.prototype, 'sheet', {
 					get:function(){
 						var host = this.Host;
-						if (host && host.identity && host.element){
-							var type = host.identity;
+						if (host && host.type && host.element){
+							var type = host.type;
 							var element = host.element;
 							var sheet = document.querySelector('#'+type+'-stylesheet');
 							if (sheet){
@@ -865,8 +1263,8 @@ define(function(require, exports, module) {
 						if (!isObject(value)){return;}
 						var host = this.Host;
 						var _private = this.Host.private;
-						if (host && host.identity && host.element){
-							var type = host.identity;
+						if (host && host.type && host.element){
+							var type = host.type;
 							var element = host.element;
 							var sheet = document.querySelector('#'+type+'-stylesheet');
 							var isNew = false;
@@ -997,7 +1395,7 @@ define(function(require, exports, module) {
 					var alias;
 					if (!directory) {
 						var type = tag.split('-').reduce(Paths.getter, classes);
-						if (!isUninstancedJSUI(type)) {return; }
+						if (!isUJSUI(type)) {return; }
 						alias = 'element'+state.Counts.element;
 						state.Counts.element++;
 						directory = {
@@ -1154,7 +1552,7 @@ define(function(require, exports, module) {
 							`\n\tfunction ${name}() { \n` +
 								`\tconstructor = (inherits === element ? constructor : inherits.constructor);\n` +
 								`\tconstructor.call(this, '${asTag}'); \n` +
-								`\tthis.identity = '${name}'; \n\n` +
+								`\tthis.type = '${name}'; \n\n` +
 								`\t\/\/ Generated \n` +
 								instruction.code + '\n\n' +
 								`\t\/\/ Assign Text Values \n` +
@@ -1191,6 +1589,15 @@ define(function(require, exports, module) {
 				return (parser || Parser.Types.default).call(this, root, (classes || exported.Elements), root);
 			}
 		};
+
+		class JSUIError {
+			constructor(title, message, severity) {}
+			throw(title, message, severity) {
+				if (window.console && window.console.trace) {
+					console.trace(title || '');
+				}
+			}
+		}
 
 		class collection extends Array {
 			constructor(target) {
@@ -1257,8 +1664,9 @@ define(function(require, exports, module) {
 			}
 		}
 
-		class element {
+		class element extends distinct {
 			constructor(tag){
+				super(tag);
 				Methods.constructor.call(this, tag);
 			}
 			add(item) {
@@ -1321,7 +1729,7 @@ define(function(require, exports, module) {
 				var type = Tools.getType(name);
 				var isSet = (arguments.length > 1);
 				var action = Methods.Attribute[(isSet ? 'Set' : 'Get')][type];
-				return (action || unhandled).apply(this, name, value);
+				return (action || unhandled).apply(this, [name, value]);
 			}
 			children(callback) {
 				var results = [];
@@ -1391,17 +1799,92 @@ define(function(require, exports, module) {
 			}
 		}
 
-		class behavior {
-			constructor() {}
+		class behavior extends distinct {
+			constructor(host) {
+				this.private = {};
+				this.private.host = host;
+			}
+			destructor() {}
 		}
 
+		[
+			{
+				constructs: 'CSS Map',
+				construct: function() {
+					var example = document.createElement('div');
+					Object.getOwnPropertyNames(example.style).forEach((key) => {
+						example.style[key] = 'inherit';
+						var name = (example.getAttribute('style') || '').split(':')[0];
+						CSS.equivalents[key] = name;
+						example.setAttribute('style', '');
+						CSS.vendors.forEach((vendor) => {
+							var prefix = '-'+vendor+'-';
+							if (~name.indexOf(prefix)){
+								var w3cKey = key;
+								w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
+								CSS.equivalents[w3cKey] = name;
+								CSS.equivalents[name.replace(prefix,'')] = name;
+							}
+						});
+					});
+				}
+			},
+			{
+				constructs: 'Style Rules',
+				construct:function() {
+					Object.keys(CSS.equivalents).forEach((key) => {
+						Object.defineProperty(styleSheetRule.prototype, key, {
+							get:function(){
+								return this.private.styles[key];
+							},
+							set:function(value){
+								var old = this.private.styles[key];
+								this.private.styles[key] = value;
+								if (isNull(value)) {
+									delete this.private.styles[key];
+								}
+								if (old !== value){
+									var data = {
+										owner:this,
+										property:key,
+										old:old,
+										new:value
+									};
+									if (this.trigger){
+										this.trigger(`${key}Changed`, data);
+										this.trigger('styleChanged', data);
+									}
+								}
+
+							},
+							configurable:true,
+							enumerable:true
+						});
+					});
+				}
+			}
+		].forEach((protoconstructor) => {
+			protoconstructor.construct();
+		});
+
 		var exported = {
-			element:element,
-			Elements:{},
-			behavior:behavior,
-			Behaviors:{},
-			Markup:{
-				parse:Parser.parse
+			Settings:{
+				Development: {
+					enabled: false,
+					traceErrors: true,
+					haltOnErrors: true
+				},
+				Production: {}
+			},
+			element: element,
+			Elements: {},
+			behavior: behavior,
+			Behaviors: {},
+			Markup: {
+				parse: Parser.parse
+			},
+			Style:{
+				rule: styleSheetRule
 			},
 			Cache:{}
 		};
