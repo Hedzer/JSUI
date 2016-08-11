@@ -265,7 +265,9 @@ define(function(require, exports, module) {
 								method.apply(self, args);
 							});
 						};
-						this.element.addEventListener(name, hook, false);
+						if (this.element) {
+							this.element.addEventListener(name, hook, false);
+						}
 					}
 					if (typeof method === 'function'){
 						var eid = Tools.uid();
@@ -592,8 +594,7 @@ define(function(require, exports, module) {
 				this.type = tag;
 
 				//add styling capabilities
-				var styler = new CSS.styler(this);
-				this.style = styler;
+				this.style = new styleInline(this);
 
 				//signal that this class has been built
 				this.trigger('constructed');
@@ -797,19 +798,6 @@ define(function(require, exports, module) {
 			}
 		}
 
-		class styleable extends distinct {
-			add(style) {
-				if (isStyleRule(style)) {
-
-				}
-			}
-		}
-		//a stylesheet contains stylegroups, when rendered, the groups are compiled and rendered
-		/*
-			A stylesheet class contains stylegroups.
-			when a sheet class is rendered, it's groups are compiled and added to the context sheet
-		*/
-
 		class styleSheet extends distinct {
 			constructor(context) {
 				super();
@@ -912,14 +900,53 @@ define(function(require, exports, module) {
 			}
 		}
 
-		class styleRules extends distinct {}
+		class styleRules extends distinct {
+			constructor() {
+				super();
+				this.private.styles = {};
+			}
+		}
+
+		class styleable extends distinct {
+			constructor() {
+				super();
+				this.private.context = 'page';
+				this.private.style = {
+					rules: {}
+				};
+				//re-render css if context changes
+				this.on('contextChanged', () => {
+					Object.keys(this.private.style.rules).forEach((uid) => {
+						var rule = this.private.style.rules[uid];
+						rule.render(this.private.context);
+					});
+				});
+			}
+			get context() {
+				return this.private.context;
+			}
+			set context(context) {
+				var old = this.private.context;
+				if (old === context) {
+					return;
+				}
+				this.private.context = context; 
+				this.trigger('contextChanged');
+			}
+			add(style) {
+				if (isStyleRule(style)) {
+					this.private.style.rules[style.uid] = style;
+					style.render(this.context);
+				}
+				return super.add(style);
+			}
+		}
 
 		class styleSheetRule extends styleRules {
 			constructor(selector, properties) {
 				super();
 				this.private.importance = 0;
 				this.private.created = new Date().valueOf();
-				this.private.styles = {};
 				if (selector) {
 					this.selector = selector;
 				}
@@ -1035,6 +1062,43 @@ define(function(require, exports, module) {
 			}
 		}
 
+		class styleInline extends styleRules {
+			constructor(host) {
+				super();
+				this.private.host = (host || false);
+				this.on('styleChanged', (ev) => {
+					if (this.private.host && ev.property) {
+						this.private.host.element.style[ev.property] = ev.new;
+					}
+				});
+			}
+			get host() {
+				return this.private.host;
+			}
+			set host(element) {
+				if (isJSUI(element)) {
+					this.private.host = element.element;
+				}
+			}
+			set(name, value) {
+				if (isObject(name)) {
+					Object.keys(name).forEach((key) => {
+						var value = name[key];
+						this[key] = value;
+					});
+					return;
+				}
+				if (isString(name)) {
+					if (arguments.length > 1) {
+						if (isString(value)) {
+							this[name] = value;
+						}
+						//there will be room here for functions and other stuff
+					}
+				}
+			}
+		}
+
 		class styleVariables extends distinct {
 			constructor() {
 				super();
@@ -1085,215 +1149,7 @@ define(function(require, exports, module) {
 				'ms',
 				'o'
 			],
-			equivalents: {},
-			styler:(function(){
-				var equivalent = {};
-				var vendors = [
-					'webkit',
-					'moz',
-					'ms',
-					'o'
-				];
-
-				var addInlineStyleProperty = function(key, name){
-					Object.defineProperty(styler.prototype, (name || key), {
-						get:function(){
-							if (this.Host && this.Host.element && this.Host.element.style){
-								var element = this.Host.element;
-								return element.style[key];
-							}
-							return null;
-						},
-						set:function(value){
-							if (this.Host && this.Host.element){
-								var old = this.Host.element.style[key];
-								var host = this.Host;
-								host.element.style[key] = value;
-								if (old !== value){
-									var data = {
-										owner:host,
-										property:key,
-										old:old,
-										new:value
-									};
-									if (host.trigger){
-										host.trigger(key+'StyleChanged', data);
-										host.trigger('StyleChanged', data);
-									}
-								}							
-							}
-						},
-						configurable:true,
-						enumerable:true
-					});
-				};
-				var createRule = function(selector, type, styles){
-					var added = '';
-					Tools.getAllPropertyNames(styles).forEach(function(style){
-						var val = styles[style];
-						added += (equivalent[style] || style)+':'+val+';';
-					});
-					var me = '.'+type;
-					var rule = selector.replace(/\[this\]/g, me)+'{'+added+'}';
-					return rule;
-				};
-				var setStyles = function(sheet, type, value, host, _private){
-					Tools.getAllPropertyNames(value).forEach(function(selector){
-						var styles = value[selector];
-						var added = '\n';
-						var mediaQuery = '';
-						if (selector.trim()[0] === '@'){
-							mediaQuery = selector;
-							Tools.getAllPropertyNames(styles).forEach(function(mqSelector){
-								var mqSelectedStyles = styles[mqSelector];
-								if (isObject(mqSelectedStyles) && mqSelectedStyles.constructor !== Array){
-									var rule = createRule(mqSelector, type, mqSelectedStyles);
-									added+='\t'+rule+'\n';
-								}
-							});
-							var mqRule = selector+'{'+added+'}';
-							if (sheet.sheet && sheet.sheet.insertRule){
-								sheet.sheet.insertRule(mqRule, 0);
-							}
-							return;
-						} else {
-							var rule = createRule(selector, type, styles);
-							if (sheet.sheet && sheet.sheet.insertRule){
-								sheet.sheet.insertRule(rule, 0);
-							}
-							return;
-						}
-					});	
-				};
-				var createSheet = function(sheet, type, value, host, _private){
-					sheet = document.createElement('style');
-					sheet.id = type+'-stylesheet';
-					sheet.appendChild(document.createTextNode(''));
-					sheet.setAttribute('data-use-count', '0');
-					sheet.ocss = value;
-					(document.head || document.body).appendChild(sheet);
-					return sheet;								
-				};
-				var increaseCount = function(sheet, type, value, host, _private){
-					_private.style = (_private.style || {});
-					_private.style.sheet = (_private.style.sheet || {});
-					if (_private.style.sheet.counted){return;}
-					var count = sheet.getAttribute('data-use-count');
-					count = (parseInt(count) || 0);
-					count++;
-					sheet.setAttribute('data-use-count', count+'');
-					_private.style.sheet.counted = true;
-					host.on('destructed', function(){
-						decreaseCount(sheet, type, value, host, _private);
-					});			
-				};
-				var decreaseCount = function(sheet, type, value, host, _private){
-					var sheet = document.querySelector('#'+type+'-stylesheet');
-					if (sheet){
-						_private.style = (_private.style || {});
-						_private.style.sheet = (_private.style.sheet || {});
-						var count = sheet.getAttribute('data-use-count');
-						count = (parseInt(count) || 0);
-						count--;
-						sheet.setAttribute('data-use-count', count+'');
-						if (!count){
-							destroySheet(sheet, type, value, host, _private);
-						}
-					}
-				};
-				var destroySheet = function(sheet, type, value, host, _private){
-					if (typeof sheet.remove == 'function'){
-						sheet.remove();
-					} else {
-						if (sheet.parentNode){
-							sheet.parentNode.removeChild(sheet);
-						}
-					}
-				};
-				var checkForChange = function(sheet, type, value, host, _private){
-					if (sheet && sheet.ocss && sheet.ocss !== value){
-						var count = sheet.getAttribute('data-use-count');
-						count = (parseInt(count) || 0);
-						destroySheet(sheet, type, value, host, _private);
-						createSheet(sheet, type, value, host, _private);
-						setStyles(sheet, type, value, host, _private);
-						sheet.setAttribute('data-use-count', count+'');
-					}
-				};
-				class styler {
-					constructor(host) {
-						this.private = {};
-						this.Host = host;
-					}
-				}
-				var example = document.createElement('div');
-				Object.getOwnPropertyNames(example.style).forEach(function(key){
-					example.style[key] = 'inherit';
-					var name = (example.getAttribute('style') || '').split(':')[0];
-					equivalent[key] = name;
-					example.setAttribute('style', '');
-					addInlineStyleProperty(key);
-					addInlineStyleProperty(key, name);
-					vendors.forEach(function(vendor){
-						var prefix = '-'+vendor+'-';
-						if (~name.indexOf(prefix)){
-							var w3cKey = key;
-							w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
-							equivalent[w3cKey] = name;
-							equivalent[name.replace(prefix,'')] = name;
-							addInlineStyleProperty(key, w3cKey);
-						}
-					});
-				});
-				Object.defineProperty(styler.prototype, 'sheet', {
-					get:function(){
-						var host = this.Host;
-						if (host && host.type && host.element){
-							var type = host.type;
-							var element = host.element;
-							var sheet = document.querySelector('#'+type+'-stylesheet');
-							if (sheet){
-								sheet = sheet.ocss;
-							}
-							return sheet;
-						}
-						return null;
-					},
-					set:function(value){
-						if (!isObject(value)){return;}
-						var host = this.Host;
-						var _private = this.Host.private;
-						if (host && host.type && host.element){
-							var type = host.type;
-							var element = host.element;
-							var sheet = document.querySelector('#'+type+'-stylesheet');
-							var isNew = false;
-							checkForChange(value, type, value, host, _private);
-							if (!sheet){
-								isNew = true;
-								sheet = createSheet(value, type, value, host, _private);
-								setStyles(sheet, type, value, host, _private);
-							}
-							increaseCount(sheet, type, value, host, _private);
-							return value;
-						}
-					},
-					configurable:true
-				});
-				Object.defineProperty(styler.prototype, 'inline', {
-					set:function(value){
-						if (isObject(value) && !isArray(value)){
-							Tools.getAllPropertyNames(value).forEach((style) => {
-								var val = value[style];
-								this[style] = val;
-							});
-						}
-					},
-					configurable:true
-				});
-
-				return styler;
-			})()
+			equivalents: {}
 		};
 
 		var Types = {
@@ -1590,8 +1446,10 @@ define(function(require, exports, module) {
 			}
 		};
 
-		class JSUIError {
-			constructor(title, message, severity) {}
+		class JSUIError extends Error {
+			constructor(title, message, severity) {
+				super();
+			}
 			throw(title, message, severity) {
 				if (window.console && window.console.trace) {
 					console.trace(title || '');
@@ -1664,7 +1522,7 @@ define(function(require, exports, module) {
 			}
 		}
 
-		class element extends distinct {
+		class element extends styleable {
 			constructor(tag){
 				super(tag);
 				Methods.constructor.call(this, tag);
@@ -1672,7 +1530,7 @@ define(function(require, exports, module) {
 			add(item) {
 				var type = Tools.getType(item);
 				var action = Methods.Add[type];
-				return (action || unhandled).call(this, item);
+				return (action || super.add).call(this, item);
 			}
 			addTo(item) {
 				var type = Tools.getType(item);
@@ -1799,10 +1657,11 @@ define(function(require, exports, module) {
 			}
 		}
 
-		class behavior extends distinct {
+		class behavior extends styleable {
 			constructor(host) {
-				this.private = {};
+				super();
 				this.private.host = host;
+				this.context = 'behavior';
 			}
 			destructor() {}
 		}
@@ -1833,7 +1692,7 @@ define(function(require, exports, module) {
 				constructs: 'Style Rules',
 				construct:function() {
 					Object.keys(CSS.equivalents).forEach((key) => {
-						Object.defineProperty(styleSheetRule.prototype, key, {
+						Object.defineProperty(styleRules.prototype, key, {
 							get:function(){
 								return this.private.styles[key];
 							},
@@ -1884,7 +1743,9 @@ define(function(require, exports, module) {
 				parse: Parser.parse
 			},
 			Style:{
-				rule: styleSheetRule
+				sheet: styleSheet,
+				rule: styleSheetRule,
+				inline: styleInline
 			},
 			Cache:{}
 		};
