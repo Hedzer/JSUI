@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<script src="JSUI.js"></script>
+		<script type="text/javascript">
+
+			var inline = {
+				background: 'green'
+			};
+
+			//a application has features, and an default feature (probably home)
+			class application extends JSUI.Element {
+				constructor() {
+					super('jsui-application');
+					this.Routes = {};
+					this.context = 'application';
+					this.style.set(inline);
+				}
+				add(feature) {
+					super.add(feature);
+				}
+				remove(alias) {}
+				launch() {}
+				quit() {}
+				hide() {}
+				show() {}
+				get route() {}
+				set route(name) {}
+				get feature() {}
+				get features() {}
+				get default() {}
+				set default(alias) {}
+				destructor() {}
+			} 
+
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">
+
+		</script>
+	</body>
+</html>
