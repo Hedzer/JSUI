@@ -1,1 +1,1 @@
-export function unhandled(args){return args}
+export default function unhandled(args){return args}

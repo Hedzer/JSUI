@@ -1,5 +1,5 @@
 import Element from '../Classes/Element';
 
-export function isUJSUI(u) {
+export default function isUJSUI(u) {
 	return (u.prototype instanceof Element);
 }

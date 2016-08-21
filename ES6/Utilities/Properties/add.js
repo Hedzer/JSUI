@@ -1,4 +1,4 @@
-export function add(host, name, defaultValue){
+export default function add(host, name, defaultValue){
 	var value = defaultValue;
 	Object.defineProperty(host, name, {
 		get:function(){

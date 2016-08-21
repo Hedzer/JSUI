@@ -1,6 +1,6 @@
 import get from './get';
 
-export function setter(obj, path, value) {
+export default function setter(obj, path, value) {
 	var parts = path.substring(1).split('.');
 	if (!parts.length) {return; }
 	if (parts.length === 1) {

@@ -6,7 +6,7 @@ import isNativeTag from '../../../../TypeChecks/isNativeTag';
 import isTextNode from '../../../../TypeChecks/isTextNode';
 
 
-export function _default(node, classes, container) {
+export default function _default(node, classes, container) {
 	var tag = getTagName(node);
 	var type = tag.split('-').reduce(getter, classes);
 	if (!type) {

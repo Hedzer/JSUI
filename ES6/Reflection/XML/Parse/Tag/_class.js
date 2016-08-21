@@ -7,7 +7,7 @@ import feval from '../../../feval';
 import Element from '../../../../Classes/Element';
 import constructor from '../../../../Classes/Element/constructor';
 
-export function _class(node, classes, container) {
+export default function _class(node, classes, container) {
 	var children = node.childNodes;
 	var count = children.length;
 	var root = getFirstNonTextChild(node);

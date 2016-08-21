@@ -1,10 +1,10 @@
-import { add as addProperty } from '../../Utilities/Properties/add';
+import { default as addProperty } from '../../Utilities/Properties/add';
 import addClass from '../../Utilities/Elements/addClass';
 import getHandledType from './getHandledType';
 import StyleInline from '../StyleInline';
-import hanlder from './Handlers/Constructor';
+import handler from './Handlers/Constructor';
 
-export function constructor(tag) {
+export default function constructor(tag) {
 	//select the proper constructor action
 	var type = getHandledType(tag);
 	var action = handler[type];

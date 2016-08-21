@@ -1,3 +1,3 @@
-export function isArray(u) {
+export default function isArray(u) {
 	return Array.isArray(u);
 }

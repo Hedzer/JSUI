@@ -44,4 +44,4 @@ if (!hasObjectKeys) {
 	}());
 }
 
-export default hasObjectKeys;
+export default !hasObjectKeys;

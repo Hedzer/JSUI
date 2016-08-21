@@ -1,6 +1,6 @@
 import isFunction from '../../TypeChecks/isFunction';
 
-export function childNodes(node, callback) {
+export default function childNodes(node, callback) {
 	if (!isFunction(callback)) {
 		return;
 	}

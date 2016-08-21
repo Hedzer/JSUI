@@ -1,3 +1,3 @@
-export function isObject(u) {
+export default function isObject(u) {
 	return (typeof u === 'object');
 }

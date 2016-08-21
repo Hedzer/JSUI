@@ -1,7 +1,7 @@
 import isFunction from '../../TypeChecks/isFunction';
 import isArray from '../../TypeChecks/isArray';
 
-export function destructor() {
+export default (function destructor() {
 	var _element = this.element;
 	var _private = this.private;
 	if (_element){
@@ -53,4 +53,4 @@ export function destructor() {
 	_parent = null;
 	_children = null;
 	return true;
-}
+});

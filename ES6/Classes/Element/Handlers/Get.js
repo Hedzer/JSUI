@@ -1,25 +1,11 @@
-import get from '../../../Utilities/Paths/get';
-
-function element_handler_get_array(collection) {
-	var results = [];
-	collection.forEach((item) => {
-		results.push(this.get(item));
-	});
-	return results;	
-}
-function element_handler_get_string(property) {
-	if (!property) {return; }
-	if (!this.hasOwnProperty(property)) {return; }
-	return this[property];	
-}
-function element_handler_get_path(path) {
-	return get(this, path);
-}
+import { default as _array } from './Get/_array';
+import { default as _string } from './Get/_string';
+import { default as _path } from './Get/_path';
 
 var Get = {
-	array: element_handler_get_array,
-	string: element_handler_get_string,
-	path: element_handler_get_path
+	array: _array,
+	string: _string,
+	path: _path
 };
 
 export default Get;

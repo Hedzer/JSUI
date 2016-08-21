@@ -1,23 +1,9 @@
-import isFunction from '../../../TypeChecks/isFunction';
-
-function element_handler_dotoeach_string(command, args) {
-	var results = [];
-	this.forEach((item) => {
-		if (isFunction(item[command])) {
-			results.push(item[command].apply(item, args));
-			return;
-		}
-		results.push(undefined);
-	});
-	return results;	
-}
-function element_handler_dotoeach_path(command, args) {
-	//WIP
-}
+import { default as _string } from './DoToEach/_string';
+import { default as _path } from './DoToEach/_path';
 
 var DoToEach = {
-	string: element_handler_dotoeach_string,
-	path: element_handler_dotoeach_path
+	string: _string,
+	path: _path
 };
 
 export default DoToEach;

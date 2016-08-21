@@ -3,7 +3,7 @@ import isObject from '../TypeChecks/isObject';
 import isString from '../TypeChecks/isString';
 import StyleRules from './StyleRules';
 
-export class StyleInline extends StyleRules {
+export default class StyleInline extends StyleRules {
 	constructor(host) {
 		super();
 		this.private.host = (host || false);

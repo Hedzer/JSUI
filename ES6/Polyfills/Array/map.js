@@ -89,4 +89,4 @@ if (!hasMap) {
 	};
 }
 
-export default hasMap;
+export default !hasMap;

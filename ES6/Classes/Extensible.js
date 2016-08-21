@@ -2,9 +2,9 @@ import isString from '../TypeChecks/isString';
 import isArray from '../TypeChecks/isArray';
 import isFunction from '../TypeChecks/isFunction';
 import isObject from '../TypeChecks/isObject';
-import { add as addProperty } from '../Utilities/Properties/add';
-import { remove as removeEvent } from '../Utilities/Events/remove';
-import { removeAll as removeAllEvents } from '../Utilities/Events/removeAll';
+import { default as addProperty } from '../Utilities/Properties/add';
+import { default as removeEvent } from '../Utilities/Events/remove';
+import { default as removeAllEvents } from '../Utilities/Events/removeAll';
 import uid from '../Utilities/General/uid';
 
 export default class Extensible {

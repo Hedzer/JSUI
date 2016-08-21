@@ -1,8 +1,8 @@
 import Element from '../../Classes/Element';
-import { constructor as elementConstructor } from '../../Classes/Element/constructor';
+import { default as elementConstructor } from '../../Classes/Element/constructor';
 import feval from '../feval';
 
-export function create(name, tag, inherits, constructor) {
+export default (function create(name, tag, inherits, constructor) {
 	var inherit = (inherits || Element);
 	var construct = (constructor || elementConstructor);
 	var src = `
@@ -17,4 +17,4 @@ export function create(name, tag, inherits, constructor) {
 		})
 	`;
 	return feval.call(window, src)(inherit, construct);
-}
+});

@@ -1,3 +1,3 @@
-export function isFunction(u) {
+export default function isFunction(u) {
 	return (typeof u === 'function');
 }

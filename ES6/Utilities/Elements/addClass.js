@@ -1,6 +1,6 @@
 import isElement from '../../TypeChecks/isElement';
 
-export function addClass(el, name) {
+export default function addClass(el, name) {
 	if (!name || !isElement(el)) {return; }
 	if (el.classList && el.classList.add) {
 		el.classList.add(name);

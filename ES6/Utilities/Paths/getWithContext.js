@@ -1,6 +1,6 @@
 import get from './get';
 
-export function getWithContext(obj, path) {
+export default function getWithContext(obj, path) {
 	var parts = path.substring(1).split('.');
 	if (!parts.length) {return; }
 	if (parts.length === 1) {

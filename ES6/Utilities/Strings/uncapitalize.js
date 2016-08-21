@@ -1,3 +1,4 @@
-export function uncapitalize(style){
-	return style.charAt(0).toLowerCase() + style.slice(1);
+function uncapitalize(text){
+	return text.charAt(0).toLowerCase() + text.slice(1);
 }
+export default uncapitalize;

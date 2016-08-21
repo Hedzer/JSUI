@@ -1,31 +1,13 @@
-function element_handler_trigger_array(collection, args){
-	var results = [];
-	collection.forEach((item) => {
-		results.push(this.trigger(item, args));
-	});
-	return results;
-}
-function element_handler_trigger_object(assignments) {
-	Object.keys(assignments).forEach((name) => {
-		var args = assignments[name];
-		this.trigger(name, args);
-	});
-}
-function element_handler_trigger_string(name, args){
-	if (!this.element){return false;}
-	var event = new CustomEvent(name, {"detail": args});
-	this.element.dispatchEvent(event);
-	return true;
-}
-function element_handler_trigger_path(name, args) {
-	return element_handler_trigger_string.call(this, name, args);
-}
+import { default as _array } from './Trigger/_array';
+import { default as _object } from './Trigger/_object';
+import { default as _string } from './Trigger/_string';
+import { default as _path } from './Trigger/_path';
 
 var Trigger = {
-	array: element_handler_trigger_array,
-	object: element_handler_trigger_object,
-	string: element_handler_trigger_string,
-	path: element_handler_trigger_path
+	array: _array,
+	object: _object,
+	string: _string,
+	path: _path
 };
 
 export default Trigger;

@@ -1,7 +1,7 @@
 import isFunction from '../../TypeChecks/isFunction';
 import isElement from '../../TypeChecks/isElement';
 
-export function nodeAttributes(node, callback) {
+export default function nodeAttributes(node, callback) {
 	if (!isFunction(callback)) {
 		return;
 	}

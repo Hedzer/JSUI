@@ -1,3 +1,3 @@
-export function isElement(u) {
+export default function isElement(u) {
 	return (u instanceof Element);
 }

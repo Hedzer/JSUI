@@ -1,3 +1,3 @@
-export function isRegex(u) {
+export default function isRegex(u) {
 	return (u instanceof RegExp);
 }

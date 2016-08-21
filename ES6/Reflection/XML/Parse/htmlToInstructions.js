@@ -4,7 +4,7 @@ import childNodes from '../../../Utilities/Elements/childNodes';
 import isUJSUI from '../../../TypeChecks/isUJSUI';
 import isTextNode from '../../../TypeChecks/isTextNode';
 
-export function htmlToInstructions(node, classes, state) {
+export default function htmlToInstructions(node, classes, state) {
 	var isRoot = false;
 	if (!state) {
 		state = {

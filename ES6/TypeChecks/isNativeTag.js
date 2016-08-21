@@ -5,6 +5,6 @@ tags.forEach((tag) => {
 	Natives[tag] = true;
 });
 
-export function isNativeTag(u) {
+export default function isNativeTag(u) {
 	return Natives[u];
 }

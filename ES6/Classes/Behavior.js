@@ -1,6 +1,6 @@
 import Styleable from './Styleable';
 
-export class Behavior extends Styleable {
+export default class Behavior extends Styleable {
 	constructor(host) {
 		super();
 		this.private.host = host;

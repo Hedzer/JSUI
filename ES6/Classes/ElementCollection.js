@@ -1,6 +1,6 @@
 import Collection from './Collection';
 
-export class ElementCollection extends Collection {
+class ElementCollection extends Collection {
 	constructor(target) {
 		super(target);
 		return this.doToEach('constructor', arguments);
@@ -48,3 +48,5 @@ export class ElementCollection extends Collection {
 		return this.doToEach('destructor', arguments);
 	}
 }
+
+export default ElementCollection;

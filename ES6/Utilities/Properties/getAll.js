@@ -1,5 +1,5 @@
 var ObjectPrototype = Object.getPrototypeOf({});
-export function getAll(obj) {
+export default function getAll(obj) {
 	//code modified from airportyh, http://stackoverflow.com/questions/8024149/is-it-possible-to-get-the-non-enumerable-inherited-property-names-of-an-object
 	var props = [];
 	do {

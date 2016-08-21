@@ -5,4 +5,4 @@ if (!hasIsArray) {
 	};
 }
 
-export default hasIsArray;
+export default !hasIsArray;

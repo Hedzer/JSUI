@@ -1,23 +1,11 @@
-function element_handler_addTo_element(element){
-	if (element){
-		element.appendChild(this.element);
-	}
-}
-function element_handler_addTo_jsui(instance){
-	return instance.add(this);
-}
-function element_handler_addTo_array(collection){
-	var results = [];
-	collection.forEach((item) => {
-		results.push(this.addTo(item));
-	});
-	return results;
-}
+import { default as _element } from './AddTo/_element';
+import { default as _jsui } from './AddTo/_jsui';
+import { default as _array } from './AddTo/_array';
 
 var AddTo = {
-	element: element_handler_addTo_element,
-	jsui: element_handler_addTo_jsui,
-	array: element_handler_addTo_array
+	element: _element,
+	jsui: _jsui,
+	array: _array
 };
 
 export default AddTo;

@@ -34,4 +34,4 @@ if (!Array.prototype.reduce) {
 	};
 }
 
-export default hasReduce;
+export default !hasReduce;

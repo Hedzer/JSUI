@@ -1,87 +1,67 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Behavior = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
 var _Styleable2 = require('./Styleable');
 
-var _Styleable3 = _interopRequireDefault(_Styleable2);
+var _Styleable3 = babelHelpers.interopRequireDefault(_Styleable2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Behavior = exports.Behavior = function (_Styleable) {
-	_inherits(Behavior, _Styleable);
+var Behavior = function (_Styleable) {
+	babelHelpers.inherits(Behavior, _Styleable);
 
 	function Behavior(host) {
-		_classCallCheck(this, Behavior);
+		babelHelpers.classCallCheck(this, Behavior);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Behavior).call(this));
+		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Behavior).call(this));
 
 		_this.private.host = host;
 		_this.context = 'behavior';
 		return _this;
 	}
 
-	_createClass(Behavior, [{
+	babelHelpers.createClass(Behavior, [{
 		key: 'destructor',
 		value: function destructor() {
-			_get(Object.getPrototypeOf(Behavior.prototype), 'destructor', this).call(this);
+			babelHelpers.get(Object.getPrototypeOf(Behavior.prototype), 'destructor', this).call(this);
 		}
 	}]);
-
 	return Behavior;
 }(_Styleable3.default);
 
-},{"./Styleable":31}],2:[function(require,module,exports){
+exports.default = Behavior;
+
+}).call(this,require("babel/external-helpers"))
+},{"./Styleable":86,"babel/external-helpers":"babel/external-helpers"}],2:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Collection = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _isArray = require('../TypeChecks/isArray');
 
-var _isArray2 = _interopRequireDefault(_isArray);
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
 
 var _DoToEach = require('./Collection/Handlers/DoToEach');
 
-var _DoToEach2 = _interopRequireDefault(_DoToEach);
+var _DoToEach2 = babelHelpers.interopRequireDefault(_DoToEach);
 
 var _getHandledType = require('./Element/getHandledType');
 
-var _getHandledType2 = _interopRequireDefault(_getHandledType);
+var _getHandledType2 = babelHelpers.interopRequireDefault(_getHandledType);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Collection = exports.Collection = function (_Array) {
-	_inherits(Collection, _Array);
+var Collection = function (_Array) {
+	babelHelpers.inherits(Collection, _Array);
 
 	function Collection(target) {
-		_classCallCheck(this, Collection);
+		babelHelpers.classCallCheck(this, Collection);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Collection).call(this));
+		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Collection).call(this));
 
 		if ((0, _isArray2.default)(target)) {
 			target.forEach(function (item) {
@@ -91,7 +71,7 @@ var Collection = exports.Collection = function (_Array) {
 		return _this;
 	}
 
-	_createClass(Collection, [{
+	babelHelpers.createClass(Collection, [{
 		key: 'doToEach',
 		value: function doToEach(method, args) {
 			var type = (0, _getHandledType2.default)(method);
@@ -99,24 +79,61 @@ var Collection = exports.Collection = function (_Array) {
 			return (action || unhandled).call(this, method, args);
 		}
 	}]);
-
 	return Collection;
 }(Array);
 
-},{"../TypeChecks/isArray":52,"./Collection/Handlers/DoToEach":3,"./Element/getHandledType":22}],3:[function(require,module,exports){
+exports.default = Collection;
+
+}).call(this,require("babel/external-helpers"))
+},{"../TypeChecks/isArray":113,"./Collection/Handlers/DoToEach":3,"./Element/getHandledType":77,"babel/external-helpers":"babel/external-helpers"}],3:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _isFunction = require('../../../TypeChecks/isFunction');
+var _string2 = require('./DoToEach/_string');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
+var _string3 = babelHelpers.interopRequireDefault(_string2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _path2 = require('./DoToEach/_path');
 
-function element_handler_dotoeach_string(command, args) {
+var _path3 = babelHelpers.interopRequireDefault(_path2);
+
+var DoToEach = {
+	string: _string3.default,
+	path: _path3.default
+};
+
+exports.default = DoToEach;
+
+}).call(this,require("babel/external-helpers"))
+},{"./DoToEach/_path":4,"./DoToEach/_string":5,"babel/external-helpers":"babel/external-helpers"}],4:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _path;
+function _path(command, args) {
+	//WIP
+}
+
+},{}],5:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _string;
+
+var _isFunction = require('../../../../TypeChecks/isFunction');
+
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
+
+function _string(command, args) {
 	var results = [];
 	this.forEach(function (item) {
 		if ((0, _isFunction2.default)(item[command])) {
@@ -127,18 +144,10 @@ function element_handler_dotoeach_string(command, args) {
 	});
 	return results;
 }
-function element_handler_dotoeach_path(command, args) {
-	//WIP
-}
 
-var DoToEach = {
-	string: element_handler_dotoeach_string,
-	path: element_handler_dotoeach_path
-};
-
-exports.default = DoToEach;
-
-},{"../../../TypeChecks/isFunction":55}],4:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../../../TypeChecks/isFunction":116,"babel/external-helpers":"babel/external-helpers"}],6:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -147,27 +156,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _Extensible2 = require('./Extensible');
 
-var _Extensible3 = _interopRequireDefault(_Extensible2);
+var _Extensible3 = babelHelpers.interopRequireDefault(_Extensible2);
 
 var _uid = require('../Utilities/General/uid');
 
-var _uid2 = _interopRequireDefault(_uid);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _uid2 = babelHelpers.interopRequireDefault(_uid);
 
 var Distinct = function (_Extensible) {
-	_inherits(Distinct, _Extensible);
+	babelHelpers.inherits(Distinct, _Extensible);
 
 	function Distinct() {
-		_classCallCheck(this, Distinct);
+		babelHelpers.classCallCheck(this, Distinct);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Distinct).call(this));
+		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Distinct).call(this));
 
 		_this.uid = (0, _uid2.default)();
 		return _this;
@@ -178,136 +179,117 @@ var Distinct = function (_Extensible) {
 
 exports.default = Distinct;
 
-},{"../Utilities/General/uid":80,"./Extensible":24}],5:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Utilities/General/uid":141,"./Extensible":79,"babel/external-helpers":"babel/external-helpers"}],7:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
 var _getHandledType = require('./Element/getHandledType');
 
-var _getHandledType2 = _interopRequireDefault(_getHandledType);
+var _getHandledType2 = babelHelpers.interopRequireDefault(_getHandledType);
 
 var _unhandled = require('../TypeChecks/unhandled');
 
-var _unhandled2 = _interopRequireDefault(_unhandled);
+var _unhandled2 = babelHelpers.interopRequireDefault(_unhandled);
 
 var _isFunction = require('../TypeChecks/isFunction');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
 
 var _isArray = require('../TypeChecks/isArray');
 
-var _isArray2 = _interopRequireDefault(_isArray);
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
 
 var _isElement = require('../TypeChecks/isElement');
 
-var _isElement2 = _interopRequireDefault(_isElement);
+var _isElement2 = babelHelpers.interopRequireDefault(_isElement);
 
 var _isEmptyString = require('../TypeChecks/isEmptyString');
 
-var _isEmptyString2 = _interopRequireDefault(_isEmptyString);
+var _isEmptyString2 = babelHelpers.interopRequireDefault(_isEmptyString);
 
 var _constructor = require('./Element/constructor');
 
-var _constructor2 = _interopRequireDefault(_constructor);
+var _constructor2 = babelHelpers.interopRequireDefault(_constructor);
 
 var _destructor2 = require('./Element/destructor');
 
-var _destructor3 = _interopRequireDefault(_destructor2);
+var _destructor3 = babelHelpers.interopRequireDefault(_destructor2);
 
 var _Add = require('./Element/Handlers/Add');
 
-var _Add2 = _interopRequireDefault(_Add);
+var _Add2 = babelHelpers.interopRequireDefault(_Add);
 
 var _AddTo = require('./Element/Handlers/AddTo');
 
-var _AddTo2 = _interopRequireDefault(_AddTo);
+var _AddTo2 = babelHelpers.interopRequireDefault(_AddTo);
 
 var _Remove = require('./Element/Handlers/Remove');
 
-var _Remove2 = _interopRequireDefault(_Remove);
+var _Remove2 = babelHelpers.interopRequireDefault(_Remove);
 
 var _On = require('./Element/Handlers/On');
 
-var _On2 = _interopRequireDefault(_On);
+var _On2 = babelHelpers.interopRequireDefault(_On);
 
 var _Trigger = require('./Element/Handlers/Trigger');
 
-var _Trigger2 = _interopRequireDefault(_Trigger);
+var _Trigger2 = babelHelpers.interopRequireDefault(_Trigger);
 
 var _Find = require('./Element/Handlers/Find');
 
-var _Find2 = _interopRequireDefault(_Find);
+var _Find2 = babelHelpers.interopRequireDefault(_Find);
 
 var _With = require('./Element/Handlers/With');
 
-var _With2 = _interopRequireDefault(_With);
+var _With2 = babelHelpers.interopRequireDefault(_With);
 
 var _Do = require('./Element/Handlers/Do');
 
-var _Do2 = _interopRequireDefault(_Do);
+var _Do2 = babelHelpers.interopRequireDefault(_Do);
 
 var _Get = require('./Element/Handlers/Get');
 
-var _Get2 = _interopRequireDefault(_Get);
+var _Get2 = babelHelpers.interopRequireDefault(_Get);
 
 var _Set = require('./Element/Handlers/Set');
 
-var _Set2 = _interopRequireDefault(_Set);
+var _Set2 = babelHelpers.interopRequireDefault(_Set);
 
 var _Text = require('./Element/Handlers/Text');
 
-var _Text2 = _interopRequireDefault(_Text);
+var _Text2 = babelHelpers.interopRequireDefault(_Text);
 
 var _Attribute = require('./Element/Handlers/Attribute');
 
-var _Attribute2 = _interopRequireDefault(_Attribute);
+var _Attribute2 = babelHelpers.interopRequireDefault(_Attribute);
 
 var _Styleable2 = require('./Styleable');
 
-var _Styleable3 = _interopRequireDefault(_Styleable2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-//constructor & destructor
-
-
-//handlers
-
-
-//classes
-
+var _Styleable3 = babelHelpers.interopRequireDefault(_Styleable2);
 
 var Element = function (_Styleable) {
-	_inherits(Element, _Styleable);
+	babelHelpers.inherits(Element, _Styleable);
 
 	function Element(tag) {
-		_classCallCheck(this, Element);
+		babelHelpers.classCallCheck(this, Element);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Element).call(this, tag));
+		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Element).call(this, tag));
 
 		_constructor2.default.call(_this, tag);
 		return _this;
 	}
 
-	_createClass(Element, [{
+	babelHelpers.createClass(Element, [{
 		key: 'add',
 		value: function add(item) {
 			var type = (0, _getHandledType2.default)(item);
 			var action = _Add2.default[type];
-			return (action || _get(Object.getPrototypeOf(Element.prototype), 'add', this) || _unhandled2.default).call(this, item);
+			return (action || babelHelpers.get(Object.getPrototypeOf(Element.prototype), 'add', this) || _unhandled2.default).call(this, item);
 		}
 	}, {
 		key: 'addTo',
@@ -411,48 +393,47 @@ var Element = function (_Styleable) {
 			_destructor3.default.call(this);
 		}
 	}]);
-
 	return Element;
 }(_Styleable3.default);
 
+//classes
+
+
+//handlers
+
+
+//constructor & destructor
+
+
 exports.default = Element;
 
-},{"../TypeChecks/isArray":52,"../TypeChecks/isElement":53,"../TypeChecks/isEmptyString":54,"../TypeChecks/isFunction":55,"../TypeChecks/unhandled":70,"./Element/Handlers/Add":7,"./Element/Handlers/AddTo":8,"./Element/Handlers/Attribute":9,"./Element/Handlers/Do":11,"./Element/Handlers/Find":12,"./Element/Handlers/Get":13,"./Element/Handlers/On":14,"./Element/Handlers/Remove":15,"./Element/Handlers/Set":16,"./Element/Handlers/Text":17,"./Element/Handlers/Trigger":18,"./Element/Handlers/With":19,"./Element/constructor":20,"./Element/destructor":21,"./Element/getHandledType":22,"./Styleable":31}],6:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../TypeChecks/isArray":113,"../TypeChecks/isElement":114,"../TypeChecks/isEmptyString":115,"../TypeChecks/isFunction":116,"../TypeChecks/unhandled":131,"./Element/Handlers/Add":9,"./Element/Handlers/AddTo":10,"./Element/Handlers/Attribute":21,"./Element/Handlers/Do":34,"./Element/Handlers/Find":39,"./Element/Handlers/Get":47,"./Element/Handlers/On":51,"./Element/Handlers/Remove":56,"./Element/Handlers/Set":60,"./Element/Handlers/Text":64,"./Element/Handlers/Trigger":67,"./Element/Handlers/With":72,"./Element/constructor":75,"./Element/destructor":76,"./Element/getHandledType":77,"./Styleable":86,"babel/external-helpers":"babel/external-helpers"}],8:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.ElementCollection = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _Collection2 = require('./Collection');
 
-var _Collection3 = _interopRequireDefault(_Collection2);
+var _Collection3 = babelHelpers.interopRequireDefault(_Collection2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ElementCollection = exports.ElementCollection = function (_Collection) {
-	_inherits(ElementCollection, _Collection);
+var ElementCollection = function (_Collection) {
+	babelHelpers.inherits(ElementCollection, _Collection);
 
 	function ElementCollection(target) {
 		var _ret;
 
-		_classCallCheck(this, ElementCollection);
+		babelHelpers.classCallCheck(this, ElementCollection);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ElementCollection).call(this, target));
+		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(ElementCollection).call(this, target));
 
-		return _ret = _this.doToEach('constructor', arguments), _possibleConstructorReturn(_this, _ret);
+		return _ret = _this.doToEach('constructor', arguments), babelHelpers.possibleConstructorReturn(_this, _ret);
 	}
 
-	_createClass(ElementCollection, [{
+	babelHelpers.createClass(ElementCollection, [{
 		key: 'add',
 		value: function add() {
 			return this.doToEach('add', arguments);
@@ -523,35 +504,214 @@ var ElementCollection = exports.ElementCollection = function (_Collection) {
 			return this.doToEach('destructor', arguments);
 		}
 	}]);
-
 	return ElementCollection;
 }(_Collection3.default);
 
-},{"./Collection":2}],7:[function(require,module,exports){
+exports.default = ElementCollection;
+
+}).call(this,require("babel/external-helpers"))
+},{"./Collection":2,"babel/external-helpers":"babel/external-helpers"}],9:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _addClass = require('../../../Utilities/Elements/addClass');
+var _element2 = require('./Add/_element');
 
-var _addClass2 = _interopRequireDefault(_addClass);
+var _element3 = babelHelpers.interopRequireDefault(_element2);
 
-var _add = require('../../../Utilities/Properties/add');
+var _jsui2 = require('./Add/_jsui');
 
-var _isUJSUI = require('../../../TypeChecks/isUJSUI');
+var _jsui3 = babelHelpers.interopRequireDefault(_jsui2);
 
-var _isUJSUI2 = _interopRequireDefault(_isUJSUI);
+var _array2 = require('./Add/_array');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _array3 = babelHelpers.interopRequireDefault(_array2);
 
-function element_handler_add_element(element) {
+var _string2 = require('./Add/_string');
+
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+var _html2 = require('./Add/_html');
+
+var _html3 = babelHelpers.interopRequireDefault(_html2);
+
+var _path2 = require('./Add/_path');
+
+var _path3 = babelHelpers.interopRequireDefault(_path2);
+
+var _function2 = require('./Add/_function');
+
+var _function3 = babelHelpers.interopRequireDefault(_function2);
+
+var Add = {
+	element: _element3.default,
+	jsui: _jsui3.default,
+	array: _array3.default,
+	string: _string3.default,
+	html: _html3.default,
+	path: _path3.default,
+	function: _function3.default
+};
+
+exports.default = Add;
+
+}).call(this,require("babel/external-helpers"))
+},{"./Add/_array":14,"./Add/_element":15,"./Add/_function":16,"./Add/_html":17,"./Add/_jsui":18,"./Add/_path":19,"./Add/_string":20,"babel/external-helpers":"babel/external-helpers"}],10:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _element2 = require('./AddTo/_element');
+
+var _element3 = babelHelpers.interopRequireDefault(_element2);
+
+var _jsui2 = require('./AddTo/_jsui');
+
+var _jsui3 = babelHelpers.interopRequireDefault(_jsui2);
+
+var _array2 = require('./AddTo/_array');
+
+var _array3 = babelHelpers.interopRequireDefault(_array2);
+
+var AddTo = {
+	element: _element3.default,
+	jsui: _jsui3.default,
+	array: _array3.default
+};
+
+exports.default = AddTo;
+
+}).call(this,require("babel/external-helpers"))
+},{"./AddTo/_array":11,"./AddTo/_element":12,"./AddTo/_jsui":13,"babel/external-helpers":"babel/external-helpers"}],11:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _array;
+function _array(collection) {
+	var _this = this;
+
+	var results = [];
+	collection.forEach(function (item) {
+		results.push(_this.addTo(item));
+	});
+	return results;
+}
+
+},{}],12:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _element;
+function _element(element) {
+	if (element) {
+		element.appendChild(this.element);
+	}
+}
+
+},{}],13:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _jsui;
+function _jsui(instance) {
+	return instance.add(this);
+}
+
+},{}],14:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _array;
+function _array(collection) {
+	var _this = this;
+
+	var results = [];
+	collection.forEach(function (item) {
+		results.push(_this.add(item));
+	});
+	return results;
+}
+
+},{}],15:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _element;
+function _element(element) {
 	if (this.element) {
 		this.element.appendChild(element);
 	}
 }
-function element_handler_add_jsui(instance) {
+
+},{}],16:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _function;
+
+var _isUJSUI = require('../../../../TypeChecks/isUJSUI');
+
+var _isUJSUI2 = babelHelpers.interopRequireDefault(_isUJSUI);
+
+function _function(method) {
+	if ((0, _isUJSUI2.default)(method)) {
+		return this.add(new method());
+	}
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"../../../../TypeChecks/isUJSUI":128,"babel/external-helpers":"babel/external-helpers"}],17:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _html;
+function _html(markup) {
+	if (this.element && this.element.appendChild) {
+		var fragment = document.createDocumentFragment();
+		var root = document.createElement('div');
+		root.innerHTML = markup;
+		while (root.firstChild) {
+			fragment.appendChild(root.firstChild);
+		}
+		this.element.appendChild(fragment);
+	}
+}
+
+},{}],18:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _jsui;
+
+var _addClass = require('../../../../Utilities/Elements/addClass');
+
+var _addClass2 = babelHelpers.interopRequireDefault(_addClass);
+
+function _jsui(instance) {
 	if (this.element && instance.element) {
 		this.element.appendChild(instance.element);
 		this.private.children = this.private.children || {};
@@ -574,122 +734,115 @@ function element_handler_add_jsui(instance) {
 	};
 	return options;
 }
-function element_handler_add_array(collection) {
-	var _this = this;
 
-	var results = [];
-	collection.forEach(function (item) {
-		results.push(_this.add(item));
-	});
-	return results;
-}
-function element_handler_add_string(prop) {
-	(0, _add.add)(this, prop);
-}
-function element_handler_add_html(markup) {
-	if (this.element && this.element.appendChild) {
-		var fragment = document.createDocumentFragment();
-		var root = document.createElement('div');
-		root.innerHTML = markup;
-		while (root.firstChild) {
-			fragment.appendChild(root.firstChild);
-		}
-		this.element.appendChild(fragment);
-	}
-}
-function element_handler_add_path(prop) {
-	return element_handler_add_string.call(this, prop);
-}
-function element_handler_add_function(method) {
-	if ((0, _isUJSUI2.default)(method)) {
-		return this.add(new method());
-	}
-}
-
-var Add = {
-	element: element_handler_add_element,
-	jsui: element_handler_add_jsui,
-	array: element_handler_add_array,
-	string: element_handler_add_string,
-	html: element_handler_add_html,
-	path: element_handler_add_path,
-	function: element_handler_add_function
-};
-
-exports.default = Add;
-
-},{"../../../TypeChecks/isUJSUI":67,"../../../Utilities/Elements/addClass":71,"../../../Utilities/Properties/add":86}],8:[function(require,module,exports){
-"use strict";
+}).call(this,require("babel/external-helpers"))
+},{"../../../../Utilities/Elements/addClass":132,"babel/external-helpers":"babel/external-helpers"}],19:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-function element_handler_addTo_element(element) {
-	if (element) {
-		element.appendChild(this.element);
-	}
-}
-function element_handler_addTo_jsui(instance) {
-	return instance.add(this);
-}
-function element_handler_addTo_array(collection) {
-	var _this = this;
+exports.default = _path;
 
-	var results = [];
-	collection.forEach(function (item) {
-		results.push(_this.addTo(item));
-	});
-	return results;
+var _string2 = require('./_string');
+
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+function _path(prop) {
+	return _string3.default.call(this, prop);
 }
 
-var AddTo = {
-	element: element_handler_addTo_element,
-	jsui: element_handler_addTo_jsui,
-	array: element_handler_addTo_array
-};
+}).call(this,require("babel/external-helpers"))
+},{"./_string":20,"babel/external-helpers":"babel/external-helpers"}],20:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
 
-exports.default = AddTo;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _string;
 
-},{}],9:[function(require,module,exports){
+var _add = require('../../../../Utilities/Properties/add');
+
+var _add2 = babelHelpers.interopRequireDefault(_add);
+
+function _string(prop) {
+	(0, _add2.default)(this, prop);
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"../../../../Utilities/Properties/add":147,"babel/external-helpers":"babel/external-helpers"}],21:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _nodeAttributes = require('../../../Utilities/Elements/nodeAttributes');
+var _undefined = require('./Attribute/Get/_undefined');
 
-var _nodeAttributes2 = _interopRequireDefault(_nodeAttributes);
+var _undefined2 = babelHelpers.interopRequireDefault(_undefined);
 
-var _isUndefined = require('../../../TypeChecks/isUndefined');
+var _string = require('./Attribute/Get/_string');
 
-var _isUndefined2 = _interopRequireDefault(_isUndefined);
+var _string2 = babelHelpers.interopRequireDefault(_string);
 
-var _isNull = require('../../../TypeChecks/isNull');
+var _path = require('./Attribute/Get/_path');
 
-var _isNull2 = _interopRequireDefault(_isNull);
+var _path2 = babelHelpers.interopRequireDefault(_path);
 
-var _isObject = require('../../../TypeChecks/isObject');
+var _array = require('./Attribute/Get/_array');
 
-var _isObject2 = _interopRequireDefault(_isObject);
+var _array2 = babelHelpers.interopRequireDefault(_array);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _object = require('./Attribute/Get/_object');
 
-//Get
-function element_handler_attribute_get_undefined() {
-	var results = {};
-	(0, _nodeAttributes2.default)(this.element, function (attribute, value, ref) {
-		results[attribute] = value;
-	});
-	return results;
-}
-function element_handler_attribute_get_string(name) {
-	return this.element.getAttribute(name);
-}
-function element_handler_attribute_get_path() {
-	return element_handler_attribute_get_string.apply(this, arguments);
-}
-function element_handler_attribute_get_array(collection) {
+var _object2 = babelHelpers.interopRequireDefault(_object);
+
+var _string3 = require('./Attribute/Set/_string');
+
+var _string4 = babelHelpers.interopRequireDefault(_string3);
+
+var _path3 = require('./Attribute/Set/_path');
+
+var _path4 = babelHelpers.interopRequireDefault(_path3);
+
+var _array3 = require('./Attribute/Set/_array');
+
+var _array4 = babelHelpers.interopRequireDefault(_array3);
+
+var _object3 = require('./Attribute/Set/_object');
+
+var _object4 = babelHelpers.interopRequireDefault(_object3);
+
+//Set
+var Attribute = {
+	Get: {
+		undefined: _undefined2.default,
+		string: _string2.default,
+		path: _path2.default,
+		array: _array2.default,
+		object: _object2.default
+	},
+	Set: {
+		string: _string4.default,
+		path: _path4.default,
+		array: _array4.default,
+		object: _object4.default
+	}
+}; //Get
+exports.default = Attribute;
+
+}).call(this,require("babel/external-helpers"))
+},{"./Attribute/Get/_array":22,"./Attribute/Get/_object":23,"./Attribute/Get/_path":24,"./Attribute/Get/_string":25,"./Attribute/Get/_undefined":26,"./Attribute/Set/_array":27,"./Attribute/Set/_object":28,"./Attribute/Set/_path":29,"./Attribute/Set/_string":30,"babel/external-helpers":"babel/external-helpers"}],22:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _get_array;
+function _get_array(collection) {
 	var _this = this;
 
 	var results = {};
@@ -698,12 +851,153 @@ function element_handler_attribute_get_array(collection) {
 	});
 	return results;
 }
-function element_handler_attribute_get_object(macro) {
-	return element_handler_attribute_set_object.call(this, macro);
+
+},{}],23:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _get_object;
+
+var _object = require('../Set/_object');
+
+var _object2 = babelHelpers.interopRequireDefault(_object);
+
+function _get_object(macro) {
+	return _object2.default.call(this, macro);
 }
 
-//Set
-function element_handler_attribute_set_string(name, value) {
+}).call(this,require("babel/external-helpers"))
+},{"../Set/_object":28,"babel/external-helpers":"babel/external-helpers"}],24:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _get_path;
+
+var _string2 = require('./_string');
+
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+function _get_path() {
+	return _string3.default.apply(this, arguments);
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"./_string":25,"babel/external-helpers":"babel/external-helpers"}],25:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _get_string;
+function _get_string(name) {
+	return this.element.getAttribute(name);
+}
+
+},{}],26:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _undefined;
+
+var _nodeAttributes = require('../../../../../Utilities/Elements/nodeAttributes');
+
+var _nodeAttributes2 = babelHelpers.interopRequireDefault(_nodeAttributes);
+
+function _undefined() {
+	var results = {};
+	(0, _nodeAttributes2.default)(this.element, function (attribute, value, ref) {
+		results[attribute] = value;
+	});
+	return results;
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"../../../../../Utilities/Elements/nodeAttributes":137,"babel/external-helpers":"babel/external-helpers"}],27:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _array;
+function _array(collection, value) {
+	var _this = this;
+
+	var results = [];
+	collection.forEach(function (attribute) {
+		results.push(_this.attribute(attribute, value));
+	});
+	return results;
+}
+
+},{}],28:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _object;
+
+var _isObject = require('../../../../../TypeChecks/isObject');
+
+var _isObject2 = babelHelpers.interopRequireDefault(_isObject);
+
+function _object(macro, value) {
+	var _this = this;
+
+	var result = (0, _isObject2.default)(value) ? value : {};
+	Object.keys(macro).forEach(function (attribute) {
+		results[attribute] = _this.attribute(attribute, macro[attribute]);
+	});
+	return results;
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"../../../../../TypeChecks/isObject":122,"babel/external-helpers":"babel/external-helpers"}],29:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _set_path;
+
+var _string = require('./_string');
+
+var _string2 = babelHelpers.interopRequireDefault(_string);
+
+function _set_path() {
+	return _string2.default.apply(this, arguments);
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"./_string":30,"babel/external-helpers":"babel/external-helpers"}],30:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _set_string;
+
+var _isUndefined = require('../../../../../TypeChecks/isUndefined');
+
+var _isUndefined2 = babelHelpers.interopRequireDefault(_isUndefined);
+
+var _isNull = require('../../../../../TypeChecks/isNull');
+
+var _isNull2 = babelHelpers.interopRequireDefault(_isNull);
+
+function _set_string(name, value) {
 	if ((0, _isUndefined2.default)(value) || (0, _isNull2.default)(value)) {
 		this.element.removeAttribute(name);
 		return true;
@@ -711,98 +1005,106 @@ function element_handler_attribute_set_string(name, value) {
 	this.element.setAttribute(name, value);
 	return true;
 }
-function element_handler_attribute_set_path() {
-	return element_handler_attribute_set_string.apply(this, arguments);
-}
-function element_handler_attribute_set_array(collection, value) {
-	var _this2 = this;
 
-	var results = [];
-	collection.forEach(function (attribute) {
-		results.push(_this2.attribute(attribute, value));
-	});
-	return results;
-}
-function element_handler_attribute_set_object(macro, value) {
-	var _this3 = this;
-
-	var result = (0, _isObject2.default)(value) ? value : {};
-	Object.keys(macro).forEach(function (attribute) {
-		results[attribute] = _this3.attribute(attribute, macro[attribute]);
-	});
-	return results;
-}
-
-var Attribute = {
-	Get: {
-		undefined: element_handler_attribute_get_undefined,
-		string: element_handler_attribute_get_string,
-		path: element_handler_attribute_get_path,
-		array: element_handler_attribute_get_array,
-		object: element_handler_attribute_get_object
-	},
-	Set: {
-		string: element_handler_attribute_set_string,
-		path: element_handler_attribute_set_path,
-		array: element_handler_attribute_set_array,
-		object: element_handler_attribute_set_object
-	}
-};
-
-exports.default = Attribute;
-
-},{"../../../TypeChecks/isNull":59,"../../../TypeChecks/isObject":61,"../../../TypeChecks/isUndefined":69,"../../../Utilities/Elements/nodeAttributes":76}],10:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../../../../TypeChecks/isNull":120,"../../../../../TypeChecks/isUndefined":130,"babel/external-helpers":"babel/external-helpers"}],31:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _getTagName = require('../../../Utilities/Elements/getTagName');
+var _element2 = require('./Constructor/_element');
 
-var _getTagName2 = _interopRequireDefault(_getTagName);
+var _element3 = babelHelpers.interopRequireDefault(_element2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _string2 = require('./Constructor/_string');
 
-function element_handler_constructor_element(el) {
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+var Constructor = {
+	element: _element3.default,
+	string: _string3.default
+};
+
+exports.default = Constructor;
+
+}).call(this,require("babel/external-helpers"))
+},{"./Constructor/_element":32,"./Constructor/_string":33,"babel/external-helpers":"babel/external-helpers"}],32:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _element;
+
+var _getTagName = require('../../../../Utilities/Elements/getTagName');
+
+var _getTagName2 = babelHelpers.interopRequireDefault(_getTagName);
+
+function _element(el) {
 	this.element = el;
 	return (0, _getTagName2.default)(el);
 }
-function element_handler_constructor_string(tag) {
+
+}).call(this,require("babel/external-helpers"))
+},{"../../../../Utilities/Elements/getTagName":135,"babel/external-helpers":"babel/external-helpers"}],33:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _string;
+function _string(tag) {
 	tag = tag || 'div';
 	this.element = document.createElement(tag);
 	return tag;
 }
 
-var Constructor = {
-	element: element_handler_constructor_element,
-	string: element_handler_constructor_string
-};
-
-exports.default = Constructor;
-
-},{"../../../Utilities/Elements/getTagName":74}],11:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _isFunction = require('../../../TypeChecks/isFunction');
+var _array2 = require('./Do/_array');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
+var _array3 = babelHelpers.interopRequireDefault(_array2);
 
-var _isArray = require('../../../TypeChecks/isArray');
+var _object2 = require('./Do/_object');
 
-var _isArray2 = _interopRequireDefault(_isArray);
+var _object3 = babelHelpers.interopRequireDefault(_object2);
 
-var _getWithContext = require('../../../Utilities/Paths/getWithContext');
+var _string2 = require('./Do/_string');
 
-var _getWithContext2 = _interopRequireDefault(_getWithContext);
+var _string3 = babelHelpers.interopRequireDefault(_string2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _path2 = require('./Do/_path');
 
-function element_handler_do_array(collection) {
+var _path3 = babelHelpers.interopRequireDefault(_path2);
+
+var Do = {
+	array: _array3.default,
+	object: _object3.default,
+	string: _string3.default,
+	path: _path3.default
+};
+
+exports.default = Do;
+
+}).call(this,require("babel/external-helpers"))
+},{"./Do/_array":35,"./Do/_object":36,"./Do/_path":37,"./Do/_string":38,"babel/external-helpers":"babel/external-helpers"}],35:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _array;
+function _array(collection) {
 	var _this = this;
 
 	var results = [];
@@ -811,24 +1113,46 @@ function element_handler_do_array(collection) {
 	});
 	return results;
 }
-function element_handler_do_object(macro) {
-	var _this2 = this;
+
+},{}],36:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _object;
+function _object(macro) {
+	var _this = this;
 
 	var results = {};
 	Object.keys(macro).forEach(function (command) {
-		results[command] = _this2.do(command, macro[command]);
+		results[command] = _this.do(command, macro[command]);
 	});
 	return results;
 }
-function element_handler_do_string(command, args) {
-	if ((0, _isFunction2.default)(this[command])) {
-		if ((0, _isArray2.default)(args)) {
-			return this[command].apply(this, args);
-		}
-		return this[command](args);
-	}
-}
-function element_handler_do_path(command, args) {
+
+},{}],37:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _path;
+
+var _isFunction = require('../../../../TypeChecks/isFunction');
+
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
+
+var _isArray = require('../../../../TypeChecks/isArray');
+
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
+
+var _getWithContext = require('../../../../Utilities/Paths/getWithContext');
+
+var _getWithContext2 = babelHelpers.interopRequireDefault(_getWithContext);
+
+function _path(command, args) {
 	var path = (0, _getWithContext2.default)(this, command);
 	if (!path || !path.context || !path.property) {
 		return;
@@ -842,29 +1166,91 @@ function element_handler_do_path(command, args) {
 	}
 }
 
-var Do = {
-	array: element_handler_do_array,
-	object: element_handler_do_object,
-	string: element_handler_do_string,
-	path: element_handler_do_path
-};
+}).call(this,require("babel/external-helpers"))
+},{"../../../../TypeChecks/isArray":113,"../../../../TypeChecks/isFunction":116,"../../../../Utilities/Paths/getWithContext":143,"babel/external-helpers":"babel/external-helpers"}],38:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
 
-exports.default = Do;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _string;
 
-},{"../../../TypeChecks/isArray":52,"../../../TypeChecks/isFunction":55,"../../../Utilities/Paths/getWithContext":82}],12:[function(require,module,exports){
+var _isFunction = require('../../../../TypeChecks/isFunction');
+
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
+
+var _isArray = require('../../../../TypeChecks/isArray');
+
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
+
+function _string(command, args) {
+	if ((0, _isFunction2.default)(this[command])) {
+		if ((0, _isArray2.default)(args)) {
+			return this[command].apply(this, args);
+		}
+		return this[command](args);
+	}
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"../../../../TypeChecks/isArray":113,"../../../../TypeChecks/isFunction":116,"babel/external-helpers":"babel/external-helpers"}],39:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _Element = require('../../Element');
+var _array2 = require('./Find/_array');
 
-var _Element2 = _interopRequireDefault(_Element);
+var _array3 = babelHelpers.interopRequireDefault(_array2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _function2 = require('./Find/_function');
 
-function element_handler_find_array(collection) {
+var _function3 = babelHelpers.interopRequireDefault(_function2);
+
+var _jsui2 = require('./Find/_jsui');
+
+var _jsui3 = babelHelpers.interopRequireDefault(_jsui2);
+
+var _regex2 = require('./Find/_regex');
+
+var _regex3 = babelHelpers.interopRequireDefault(_regex2);
+
+var _string2 = require('./Find/_string');
+
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+var _path2 = require('./Find/_path');
+
+var _path3 = babelHelpers.interopRequireDefault(_path2);
+
+var _undefined2 = require('./Find/_undefined');
+
+var _undefined3 = babelHelpers.interopRequireDefault(_undefined2);
+
+var Find = {
+	array: _array3.default,
+	function: _function3.default,
+	jsui: _jsui3.default,
+	regex: _regex3.default,
+	string: _string3.default,
+	path: _path3.default,
+	undefined: _undefined3.default
+};
+
+exports.default = Find;
+
+}).call(this,require("babel/external-helpers"))
+},{"./Find/_array":40,"./Find/_function":41,"./Find/_jsui":42,"./Find/_path":43,"./Find/_regex":44,"./Find/_string":45,"./Find/_undefined":46,"babel/external-helpers":"babel/external-helpers"}],40:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _array;
+function _array(collection) {
 	var _this = this;
 
 	var results = [];
@@ -873,7 +1259,21 @@ function element_handler_find_array(collection) {
 	});
 	return results;
 }
-function element_handler_find_function(method) {
+
+},{}],41:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _function;
+
+var _Element = require('../../../Element');
+
+var _Element2 = babelHelpers.interopRequireDefault(_Element);
+
+function _function(method) {
 	var results = [];
 	var isJSUI = _Element2.default.isPrototypeOf(method.prototype);
 	if (isJSUI) {
@@ -886,7 +1286,16 @@ function element_handler_find_function(method) {
 	}
 	return results;
 }
-function element_handler_find_jsui(proto) {
+
+}).call(this,require("babel/external-helpers"))
+},{"../../../Element":7,"babel/external-helpers":"babel/external-helpers"}],42:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _jsui;
+function _jsui(proto) {
 	var results = [];
 	this.children(function (child) {
 		if (child instanceof proto) {
@@ -895,7 +1304,33 @@ function element_handler_find_jsui(proto) {
 	});
 	return results;
 }
-function element_handler_find_regex(expression) {
+
+},{}],43:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _path;
+
+var _string2 = require('./_string');
+
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+function _path(query) {
+	return _string3.default.call(this, query);
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"./_string":45,"babel/external-helpers":"babel/external-helpers"}],44:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _regex;
+function _regex(expression) {
 	var results = [];
 	this.children(function (child) {
 		if (child.element) {
@@ -908,16 +1343,29 @@ function element_handler_find_regex(expression) {
 	});
 	return results;
 }
-function element_handler_find_string(query) {
+
+},{}],45:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _string;
+function _string(query) {
 	var results = null;
 	results = this.element.querySelectorAll(query);
 	results = !results || results === null ? [] : results;
 	return results;
 }
-function element_handler_find_path(query) {
-	return element_handler_find_string.call(this, query);
-}
-function element_handler_find_undefined() {
+
+},{}],46:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _undefined;
+function _undefined() {
 	var results = [];
 	this.children(function (child) {
 		results.push(child);
@@ -925,32 +1373,43 @@ function element_handler_find_undefined() {
 	return results;
 }
 
-var Find = {
-	array: element_handler_find_array,
-	function: element_handler_find_function,
-	jsui: element_handler_find_jsui,
-	regex: element_handler_find_regex,
-	string: element_handler_find_string,
-	path: element_handler_find_path,
-	undefined: element_handler_find_undefined
-};
-
-exports.default = Find;
-
-},{"../../Element":5}],13:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _get = require('../../../Utilities/Paths/get');
+var _array2 = require('./Get/_array');
 
-var _get2 = _interopRequireDefault(_get);
+var _array3 = babelHelpers.interopRequireDefault(_array2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _string2 = require('./Get/_string');
 
-function element_handler_get_array(collection) {
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+var _path2 = require('./Get/_path');
+
+var _path3 = babelHelpers.interopRequireDefault(_path2);
+
+var Get = {
+	array: _array3.default,
+	string: _string3.default,
+	path: _path3.default
+};
+
+exports.default = Get;
+
+}).call(this,require("babel/external-helpers"))
+},{"./Get/_array":48,"./Get/_path":49,"./Get/_string":50,"babel/external-helpers":"babel/external-helpers"}],48:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _array;
+function _array(collection) {
 	var _this = this;
 
 	var results = [];
@@ -959,7 +1418,28 @@ function element_handler_get_array(collection) {
 	});
 	return results;
 }
-function element_handler_get_string(property) {
+
+},{}],49:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+var _get = require('../../../../Utilities/Paths/get');
+
+var _get2 = babelHelpers.interopRequireDefault(_get);
+
+function _path(path) {
+	return (0, _get2.default)(this, path);
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"../../../../Utilities/Paths/get":142,"babel/external-helpers":"babel/external-helpers"}],50:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _string;
+function _string(property) {
 	if (!property) {
 		return;
 	}
@@ -968,40 +1448,49 @@ function element_handler_get_string(property) {
 	}
 	return this[property];
 }
-function element_handler_get_path(path) {
-	return (0, _get2.default)(this, path);
-}
 
-var Get = {
-	array: element_handler_get_array,
-	string: element_handler_get_string,
-	path: element_handler_get_path
-};
-
-exports.default = Get;
-
-},{"../../../Utilities/Paths/get":81}],14:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _isFunction = require('../../../TypeChecks/isFunction');
+var _array2 = require('./On/_array');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
+var _array3 = babelHelpers.interopRequireDefault(_array2);
 
-var _uid = require('../../../Utilities/General/uid');
+var _object2 = require('./On/_object');
 
-var _uid2 = _interopRequireDefault(_uid);
+var _object3 = babelHelpers.interopRequireDefault(_object2);
 
-var _remove = require('../../../Utilities/Events/remove');
+var _string2 = require('./On/_string');
 
-var _removeAll = require('../../../Utilities/Events/removeAll');
+var _string3 = babelHelpers.interopRequireDefault(_string2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _path2 = require('./On/_path');
 
-function element_handler_on_array(collection, method) {
+var _path3 = babelHelpers.interopRequireDefault(_path2);
+
+var On = {
+	array: _array3.default,
+	object: _object3.default,
+	string: _string3.default,
+	path: _path3.default
+};
+
+exports.default = On;
+
+}).call(this,require("babel/external-helpers"))
+},{"./On/_array":52,"./On/_object":53,"./On/_path":54,"./On/_string":55,"babel/external-helpers":"babel/external-helpers"}],52:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _array;
+function _array(collection, method) {
 	var _this = this;
 
 	var results = [];
@@ -1010,17 +1499,69 @@ function element_handler_on_array(collection, method) {
 	});
 	return results;
 }
-function element_handler_on_object(assignments) {
-	var _this2 = this;
+
+},{}],53:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _object;
+function _object(assignments) {
+	var _this = this;
 
 	var results = {};
 	Object.keys(assignments).forEach(function (name) {
 		var method = assignments[name];
-		results[name] = _this2.on(name, method);
+		results[name] = _this.on(name, method);
 	});
 	return results;
 }
-function element_handler_on_string(name, method) {
+
+},{}],54:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _path;
+
+var _string2 = require('./_string');
+
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+function _path(name, method) {
+	return _string3.default.call(this, name, method);
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"./_string":55,"babel/external-helpers":"babel/external-helpers"}],55:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _string;
+
+var _remove = require('../../../../Utilities/Events/remove');
+
+var _remove2 = babelHelpers.interopRequireDefault(_remove);
+
+var _removeAll = require('../../../../Utilities/Events/removeAll');
+
+var _removeAll2 = babelHelpers.interopRequireDefault(_removeAll);
+
+var _isFunction = require('../../../../TypeChecks/isFunction');
+
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
+
+var _uid = require('../../../../Utilities/General/uid');
+
+var _uid2 = babelHelpers.interopRequireDefault(_uid);
+
+function _string(name, method) {
 	if (!(0, _isFunction2.default)(method)) {
 		return;
 	}
@@ -1050,31 +1591,50 @@ function element_handler_on_string(name, method) {
 	var handle = {
 		id: eid,
 		pool: pool,
-		remove: _remove.remove,
-		removeAll: _removeAll.removeAll
+		remove: _remove2.default,
+		removeAll: _removeAll2.default
 	};
 	return handle;
 }
-function element_handler_on_path(name, method) {
-	return element_handler_on_string.call(this, name, method);
-}
 
-var On = {
-	array: element_handler_on_array,
-	object: element_handler_on_object,
-	string: element_handler_on_string,
-	path: element_handler_on_path
-};
-
-exports.default = On;
-
-},{"../../../TypeChecks/isFunction":55,"../../../Utilities/Events/remove":77,"../../../Utilities/Events/removeAll":78,"../../../Utilities/General/uid":80}],15:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../../../TypeChecks/isFunction":116,"../../../../Utilities/Events/remove":138,"../../../../Utilities/Events/removeAll":139,"../../../../Utilities/General/uid":141,"babel/external-helpers":"babel/external-helpers"}],56:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-function element_handler_remove_array(collection) {
+
+var _array2 = require('./Remove/_array');
+
+var _array3 = babelHelpers.interopRequireDefault(_array2);
+
+var _jsui2 = require('./Remove/_jsui');
+
+var _jsui3 = babelHelpers.interopRequireDefault(_jsui2);
+
+var _undefined2 = require('./Remove/_undefined');
+
+var _undefined3 = babelHelpers.interopRequireDefault(_undefined2);
+
+var Remove = {
+	array: _array3.default,
+	jsui: _jsui3.default,
+	undefined: _undefined3.default
+};
+
+exports.default = Remove;
+
+}).call(this,require("babel/external-helpers"))
+},{"./Remove/_array":57,"./Remove/_jsui":58,"./Remove/_undefined":59,"babel/external-helpers":"babel/external-helpers"}],57:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _array;
+function _array(collection) {
 	var _this = this;
 
 	var results = [];
@@ -1083,38 +1643,69 @@ function element_handler_remove_array(collection) {
 	});
 	return results;
 }
-function element_handler_remove_jsui(instance) {
+
+},{}],58:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _jsui;
+function _jsui(instance) {
 	if (instance.remove) {
 		return instance.remove();
 	}
 }
-function element_handler_remove_undefined() {
+
+},{}],59:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _undefined;
+function _undefined() {
 	this.trigger('destructed');
 	return this.destructor();
 }
 
-var Remove = {
-	array: element_handler_remove_array,
-	jsui: element_handler_remove_jsui,
-	undefined: element_handler_remove_undefined
-};
-
-exports.default = Remove;
-
-},{}],16:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _set = require('../../../Utilities/Paths/set');
+var _object2 = require('./Set/_object');
 
-var _set2 = _interopRequireDefault(_set);
+var _object3 = babelHelpers.interopRequireDefault(_object2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _string2 = require('./Set/_string');
 
-function element_handler_set_object(assignments) {
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+var _path2 = require('./Set/_path');
+
+var _path3 = babelHelpers.interopRequireDefault(_path2);
+
+var Set = {
+	object: _object3.default,
+	string: _string3.default,
+	path: _path3.default
+};
+
+exports.default = Set;
+
+}).call(this,require("babel/external-helpers"))
+},{"./Set/_object":61,"./Set/_path":62,"./Set/_string":63,"babel/external-helpers":"babel/external-helpers"}],61:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _object;
+function _object(assignments) {
 	var _this = this;
 
 	var results = {};
@@ -1123,7 +1714,33 @@ function element_handler_set_object(assignments) {
 	});
 	return results;
 }
-function element_handler_set_string(property, value) {
+
+},{}],62:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _path;
+
+var _set = require('../../../../Utilities/Paths/set');
+
+var _set2 = babelHelpers.interopRequireDefault(_set);
+
+function _path(path, value) {
+	return (0, _set2.default)(this, path, value);
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"../../../../Utilities/Paths/set":145,"babel/external-helpers":"babel/external-helpers"}],63:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _string;
+function _string(property, value) {
 	if (!property) {
 		return;
 	}
@@ -1133,24 +1750,50 @@ function element_handler_set_string(property, value) {
 	this[property] = value;
 	return value;
 }
-function element_handler_set_path(path, value) {
-	return (0, _set2.default)(this, path, value);
-}
-var Set = {
-	object: element_handler_set_object,
-	string: element_handler_set_string,
-	path: element_handler_set_path
+
+},{}],64:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _string2 = require('./Text/_string');
+
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+var _path2 = require('./Text/_path');
+
+var _path3 = babelHelpers.interopRequireDefault(_path2);
+
+var Text = {
+	string: _string3.default,
+	path: _path3.default
 };
 
-exports.default = Set;
+exports.default = Text;
 
-},{"../../../Utilities/Paths/set":84}],17:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"./Text/_path":65,"./Text/_string":66,"babel/external-helpers":"babel/external-helpers"}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-function element_handler_text_string(text) {
+exports.default = _path;
+function _path(text) {
+	return _string.call(this, text);
+}
+
+},{}],66:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _string;
+function _string(text) {
 	if (this.private && this.element) {
 		if (!this.private.text) {
 			var text = document.createTextNode(text);
@@ -1163,24 +1806,49 @@ function element_handler_text_string(text) {
 	}
 	return false;
 }
-function element_handler_text_path(text) {
-	return element_handler_text_string.call(this, text);
-}
 
-var Text = {
-	string: element_handler_text_string,
-	path: element_handler_text_path
+},{}],67:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _array2 = require('./Trigger/_array');
+
+var _array3 = babelHelpers.interopRequireDefault(_array2);
+
+var _object2 = require('./Trigger/_object');
+
+var _object3 = babelHelpers.interopRequireDefault(_object2);
+
+var _string2 = require('./Trigger/_string');
+
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+var _path2 = require('./Trigger/_path');
+
+var _path3 = babelHelpers.interopRequireDefault(_path2);
+
+var Trigger = {
+	array: _array3.default,
+	object: _object3.default,
+	string: _string3.default,
+	path: _path3.default
 };
 
-exports.default = Text;
+exports.default = Trigger;
 
-},{}],18:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"./Trigger/_array":68,"./Trigger/_object":69,"./Trigger/_path":70,"./Trigger/_string":71,"babel/external-helpers":"babel/external-helpers"}],68:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-function element_handler_trigger_array(collection, args) {
+exports.default = _array;
+function _array(collection, args) {
 	var _this = this;
 
 	var results = [];
@@ -1189,15 +1857,49 @@ function element_handler_trigger_array(collection, args) {
 	});
 	return results;
 }
-function element_handler_trigger_object(assignments) {
-	var _this2 = this;
+
+},{}],69:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _object;
+function _object(assignments) {
+	var _this = this;
 
 	Object.keys(assignments).forEach(function (name) {
 		var args = assignments[name];
-		_this2.trigger(name, args);
+		_this.trigger(name, args);
 	});
 }
-function element_handler_trigger_string(name, args) {
+
+},{}],70:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _path;
+
+var _string2 = require('./_string');
+
+var _string3 = babelHelpers.interopRequireDefault(_string2);
+
+function _path(name, args) {
+	return _string3.default.call(this, name, args);
+}
+
+}).call(this,require("babel/external-helpers"))
+},{"./_string":71,"babel/external-helpers":"babel/external-helpers"}],71:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _string;
+function _string(name, args) {
 	if (!this.element) {
 		return false;
 	}
@@ -1205,26 +1907,39 @@ function element_handler_trigger_string(name, args) {
 	this.element.dispatchEvent(event);
 	return true;
 }
-function element_handler_trigger_path(name, args) {
-	return element_handler_trigger_string.call(this, name, args);
-}
 
-var Trigger = {
-	array: element_handler_trigger_array,
-	object: element_handler_trigger_object,
-	string: element_handler_trigger_string,
-	path: element_handler_trigger_path
+},{}],72:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _array2 = require('./With/_array');
+
+var _array3 = babelHelpers.interopRequireDefault(_array2);
+
+var _function2 = require('./With/_function');
+
+var _function3 = babelHelpers.interopRequireDefault(_function2);
+
+var With = {
+	array: _array3.default,
+	function: _function3.default
 };
 
-exports.default = Trigger;
+exports.default = With;
 
-},{}],19:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"./With/_array":73,"./With/_function":74,"babel/external-helpers":"babel/external-helpers"}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-function element_handler_with_array(collection) {
+exports.default = _array;
+function _array(collection) {
 	var _this = this;
 
 	var results = [];
@@ -1233,61 +1948,63 @@ function element_handler_with_array(collection) {
 	});
 	return results;
 }
-function element_handler_with_function(method) {
+
+},{}],74:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = _function;
+function _function(method) {
 	method.call(this);
 	return this;
 }
 
-var With = {
-	array: element_handler_with_array,
-	function: element_handler_with_function
-};
-
-exports.default = With;
-
-},{}],20:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.constructor = constructor;
+exports.default = constructor;
 
 var _add = require('../../Utilities/Properties/add');
 
+var _add2 = babelHelpers.interopRequireDefault(_add);
+
 var _addClass = require('../../Utilities/Elements/addClass');
 
-var _addClass2 = _interopRequireDefault(_addClass);
+var _addClass2 = babelHelpers.interopRequireDefault(_addClass);
 
 var _getHandledType = require('./getHandledType');
 
-var _getHandledType2 = _interopRequireDefault(_getHandledType);
+var _getHandledType2 = babelHelpers.interopRequireDefault(_getHandledType);
 
 var _StyleInline = require('../StyleInline');
 
-var _StyleInline2 = _interopRequireDefault(_StyleInline);
+var _StyleInline2 = babelHelpers.interopRequireDefault(_StyleInline);
 
 var _Constructor = require('./Handlers/Constructor');
 
-var _Constructor2 = _interopRequireDefault(_Constructor);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _Constructor2 = babelHelpers.interopRequireDefault(_Constructor);
 
 function constructor(tag) {
 	var _this = this;
 
 	//select the proper constructor action
 	var type = (0, _getHandledType2.default)(tag);
-	var action = handler[type];
+	var action = _Constructor2.default[type];
 	tag = (action || function () {
-		return handler.string.call(this, 'div');
+		return _Constructor2.default.string.call(this, 'div');
 	}).call(this, tag);
 
 	//set up ids
 	this.element.uid = this.uid;
 
 	//setup first type+event
-	(0, _add.add)(this, 'type');
+	(0, _add2.default)(this, 'type');
 	this.on('typeChanged', function (e) {
 		if (e && e.detail && e.detail.new) {
 			if (_this.element && e.detail.new) {
@@ -1309,25 +2026,24 @@ function constructor(tag) {
 	return this;
 }
 
-},{"../../Utilities/Elements/addClass":71,"../../Utilities/Properties/add":86,"../StyleInline":26,"./Handlers/Constructor":10,"./getHandledType":22}],21:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../Utilities/Elements/addClass":132,"../../Utilities/Properties/add":147,"../StyleInline":81,"./Handlers/Constructor":31,"./getHandledType":77,"babel/external-helpers":"babel/external-helpers"}],76:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.destructor = destructor;
 
 var _isFunction = require('../../TypeChecks/isFunction');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
 
 var _isArray = require('../../TypeChecks/isArray');
 
-var _isArray2 = _interopRequireDefault(_isArray);
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function destructor() {
+exports.default = function destructor() {
 	var _this = this;
 
 	var _element = this.element;
@@ -1383,48 +2099,44 @@ function destructor() {
 	_parent = null;
 	_children = null;
 	return true;
-}
+};
 
-},{"../../TypeChecks/isArray":52,"../../TypeChecks/isFunction":55}],22:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isArray":113,"../../TypeChecks/isFunction":116,"babel/external-helpers":"babel/external-helpers"}],77:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-exports.getHandledType = getHandledType;
-
 var _isNull = require('../../TypeChecks/isNull');
 
-var _isNull2 = _interopRequireDefault(_isNull);
+var _isNull2 = babelHelpers.interopRequireDefault(_isNull);
 
 var _isArray = require('../../TypeChecks/isArray');
 
-var _isArray2 = _interopRequireDefault(_isArray);
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
 
 var _isElement = require('../../TypeChecks/isElement');
 
-var _isElement2 = _interopRequireDefault(_isElement);
+var _isElement2 = babelHelpers.interopRequireDefault(_isElement);
 
 var _isJSUI = require('../../TypeChecks/isJSUI');
 
-var _isJSUI2 = _interopRequireDefault(_isJSUI);
+var _isJSUI2 = babelHelpers.interopRequireDefault(_isJSUI);
 
 var _isRegex = require('../../TypeChecks/isRegex');
 
-var _isRegex2 = _interopRequireDefault(_isRegex);
+var _isRegex2 = babelHelpers.interopRequireDefault(_isRegex);
 
 var _isHTML = require('../../TypeChecks/isHTML');
 
-var _isHTML2 = _interopRequireDefault(_isHTML);
+var _isHTML2 = babelHelpers.interopRequireDefault(_isHTML);
 
 var _isPath = require('../../TypeChecks/isPath');
 
-var _isPath2 = _interopRequireDefault(_isPath);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isPath2 = babelHelpers.interopRequireDefault(_isPath);
 
 var Types = {
 	object: {
@@ -1440,8 +2152,8 @@ var Types = {
 	}
 };
 
-function getHandledType(u) {
-	var type = typeof u === 'undefined' ? 'undefined' : _typeof(u);
+exports.default = function getHandledType(u) {
+	var type = typeof u === 'undefined' ? 'undefined' : babelHelpers.typeof(u);
 	var subtypes = Types[type];
 	if (!subtypes) {
 		return type;
@@ -1453,9 +2165,11 @@ function getHandledType(u) {
 		}
 	}
 	return type;
-}
+};
 
-},{"../../TypeChecks/isArray":52,"../../TypeChecks/isElement":53,"../../TypeChecks/isHTML":56,"../../TypeChecks/isJSUI":57,"../../TypeChecks/isNull":59,"../../TypeChecks/isPath":62,"../../TypeChecks/isRegex":63}],23:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isArray":113,"../../TypeChecks/isElement":114,"../../TypeChecks/isHTML":117,"../../TypeChecks/isJSUI":118,"../../TypeChecks/isNull":120,"../../TypeChecks/isPath":123,"../../TypeChecks/isRegex":124,"babel/external-helpers":"babel/external-helpers"}],78:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1464,13 +2178,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _tags = require('../Constants/HTML/tags');
 
-var _tags2 = _interopRequireDefault(_tags);
+var _tags2 = babelHelpers.interopRequireDefault(_tags);
 
 var _create = require('../Reflection/Class/create');
 
-var _create2 = _interopRequireDefault(_create);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _create2 = babelHelpers.interopRequireDefault(_create);
 
 var Elements = {};
 _tags2.default.forEach(function (tag) {
@@ -1479,48 +2191,50 @@ _tags2.default.forEach(function (tag) {
 
 exports.default = Elements;
 
-},{"../Constants/HTML/tags":34,"../Reflection/Class/create":43}],24:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Constants/HTML/tags":89,"../Reflection/Class/create":104,"babel/external-helpers":"babel/external-helpers"}],79:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _isString = require('../TypeChecks/isString');
 
-var _isString2 = _interopRequireDefault(_isString);
+var _isString2 = babelHelpers.interopRequireDefault(_isString);
 
 var _isArray = require('../TypeChecks/isArray');
 
-var _isArray2 = _interopRequireDefault(_isArray);
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
 
 var _isFunction = require('../TypeChecks/isFunction');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
 
 var _isObject = require('../TypeChecks/isObject');
 
-var _isObject2 = _interopRequireDefault(_isObject);
+var _isObject2 = babelHelpers.interopRequireDefault(_isObject);
 
 var _add = require('../Utilities/Properties/add');
 
+var _add2 = babelHelpers.interopRequireDefault(_add);
+
 var _remove = require('../Utilities/Events/remove');
+
+var _remove2 = babelHelpers.interopRequireDefault(_remove);
 
 var _removeAll = require('../Utilities/Events/removeAll');
 
+var _removeAll2 = babelHelpers.interopRequireDefault(_removeAll);
+
 var _uid = require('../Utilities/General/uid');
 
-var _uid2 = _interopRequireDefault(_uid);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _uid2 = babelHelpers.interopRequireDefault(_uid);
 
 var Extensible = function () {
 	function Extensible() {
-		_classCallCheck(this, Extensible);
+		babelHelpers.classCallCheck(this, Extensible);
 
 		this.private = {
 			Events: {},
@@ -1528,13 +2242,13 @@ var Extensible = function () {
 		};
 	}
 
-	_createClass(Extensible, [{
+	babelHelpers.createClass(Extensible, [{
 		key: 'add',
 		value: function add(item, value) {
 			var _this = this;
 
 			if ((0, _isString2.default)(item)) {
-				(0, _add.add)(this, item);
+				(0, _add2.default)(this, item);
 				return;
 			}
 			if ((0, _isArray2.default)(item)) {
@@ -1593,8 +2307,8 @@ var Extensible = function () {
 				var handle = {
 					id: eid,
 					pool: pool,
-					remove: _remove.remove,
-					removeAll: _removeAll.removeAll
+					remove: _remove2.default,
+					removeAll: _removeAll2.default
 				};
 				return handle;
 			}
@@ -1618,37 +2332,29 @@ var Extensible = function () {
 			});
 		}
 	}]);
-
 	return Extensible;
 }();
 
 exports.default = Extensible;
 
-},{"../TypeChecks/isArray":52,"../TypeChecks/isFunction":55,"../TypeChecks/isObject":61,"../TypeChecks/isString":64,"../Utilities/Events/remove":77,"../Utilities/Events/removeAll":78,"../Utilities/General/uid":80,"../Utilities/Properties/add":86}],25:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../TypeChecks/isArray":113,"../TypeChecks/isFunction":116,"../TypeChecks/isObject":122,"../TypeChecks/isString":125,"../Utilities/Events/remove":138,"../Utilities/Events/removeAll":139,"../Utilities/General/uid":141,"../Utilities/Properties/add":147,"babel/external-helpers":"babel/external-helpers"}],80:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 var JSUIError = function (_Error) {
-	_inherits(JSUIError, _Error);
+	babelHelpers.inherits(JSUIError, _Error);
 
 	function JSUIError(title, message, severity) {
-		_classCallCheck(this, JSUIError);
-
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(JSUIError).call(this));
+		babelHelpers.classCallCheck(this, JSUIError);
+		return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(JSUIError).call(this));
 	}
 
-	_createClass(JSUIError, [{
+	babelHelpers.createClass(JSUIError, [{
 		key: 'throw',
 		value: function _throw(title, message, severity) {
 			if (window.console && window.console.trace) {
@@ -1656,53 +2362,43 @@ var JSUIError = function (_Error) {
 			}
 		}
 	}]);
-
 	return JSUIError;
 }(Error);
 
 exports.default = JSUIError;
 
-},{}],26:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"babel/external-helpers":"babel/external-helpers"}],81:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.StyleInline = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _isJSUI = require('../TypeChecks/isJSUI');
 
-var _isJSUI2 = _interopRequireDefault(_isJSUI);
+var _isJSUI2 = babelHelpers.interopRequireDefault(_isJSUI);
 
 var _isObject = require('../TypeChecks/isObject');
 
-var _isObject2 = _interopRequireDefault(_isObject);
+var _isObject2 = babelHelpers.interopRequireDefault(_isObject);
 
 var _isString = require('../TypeChecks/isString');
 
-var _isString2 = _interopRequireDefault(_isString);
+var _isString2 = babelHelpers.interopRequireDefault(_isString);
 
 var _StyleRules2 = require('./StyleRules');
 
-var _StyleRules3 = _interopRequireDefault(_StyleRules2);
+var _StyleRules3 = babelHelpers.interopRequireDefault(_StyleRules2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StyleInline = exports.StyleInline = function (_StyleRules) {
-	_inherits(StyleInline, _StyleRules);
+var StyleInline = function (_StyleRules) {
+	babelHelpers.inherits(StyleInline, _StyleRules);
 
 	function StyleInline(host) {
-		_classCallCheck(this, StyleInline);
+		babelHelpers.classCallCheck(this, StyleInline);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StyleInline).call(this));
+		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(StyleInline).call(this));
 
 		_this.private.host = host || false;
 		_this.on('styleChanged', function (ev) {
@@ -1713,7 +2409,7 @@ var StyleInline = exports.StyleInline = function (_StyleRules) {
 		return _this;
 	}
 
-	_createClass(StyleInline, [{
+	babelHelpers.createClass(StyleInline, [{
 		key: 'set',
 		value: function set(name, value) {
 			var _this2 = this;
@@ -1745,11 +2441,14 @@ var StyleInline = exports.StyleInline = function (_StyleRules) {
 			}
 		}
 	}]);
-
 	return StyleInline;
 }(_StyleRules3.default);
 
-},{"../TypeChecks/isJSUI":57,"../TypeChecks/isObject":61,"../TypeChecks/isString":64,"./StyleRules":27}],27:[function(require,module,exports){
+exports.default = StyleInline;
+
+}).call(this,require("babel/external-helpers"))
+},{"../TypeChecks/isJSUI":118,"../TypeChecks/isObject":122,"../TypeChecks/isString":125,"./StyleRules":82,"babel/external-helpers":"babel/external-helpers"}],82:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1758,35 +2457,27 @@ Object.defineProperty(exports, "__esModule", {
 
 var _isNull = require('../TypeChecks/isNull');
 
-var _isNull2 = _interopRequireDefault(_isNull);
+var _isNull2 = babelHelpers.interopRequireDefault(_isNull);
 
 var _vendors = require('../Constants/CSS/vendors');
 
-var _vendors2 = _interopRequireDefault(_vendors);
+var _vendors2 = babelHelpers.interopRequireDefault(_vendors);
 
 var _equivalents = require('../Constants/CSS/equivalents');
 
-var _equivalents2 = _interopRequireDefault(_equivalents);
+var _equivalents2 = babelHelpers.interopRequireDefault(_equivalents);
 
 var _Distinct2 = require('./Distinct');
 
-var _Distinct3 = _interopRequireDefault(_Distinct2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _Distinct3 = babelHelpers.interopRequireDefault(_Distinct2);
 
 var StyleRules = function (_Distinct) {
-	_inherits(StyleRules, _Distinct);
+	babelHelpers.inherits(StyleRules, _Distinct);
 
 	function StyleRules() {
-		_classCallCheck(this, StyleRules);
+		babelHelpers.classCallCheck(this, StyleRules);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StyleRules).call(this));
+		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(StyleRules).call(this));
 
 		_this.private.styles = {};
 		return _this;
@@ -1829,60 +2520,54 @@ Object.keys(_equivalents2.default).forEach(function (key) {
 
 exports.default = StyleRules;
 
-},{"../Constants/CSS/equivalents":32,"../Constants/CSS/vendors":33,"../TypeChecks/isNull":59,"./Distinct":4}],28:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Constants/CSS/equivalents":87,"../Constants/CSS/vendors":88,"../TypeChecks/isNull":120,"./Distinct":6,"babel/external-helpers":"babel/external-helpers"}],83:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _isString = require('../TypeChecks/isString');
 
-var _isString2 = _interopRequireDefault(_isString);
+var _isString2 = babelHelpers.interopRequireDefault(_isString);
 
 var _isFunction = require('../TypeChecks/isFunction');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
 
 var _isNumber = require('../TypeChecks/isNumber');
 
-var _isNumber2 = _interopRequireDefault(_isNumber);
+var _isNumber2 = babelHelpers.interopRequireDefault(_isNumber);
 
 var _isStyleRule = require('../TypeChecks/isStyleRule');
 
-var _isStyleRule2 = _interopRequireDefault(_isStyleRule);
+var _isStyleRule2 = babelHelpers.interopRequireDefault(_isStyleRule);
 
 var _isUStyleRule = require('../TypeChecks/isUStyleRule');
 
-var _isUStyleRule2 = _interopRequireDefault(_isUStyleRule);
+var _isUStyleRule2 = babelHelpers.interopRequireDefault(_isUStyleRule);
 
 var _rules = require('../Sorts/StyleSheet/rules');
 
+var _rules2 = babelHelpers.interopRequireDefault(_rules);
+
 var _Sheets = require('../Singletons/Style/Sheets');
 
-var _Sheets2 = _interopRequireDefault(_Sheets);
+var _Sheets2 = babelHelpers.interopRequireDefault(_Sheets);
 
 var _Distinct2 = require('./Distinct');
 
-var _Distinct3 = _interopRequireDefault(_Distinct2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _Distinct3 = babelHelpers.interopRequireDefault(_Distinct2);
 
 var StyleSheet = function (_Distinct) {
-	_inherits(StyleSheet, _Distinct);
+	babelHelpers.inherits(StyleSheet, _Distinct);
 
 	function StyleSheet(context) {
-		_classCallCheck(this, StyleSheet);
+		babelHelpers.classCallCheck(this, StyleSheet);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StyleSheet).call(this));
+		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(StyleSheet).call(this));
 
 		context = context || 'default';
 
@@ -1896,7 +2581,7 @@ var StyleSheet = function (_Distinct) {
 			var _ret;
 
 			_this.private = contextSheet.private;
-			return _ret = _this, _possibleConstructorReturn(_this, _ret);
+			return _ret = _this, babelHelpers.possibleConstructorReturn(_this, _ret);
 		}
 
 		var element = document.createElement('style');
@@ -1908,7 +2593,7 @@ var StyleSheet = function (_Distinct) {
 		return _this;
 	}
 
-	_createClass(StyleSheet, [{
+	babelHelpers.createClass(StyleSheet, [{
 		key: 'add',
 		value: function add(rule) {
 			if ((0, _isStyleRule2.default)(rule)) {
@@ -1992,7 +2677,7 @@ var StyleSheet = function (_Distinct) {
 			if (this.private.sorter) {
 				return this.private.sorter;
 			}
-			return _rules.rules;
+			return _rules2.default;
 		},
 		set: function set(method) {
 			if ((0, _isFunction2.default)(method)) {
@@ -2000,68 +2685,59 @@ var StyleSheet = function (_Distinct) {
 			}
 		}
 	}]);
-
 	return StyleSheet;
 }(_Distinct3.default);
 
 exports.default = StyleSheet;
 
-},{"../Singletons/Style/Sheets":50,"../Sorts/StyleSheet/rules":51,"../TypeChecks/isFunction":55,"../TypeChecks/isNumber":60,"../TypeChecks/isString":64,"../TypeChecks/isStyleRule":65,"../TypeChecks/isUStyleRule":68,"./Distinct":4}],29:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Singletons/Style/Sheets":111,"../Sorts/StyleSheet/rules":112,"../TypeChecks/isFunction":116,"../TypeChecks/isNumber":121,"../TypeChecks/isString":125,"../TypeChecks/isStyleRule":126,"../TypeChecks/isUStyleRule":129,"./Distinct":6,"babel/external-helpers":"babel/external-helpers"}],84:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _isString = require('../TypeChecks/isString');
 
-var _isString2 = _interopRequireDefault(_isString);
+var _isString2 = babelHelpers.interopRequireDefault(_isString);
 
 var _isNumber = require('../TypeChecks/isNumber');
 
-var _isNumber2 = _interopRequireDefault(_isNumber);
+var _isNumber2 = babelHelpers.interopRequireDefault(_isNumber);
 
 var _isObject = require('../TypeChecks/isObject');
 
-var _isObject2 = _interopRequireDefault(_isObject);
+var _isObject2 = babelHelpers.interopRequireDefault(_isObject);
 
 var _Sheets = require('../Singletons/Style/Sheets');
 
-var _Sheets2 = _interopRequireDefault(_Sheets);
+var _Sheets2 = babelHelpers.interopRequireDefault(_Sheets);
 
 var _equivalents = require('../Constants/CSS/equivalents');
 
-var _equivalents2 = _interopRequireDefault(_equivalents);
+var _equivalents2 = babelHelpers.interopRequireDefault(_equivalents);
 
 var _StyleRules2 = require('./StyleRules');
 
-var _StyleRules3 = _interopRequireDefault(_StyleRules2);
+var _StyleRules3 = babelHelpers.interopRequireDefault(_StyleRules2);
 
 var _JSUIError = require('./JSUIError');
 
-var _JSUIError2 = _interopRequireDefault(_JSUIError);
+var _JSUIError2 = babelHelpers.interopRequireDefault(_JSUIError);
 
 var _StyleSheet = require('./StyleSheet');
 
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _StyleSheet2 = babelHelpers.interopRequireDefault(_StyleSheet);
 
 var StyleSheetRule = function (_StyleRules) {
-	_inherits(StyleSheetRule, _StyleRules);
+	babelHelpers.inherits(StyleSheetRule, _StyleRules);
 
 	function StyleSheetRule(selector, properties) {
-		_classCallCheck(this, StyleSheetRule);
+		babelHelpers.classCallCheck(this, StyleSheetRule);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StyleSheetRule).call(this));
+		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(StyleSheetRule).call(this));
 
 		_this.private.importance = 0;
 		_this.private.created = new Date().valueOf();
@@ -2074,7 +2750,7 @@ var StyleSheetRule = function (_StyleRules) {
 		return _this;
 	}
 
-	_createClass(StyleSheetRule, [{
+	babelHelpers.createClass(StyleSheetRule, [{
 		key: 'set',
 		value: function set(name, value) {
 			var _this2 = this;
@@ -2201,64 +2877,55 @@ var StyleSheetRule = function (_StyleRules) {
 			this.trigger('contextChanged');
 		}
 	}]);
-
 	return StyleSheetRule;
 }(_StyleRules3.default);
 
 exports.default = StyleSheetRule;
 
-},{"../Constants/CSS/equivalents":32,"../Singletons/Style/Sheets":50,"../TypeChecks/isNumber":60,"../TypeChecks/isObject":61,"../TypeChecks/isString":64,"./JSUIError":25,"./StyleRules":27,"./StyleSheet":28}],30:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Constants/CSS/equivalents":87,"../Singletons/Style/Sheets":111,"../TypeChecks/isNumber":121,"../TypeChecks/isObject":122,"../TypeChecks/isString":125,"./JSUIError":80,"./StyleRules":82,"./StyleSheet":83,"babel/external-helpers":"babel/external-helpers"}],85:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.StyleVariables = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _isString = require('../TypeChecks/isString');
 
-var _isString2 = _interopRequireDefault(_isString);
+var _isString2 = babelHelpers.interopRequireDefault(_isString);
 
 var _isObject = require('../TypeChecks/isObject');
 
-var _isObject2 = _interopRequireDefault(_isObject);
+var _isObject2 = babelHelpers.interopRequireDefault(_isObject);
 
 var _isArray = require('../TypeChecks/isArray');
 
-var _isArray2 = _interopRequireDefault(_isArray);
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
 
 var _add = require('../Utilities/Properties/add');
 
+var _add2 = babelHelpers.interopRequireDefault(_add);
+
 var _Distinct2 = require('./Distinct');
 
-var _Distinct3 = _interopRequireDefault(_Distinct2);
+var _Distinct3 = babelHelpers.interopRequireDefault(_Distinct2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StyleVariables = exports.StyleVariables = function (_Distinct) {
-	_inherits(StyleVariables, _Distinct);
+var StyleVariables = function (_Distinct) {
+	babelHelpers.inherits(StyleVariables, _Distinct);
 
 	function StyleVariables() {
-		_classCallCheck(this, StyleVariables);
-
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(StyleVariables).call(this));
+		babelHelpers.classCallCheck(this, StyleVariables);
+		return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(StyleVariables).call(this));
 	}
 
-	_createClass(StyleVariables, [{
+	babelHelpers.createClass(StyleVariables, [{
 		key: 'add',
 		value: function add(name, value) {
 			var _this2 = this;
 
 			if ((0, _isString2.default)(name)) {
-				(0, _add.add)(this, name, value);
+				(0, _add2.default)(this, name, value);
 				this.trigger('variableAdded', {
 					name: name,
 					value: value
@@ -2292,44 +2959,35 @@ var StyleVariables = exports.StyleVariables = function (_Distinct) {
 			}
 		}
 	}]);
-
 	return StyleVariables;
 }(_Distinct3.default);
 
-},{"../TypeChecks/isArray":52,"../TypeChecks/isObject":61,"../TypeChecks/isString":64,"../Utilities/Properties/add":86,"./Distinct":4}],31:[function(require,module,exports){
+exports.default = StyleVariables;
+
+}).call(this,require("babel/external-helpers"))
+},{"../TypeChecks/isArray":113,"../TypeChecks/isObject":122,"../TypeChecks/isString":125,"../Utilities/Properties/add":147,"./Distinct":6,"babel/external-helpers":"babel/external-helpers"}],86:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
 var _isStyleRule = require('../TypeChecks/isStyleRule');
 
-var _isStyleRule2 = _interopRequireDefault(_isStyleRule);
+var _isStyleRule2 = babelHelpers.interopRequireDefault(_isStyleRule);
 
 var _Distinct2 = require('./Distinct');
 
-var _Distinct3 = _interopRequireDefault(_Distinct2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _Distinct3 = babelHelpers.interopRequireDefault(_Distinct2);
 
 var Styleable = function (_Distinct) {
-	_inherits(Styleable, _Distinct);
+	babelHelpers.inherits(Styleable, _Distinct);
 
 	function Styleable() {
-		_classCallCheck(this, Styleable);
+		babelHelpers.classCallCheck(this, Styleable);
 
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Styleable).call(this));
+		var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Styleable).call(this));
 
 		_this.private.context = 'default';
 		_this.private.style = {
@@ -2345,14 +3003,14 @@ var Styleable = function (_Distinct) {
 		return _this;
 	}
 
-	_createClass(Styleable, [{
+	babelHelpers.createClass(Styleable, [{
 		key: 'add',
 		value: function add(style) {
 			if ((0, _isStyleRule2.default)(style)) {
 				this.private.style.rules[style.uid] = style;
 				style.render(this.context);
 			}
-			return _get(Object.getPrototypeOf(Styleable.prototype), 'add', this).call(this, style);
+			return babelHelpers.get(Object.getPrototypeOf(Styleable.prototype), 'add', this).call(this, style);
 		}
 	}, {
 		key: 'context',
@@ -2368,13 +3026,14 @@ var Styleable = function (_Distinct) {
 			this.trigger('contextChanged');
 		}
 	}]);
-
 	return Styleable;
 }(_Distinct3.default);
 
 exports.default = Styleable;
 
-},{"../TypeChecks/isStyleRule":65,"./Distinct":4}],32:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../TypeChecks/isStyleRule":126,"./Distinct":6,"babel/external-helpers":"babel/external-helpers"}],87:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2383,37 +3042,38 @@ Object.defineProperty(exports, "__esModule", {
 
 var _uncapitalize = require('../../Utilities/Strings/uncapitalize');
 
-var _uncapitalize2 = _interopRequireDefault(_uncapitalize);
+var _uncapitalize2 = babelHelpers.interopRequireDefault(_uncapitalize);
 
 var _vendors = require('./vendors');
 
-var _vendors2 = _interopRequireDefault(_vendors);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _vendors2 = babelHelpers.interopRequireDefault(_vendors);
 
 //not a real constant, since it is generated
 var equivalents = {};
 var example = document.createElement('div');
-Object.getOwnPropertyNames(example.style).forEach(function (key) {
-	example.style[key] = 'inherit';
-	var name = (example.getAttribute('style') || '').split(':')[0];
-	equivalents[key] = name;
-	example.setAttribute('style', '');
-	_vendors2.default.forEach(function (vendor) {
-		var prefix = '-' + vendor + '-';
-		if (~name.indexOf(prefix)) {
-			var w3cKey = key;
-			w3cKey = (0, _uncapitalize2.default)(w3cKey.replace(vendor, ''));
-			equivalents[w3cKey] = name;
-			equivalents[name.replace(prefix, '')] = name;
-		}
-	});
-});
+for (var key in example.style) {
+	try {
+		example.style[key] = 'inherit';
+		var name = (example.getAttribute('style') || '').split(':')[0];
+		equivalents[key] = name;
+		example.setAttribute('style', '');
+		_vendors2.default.forEach(function (vendor) {
+			var prefix = '-' + vendor + '-';
+			if (~name.indexOf(prefix)) {
+				var w3cKey = key;
+				w3cKey = (0, _uncapitalize2.default)(w3cKey.replace(vendor, ''));
+				equivalents[w3cKey] = name;
+				equivalents[name.replace(prefix, '')] = name;
+			}
+		});
+	} catch (e) {}
+}
 var element = null;
 
 exports.default = equivalents;
 
-},{"../../Utilities/Strings/uncapitalize":90,"./vendors":33}],33:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../Utilities/Strings/uncapitalize":151,"./vendors":88,"babel/external-helpers":"babel/external-helpers"}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2422,7 +3082,7 @@ Object.defineProperty(exports, "__esModule", {
 var vendors = ['webkit', 'moz', 'ms', 'o'];
 exports.default = vendors;
 
-},{}],34:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2432,46 +3092,49 @@ var tags = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'asi
 
 exports.default = tags;
 
-},{}],35:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _Polyfills = require('./JSUI/Polyfills');
+
+var _Polyfills2 = babelHelpers.interopRequireDefault(_Polyfills);
+
 var _Classes = require('./JSUI/Classes');
 
-var _Classes2 = _interopRequireDefault(_Classes);
+var _Classes2 = babelHelpers.interopRequireDefault(_Classes);
 
 var _Constants = require('./JSUI/Constants');
 
-var _Constants2 = _interopRequireDefault(_Constants);
+var _Constants2 = babelHelpers.interopRequireDefault(_Constants);
 
 var _Singletons = require('./JSUI/Singletons');
 
-var _Singletons2 = _interopRequireDefault(_Singletons);
+var _Singletons2 = babelHelpers.interopRequireDefault(_Singletons);
 
 var _TypeChecks = require('./JSUI/TypeChecks');
 
-var _TypeChecks2 = _interopRequireDefault(_TypeChecks);
+var _TypeChecks2 = babelHelpers.interopRequireDefault(_TypeChecks);
 
 var _Utilities = require('./JSUI/Utilities');
 
-var _Utilities2 = _interopRequireDefault(_Utilities);
+var _Utilities2 = babelHelpers.interopRequireDefault(_Utilities);
 
 var _Sorts = require('./JSUI/Sorts');
 
-var _Sorts2 = _interopRequireDefault(_Sorts);
+var _Sorts2 = babelHelpers.interopRequireDefault(_Sorts);
 
 var _Reflection = require('./JSUI/Reflection');
 
-var _Reflection2 = _interopRequireDefault(_Reflection);
+var _Reflection2 = babelHelpers.interopRequireDefault(_Reflection);
 
 var _Elements = require('./Classes/Elements');
 
-var _Elements2 = _interopRequireDefault(_Elements);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _Elements2 = babelHelpers.interopRequireDefault(_Elements);
 
 var JSUI = {
 	Behavior: _Classes2.default.Behavior,
@@ -2489,13 +3152,16 @@ var JSUI = {
 	TypeChecks: _TypeChecks2.default,
 	Utilities: _Utilities2.default,
 	Sorts: _Sorts2.default,
-	Reflection: _Reflection2.default
+	Reflection: _Reflection2.default,
+	Polyfilled: _Polyfills2.default
 };
 
 window.JSUI = JSUI;
 exports.default = JSUI;
 
-},{"./Classes/Elements":23,"./JSUI/Classes":36,"./JSUI/Constants":37,"./JSUI/Reflection":38,"./JSUI/Singletons":39,"./JSUI/Sorts":40,"./JSUI/TypeChecks":41,"./JSUI/Utilities":42}],36:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"./Classes/Elements":78,"./JSUI/Classes":91,"./JSUI/Constants":92,"./JSUI/Polyfills":93,"./JSUI/Reflection":94,"./JSUI/Singletons":95,"./JSUI/Sorts":96,"./JSUI/TypeChecks":97,"./JSUI/Utilities":98,"babel/external-helpers":"babel/external-helpers"}],91:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2504,61 +3170,59 @@ Object.defineProperty(exports, "__esModule", {
 
 var _Behavior = require('../Classes/Behavior');
 
-var _Behavior2 = _interopRequireDefault(_Behavior);
+var _Behavior2 = babelHelpers.interopRequireDefault(_Behavior);
 
 var _Collection = require('../Classes/Collection');
 
-var _Collection2 = _interopRequireDefault(_Collection);
+var _Collection2 = babelHelpers.interopRequireDefault(_Collection);
 
 var _Distinct = require('../Classes/Distinct');
 
-var _Distinct2 = _interopRequireDefault(_Distinct);
+var _Distinct2 = babelHelpers.interopRequireDefault(_Distinct);
 
 var _Element = require('../Classes/Element');
 
-var _Element2 = _interopRequireDefault(_Element);
+var _Element2 = babelHelpers.interopRequireDefault(_Element);
 
 var _ElementCollection = require('../Classes/ElementCollection');
 
-var _ElementCollection2 = _interopRequireDefault(_ElementCollection);
+var _ElementCollection2 = babelHelpers.interopRequireDefault(_ElementCollection);
 
 var _Elements = require('../Classes/Elements');
 
-var _Elements2 = _interopRequireDefault(_Elements);
+var _Elements2 = babelHelpers.interopRequireDefault(_Elements);
 
 var _Extensible = require('../Classes/Extensible');
 
-var _Extensible2 = _interopRequireDefault(_Extensible);
+var _Extensible2 = babelHelpers.interopRequireDefault(_Extensible);
 
 var _JSUIError = require('../Classes/JSUIError');
 
-var _JSUIError2 = _interopRequireDefault(_JSUIError);
+var _JSUIError2 = babelHelpers.interopRequireDefault(_JSUIError);
 
 var _Styleable = require('../Classes/Styleable');
 
-var _Styleable2 = _interopRequireDefault(_Styleable);
+var _Styleable2 = babelHelpers.interopRequireDefault(_Styleable);
 
 var _StyleInline = require('../Classes/StyleInline');
 
-var _StyleInline2 = _interopRequireDefault(_StyleInline);
+var _StyleInline2 = babelHelpers.interopRequireDefault(_StyleInline);
 
 var _StyleRules = require('../Classes/StyleRules');
 
-var _StyleRules2 = _interopRequireDefault(_StyleRules);
+var _StyleRules2 = babelHelpers.interopRequireDefault(_StyleRules);
 
 var _StyleSheet = require('../Classes/StyleSheet');
 
-var _StyleSheet2 = _interopRequireDefault(_StyleSheet);
+var _StyleSheet2 = babelHelpers.interopRequireDefault(_StyleSheet);
 
 var _StyleSheetRule = require('../Classes/StyleSheetRule');
 
-var _StyleSheetRule2 = _interopRequireDefault(_StyleSheetRule);
+var _StyleSheetRule2 = babelHelpers.interopRequireDefault(_StyleSheetRule);
 
 var _StyleVariables = require('../Classes/StyleVariables');
 
-var _StyleVariables2 = _interopRequireDefault(_StyleVariables);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _StyleVariables2 = babelHelpers.interopRequireDefault(_StyleVariables);
 
 var Classes = {
 	Behavior: _Behavior2.default,
@@ -2578,7 +3242,9 @@ var Classes = {
 
 exports.default = Classes;
 
-},{"../Classes/Behavior":1,"../Classes/Collection":2,"../Classes/Distinct":4,"../Classes/Element":5,"../Classes/ElementCollection":6,"../Classes/Elements":23,"../Classes/Extensible":24,"../Classes/JSUIError":25,"../Classes/StyleInline":26,"../Classes/StyleRules":27,"../Classes/StyleSheet":28,"../Classes/StyleSheetRule":29,"../Classes/StyleVariables":30,"../Classes/Styleable":31}],37:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Classes/Behavior":1,"../Classes/Collection":2,"../Classes/Distinct":6,"../Classes/Element":7,"../Classes/ElementCollection":8,"../Classes/Elements":78,"../Classes/Extensible":79,"../Classes/JSUIError":80,"../Classes/StyleInline":81,"../Classes/StyleRules":82,"../Classes/StyleSheet":83,"../Classes/StyleSheetRule":84,"../Classes/StyleVariables":85,"../Classes/Styleable":86,"babel/external-helpers":"babel/external-helpers"}],92:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2587,17 +3253,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _equivalents = require('../Constants/CSS/equivalents');
 
-var _equivalents2 = _interopRequireDefault(_equivalents);
+var _equivalents2 = babelHelpers.interopRequireDefault(_equivalents);
 
 var _vendors = require('../Constants/CSS/vendors');
 
-var _vendors2 = _interopRequireDefault(_vendors);
+var _vendors2 = babelHelpers.interopRequireDefault(_vendors);
 
 var _tags = require('../Constants/HTML/tags');
 
-var _tags2 = _interopRequireDefault(_tags);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _tags2 = babelHelpers.interopRequireDefault(_tags);
 
 var Constants = {
 	CSS: {
@@ -2611,7 +3275,54 @@ var Constants = {
 
 exports.default = Constants;
 
-},{"../Constants/CSS/equivalents":32,"../Constants/CSS/vendors":33,"../Constants/HTML/tags":34}],38:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Constants/CSS/equivalents":87,"../Constants/CSS/vendors":88,"../Constants/HTML/tags":89,"babel/external-helpers":"babel/external-helpers"}],93:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _forEach = require('../Polyfills/Array/forEach');
+
+var _forEach2 = babelHelpers.interopRequireDefault(_forEach);
+
+var _isArray = require('../Polyfills/Array/isArray');
+
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
+
+var _map = require('../Polyfills/Array/map');
+
+var _map2 = babelHelpers.interopRequireDefault(_map);
+
+var _reduce = require('../Polyfills/Array/reduce');
+
+var _reduce2 = babelHelpers.interopRequireDefault(_reduce);
+
+var _keys = require('../Polyfills/Object/keys');
+
+var _keys2 = babelHelpers.interopRequireDefault(_keys);
+
+var Polyfilled = {
+	Array: {
+		forEach: _forEach2.default,
+		isArray: _isArray2.default,
+		map: _map2.default,
+		reduce: _reduce2.default
+	},
+	Object: {
+		keys: _keys2.default
+	}
+};
+
+//Object
+//Array
+exports.default = Polyfilled;
+
+}).call(this,require("babel/external-helpers"))
+},{"../Polyfills/Array/forEach":99,"../Polyfills/Array/isArray":100,"../Polyfills/Array/map":101,"../Polyfills/Array/reduce":102,"../Polyfills/Object/keys":103,"babel/external-helpers":"babel/external-helpers"}],94:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2620,17 +3331,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _feval = require('../Reflection/feval');
 
-var _feval2 = _interopRequireDefault(_feval);
+var _feval2 = babelHelpers.interopRequireDefault(_feval);
 
 var _create = require('../Reflection/Class/create');
 
-var _create2 = _interopRequireDefault(_create);
+var _create2 = babelHelpers.interopRequireDefault(_create);
 
 var _parse = require('../Reflection/XML/parse');
 
-var _parse2 = _interopRequireDefault(_parse);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _parse2 = babelHelpers.interopRequireDefault(_parse);
 
 var Reflection = {
 	Class: {
@@ -2644,7 +3353,9 @@ var Reflection = {
 
 exports.default = Reflection;
 
-},{"../Reflection/Class/create":43,"../Reflection/XML/parse":48,"../Reflection/feval":49}],39:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Reflection/Class/create":104,"../Reflection/XML/parse":109,"../Reflection/feval":110,"babel/external-helpers":"babel/external-helpers"}],95:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2653,9 +3364,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _Sheets = require('../Singletons/Style/Sheets');
 
-var _Sheets2 = _interopRequireDefault(_Sheets);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _Sheets2 = babelHelpers.interopRequireDefault(_Sheets);
 
 var Singletons = {
 	Style: {
@@ -2665,7 +3374,9 @@ var Singletons = {
 
 exports.default = Singletons;
 
-},{"../Singletons/Style/Sheets":50}],40:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Singletons/Style/Sheets":111,"babel/external-helpers":"babel/external-helpers"}],96:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2674,9 +3385,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _rules = require('../Sorts/StyleSheet/rules');
 
-var _rules2 = _interopRequireDefault(_rules);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _rules2 = babelHelpers.interopRequireDefault(_rules);
 
 var Sorts = {
 	StyleSheet: {
@@ -2686,7 +3395,9 @@ var Sorts = {
 
 exports.default = Sorts;
 
-},{"../Sorts/StyleSheet/rules":51}],41:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Sorts/StyleSheet/rules":112,"babel/external-helpers":"babel/external-helpers"}],97:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2695,81 +3406,79 @@ Object.defineProperty(exports, "__esModule", {
 
 var _isArray = require('../TypeChecks/isArray');
 
-var _isArray2 = _interopRequireDefault(_isArray);
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
 
 var _isElement = require('../TypeChecks/isElement');
 
-var _isElement2 = _interopRequireDefault(_isElement);
+var _isElement2 = babelHelpers.interopRequireDefault(_isElement);
 
 var _isEmptyString = require('../TypeChecks/isEmptyString');
 
-var _isEmptyString2 = _interopRequireDefault(_isEmptyString);
+var _isEmptyString2 = babelHelpers.interopRequireDefault(_isEmptyString);
 
 var _isFunction = require('../TypeChecks/isFunction');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
 
 var _isHTML = require('../TypeChecks/isHTML');
 
-var _isHTML2 = _interopRequireDefault(_isHTML);
+var _isHTML2 = babelHelpers.interopRequireDefault(_isHTML);
 
 var _isJSUI = require('../TypeChecks/isJSUI');
 
-var _isJSUI2 = _interopRequireDefault(_isJSUI);
+var _isJSUI2 = babelHelpers.interopRequireDefault(_isJSUI);
 
 var _isNativeTag = require('../TypeChecks/isNativeTag');
 
-var _isNativeTag2 = _interopRequireDefault(_isNativeTag);
+var _isNativeTag2 = babelHelpers.interopRequireDefault(_isNativeTag);
 
 var _isNull = require('../TypeChecks/isNull');
 
-var _isNull2 = _interopRequireDefault(_isNull);
+var _isNull2 = babelHelpers.interopRequireDefault(_isNull);
 
 var _isNumber = require('../TypeChecks/isNumber');
 
-var _isNumber2 = _interopRequireDefault(_isNumber);
+var _isNumber2 = babelHelpers.interopRequireDefault(_isNumber);
 
 var _isObject = require('../TypeChecks/isObject');
 
-var _isObject2 = _interopRequireDefault(_isObject);
+var _isObject2 = babelHelpers.interopRequireDefault(_isObject);
 
 var _isPath = require('../TypeChecks/isPath');
 
-var _isPath2 = _interopRequireDefault(_isPath);
+var _isPath2 = babelHelpers.interopRequireDefault(_isPath);
 
 var _isRegex = require('../TypeChecks/isRegex');
 
-var _isRegex2 = _interopRequireDefault(_isRegex);
+var _isRegex2 = babelHelpers.interopRequireDefault(_isRegex);
 
 var _isString = require('../TypeChecks/isString');
 
-var _isString2 = _interopRequireDefault(_isString);
+var _isString2 = babelHelpers.interopRequireDefault(_isString);
 
 var _isStyleRule = require('../TypeChecks/isStyleRule');
 
-var _isStyleRule2 = _interopRequireDefault(_isStyleRule);
+var _isStyleRule2 = babelHelpers.interopRequireDefault(_isStyleRule);
 
 var _isTextNode = require('../TypeChecks/isTextNode');
 
-var _isTextNode2 = _interopRequireDefault(_isTextNode);
+var _isTextNode2 = babelHelpers.interopRequireDefault(_isTextNode);
 
 var _isUJSUI = require('../TypeChecks/isUJSUI');
 
-var _isUJSUI2 = _interopRequireDefault(_isUJSUI);
+var _isUJSUI2 = babelHelpers.interopRequireDefault(_isUJSUI);
 
 var _isUndefined = require('../TypeChecks/isUndefined');
 
-var _isUndefined2 = _interopRequireDefault(_isUndefined);
+var _isUndefined2 = babelHelpers.interopRequireDefault(_isUndefined);
 
 var _isUStyleRule = require('../TypeChecks/isUStyleRule');
 
-var _isUStyleRule2 = _interopRequireDefault(_isUStyleRule);
+var _isUStyleRule2 = babelHelpers.interopRequireDefault(_isUStyleRule);
 
 var _unhandled = require('../TypeChecks/unhandled');
 
-var _unhandled2 = _interopRequireDefault(_unhandled);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _unhandled2 = babelHelpers.interopRequireDefault(_unhandled);
 
 var TypeChecks = {
 	isArray: _isArray2.default,
@@ -2795,7 +3504,9 @@ var TypeChecks = {
 
 exports.default = TypeChecks;
 
-},{"../TypeChecks/isArray":52,"../TypeChecks/isElement":53,"../TypeChecks/isEmptyString":54,"../TypeChecks/isFunction":55,"../TypeChecks/isHTML":56,"../TypeChecks/isJSUI":57,"../TypeChecks/isNativeTag":58,"../TypeChecks/isNull":59,"../TypeChecks/isNumber":60,"../TypeChecks/isObject":61,"../TypeChecks/isPath":62,"../TypeChecks/isRegex":63,"../TypeChecks/isString":64,"../TypeChecks/isStyleRule":65,"../TypeChecks/isTextNode":66,"../TypeChecks/isUJSUI":67,"../TypeChecks/isUStyleRule":68,"../TypeChecks/isUndefined":69,"../TypeChecks/unhandled":70}],42:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../TypeChecks/isArray":113,"../TypeChecks/isElement":114,"../TypeChecks/isEmptyString":115,"../TypeChecks/isFunction":116,"../TypeChecks/isHTML":117,"../TypeChecks/isJSUI":118,"../TypeChecks/isNativeTag":119,"../TypeChecks/isNull":120,"../TypeChecks/isNumber":121,"../TypeChecks/isObject":122,"../TypeChecks/isPath":123,"../TypeChecks/isRegex":124,"../TypeChecks/isString":125,"../TypeChecks/isStyleRule":126,"../TypeChecks/isTextNode":127,"../TypeChecks/isUJSUI":128,"../TypeChecks/isUStyleRule":129,"../TypeChecks/isUndefined":130,"../TypeChecks/unhandled":131,"babel/external-helpers":"babel/external-helpers"}],98:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2804,85 +3515,83 @@ Object.defineProperty(exports, "__esModule", {
 
 var _addClass = require('../Utilities/Elements/addClass');
 
-var _addClass2 = _interopRequireDefault(_addClass);
+var _addClass2 = babelHelpers.interopRequireDefault(_addClass);
 
 var _childNodes = require('../Utilities/Elements/childNodes');
 
-var _childNodes2 = _interopRequireDefault(_childNodes);
+var _childNodes2 = babelHelpers.interopRequireDefault(_childNodes);
 
 var _getFirstNonTextChild = require('../Utilities/Elements/getFirstNonTextChild');
 
-var _getFirstNonTextChild2 = _interopRequireDefault(_getFirstNonTextChild);
+var _getFirstNonTextChild2 = babelHelpers.interopRequireDefault(_getFirstNonTextChild);
 
 var _getTagName = require('../Utilities/Elements/getTagName');
 
-var _getTagName2 = _interopRequireDefault(_getTagName);
+var _getTagName2 = babelHelpers.interopRequireDefault(_getTagName);
 
 var _getTextNodes = require('../Utilities/Elements/getTextNodes');
 
-var _getTextNodes2 = _interopRequireDefault(_getTextNodes);
+var _getTextNodes2 = babelHelpers.interopRequireDefault(_getTextNodes);
 
 var _nodeAttributes = require('../Utilities/Elements/nodeAttributes');
 
-var _nodeAttributes2 = _interopRequireDefault(_nodeAttributes);
+var _nodeAttributes2 = babelHelpers.interopRequireDefault(_nodeAttributes);
 
 var _remove = require('../Utilities/Events/remove');
 
-var _remove2 = _interopRequireDefault(_remove);
+var _remove2 = babelHelpers.interopRequireDefault(_remove);
 
 var _removeAll = require('../Utilities/Events/removeAll');
 
-var _removeAll2 = _interopRequireDefault(_removeAll);
+var _removeAll2 = babelHelpers.interopRequireDefault(_removeAll);
 
 var _debounce = require('../Utilities/Functions/debounce');
 
-var _debounce2 = _interopRequireDefault(_debounce);
+var _debounce2 = babelHelpers.interopRequireDefault(_debounce);
 
 var _uid = require('../Utilities/General/uid');
 
-var _uid2 = _interopRequireDefault(_uid);
+var _uid2 = babelHelpers.interopRequireDefault(_uid);
 
 var _get = require('../Utilities/Paths/get');
 
-var _get2 = _interopRequireDefault(_get);
+var _get2 = babelHelpers.interopRequireDefault(_get);
 
 var _getter = require('../Utilities/Paths/getter');
 
-var _getter2 = _interopRequireDefault(_getter);
+var _getter2 = babelHelpers.interopRequireDefault(_getter);
 
 var _set = require('../Utilities/Paths/set');
 
-var _set2 = _interopRequireDefault(_set);
+var _set2 = babelHelpers.interopRequireDefault(_set);
 
 var _setter = require('../Utilities/Paths/setter');
 
-var _setter2 = _interopRequireDefault(_setter);
+var _setter2 = babelHelpers.interopRequireDefault(_setter);
 
 var _getWithContext = require('../Utilities/Paths/getWithContext');
 
-var _getWithContext2 = _interopRequireDefault(_getWithContext);
+var _getWithContext2 = babelHelpers.interopRequireDefault(_getWithContext);
 
 var _add = require('../Utilities/Properties/add');
 
-var _add2 = _interopRequireDefault(_add);
+var _add2 = babelHelpers.interopRequireDefault(_add);
 
 var _doOrSet = require('../Utilities/Properties/doOrSet');
 
-var _doOrSet2 = _interopRequireDefault(_doOrSet);
+var _doOrSet2 = babelHelpers.interopRequireDefault(_doOrSet);
 
 var _getAll = require('../Utilities/Properties/getAll');
 
-var _getAll2 = _interopRequireDefault(_getAll);
+var _getAll2 = babelHelpers.interopRequireDefault(_getAll);
 
 var _capitalize = require('../Utilities/Strings/capitalize');
 
-var _capitalize2 = _interopRequireDefault(_capitalize);
+var _capitalize2 = babelHelpers.interopRequireDefault(_capitalize);
 
 var _uncapitalize = require('../Utilities/Strings/uncapitalize');
 
-var _uncapitalize2 = _interopRequireDefault(_uncapitalize);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _uncapitalize2 = babelHelpers.interopRequireDefault(_uncapitalize);
 
 //Strings
 
@@ -2938,34 +3647,318 @@ var Utilities = {
 //General
 exports.default = Utilities;
 
-},{"../Utilities/Elements/addClass":71,"../Utilities/Elements/childNodes":72,"../Utilities/Elements/getFirstNonTextChild":73,"../Utilities/Elements/getTagName":74,"../Utilities/Elements/getTextNodes":75,"../Utilities/Elements/nodeAttributes":76,"../Utilities/Events/remove":77,"../Utilities/Events/removeAll":78,"../Utilities/Functions/debounce":79,"../Utilities/General/uid":80,"../Utilities/Paths/get":81,"../Utilities/Paths/getWithContext":82,"../Utilities/Paths/getter":83,"../Utilities/Paths/set":84,"../Utilities/Paths/setter":85,"../Utilities/Properties/add":86,"../Utilities/Properties/doOrSet":87,"../Utilities/Properties/getAll":88,"../Utilities/Strings/capitalize":89,"../Utilities/Strings/uncapitalize":90}],43:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Utilities/Elements/addClass":132,"../Utilities/Elements/childNodes":133,"../Utilities/Elements/getFirstNonTextChild":134,"../Utilities/Elements/getTagName":135,"../Utilities/Elements/getTextNodes":136,"../Utilities/Elements/nodeAttributes":137,"../Utilities/Events/remove":138,"../Utilities/Events/removeAll":139,"../Utilities/Functions/debounce":140,"../Utilities/General/uid":141,"../Utilities/Paths/get":142,"../Utilities/Paths/getWithContext":143,"../Utilities/Paths/getter":144,"../Utilities/Paths/set":145,"../Utilities/Paths/setter":146,"../Utilities/Properties/add":147,"../Utilities/Properties/doOrSet":148,"../Utilities/Properties/getAll":149,"../Utilities/Strings/capitalize":150,"../Utilities/Strings/uncapitalize":151,"babel/external-helpers":"babel/external-helpers"}],99:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+		value: true
+});
+// Production steps of ECMA-262, Edition 5, 15.4.4.18
+// Reference: http://es5.github.io/#x15.4.4.18
+var hasForEach = !!Array.prototype.forEach;
+if (!hasForEach) {
+		Array.prototype.forEach = function (callback, thisArg) {
+
+				var T, k;
+
+				if (this === null) {
+						throw new TypeError(' this is null or not defined');
+				}
+
+				// 1. Let O be the result of calling toObject() passing the
+				// |this| value as the argument.
+				var O = Object(this);
+
+				// 2. Let lenValue be the result of calling the Get() internal
+				// method of O with the argument "length".
+				// 3. Let len be toUint32(lenValue).
+				var len = O.length >>> 0;
+
+				// 4. If isCallable(callback) is false, throw a TypeError exception. 
+				// See: http://es5.github.com/#x9.11
+				if (typeof callback !== "function") {
+						throw new TypeError(callback + ' is not a function');
+				}
+
+				// 5. If thisArg was supplied, let T be thisArg; else let
+				// T be undefined.
+				if (arguments.length > 1) {
+						T = thisArg;
+				}
+
+				// 6. Let k be 0
+				k = 0;
+
+				// 7. Repeat, while k < len
+				while (k < len) {
+
+						var kValue;
+
+						// a. Let Pk be ToString(k).
+						//    This is implicit for LHS operands of the in operator
+						// b. Let kPresent be the result of calling the HasProperty
+						//    internal method of O with argument Pk.
+						//    This step can be combined with c
+						// c. If kPresent is true, then
+						if (k in O) {
+
+								// i. Let kValue be the result of calling the Get internal
+								// method of O with argument Pk.
+								kValue = O[k];
+
+								// ii. Call the Call internal method of callback with T as
+								// the this value and argument list containing kValue, k, and O.
+								callback.call(T, kValue, k, O);
+						}
+						// d. Increase k by 1.
+						k++;
+				}
+				// 8. return undefined
+		};
+}
+
+exports.default = !hasForEach;
+
+},{}],100:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.create = create;
+var hasIsArray = !!Array.isArray;
+if (!hasIsArray) {
+	Array.isArray = function (arg) {
+		return Object.prototype.toString.call(arg) === '[object Array]';
+	};
+}
+
+exports.default = !hasIsArray;
+
+},{}],101:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+		value: true
+});
+// Production steps of ECMA-262, Edition 5, 15.4.4.19
+// Reference: http://es5.github.io/#x15.4.4.19
+var hasMap = !!Array.prototype.map;
+if (!hasMap) {
+
+		Array.prototype.map = function (callback, thisArg) {
+
+				var T, A, k;
+
+				if (this == null) {
+						throw new TypeError(' this is null or not defined');
+				}
+
+				// 1. Let O be the result of calling ToObject passing the |this| 
+				//    value as the argument.
+				var O = Object(this);
+
+				// 2. Let lenValue be the result of calling the Get internal 
+				//    method of O with the argument "length".
+				// 3. Let len be ToUint32(lenValue).
+				var len = O.length >>> 0;
+
+				// 4. If IsCallable(callback) is false, throw a TypeError exception.
+				// See: http://es5.github.com/#x9.11
+				if (typeof callback !== 'function') {
+						throw new TypeError(callback + ' is not a function');
+				}
+
+				// 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
+				if (arguments.length > 1) {
+						T = thisArg;
+				}
+
+				// 6. Let A be a new array created as if by the expression new Array(len) 
+				//    where Array is the standard built-in constructor with that name and 
+				//    len is the value of len.
+				A = new Array(len);
+
+				// 7. Let k be 0
+				k = 0;
+
+				// 8. Repeat, while k < len
+				while (k < len) {
+
+						var kValue, mappedValue;
+
+						// a. Let Pk be ToString(k).
+						//   This is implicit for LHS operands of the in operator
+						// b. Let kPresent be the result of calling the HasProperty internal 
+						//    method of O with argument Pk.
+						//   This step can be combined with c
+						// c. If kPresent is true, then
+						if (k in O) {
+
+								// i. Let kValue be the result of calling the Get internal 
+								//    method of O with argument Pk.
+								kValue = O[k];
+
+								// ii. Let mappedValue be the result of calling the Call internal 
+								//     method of callback with T as the this value and argument 
+								//     list containing kValue, k, and O.
+								mappedValue = callback.call(T, kValue, k, O);
+
+								// iii. Call the DefineOwnProperty internal method of A with arguments
+								// Pk, Property Descriptor
+								// { Value: mappedValue,
+								//   Writable: true,
+								//   Enumerable: true,
+								//   Configurable: true },
+								// and false.
+
+								// In browsers that support Object.defineProperty, use the following:
+								// Object.defineProperty(A, k, {
+								//   value: mappedValue,
+								//   writable: true,
+								//   enumerable: true,
+								//   configurable: true
+								// });
+
+								// For best browser support, use the following:
+								A[k] = mappedValue;
+						}
+						// d. Increase k by 1.
+						k++;
+				}
+
+				// 9. return A
+				return A;
+		};
+}
+
+exports.default = !hasMap;
+
+},{}],102:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+// Production steps of ECMA-262, Edition 5, 15.4.4.21
+// Reference: http://es5.github.io/#x15.4.4.21
+var hasReduce = !!Array.prototype.reduce;
+if (!Array.prototype.reduce) {
+	Array.prototype.reduce = function (callback /*, initialValue*/) {
+		'use strict';
+
+		if (this == null) {
+			throw new TypeError('Array.prototype.reduce called on null or undefined');
+		}
+		if (typeof callback !== 'function') {
+			throw new TypeError(callback + ' is not a function');
+		}
+		var t = Object(this),
+		    len = t.length >>> 0,
+		    k = 0,
+		    value;
+		if (arguments.length == 2) {
+			value = arguments[1];
+		} else {
+			while (k < len && !(k in t)) {
+				k++;
+			}
+			if (k >= len) {
+				throw new TypeError('Reduce of empty array with no initial value');
+			}
+			value = t[k++];
+		}
+		for (; k < len; k++) {
+			if (k in t) {
+				value = callback(value, t[k], k, t);
+			}
+		}
+		return value;
+	};
+}
+
+exports.default = !hasReduce;
+
+},{}],103:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+var hasObjectKeys = !!Object.keys;
+if (!hasObjectKeys) {
+	Object.keys = function () {
+		'use strict';
+
+		var hasOwnProperty = Object.prototype.hasOwnProperty,
+		    hasDontEnumBug = !{
+			toString: null
+		}.propertyIsEnumerable('toString'),
+		    dontEnums = ['toString', 'toLocaleString', 'valueOf', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'constructor'],
+		    dontEnumsLength = dontEnums.length;
+
+		return function (obj) {
+			if ((typeof obj === 'undefined' ? 'undefined' : babelHelpers.typeof(obj)) !== 'object' && (typeof obj !== 'function' || obj === null)) {
+				throw new TypeError('Object.keys called on non-object');
+			}
+
+			var result = [],
+			    prop,
+			    i;
+
+			for (prop in obj) {
+				if (hasOwnProperty.call(obj, prop)) {
+					result.push(prop);
+				}
+			}
+
+			if (hasDontEnumBug) {
+				for (i = 0; i < dontEnumsLength; i++) {
+					if (hasOwnProperty.call(obj, dontEnums[i])) {
+						result.push(dontEnums[i]);
+					}
+				}
+			}
+			return result;
+		};
+	}();
+}
+
+exports.default = !hasObjectKeys;
+
+}).call(this,require("babel/external-helpers"))
+},{"babel/external-helpers":"babel/external-helpers"}],104:[function(require,module,exports){
+(function (babelHelpers){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
 var _Element = require('../../Classes/Element');
 
-var _Element2 = _interopRequireDefault(_Element);
+var _Element2 = babelHelpers.interopRequireDefault(_Element);
 
 var _constructor = require('../../Classes/Element/constructor');
 
+var _constructor2 = babelHelpers.interopRequireDefault(_constructor);
+
 var _feval = require('../feval');
 
-var _feval2 = _interopRequireDefault(_feval);
+var _feval2 = babelHelpers.interopRequireDefault(_feval);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function create(name, tag, inherits, constructor) {
+exports.default = function create(name, tag, inherits, constructor) {
 	var inherit = inherits || _Element2.default;
-	var construct = constructor || _constructor.constructor;
+	var construct = constructor || _constructor2.default;
 	var src = '\n\t\treturn (function(element, constructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this, \'' + tag + '\');\n\t\t\t\tthis.type = \'' + tag + '\';\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(element.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\treturn ' + name + ';\t\t\t\t\t\n\t\t})\n\t';
 	return _feval2.default.call(window, src)(inherit, construct);
-}
+};
 
-},{"../../Classes/Element":5,"../../Classes/Element/constructor":20,"../feval":49}],44:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../Classes/Element":7,"../../Classes/Element/constructor":75,"../feval":110,"babel/external-helpers":"babel/external-helpers"}],105:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2974,13 +3967,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _default2 = require('./Tag/_default');
 
-var _default3 = _interopRequireDefault(_default2);
+var _default3 = babelHelpers.interopRequireDefault(_default2);
 
 var _class2 = require('./Tag/_class');
 
-var _class3 = _interopRequireDefault(_class2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _class3 = babelHelpers.interopRequireDefault(_class2);
 
 var Tag = {
 	default: _default3.default,
@@ -2989,47 +3980,47 @@ var Tag = {
 
 exports.default = Tag;
 
-},{"./Tag/_class":45,"./Tag/_default":46}],45:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"./Tag/_class":106,"./Tag/_default":107,"babel/external-helpers":"babel/external-helpers"}],106:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports._class = _class;
+exports.default = _class;
 
 var _getFirstNonTextChild = require('../../../../Utilities/Elements/getFirstNonTextChild');
 
-var _getFirstNonTextChild2 = _interopRequireDefault(_getFirstNonTextChild);
+var _getFirstNonTextChild2 = babelHelpers.interopRequireDefault(_getFirstNonTextChild);
 
 var _getTagName = require('../../../../Utilities/Elements/getTagName');
 
-var _getTagName2 = _interopRequireDefault(_getTagName);
+var _getTagName2 = babelHelpers.interopRequireDefault(_getTagName);
 
 var _uid = require('../../../../Utilities/General/uid');
 
-var _uid2 = _interopRequireDefault(_uid);
+var _uid2 = babelHelpers.interopRequireDefault(_uid);
 
 var _getter = require('../../../../Utilities/Paths/getter');
 
-var _getter2 = _interopRequireDefault(_getter);
+var _getter2 = babelHelpers.interopRequireDefault(_getter);
 
 var _htmlToInstructions = require('../htmlToInstructions');
 
-var _htmlToInstructions2 = _interopRequireDefault(_htmlToInstructions);
+var _htmlToInstructions2 = babelHelpers.interopRequireDefault(_htmlToInstructions);
 
 var _feval = require('../../../feval');
 
-var _feval2 = _interopRequireDefault(_feval);
+var _feval2 = babelHelpers.interopRequireDefault(_feval);
 
 var _Element = require('../../../../Classes/Element');
 
-var _Element2 = _interopRequireDefault(_Element);
+var _Element2 = babelHelpers.interopRequireDefault(_Element);
 
 var _constructor = require('../../../../Classes/Element/constructor');
 
-var _constructor2 = _interopRequireDefault(_constructor);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _constructor2 = babelHelpers.interopRequireDefault(_constructor);
 
 function _class(node, classes, container) {
 	var children = node.childNodes;
@@ -3069,39 +4060,39 @@ function _class(node, classes, container) {
 	return compiled;
 }
 
-},{"../../../../Classes/Element":5,"../../../../Classes/Element/constructor":20,"../../../../Utilities/Elements/getFirstNonTextChild":73,"../../../../Utilities/Elements/getTagName":74,"../../../../Utilities/General/uid":80,"../../../../Utilities/Paths/getter":83,"../../../feval":49,"../htmlToInstructions":47}],46:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../../../Classes/Element":7,"../../../../Classes/Element/constructor":75,"../../../../Utilities/Elements/getFirstNonTextChild":134,"../../../../Utilities/Elements/getTagName":135,"../../../../Utilities/General/uid":141,"../../../../Utilities/Paths/getter":144,"../../../feval":110,"../htmlToInstructions":108,"babel/external-helpers":"babel/external-helpers"}],107:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports._default = _default;
+exports.default = _default;
 
 var _getTagName = require('../../../../Utilities/Elements/getTagName');
 
-var _getTagName2 = _interopRequireDefault(_getTagName);
+var _getTagName2 = babelHelpers.interopRequireDefault(_getTagName);
 
 var _childNodes = require('../../../../Utilities/Elements/childNodes');
 
-var _childNodes2 = _interopRequireDefault(_childNodes);
+var _childNodes2 = babelHelpers.interopRequireDefault(_childNodes);
 
 var _doOrSet = require('../../../../Utilities/Properties/doOrSet');
 
-var _doOrSet2 = _interopRequireDefault(_doOrSet);
+var _doOrSet2 = babelHelpers.interopRequireDefault(_doOrSet);
 
 var _getter = require('../../../../Utilities/Paths/getter');
 
-var _getter2 = _interopRequireDefault(_getter);
+var _getter2 = babelHelpers.interopRequireDefault(_getter);
 
 var _isNativeTag = require('../../../../TypeChecks/isNativeTag');
 
-var _isNativeTag2 = _interopRequireDefault(_isNativeTag);
+var _isNativeTag2 = babelHelpers.interopRequireDefault(_isNativeTag);
 
 var _isTextNode = require('../../../../TypeChecks/isTextNode');
 
-var _isTextNode2 = _interopRequireDefault(_isTextNode);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isTextNode2 = babelHelpers.interopRequireDefault(_isTextNode);
 
 function _default(node, classes, container) {
 	var tag = (0, _getTagName2.default)(node);
@@ -3151,35 +4142,35 @@ function _default(node, classes, container) {
 	return instance;
 }
 
-},{"../../../../TypeChecks/isNativeTag":58,"../../../../TypeChecks/isTextNode":66,"../../../../Utilities/Elements/childNodes":72,"../../../../Utilities/Elements/getTagName":74,"../../../../Utilities/Paths/getter":83,"../../../../Utilities/Properties/doOrSet":87}],47:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../../../TypeChecks/isNativeTag":119,"../../../../TypeChecks/isTextNode":127,"../../../../Utilities/Elements/childNodes":133,"../../../../Utilities/Elements/getTagName":135,"../../../../Utilities/Paths/getter":144,"../../../../Utilities/Properties/doOrSet":148,"babel/external-helpers":"babel/external-helpers"}],108:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.htmlToInstructions = htmlToInstructions;
+exports.default = htmlToInstructions;
 
 var _getTagName = require('../../../Utilities/Elements/getTagName');
 
-var _getTagName2 = _interopRequireDefault(_getTagName);
+var _getTagName2 = babelHelpers.interopRequireDefault(_getTagName);
 
 var _getter = require('../../../Utilities/Paths/getter');
 
-var _getter2 = _interopRequireDefault(_getter);
+var _getter2 = babelHelpers.interopRequireDefault(_getter);
 
 var _childNodes = require('../../../Utilities/Elements/childNodes');
 
-var _childNodes2 = _interopRequireDefault(_childNodes);
+var _childNodes2 = babelHelpers.interopRequireDefault(_childNodes);
 
 var _isUJSUI = require('../../../TypeChecks/isUJSUI');
 
-var _isUJSUI2 = _interopRequireDefault(_isUJSUI);
+var _isUJSUI2 = babelHelpers.interopRequireDefault(_isUJSUI);
 
 var _isTextNode = require('../../../TypeChecks/isTextNode');
 
-var _isTextNode2 = _interopRequireDefault(_isTextNode);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isTextNode2 = babelHelpers.interopRequireDefault(_isTextNode);
 
 function htmlToInstructions(node, classes, state) {
 	var isRoot = false;
@@ -3263,39 +4254,39 @@ function htmlToInstructions(node, classes, state) {
 	};
 }
 
-},{"../../../TypeChecks/isTextNode":66,"../../../TypeChecks/isUJSUI":67,"../../../Utilities/Elements/childNodes":72,"../../../Utilities/Elements/getTagName":74,"../../../Utilities/Paths/getter":83}],48:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../../TypeChecks/isTextNode":127,"../../../TypeChecks/isUJSUI":128,"../../../Utilities/Elements/childNodes":133,"../../../Utilities/Elements/getTagName":135,"../../../Utilities/Paths/getter":144,"babel/external-helpers":"babel/external-helpers"}],109:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.parse = parse;
+exports.default = parse;
 
 var _isString = require('../../TypeChecks/isString');
 
-var _isString2 = _interopRequireDefault(_isString);
+var _isString2 = babelHelpers.interopRequireDefault(_isString);
 
 var _isElement = require('../../TypeChecks/isElement');
 
-var _isElement2 = _interopRequireDefault(_isElement);
+var _isElement2 = babelHelpers.interopRequireDefault(_isElement);
 
 var _getFirstNonTextChild = require('../../Utilities/Elements/getFirstNonTextChild');
 
-var _getFirstNonTextChild2 = _interopRequireDefault(_getFirstNonTextChild);
+var _getFirstNonTextChild2 = babelHelpers.interopRequireDefault(_getFirstNonTextChild);
 
 var _getTagName = require('../../Utilities/Elements/getTagName');
 
-var _getTagName2 = _interopRequireDefault(_getTagName);
+var _getTagName2 = babelHelpers.interopRequireDefault(_getTagName);
 
 var _Tag = require('./Parse/Tag');
 
-var _Tag2 = _interopRequireDefault(_Tag);
+var _Tag2 = babelHelpers.interopRequireDefault(_Tag);
 
 var _Elements = require('../../Classes/Elements');
 
-var _Elements2 = _interopRequireDefault(_Elements);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _Elements2 = babelHelpers.interopRequireDefault(_Elements);
 
 function parse(html, classes) {
 	var container;
@@ -3315,18 +4306,19 @@ function parse(html, classes) {
 	return (parser || _Tag2.default.default).call(this, root, classes || _Elements2.default, root);
 }
 
-},{"../../Classes/Elements":23,"../../TypeChecks/isElement":53,"../../TypeChecks/isString":64,"../../Utilities/Elements/getFirstNonTextChild":73,"../../Utilities/Elements/getTagName":74,"./Parse/Tag":44}],49:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../Classes/Elements":78,"../../TypeChecks/isElement":114,"../../TypeChecks/isString":125,"../../Utilities/Elements/getFirstNonTextChild":134,"../../Utilities/Elements/getTagName":135,"./Parse/Tag":105,"babel/external-helpers":"babel/external-helpers"}],110:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.feval = feval;
+exports.default = feval;
 function feval(code) {
 	return new Function(code)();
 }
 
-},{}],50:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3335,13 +4327,13 @@ Object.defineProperty(exports, "__esModule", {
 var Sheets = {};
 exports.default = Sheets;
 
-},{}],51:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.rules = rules;
+exports.default = rules;
 function rules(a, b) {
 	var importance = b.importance - a.importance;
 	var created = b.private.created - a.private.created;
@@ -3351,93 +4343,92 @@ function rules(a, b) {
 	return importance;
 }
 
-},{}],52:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isArray = isArray;
+exports.default = isArray;
 function isArray(u) {
 	return Array.isArray(u);
 }
 
-},{}],53:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isElement = isElement;
+exports.default = isElement;
 function isElement(u) {
 	return u instanceof Element;
 }
 
-},{}],54:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isEmptyString = isEmptyString;
+exports.default = isEmptyString;
 function isEmptyString(u) {
 	return u === "";
 }
 
-},{}],55:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isFunction = isFunction;
+exports.default = isFunction;
 function isFunction(u) {
 	return typeof u === 'function';
 }
 
-},{}],56:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isHTML = isHTML;
+exports.default = isHTML;
 var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
 function isHTML(u) {
 	return htmlRegex.test(u);
 }
 
-},{}],57:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isJSUI = isJSUI;
+exports.default = isJSUI;
 
 var _Element = require('../Classes/Element');
 
-var _Element2 = _interopRequireDefault(_Element);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _Element2 = babelHelpers.interopRequireDefault(_Element);
 
 function isJSUI(u) {
 	return u instanceof _Element2.default;
 }
 
-},{"../Classes/Element":5}],58:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Classes/Element":7,"babel/external-helpers":"babel/external-helpers"}],119:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isNativeTag = isNativeTag;
+exports.default = isNativeTag;
 
 var _tags = require('../Constants/HTML/tags');
 
-var _tags2 = _interopRequireDefault(_tags);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _tags2 = babelHelpers.interopRequireDefault(_tags);
 
 var Natives = {};
 _tags2.default.forEach(function (tag) {
@@ -3448,175 +4439,174 @@ function isNativeTag(u) {
 	return Natives[u];
 }
 
-},{"../Constants/HTML/tags":34}],59:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Constants/HTML/tags":89,"babel/external-helpers":"babel/external-helpers"}],120:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isNull = isNull;
+exports.default = isNull;
 function isNull(u) {
 	return u === null;
 }
 
-},{}],60:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isNumber = isNumber;
+exports.default = isNumber;
 function isNumber(u) {
 	return typeof u === 'number';
 }
 
-},{}],61:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-exports.isObject = isObject;
+exports.default = isObject;
 function isObject(u) {
-	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object';
+	return (typeof u === 'undefined' ? 'undefined' : babelHelpers.typeof(u)) === 'object';
 }
 
-},{}],62:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"babel/external-helpers":"babel/external-helpers"}],123:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isPath = isPath;
+exports.default = isPath;
 function isPath(u) {
 	return u[0] === '@';
 }
 
-},{}],63:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isRegex = isRegex;
+exports.default = isRegex;
 function isRegex(u) {
 	return u instanceof RegExp;
 }
 
-},{}],64:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isString = isString;
+exports.default = isString;
 function isString(u) {
 	return typeof u === 'string';
 }
 
-},{}],65:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isStyleRule = isStyleRule;
+exports.default = isStyleRule;
 
 var _StyleSheetRule = require('../Classes/StyleSheetRule');
 
-var _StyleSheetRule2 = _interopRequireDefault(_StyleSheetRule);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _StyleSheetRule2 = babelHelpers.interopRequireDefault(_StyleSheetRule);
 
 function isStyleRule(u) {
 	return u instanceof _StyleSheetRule2.default;
 }
 
-},{"../Classes/StyleSheetRule":29}],66:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Classes/StyleSheetRule":84,"babel/external-helpers":"babel/external-helpers"}],127:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isTextNode = isTextNode;
+exports.default = isTextNode;
 function isTextNode(u) {
 	return u && u.nodeName === "#text";
 }
 
-},{}],67:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isUJSUI = isUJSUI;
+exports.default = isUJSUI;
 
 var _Element = require('../Classes/Element');
 
-var _Element2 = _interopRequireDefault(_Element);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _Element2 = babelHelpers.interopRequireDefault(_Element);
 
 function isUJSUI(u) {
 	return u.prototype instanceof _Element2.default;
 }
 
-},{"../Classes/Element":5}],68:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Classes/Element":7,"babel/external-helpers":"babel/external-helpers"}],129:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isUStyleRule = isUStyleRule;
+exports.default = isUStyleRule;
 
 var _StyleSheetRule = require('../Classes/StyleSheetRule');
 
-var _StyleSheetRule2 = _interopRequireDefault(_StyleSheetRule);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _StyleSheetRule2 = babelHelpers.interopRequireDefault(_StyleSheetRule);
 
 function isUStyleRule(u) {
 	return u.prototype instanceof _StyleSheetRule2.default;
 }
 
-},{"../Classes/StyleSheetRule":29}],69:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../Classes/StyleSheetRule":84,"babel/external-helpers":"babel/external-helpers"}],130:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.isUndefined = isUndefined;
+exports.default = isUndefined;
 function isUndefined(u) {
 	return typeof u === 'undefined';
 }
 
-},{}],70:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.unhandled = unhandled;
+exports.default = unhandled;
 function unhandled(args) {
   return args;
 }
 
-},{}],71:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.addClass = addClass;
+exports.default = addClass;
 
 var _isElement = require('../../TypeChecks/isElement');
 
-var _isElement2 = _interopRequireDefault(_isElement);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isElement2 = babelHelpers.interopRequireDefault(_isElement);
 
 function addClass(el, name) {
 	if (!name || !(0, _isElement2.default)(el)) {
@@ -3634,19 +4624,19 @@ function addClass(el, name) {
 	el.className = classes.join(' ');
 }
 
-},{"../../TypeChecks/isElement":53}],72:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isElement":114,"babel/external-helpers":"babel/external-helpers"}],133:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.childNodes = childNodes;
+exports.default = childNodes;
 
 var _isFunction = require('../../TypeChecks/isFunction');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
 
 function childNodes(node, callback) {
 	if (!(0, _isFunction2.default)(callback)) {
@@ -3663,27 +4653,27 @@ function childNodes(node, callback) {
 	}
 }
 
-},{"../../TypeChecks/isFunction":55}],73:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isFunction":116,"babel/external-helpers":"babel/external-helpers"}],134:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.getFirstNonTextChild = getFirstNonTextChild;
+exports.default = getFirstNonTextChild;
 
 var _isElement = require('../../TypeChecks/isElement');
 
-var _isElement2 = _interopRequireDefault(_isElement);
+var _isElement2 = babelHelpers.interopRequireDefault(_isElement);
 
 var _isTextNode = require('../../TypeChecks/isTextNode');
 
-var _isTextNode2 = _interopRequireDefault(_isTextNode);
+var _isTextNode2 = babelHelpers.interopRequireDefault(_isTextNode);
 
 var _childNodes = require('./childNodes');
 
-var _childNodes2 = _interopRequireDefault(_childNodes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _childNodes2 = babelHelpers.interopRequireDefault(_childNodes);
 
 function getFirstNonTextChild(node) {
 	if ((0, _isElement2.default)(node)) {
@@ -3698,19 +4688,19 @@ function getFirstNonTextChild(node) {
 	}
 }
 
-},{"../../TypeChecks/isElement":53,"../../TypeChecks/isTextNode":66,"./childNodes":72}],74:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isElement":114,"../../TypeChecks/isTextNode":127,"./childNodes":133,"babel/external-helpers":"babel/external-helpers"}],135:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.getTagName = getTagName;
+exports.default = getTagName;
 
 var _isElement = require('../../TypeChecks/isElement');
 
-var _isElement2 = _interopRequireDefault(_isElement);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isElement2 = babelHelpers.interopRequireDefault(_isElement);
 
 function getTagName(el) {
 	if ((0, _isElement2.default)(el)) {
@@ -3719,19 +4709,19 @@ function getTagName(el) {
 	return 'none';
 }
 
-},{"../../TypeChecks/isElement":53}],75:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isElement":114,"babel/external-helpers":"babel/external-helpers"}],136:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.getTextNodes = getTextNodes;
+exports.default = getTextNodes;
 
 var _isTextNode = require('../../TypeChecks/isTextNode');
 
-var _isTextNode2 = _interopRequireDefault(_isTextNode);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isTextNode2 = babelHelpers.interopRequireDefault(_isTextNode);
 
 function getTextNodes(el, stopAtFirst) {
 	var nodes = [];
@@ -3747,23 +4737,23 @@ function getTextNodes(el, stopAtFirst) {
 	return nodes;
 }
 
-},{"../../TypeChecks/isTextNode":66}],76:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isTextNode":127,"babel/external-helpers":"babel/external-helpers"}],137:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.nodeAttributes = nodeAttributes;
+exports.default = nodeAttributes;
 
 var _isFunction = require('../../TypeChecks/isFunction');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
 
 var _isElement = require('../../TypeChecks/isElement');
 
-var _isElement2 = _interopRequireDefault(_isElement);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isElement2 = babelHelpers.interopRequireDefault(_isElement);
 
 function nodeAttributes(node, callback) {
 	if (!(0, _isFunction2.default)(callback)) {
@@ -3780,24 +4770,25 @@ function nodeAttributes(node, callback) {
 	}
 }
 
-},{"../../TypeChecks/isElement":53,"../../TypeChecks/isFunction":55}],77:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isElement":114,"../../TypeChecks/isFunction":116,"babel/external-helpers":"babel/external-helpers"}],138:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.remove = remove;
+exports.default = remove;
 function remove() {
 	delete this.pool[this.id];
 }
 
-},{}],78:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.removeAll = removeAll;
+exports.default = removeAll;
 function removeAll() {
 	var _this = this;
 
@@ -3806,19 +4797,18 @@ function removeAll() {
 	});
 }
 
-},{}],79:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.debounce = debounce;
+exports.default = debounce;
 
 var _isFunction = require('../../TypeChecks/isFunction');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
 
 function debounce(fn, time) {
 	if ((0, _isFunction2.default)(fn)) {
@@ -3830,13 +4820,14 @@ function debounce(fn, time) {
 	}
 }
 
-},{"../../TypeChecks/isFunction":55}],80:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isFunction":116,"babel/external-helpers":"babel/external-helpers"}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.uid = uid;
+exports.default = uid;
 var prefix = '';
 var current = 0;
 var max = Number.MAX_SAFE_INTEGER - 1;
@@ -3850,27 +4841,26 @@ function uid() {
 	};
 }
 
-},{}],81:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.get = get;
+exports.default = get;
 
 var _isString = require('../../TypeChecks/isString');
 
-var _isString2 = _interopRequireDefault(_isString);
+var _isString2 = babelHelpers.interopRequireDefault(_isString);
 
 var _isArray = require('../../TypeChecks/isArray');
 
-var _isArray2 = _interopRequireDefault(_isArray);
+var _isArray2 = babelHelpers.interopRequireDefault(_isArray);
 
 var _getter = require('./getter');
 
-var _getter2 = _interopRequireDefault(_getter);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _getter2 = babelHelpers.interopRequireDefault(_getter);
 
 function get(obj, path) {
 	if ((0, _isString2.default)(path)) {
@@ -3881,19 +4871,19 @@ function get(obj, path) {
 	}
 }
 
-},{"../../TypeChecks/isArray":52,"../../TypeChecks/isString":64,"./getter":83}],82:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isArray":113,"../../TypeChecks/isString":125,"./getter":144,"babel/external-helpers":"babel/external-helpers"}],143:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.getWithContext = getWithContext;
+exports.default = getWithContext;
 
 var _get = require('./get');
 
-var _get2 = _interopRequireDefault(_get);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _get2 = babelHelpers.interopRequireDefault(_get);
 
 function getWithContext(obj, path) {
 	var parts = path.substring(1).split('.');
@@ -3917,19 +4907,19 @@ function getWithContext(obj, path) {
 	return false;
 }
 
-},{"./get":81}],83:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"./get":142,"babel/external-helpers":"babel/external-helpers"}],144:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.getter = getter;
+exports.default = getter;
 
 var _isObject = require('../../TypeChecks/isObject');
 
-var _isObject2 = _interopRequireDefault(_isObject);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isObject2 = babelHelpers.interopRequireDefault(_isObject);
 
 function getter(obj, prop) {
 	if (!(0, _isObject2.default)(obj)) {
@@ -3938,37 +4928,37 @@ function getter(obj, prop) {
 	return obj[prop];
 }
 
-},{"../../TypeChecks/isObject":61}],84:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isObject":122,"babel/external-helpers":"babel/external-helpers"}],145:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.set = set;
+exports.default = set;
 
 var _setter = require('./setter');
 
-var _setter2 = _interopRequireDefault(_setter);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _setter2 = babelHelpers.interopRequireDefault(_setter);
 
 function set(obj, path, value) {
 	return (0, _setter2.default)(obj, path, value);
 }
 
-},{"./setter":85}],85:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"./setter":146,"babel/external-helpers":"babel/external-helpers"}],146:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.setter = setter;
+exports.default = setter;
 
 var _get = require('./get');
 
-var _get2 = _interopRequireDefault(_get);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _get2 = babelHelpers.interopRequireDefault(_get);
 
 function setter(obj, path, value) {
 	var parts = path.substring(1).split('.');
@@ -3988,13 +4978,14 @@ function setter(obj, path, value) {
 	return false;
 }
 
-},{"./get":81}],86:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"./get":142,"babel/external-helpers":"babel/external-helpers"}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.add = add;
+exports.default = add;
 function add(host, name, defaultValue) {
 	var value = defaultValue;
 	Object.defineProperty(host, name, {
@@ -4022,19 +5013,18 @@ function add(host, name, defaultValue) {
 	});
 }
 
-},{}],87:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
+(function (babelHelpers){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.doOrSet = doOrSet;
+exports.default = doOrSet;
 
 var _isFunction = require('../../TypeChecks/isFunction');
 
-var _isFunction2 = _interopRequireDefault(_isFunction);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _isFunction2 = babelHelpers.interopRequireDefault(_isFunction);
 
 function doOrSet(obj, prop, value) {
 	if (obj.hasOwnProperty(prop)) {
@@ -4048,13 +5038,14 @@ function doOrSet(obj, prop, value) {
 	return false;
 }
 
-},{"../../TypeChecks/isFunction":55}],88:[function(require,module,exports){
+}).call(this,require("babel/external-helpers"))
+},{"../../TypeChecks/isFunction":116,"babel/external-helpers":"babel/external-helpers"}],149:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.getAll = getAll;
+exports.default = getAll;
 var ObjectPrototype = Object.getPrototypeOf({});
 function getAll(obj) {
 	//code modified from airportyh, http://stackoverflow.com/questions/8024149/is-it-possible-to-get-the-non-enumerable-inherited-property-names-of-an-object
@@ -4069,29 +5060,408 @@ function getAll(obj) {
 	return props;
 }
 
-},{}],89:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.capitalize = capitalize;
-function capitalize(style) {
-	return style.charAt(0).toUpperCase() + style.slice(1);
+function capitalize(text) {
+	return text.charAt(0).toUpperCase() + text.slice(1);
 }
+exports.default = capitalize;
 
-},{}],90:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.uncapitalize = uncapitalize;
-function uncapitalize(style) {
-	return style.charAt(0).toLowerCase() + style.slice(1);
+function uncapitalize(text) {
+	return text.charAt(0).toLowerCase() + text.slice(1);
 }
+exports.default = uncapitalize;
 
-},{}]},{},[35])
+},{}],"babel/external-helpers":[function(require,module,exports){
+var global = {}; (function (global) {
+  var babelHelpers = global.babelHelpers = {};
+  babelHelpers.typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+  };
+
+  babelHelpers.jsx = function () {
+    var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7;
+    return function createRawReactElement(type, props, key, children) {
+      var defaultProps = type && type.defaultProps;
+      var childrenLength = arguments.length - 3;
+
+      if (!props && childrenLength !== 0) {
+        props = {};
+      }
+
+      if (props && defaultProps) {
+        for (var propName in defaultProps) {
+          if (props[propName] === void 0) {
+            props[propName] = defaultProps[propName];
+          }
+        }
+      } else if (!props) {
+        props = defaultProps || {};
+      }
+
+      if (childrenLength === 1) {
+        props.children = children;
+      } else if (childrenLength > 1) {
+        var childArray = Array(childrenLength);
+
+        for (var i = 0; i < childrenLength; i++) {
+          childArray[i] = arguments[i + 3];
+        }
+
+        props.children = childArray;
+      }
+
+      return {
+        $$typeof: REACT_ELEMENT_TYPE,
+        type: type,
+        key: key === undefined ? null : '' + key,
+        ref: null,
+        props: props,
+        _owner: null
+      };
+    };
+  }();
+
+  babelHelpers.asyncToGenerator = function (fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              return step("next", value);
+            }, function (err) {
+              return step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  };
+
+  babelHelpers.classCallCheck = function (instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  };
+
+  babelHelpers.createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  babelHelpers.defineEnumerableProperties = function (obj, descs) {
+    for (var key in descs) {
+      var desc = descs[key];
+      desc.configurable = desc.enumerable = true;
+      if ("value" in desc) desc.writable = true;
+      Object.defineProperty(obj, key, desc);
+    }
+
+    return obj;
+  };
+
+  babelHelpers.defaults = function (obj, defaults) {
+    var keys = Object.getOwnPropertyNames(defaults);
+
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      var value = Object.getOwnPropertyDescriptor(defaults, key);
+
+      if (value && value.configurable && obj[key] === undefined) {
+        Object.defineProperty(obj, key, value);
+      }
+    }
+
+    return obj;
+  };
+
+  babelHelpers.defineProperty = function (obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  };
+
+  babelHelpers.extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  babelHelpers.get = function get(object, property, receiver) {
+    if (object === null) object = Function.prototype;
+    var desc = Object.getOwnPropertyDescriptor(object, property);
+
+    if (desc === undefined) {
+      var parent = Object.getPrototypeOf(object);
+
+      if (parent === null) {
+        return undefined;
+      } else {
+        return get(parent, property, receiver);
+      }
+    } else if ("value" in desc) {
+      return desc.value;
+    } else {
+      var getter = desc.get;
+
+      if (getter === undefined) {
+        return undefined;
+      }
+
+      return getter.call(receiver);
+    }
+  };
+
+  babelHelpers.inherits = function (subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  };
+
+  babelHelpers.instanceof = function (left, right) {
+    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
+      return right[Symbol.hasInstance](left);
+    } else {
+      return left instanceof right;
+    }
+  };
+
+  babelHelpers.interopRequireDefault = function (obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  };
+
+  babelHelpers.interopRequireWildcard = function (obj) {
+    if (obj && obj.__esModule) {
+      return obj;
+    } else {
+      var newObj = {};
+
+      if (obj != null) {
+        for (var key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+        }
+      }
+
+      newObj.default = obj;
+      return newObj;
+    }
+  };
+
+  babelHelpers.newArrowCheck = function (innerThis, boundThis) {
+    if (innerThis !== boundThis) {
+      throw new TypeError("Cannot instantiate an arrow function");
+    }
+  };
+
+  babelHelpers.objectDestructuringEmpty = function (obj) {
+    if (obj == null) throw new TypeError("Cannot destructure undefined");
+  };
+
+  babelHelpers.objectWithoutProperties = function (obj, keys) {
+    var target = {};
+
+    for (var i in obj) {
+      if (keys.indexOf(i) >= 0) continue;
+      if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+      target[i] = obj[i];
+    }
+
+    return target;
+  };
+
+  babelHelpers.possibleConstructorReturn = function (self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  };
+
+  babelHelpers.selfGlobal = typeof global === "undefined" ? self : global;
+
+  babelHelpers.set = function set(object, property, value, receiver) {
+    var desc = Object.getOwnPropertyDescriptor(object, property);
+
+    if (desc === undefined) {
+      var parent = Object.getPrototypeOf(object);
+
+      if (parent !== null) {
+        set(parent, property, value, receiver);
+      }
+    } else if ("value" in desc && desc.writable) {
+      desc.value = value;
+    } else {
+      var setter = desc.set;
+
+      if (setter !== undefined) {
+        setter.call(receiver, value);
+      }
+    }
+
+    return value;
+  };
+
+  babelHelpers.slicedToArray = function () {
+    function sliceIterator(arr, i) {
+      var _arr = [];
+      var _n = true;
+      var _d = false;
+      var _e = undefined;
+
+      try {
+        for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+          _arr.push(_s.value);
+
+          if (i && _arr.length === i) break;
+        }
+      } catch (err) {
+        _d = true;
+        _e = err;
+      } finally {
+        try {
+          if (!_n && _i["return"]) _i["return"]();
+        } finally {
+          if (_d) throw _e;
+        }
+      }
+
+      return _arr;
+    }
+
+    return function (arr, i) {
+      if (Array.isArray(arr)) {
+        return arr;
+      } else if (Symbol.iterator in Object(arr)) {
+        return sliceIterator(arr, i);
+      } else {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance");
+      }
+    };
+  }();
+
+  babelHelpers.slicedToArrayLoose = function (arr, i) {
+    if (Array.isArray(arr)) {
+      return arr;
+    } else if (Symbol.iterator in Object(arr)) {
+      var _arr = [];
+
+      for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+        _arr.push(_step.value);
+
+        if (i && _arr.length === i) break;
+      }
+
+      return _arr;
+    } else {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    }
+  };
+
+  babelHelpers.taggedTemplateLiteral = function (strings, raw) {
+    return Object.freeze(Object.defineProperties(strings, {
+      raw: {
+        value: Object.freeze(raw)
+      }
+    }));
+  };
+
+  babelHelpers.taggedTemplateLiteralLoose = function (strings, raw) {
+    strings.raw = raw;
+    return strings;
+  };
+
+  babelHelpers.temporalRef = function (val, name, undef) {
+    if (val === undef) {
+      throw new ReferenceError(name + " is not defined - temporal dead zone");
+    } else {
+      return val;
+    }
+  };
+
+  babelHelpers.temporalUndefined = {};
+
+  babelHelpers.toArray = function (arr) {
+    return Array.isArray(arr) ? arr : Array.from(arr);
+  };
+
+  babelHelpers.toConsumableArray = function (arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    } else {
+      return Array.from(arr);
+    }
+  };
+})(typeof global === "undefined" ? self : global); module.exports = global.babelHelpers;
+},{}]},{},[90])
 
 
 //# sourceMappingURL=JSUI.js.map

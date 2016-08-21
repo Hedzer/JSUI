@@ -1,11 +1,11 @@
 //Array
-import forEach from './Array/forEach';
-import isArray from './Array/isArray';
-import map from './Array/map';
-import reduce from './Array/reduce';
+import forEach from '../Polyfills/Array/forEach';
+import isArray from '../Polyfills/Array/isArray';
+import map from '../Polyfills/Array/map';
+import reduce from '../Polyfills/Array/reduce';
 
 //Object
-import keys from './Object/keys';
+import keys from '../Polyfills/Object/keys';
 
 var Polyfilled = {
 	Array: {

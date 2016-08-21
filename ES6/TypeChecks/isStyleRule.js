@@ -1,5 +1,5 @@
 import StyleSheetRule from '../Classes/StyleSheetRule';
 
-export function isStyleRule(u) {
+export default function isStyleRule(u) {
 	return (u instanceof StyleSheetRule);
 }

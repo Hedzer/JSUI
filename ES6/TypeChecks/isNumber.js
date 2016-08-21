@@ -1,3 +1,3 @@
-export function isNumber(u) {
+export default function isNumber(u) {
 	return (typeof u === 'number');
 }

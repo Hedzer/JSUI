@@ -62,4 +62,4 @@ if (!hasForEach) {
 	};
 }
 
-export default hasForEach;
+export default !hasForEach;

@@ -1,4 +1,4 @@
 var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
-export function isHTML(u) {
+export default function isHTML(u) {
 	return htmlRegex.test(u);
 }

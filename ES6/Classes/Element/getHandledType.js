@@ -20,7 +20,7 @@ var Types = {
 	}
 };
 
-export function getHandledType(u){
+export default (function getHandledType(u){
 	var type = typeof u;
 	var subtypes = Types[type];
 	if (!subtypes) {
@@ -33,4 +33,4 @@ export function getHandledType(u){
 		}
 	}
 	return type;
-}
+});

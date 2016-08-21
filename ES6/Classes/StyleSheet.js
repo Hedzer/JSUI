@@ -3,7 +3,7 @@ import isFunction from '../TypeChecks/isFunction';
 import isNumber from '../TypeChecks/isNumber';
 import isStyleRule from '../TypeChecks/isStyleRule';
 import isUStyleRule from '../TypeChecks/isUStyleRule';
-import { rules as sort } from '../Sorts/StyleSheet/rules';
+import { default as sort } from '../Sorts/StyleSheet/rules';
 import Sheets from '../Singletons/Style/Sheets';
 import Distinct from './Distinct';
 

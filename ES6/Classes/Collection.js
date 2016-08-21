@@ -2,7 +2,7 @@ import isArray from '../TypeChecks/isArray';
 import DoToEach from './Collection/Handlers/DoToEach';
 import getHandledType from './Element/getHandledType';
 
-export class Collection extends Array {
+export default class Collection extends Array {
 	constructor(target) {
 		super();
 		if (isArray(target)) {

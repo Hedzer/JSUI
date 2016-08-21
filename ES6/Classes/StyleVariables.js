@@ -1,10 +1,10 @@
 import isString from '../TypeChecks/isString';
 import isObject from '../TypeChecks/isObject';
 import isArray from '../TypeChecks/isArray';
-import { add as addProperty } from '../Utilities/Properties/add';
+import { default as addProperty } from '../Utilities/Properties/add';
 import Distinct from './Distinct';
 
-export class StyleVariables extends Distinct {
+export default class StyleVariables extends Distinct {
 	constructor() {
 		super();
 	}

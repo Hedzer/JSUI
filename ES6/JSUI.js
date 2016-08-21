@@ -1,3 +1,4 @@
+import Polyfills from './JSUI/Polyfills';
 import Classes from './JSUI/Classes';
 import Constants from './JSUI/Constants';
 import Singletons from './JSUI/Singletons';
@@ -23,7 +24,8 @@ var JSUI = {
 	TypeChecks: TypeChecks,
 	Utilities: Utilities,
 	Sorts: Sorts,
-	Reflection: Reflection
+	Reflection: Reflection,
+	Polyfilled: Polyfills
 };
 
 window.JSUI = JSUI;

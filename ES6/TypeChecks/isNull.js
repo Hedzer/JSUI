@@ -1,3 +1,3 @@
-export function isNull(u) {
+export default function isNull(u) {
 	return (u === null);
 }

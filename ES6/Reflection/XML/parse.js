@@ -5,7 +5,7 @@ import getTagName from '../../Utilities/Elements/getTagName';
 import Tag from './Parse/Tag';
 import Elements from '../../Classes/Elements';
 
-export function parse(html, classes) {
+export default function parse(html, classes) {
 	var container;
 	if (isString(html)) {
 		container = document.createElement('container');
