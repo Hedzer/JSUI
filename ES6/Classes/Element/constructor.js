@@ -1,6 +1,7 @@
 import { default as addProperty } from '../../Utilities/Properties/add';
 import addClass from '../../Utilities/Elements/addClass';
 import getHandledType from './getHandledType';
+import settings from '../../Constants/JSUI/settings';
 import StyleInline from '../StyleInline';
 import handler from './Handlers/Constructor';
 
@@ -14,6 +15,12 @@ export default function constructor(tag) {
 
 	//set up ids
 	this.element.uid = this.uid;
+
+	//add references 
+	var development = settings.Development;
+	if (development.enabled && development.references) {
+		this.element.JSUI = this;
+	}
 
 	//setup first type+event
 	addProperty(this, 'type');

@@ -1,0 +1,5 @@
+1. DONE: Data class from json
+2. One way binding (Bond class)
+3. Two way binding
+4. Unit tests
+5. Thorough browser testing

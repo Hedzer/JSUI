@@ -12,11 +12,16 @@ import StyleRules from '../Classes/StyleRules';
 import StyleSheet from '../Classes/StyleSheet';
 import StyleSheetRule from '../Classes/StyleSheetRule';
 import StyleVariables from '../Classes/StyleVariables';
+import ElementAction from '../Classes/ElementAction';
+import ElementClassAction from '../Classes/ElementClassAction';
+import Data from '../Classes/Data';
 
 var Classes = {
 	Behavior: Behavior,
 	Collection: Collection,
 	Distinct: Distinct,
+	ElementAction: ElementAction,
+	ElementClassAction: ElementClassAction,
 	Element: Element,
 	ElementCollection: ElementCollection,
 	Extensible: Extensible,
@@ -26,7 +31,8 @@ var Classes = {
 	StyleRules: StyleRules,
 	StyleSheet: StyleSheet,
 	StyleSheetRule: StyleSheetRule,
-	StyleVariables: StyleVariables
+	StyleVariables: StyleVariables,
+	Data: Data
 };
 
 export default Classes;

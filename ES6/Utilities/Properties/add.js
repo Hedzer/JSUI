@@ -14,9 +14,10 @@ export default function add(host, name, defaultValue){
 					old: old,
 					new: value
 				};
-				if (this.trigger){
-					this.trigger(`${name}Changed`, data);
-					this.trigger('Changed', data);
+				var trigger = (this.trigger || this.$trigger).bind(this);
+				if (trigger){
+					trigger(`${name}Changed`, data);
+					trigger('Changed', data);
 				}
 			}
 		},

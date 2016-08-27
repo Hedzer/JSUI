@@ -41,6 +41,9 @@ class ElementCollection extends Collection {
 	attribute() {
 		return this.doToEach('attribute', arguments);
 	}
+	class() {
+		return this.doToEach('class', arguments);
+	}
 	children() {
 		return this.doToEach('children', arguments);
 	}

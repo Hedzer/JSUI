@@ -44,8 +44,8 @@ export default class Extensible {
 	}
 	on(name, method) {
 		if (isString(name) && isFunction(method)) {
-			var events = ((this.private || {}).Events || {});
-			var hooks = ((this.private || {}).Hooks || {});
+			var events = this.private.Events;
+			var hooks = this.private.Hooks;
 			var pool = events[name];
 			var self = this;
 			if (!pool){
@@ -74,15 +74,15 @@ export default class Extensible {
 		}
 	}
 	trigger(event, args) {
-		var hooks = ((this.private || {}).Hooks || {});
+		var hooks = this.private.Hooks;
 		var hook = hooks[event];
 		if (isFunction(hook)) {
 			hook(args);
 		}
 	}
 	destructor() {
-		Object.keys(this).forEach((key) => {
+		for (var key in this) {
 			delete this[key];
-		});
+		}
 	}
 }

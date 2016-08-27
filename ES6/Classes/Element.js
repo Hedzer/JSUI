@@ -22,6 +22,7 @@ import Get from './Element/Handlers/Get';
 import Set from './Element/Handlers/Set';
 import Text from './Element/Handlers/Text';
 import Attribute from './Element/Handlers/Attribute';
+import Class from './Element/Handlers/Class';
 
 //classes
 import Styleable from './Styleable';
@@ -30,6 +31,13 @@ export default class Element extends Styleable {
 	constructor(tag){
 		super(tag);
 		constructor.call(this, tag);
+		//if not default, change the context of the child elements
+		this.on('contextChanged', () => {
+			this.children((child) => {
+				//allow context to only change once
+				child.context = (child.context === 'default' ? this.context : child.context);
+			});
+		});
 	}
 	add(item) {
 		var type = getHandledType(item);
@@ -54,6 +62,7 @@ export default class Element extends Styleable {
 	trigger(event, args) {
 		var type = getHandledType(event);
 		var action = Trigger[type];
+		super.trigger(event, args);
 		return (action || unhandled).call(this, event, args);
 	}
 	find(what) {
@@ -92,6 +101,11 @@ export default class Element extends Styleable {
 		var isSet = (arguments.length > 1);
 		var action = Attribute[(isSet ? 'Set' : 'Get')][type];
 		return (action || unhandled).apply(this, [name, value]);
+	}
+	class(name) {
+		var type = getHandledType(name);
+		var action = Class[type];
+		return (action || unhandled).call(this, name);
 	}
 	children(callback) {
 		var results = [];

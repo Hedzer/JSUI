@@ -16,6 +16,8 @@ import isTextNode from '../TypeChecks/isTextNode';
 import isUJSUI from '../TypeChecks/isUJSUI';
 import isUndefined from '../TypeChecks/isUndefined';
 import isUStyleRule from '../TypeChecks/isUStyleRule';
+import isData from '../TypeChecks/isData';
+import isUData from '../TypeChecks/isUData';
 import unhandled from '../TypeChecks/unhandled';
 
 var TypeChecks = {
@@ -37,6 +39,8 @@ var TypeChecks = {
 	isUJSUI: isUJSUI,
 	isUndefined: isUndefined,
 	isUStyleRule: isUStyleRule,
+	isData: isData,
+	isUData: isUData,
 	unhandled: unhandled
 };
 

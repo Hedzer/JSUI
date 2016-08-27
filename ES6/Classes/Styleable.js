@@ -1,4 +1,5 @@
 import isStyleRule from '../TypeChecks/isStyleRule';
+import Sheets from '../Singletons/Style/Sheets';
 import Distinct from './Distinct';
 
 export default class Styleable extends Distinct {
@@ -8,13 +9,6 @@ export default class Styleable extends Distinct {
 		this.private.style = {
 			rules: {}
 		};
-		//re-render css if context changes
-		this.on('contextChanged', () => {
-			Object.keys(this.private.style.rules).forEach((uid) => {
-				var rule = this.private.style.rules[uid];
-				rule.render(this.private.context);
-			});
-		});
 	}
 	get context() {
 		return this.private.context;
@@ -24,14 +18,36 @@ export default class Styleable extends Distinct {
 		if (old === context) {
 			return;
 		}
-		this.private.context = context; 
+		this.private.context = context;
+		Object.keys(this.private.style.rules).forEach((uid) => {
+			var entry = this.private.style.rules[uid];
+			Sheets[old].remove(entry.rule);
+			entry.rule.render(this.private.context);
+		});
 		this.trigger('contextChanged');
 	}
 	add(style) {
 		if (isStyleRule(style)) {
-			this.private.style.rules[style.uid] = style;
-			style.render(this.context);
+			var rules = this.private.style.rules;
+			var entry = rules[style.uid];
+			if (!entry) {
+				entry = {
+					rule: style,
+					context: this.context
+				};
+				rules[style.uid] = entry;
+				style.render(this.context);
+				return;
+			}
+			if (entry.context !== this.context) {
+				var sheet = Sheets[entry.context];
+				if (sheet) {
+					sheet.remove(style);
+					style.render(this.context);
+				}
+				return;
+			}
 		}
-		return super.add(style);
+		
 	}
 }

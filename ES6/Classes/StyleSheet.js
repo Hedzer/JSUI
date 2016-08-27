@@ -34,9 +34,13 @@ export default class StyleSheet extends Distinct {
 		if (isStyleRule(rule)) {
 			var rules = this.private.rules;
 			if (!rules[rule.uid]) {
-				rules[rule.uid] = rule;
-				return this.render(50);
+				rules[rule.uid] = {
+					references: 1,
+					rule: rule
+				};
+				return this.render(10);
 			}
+			rules[rule.uid].references++;
 			return true;
 		}
 		if (isUStyleRule(rule)) {
@@ -46,9 +50,13 @@ export default class StyleSheet extends Distinct {
 	remove(rule) {
 		var rules = this.private.rules;
 		if (isString(rule)) {
-			if (rules[rule]) {
-				delete rules[rule];
-				this.render(50);
+			var entry = rules[rule];
+			if (entry) {
+				entry.references--;
+				if (entry.references < 1) {
+					delete rules[rule];
+					this.render(10);					
+				}
 			}
 			return;
 		}
@@ -73,10 +81,17 @@ export default class StyleSheet extends Distinct {
 		}
 	}
 	render(timeout) {
-		var rules = this.private.rules;
+		var entries = this.private.rules;
 		clearTimeout(this.private.timer);
 		if (isNumber(timeout)) {
 			this.private.timer = setTimeout(this.render.bind(this), timeout);
+			return;
+		}
+
+		var entryList = Object.keys(entries);
+		//check to see if there are any entries
+		if (!entryList.length) {
+			document.head.removeChild(this.private.element);
 			return;
 		}
 
@@ -87,11 +102,11 @@ export default class StyleSheet extends Distinct {
 		document.head.appendChild(element);
 		element.sheet.disabled = true;
 
-		//fetch all the rules and organize them
+		//fetch all the entries and organize them
 		var articles = [];
-		Object.keys(rules).forEach((uid) => {
-			var rule = rules[uid];
-			articles.push(rule);
+		entryList.forEach((uid) => {
+			var entry = entries[uid];
+			articles.push(entry.rule);
 		});
 		articles.sort(this.sorter);
 

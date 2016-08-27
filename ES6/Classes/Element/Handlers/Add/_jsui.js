@@ -6,6 +6,7 @@ export default function _jsui(instance){
 		this.private.children = (this.private.children || {});
 		this.private.children[instance.uid] = instance;
 		instance.private.parent = this;
+		instance.context = (instance.context === 'default' ? this.context : instance.context);
 	}
 	var options = {
 		as:(function(name){
@@ -16,7 +17,7 @@ export default function _jsui(instance){
 				map[this.uid] = (map[this.uid] || []);
 				map[this.uid].push(name);
 				instance.attribute('as', name);
-				addClass(instance.element, name);
+				addClass(instance.element, `as-${name}`);
 			}
 			return instance;
 		}).bind(this)

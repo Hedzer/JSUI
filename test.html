@@ -1,9 +1,9 @@
 <html>
 	<head>
-		<script type="text/javascript">
-			delete Object.keys;
-		</script>
 		<script src="./build/JSUI.js"></script>
+		<script type="text/javascript">
+			JSUI.Settings.Development.enabled = true;
+		</script>		
 	</head>
 	<body>
 		<script type="text/javascript">
@@ -20,7 +20,6 @@
 				constructor() {
 					super('jsui-application');
 					this.Routes = {};
-					this.context = 'application';
 					this.style.set(inline);
 					this.add(css);
 				}
@@ -42,6 +41,23 @@
 			} 
 			var t = new application();
 			t.addTo(document.body);
+			t.context = 'page';
+			var hello = JSUI.Reflection.Data.create('hello', {
+			   yup: 1,
+			   thereitis:2,
+			   bro: {
+			      doit: true,
+			      thereyougo:{
+			      	doingiagain:true
+			      }
+			   }
+			});
+			var h = new hello();
+			h.yup = 5;
+			var m = new hello();
+			m.yup = 10;
+			console.log(h.yup, m.yup);
+			console.log(JSON.stringify(h))
 		</script>
 	</body>
 </html>

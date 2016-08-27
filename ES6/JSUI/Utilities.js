@@ -1,5 +1,6 @@
 //Elements
 import addClass from '../Utilities/Elements/addClass';
+import getClasses from '../Utilities/Elements/getClasses';
 import childNodes from '../Utilities/Elements/childNodes';
 import getFirstNonTextChild from '../Utilities/Elements/getFirstNonTextChild';
 import getTagName from '../Utilities/Elements/getTagName';
@@ -35,6 +36,7 @@ import uncapitalize from '../Utilities/Strings/uncapitalize';
 var Utilities = {
 	Elements: {
 		addClass: addClass,
+		getClasses: getClasses,
 		childNodes: childNodes,
 		getFirstNonTextChild: getFirstNonTextChild,
 		getTagName: getTagName,
