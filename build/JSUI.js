@@ -6,7 +6,7 @@ function isString(u) {
 }
 
 function isNumber(u) {
-	return typeof u === 'number';
+	return !isNaN(u) && typeof u === 'number';
 }
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -189,8 +189,8 @@ var Extensible = function () {
 		classCallCheck(this, Extensible);
 
 		this.private = {
-			Events: {},
-			Hooks: {}
+			events: {},
+			hooks: {}
 		};
 	}
 
@@ -234,8 +234,8 @@ var Extensible = function () {
 		key: 'on',
 		value: function on(name, method) {
 			if (isString(name) && isFunction$1(method)) {
-				var events = this.private.Events;
-				var hooks = this.private.Hooks;
+				var events = this.private.events;
+				var hooks = this.private.hooks;
 				var pool = events[name];
 				var self = this;
 				if (!pool) {
@@ -268,7 +268,7 @@ var Extensible = function () {
 	}, {
 		key: 'trigger',
 		value: function trigger(event, args) {
-			var hooks = this.private.Hooks;
+			var hooks = this.private.hooks;
 			var hook = hooks[event];
 			if (isFunction$1(hook)) {
 				hook(args);
@@ -1171,7 +1171,7 @@ function on(name, method) {
 	if (!isFunction$1(method)) {
 		return;
 	}
-	var events = (this.private || {}).Events || {};
+	var events = this.private.events;
 	var pool = events[name];
 	var self = this;
 	if (!pool) {
@@ -1943,7 +1943,7 @@ function isHTML(u) {
 }
 
 function isPath(u) {
-	return u[0] === '@';
+	return typeof u === 'string' && u.length > 0 && u[0] === '@';
 }
 
 var Types = {
@@ -2180,9 +2180,9 @@ function constructor$1() {
 		enumerable: false,
 		writable: true,
 		value: {
-			Events: {},
-			Hooks: {},
-			State: {}
+			events: {},
+			hooks: {},
+			state: {}
 		}
 	});
 	Object.defineProperty(this, '$uid', {
@@ -2210,8 +2210,8 @@ function $define(name, value) {
 
 $define('$on', function $on(name, method) {
 	if (isString(name) && isFunction$1(method)) {
-		var events = this.$private.Events;
-		var hooks = this.$private.Hooks;
+		var events = this.$private.events;
+		var hooks = this.$private.hooks;
 		var pool = events[name];
 		var self = this;
 		if (!pool) {
@@ -2242,7 +2242,7 @@ $define('$on', function $on(name, method) {
 	}
 });
 $define('$trigger', function $trigger(event, args) {
-	var hooks = this.$private.Hooks;
+	var hooks = this.$private.hooks;
 	var hook = hooks[event];
 	if (isFunction$1(hook)) {
 		hook(args);
@@ -2253,6 +2253,7 @@ $define('$destructor', function $destructor() {
 		delete this[key];
 	}
 });
+$define('$bind', function $bind(event) {});
 
 var Classes = {
 	Behavior: Behavior,
@@ -2295,7 +2296,7 @@ tags.forEach(function (tag) {
 });
 
 function isNativeTag(u) {
-	return Natives[u];
+	return !!Natives[u];
 }
 
 function isTextNode(u) {
@@ -2512,14 +2513,14 @@ function create(name, json, namespace) {
 		}
 		Object.defineProperty(DataClass.prototype, key, {
 			get: function get() {
-				var state = this.$private.State;
+				var state = this.$private.state;
 				if (!state.hasOwnProperty(key)) {
 					return value;
 				}
-				return this.$private.State[key];
+				return this.$private.state[key];
 			},
 			set: function set(v) {
-				var state = this.$private.State;
+				var state = this.$private.state;
 				if (state) {
 					var old = state[key];
 					state[key] = v;
@@ -2553,6 +2554,18 @@ function create(name, json, namespace) {
 	return DataClass;
 }
 
+function onParsedElementChanged(ev) {
+	var data = ev ? ev.detail : false;
+	if (data) {
+		var owner = data.owner;
+		var attribute = data.property;
+		var value = data.new;
+		if (owner && owner.element && isFunction$1(owner.element.getAttribute)) {
+			owner.element.getAttribute(attribute, isObject(value) ? JSON.stringify(value) : value);
+		}
+	}
+}
+
 function _default(node, classes, container) {
 	var tag = getTagName(node);
 	var type = tag.split('-').reduce(getter, classes);
@@ -2573,7 +2586,7 @@ function _default(node, classes, container) {
 			continue;
 		}
 		instance.add(name);
-		instance.on(name + 'Changed', Parser.Events.onParsedElementChanged);
+		instance.on(name + 'Changed', onParsedElementChanged);
 		instance[name] = value;
 	};
 	var textNodes = [];
@@ -2586,7 +2599,7 @@ function _default(node, classes, container) {
 			return;
 		}
 		var as = child.getAttribute('as');
-		var handle = instance.add(Parser.Types.default(child, classes));
+		var handle = instance.add(_default(child, classes));
 		if (as) {
 			if (handle && isFunction(handle.as)) {
 				handle.as(as);

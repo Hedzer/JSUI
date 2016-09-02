@@ -8,6 +8,7 @@ var rename = require('gulp-rename');
 var footer = require('gulp-footer');
 var rollup = require('rollup-stream');
 var rollup_babel = require('rollup-plugin-babel');
+var rollup_import = require('rollup-plugin-root-import');
 var util = require('gulp-util');
 var runSequence = require('run-sequence');
 
@@ -53,14 +54,42 @@ gulp.task('compress', function(callback) {
 gulp.task('bundle', function(callback) {
 	console.log('-> Building...');
 	return rollup({
-			entry: './ES6/JSUI.js',
+			entry: 'Framework/JSUI.js',
 			format: 'iife',
 			sourceMap: true,
 			plugins: [
+				rollup_import({
+					root: './',
+					useEntry: 'prepend',
+					extensions: '.js'
+				}),
 				rollup_babel({})
 			]
 		})
 		.pipe(source('JSUI.js'))
+		.pipe(buffer())
+		.pipe(sourcemaps.init({
+			loadMaps: true
+		}))
+		.pipe(sourcemaps.write('./'))
+		.pipe(gulp.dest('./build'));
+});
+gulp.task('bundle-test', function(callback) {
+	console.log('-> Building...');
+	return rollup({
+			entry: 'Tests/JSUI.js',
+			format: 'iife',
+			sourceMap: true,
+			plugins: [
+				rollup_import({
+					root: './',
+					useEntry: 'prepend',
+					extensions: '.js'
+				}),
+				rollup_babel({})
+			]
+		})
+		.pipe(source('JSUI.Tests.js'))
 		.pipe(buffer())
 		.pipe(sourcemaps.init({
 			loadMaps: true
@@ -81,5 +110,10 @@ gulp.task('default', function() {
 	return gulp.start('dev');
 });
 gulp.task('watch', function() {
-	gulp.watch('./ES6/**/*.js', ['default']);
+	console.log('-> Watching Framework')
+	gulp.watch('./Framework/**/*.js', ['default']);
+});
+gulp.task('watch-test', function() {
+	console.log('-> Watching Tests')
+	gulp.watch('./Tests/**/*.js', ['bundle-test']);
 });
