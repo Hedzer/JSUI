@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>JSUI New Element Class</title>
+</head>
+
+<body>
+	<script type="text/javascript" src="../build/JSUI.js"></script>
+	<script type="text/javascript">
+		var structure = new JSUI.Style.Rule('.Example', {
+			display: 'block',
+			width: '100px',
+			height: '100px'
+		});
+		var theme = new JSUI.Style.Rule('.Example', {
+			background: 'green'
+		});
+		class Example extends JSUI.Elements.div {
+			constructor() {
+				super();
+				this.type = 'Example';
+				this.add([structure, theme]);
+			}
+		}
+		var example = new Example();
+		example.addTo(document.body);
+	</script>
+</body>
+</html>

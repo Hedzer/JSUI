@@ -1,10 +1,11 @@
 export default function add(host, name, defaultValue){
-	var value = defaultValue;
 	Object.defineProperty(host, name, {
 		get:function(){
+			var value = (this.private.state.hasOwnProperty(name) ? this.private.state[name] : defaultValue);
 			return value;
 		},
 		set:function(v){
+			var value = (this.private.state.hasOwnProperty(name) ? this.private.state[name] : defaultValue);
 			var old = value;
 			value = v;
 			if (old !== v){

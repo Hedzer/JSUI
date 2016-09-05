@@ -6,13 +6,11 @@ import { default as addProperty } from '/Framework/Utilities/Properties/add';
 import { default as removeEvent } from '/Framework/Utilities/Events/remove';
 import { default as removeAllEvents } from '/Framework/Utilities/Events/removeAll';
 import uid from '/Framework/Utilities/General/uid';
+import constructor from '/Framework/Classes/Extensible/constructor';
 
 export default class Extensible {
 	constructor() {
-		this.private = {
-			events:{},
-			hooks:{}
-		};
+		constructor.call(this);
 	}
 	add(item, value) {
 		if (isString(item)) {

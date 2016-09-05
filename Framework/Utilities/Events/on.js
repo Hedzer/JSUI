@@ -4,14 +4,6 @@ import uid from '/Framework/Utilities/General/uid';
 import remove from '/Framework/Utilities/Events/remove';
 import removeAll from '/Framework/Utilities/Events/removeAll';
 
-function hook(pool) {
-	var args = arguments;
-	Object.keys(pool).forEach((id) => {
-		var method = pool[id];
-		method.apply(this, args);
-	});
-};
-
 export default function on(name, method) {
 	if (!isFunction(method)) {return; }
 	var events = this.private.events;
@@ -20,7 +12,13 @@ export default function on(name, method) {
 	if (!pool){
 		events[name] = {};
 		pool = events[name];
-		var dispatcher = hook.bind(this, pool);
+		function dispatcher() {
+			var args = arguments;
+			Object.keys(pool).forEach((id) => {
+				var method = pool[id];
+				method.apply(this, args);
+			});
+		};
 		var element = this.element;
 		if (isElement(element)) {
 			element.addEventListener(name, dispatcher, false);

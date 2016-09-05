@@ -31,6 +31,7 @@ export default class Element extends Styleable {
 	constructor(tag){
 		super(tag);
 		constructor.call(this, tag);
+		
 		//if not default, change the context of the child elements
 		this.on('contextChanged', () => {
 			this.children((child) => {

@@ -1,5 +1,5 @@
 import Element from '/Framework/Classes/Element';
-import { default as elementConstructor } from '/Framework/Classes/Element/constructor';
+import { default as elementConstructor } from '/Framework/Reflection/Class/constructor';
 import cleanName from '/Framework/Utilities/Functions/cleanName';
 import feval from '/Framework/Reflection/feval';
 
