@@ -25,4 +25,5 @@ var isArray = {
 		}
 	]
 };
+
 export default isArray;

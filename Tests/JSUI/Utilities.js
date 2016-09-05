@@ -1,10 +1,10 @@
 //Elements
 import addClass from '/Tests/Utilities/Elements/addClass';
-// import getClasses from '/Tests/Utilities/Elements/getClasses';
-// import childNodes from '/Tests/Utilities/Elements/childNodes';
-// import getFirstNonTextChild from '/Tests/Utilities/Elements/getFirstNonTextChild';
-// import getTagName from '/Tests/Utilities/Elements/getTagName';
-// import getTextNodes from '/Tests/Utilities/Elements/getTextNodes';
+import getClasses from '/Tests/Utilities/Elements/getClasses';
+import childNodes from '/Tests/Utilities/Elements/childNodes';
+import getFirstNonTextChild from '/Tests/Utilities/Elements/getFirstNonTextChild';
+import getTagName from '/Tests/Utilities/Elements/getTagName';
+import getTextNodes from '/Tests/Utilities/Elements/getTextNodes';
 // import nodeAttributes from '/Tests/Utilities/Elements/nodeAttributes';
 
 // //Events
@@ -35,12 +35,12 @@ import addClass from '/Tests/Utilities/Elements/addClass';
 
 var Utilities = {
 	Elements: {
-		// addClass: addClass,
-		// getClasses: getClasses,
-		// childNodes: childNodes,
-		// getFirstNonTextChild: getFirstNonTextChild,
-		// getTagName: getTagName,
-		// getTextNodes: getTextNodes,
+		addClass: addClass,
+		getClasses: getClasses,
+		childNodes: childNodes,
+		getFirstNonTextChild: getFirstNonTextChild,
+		getTagName: getTagName,
+		getTextNodes: getTextNodes,
 		// nodeAttributes: nodeAttributes
 	},
 	// Events: {

@@ -462,12 +462,16 @@ function add(host, name, defaultValue) {
 	});
 }
 
+function isString(u) {
+	return typeof u === 'string';
+}
+
 function addClass(el, name) {
-	if (!name || !isElement$1(el)) {
+	if (!isString(name) || !isElement$1(el)) {
 		return;
 	}
 	if (el.classList && el.classList.add) {
-		el.classList.add(name);
+		el.classList.add.apply(el.classList, name.split(' '));
 		return;
 	}
 	var classes = el.className.split(' ');
@@ -490,10 +494,6 @@ var defaults$1 = {
 
 function isObject(u) {
 	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object';
-}
-
-function isString(u) {
-	return typeof u === 'string';
 }
 
 var vendors = ['webkit', 'moz', 'ms', 'o'];
@@ -3204,6 +3204,161 @@ describe("Framework/TypeChecks/isUData", function () {
 		expect(isUStyleRule$2(true)).toBe(false);
 	});
 });
+
+describe("Framework/Utilities/Elements/addClass", function () {
+	it("should add a class when there is none", function () {
+		var el = document.createElement('div');
+		addClass(el, 'test');
+		expect(el.className).toBe('test');
+	});
+	it("should add a class when there is already one", function () {
+		var el = document.createElement('div');
+		addClass(el, 'test');
+		addClass(el, 'test2');
+		expect(el.className).toBe('test test2');
+	});
+	it("should add multiple space delimited classes when there are none", function () {
+		var el = document.createElement('div');
+		addClass(el, 'test test2');
+		expect(el.className).toBe('test test2');
+	});
+	it("should add multiple space delimited classes when there already is one", function () {
+		var el = document.createElement('div');
+		addClass(el, 'test');
+		addClass(el, 'test2 test3');
+		expect(el.className).toBe('test test2 test3');
+	});
+});
+
+describe("Framework/Utilities/Elements/getClasses", function () {
+	it("should return an object with class names for keys, true for values", function () {
+		var el = document.createElement('div');
+		el.className = 'a b c';
+		var classes = getClasses(el);
+		expect(classes).toEqual({
+			a: true,
+			b: true,
+			c: true
+		});
+	});
+});
+
+function placeholder() {}
+function childNodes$1(node, callback) {
+	if (!isFunction$1(callback)) {
+		callback = placeholder;
+	}
+	if (!isElement$1(node)) {
+		return;
+	}
+	var children = [];
+	var count = node.childNodes.length;
+	for (var i = 0; i < count; i++) {
+		var child = node.childNodes[i];
+		children.push(child);
+		if (callback(child)) {
+			break;
+		}
+	}
+	return children;
+}
+
+describe("Framework/Utilities/Elements/childNodes", function () {
+	var el = document.createElement('div');
+	var children = [document.createElement('a'), document.createElement('b'), document.createElement('c')];
+	el.appendChild(children[0]);
+	el.appendChild(children[1]);
+	el.appendChild(children[2]);
+
+	it("should iterate over existing nodes", function () {
+		var n = 0;
+		childNodes$1(el, function (child) {
+			expect(children[n]).toBe(child);
+			n++;
+		});
+	});
+	it("should iterate over existing nodes, break when true is returned", function () {
+		var n = 0;
+		childNodes$1(el, function (child) {
+			n++;
+			return true;
+		});
+		expect(n).toBe(1);
+	});
+	it("should return an array with children", function () {
+		var kids = childNodes$1(el);
+		expect(kids).toEqual(children);
+	});
+});
+
+function getFirstNonTextChild$1(node) {
+	if (isElement$1(node)) {
+		var root;
+		childNodes$1(node, function (child) {
+			if (!isTextNode$1(child)) {
+				root = child;
+				return true;
+			}
+		});
+		return root;
+	}
+}
+
+describe("Framework/Utilities/Elements/getFirstNonTextChild", function () {
+	it("should return the first non-text node of an element's set of chidren", function () {
+		var el = document.createElement('div');
+		var textNode = document.createTextNode('test');
+		var notATextNode = el.appendChild(document.createElement('a'));
+		el.appendChild(document.createElement('b'));
+		el.appendChild(textNode);
+		expect(getFirstNonTextChild$1(el)).toEqual(notATextNode);
+	});
+});
+
+describe("Framework/Utilities/Elements/getTagName", function () {
+	it("should get the tag name of the element", function () {
+		var el = document.createElement('div');
+		expect(getTagName(el)).toBe('div');
+	});
+	it("should get the tag name of each element in HTML Constants", function () {
+		tags.forEach(function (tag) {
+			var el = document.createElement(tag);
+			expect(getTagName(el)).toBe(tag);
+		});
+	});
+});
+
+function getTextNodes$1(el, stopAtFirst) {
+	var nodes = [];
+	for (var i = 0; i < el.childNodes.length; i++) {
+		var node = el.childNodes[i];
+		if (isTextNode$1(node)) {
+			nodes.push(node);
+			if (stopAtFirst) {
+				break;
+			}
+		}
+	}
+	return nodes;
+}
+
+describe("Framework/Utilities/Elements/getTextNodes", function () {
+	it("get the text nodes of an element", function () {
+		var el = document.createElement('div');
+		var c1 = document.createElement('a');
+		var t1 = document.createTextNode('test1');
+		var c2 = document.createElement('a');
+		var t2 = document.createTextNode('test2');
+		var c3 = document.createElement('a');
+		[c1, t1, c2, t2, c3].forEach(function (child) {
+			el.appendChild(child);
+		});
+		var textNodes = [t1, t2];
+		expect(getTextNodes$1(el)).toEqual(textNodes);
+	});
+});
+
+//Elements
 
 }());
 
