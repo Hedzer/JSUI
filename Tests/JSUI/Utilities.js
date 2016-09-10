@@ -5,11 +5,12 @@ import childNodes from '/Tests/Utilities/Elements/childNodes';
 import getFirstNonTextChild from '/Tests/Utilities/Elements/getFirstNonTextChild';
 import getTagName from '/Tests/Utilities/Elements/getTagName';
 import getTextNodes from '/Tests/Utilities/Elements/getTextNodes';
-// import nodeAttributes from '/Tests/Utilities/Elements/nodeAttributes';
+import nodeAttributes from '/Tests/Utilities/Elements/nodeAttributes';
 
 // //Events
-// import remove from '/Tests/Utilities/Events/remove';
-// import removeAll from '/Tests/Utilities/Events/removeAll';
+import on from '/Tests/Utilities/Events/on';
+import remove from '/Tests/Utilities/Events/remove';
+import removeAll from '/Tests/Utilities/Events/removeAll';
 
 // //Functions
 // import debounce from '/Tests/Utilities/Functions/debounce';
@@ -30,8 +31,8 @@ import getTextNodes from '/Tests/Utilities/Elements/getTextNodes';
 // import getAll from '/Tests/Utilities/Properties/getAll';
 
 // //Strings
-// import capitalize from '/Tests/Utilities/Strings/capitalize';
-// import uncapitalize from '/Tests/Utilities/Strings/uncapitalize';
+import capitalize from '/Tests/Utilities/Strings/capitalize';
+import uncapitalize from '/Tests/Utilities/Strings/uncapitalize';
 
 var Utilities = {
 	Elements: {
@@ -41,12 +42,13 @@ var Utilities = {
 		getFirstNonTextChild: getFirstNonTextChild,
 		getTagName: getTagName,
 		getTextNodes: getTextNodes,
-		// nodeAttributes: nodeAttributes
+		nodeAttributes: nodeAttributes
 	},
-	// Events: {
-	// 	remove: remove,
-	// 	removeAll: removeAll
-	// },
+	Events: {
+		on: on,
+		remove: remove,
+		removeAll: removeAll
+	},
 	// Functions: {
 	// 	debounce: debounce
 	// },
@@ -65,10 +67,10 @@ var Utilities = {
 	// 	doOrSet: doOrSet,
 	// 	getAll: getAll
 	// },
-	// Strings: {
-	// 	capitalize: capitalize,
-	// 	uncapitalize: uncapitalize
-	// }
+	Strings: {
+		capitalize: capitalize,
+		uncapitalize: uncapitalize
+	}
 };
 
 export default Utilities;

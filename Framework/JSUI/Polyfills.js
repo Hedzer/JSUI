@@ -7,6 +7,9 @@ import reduce from '/Framework/Polyfills/Array/reduce';
 //Object
 import keys from '/Framework/Polyfills/Object/keys';
 
+//DOM
+import CustomEvent from '/Framework/Polyfills/DOM/CustomEvent';
+
 var Polyfilled = {
 	Array: {
 		forEach: forEach,
@@ -16,6 +19,9 @@ var Polyfilled = {
 	},
 	Object: {
 		keys: keys
+	},
+	DOM: {
+		CustomEvent: CustomEvent
 	}
 };
 

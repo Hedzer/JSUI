@@ -1,7 +1,7 @@
 import getTextNodes from '/Framework/Utilities/Elements/getTextNodes';
 
 export default describe("Framework/Utilities/Elements/getTextNodes", function() {
-	it("get the text nodes of an element", function() {
+	it("gets the text nodes of an element", function() {
 		var el = document.createElement('div');
 		var c1 = document.createElement('a');
 		var t1 = document.createTextNode('test1');

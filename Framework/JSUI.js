@@ -1,3 +1,4 @@
+import Polyfills from '/Framework/JSUI/Polyfills';
 import Classes from '/Framework/JSUI/Classes';
 import Constants from '/Framework/JSUI/Constants';
 import Singletons from '/Framework/JSUI/Singletons';
@@ -27,7 +28,8 @@ var JSUI = {
 	Utilities: Utilities,
 	Sorts: Sorts,
 	Reflection: Reflection,
-	Data: Data
+	Data: Data,
+	Polyfilled: Polyfills
 };
 
 window.JSUI = JSUI;

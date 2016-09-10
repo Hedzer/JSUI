@@ -10,6 +10,7 @@ import nodeAttributes from '/Framework/Utilities/Elements/nodeAttributes';
 //Events
 import remove from '/Framework/Utilities/Events/remove';
 import removeAll from '/Framework/Utilities/Events/removeAll';
+import on from '/Framework/Utilities/Events/on';
 
 //Functions
 import debounce from '/Framework/Utilities/Functions/debounce';
@@ -44,6 +45,7 @@ var Utilities = {
 		nodeAttributes: nodeAttributes
 	},
 	Events: {
+		on: on,
 		remove: remove,
 		removeAll: removeAll
 	},

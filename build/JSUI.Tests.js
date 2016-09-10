@@ -435,12 +435,13 @@ function unhandled(args) {
 }
 
 function add(host, name, defaultValue) {
-	var value = defaultValue;
 	Object.defineProperty(host, name, {
 		get: function get() {
+			var value = this.private.state.hasOwnProperty(name) ? this.private.state[name] : defaultValue;
 			return value;
 		},
 		set: function set(v) {
+			var value = this.private.state.hasOwnProperty(name) ? this.private.state[name] : defaultValue;
 			var old = value;
 			value = v;
 			if (old !== v) {
@@ -546,14 +547,19 @@ function uid() {
 	return prefix + current++;
 }
 
+function constructor$1() {
+	this.private = {
+		state: {},
+		events: {},
+		hooks: {}
+	};
+}
+
 var Extensible = function () {
 	function Extensible() {
 		classCallCheck(this, Extensible);
 
-		this.private = {
-			events: {},
-			hooks: {}
-		};
+		constructor$1.call(this);
 	}
 
 	createClass(Extensible, [{
@@ -647,6 +653,10 @@ var Extensible = function () {
 	return Extensible;
 }();
 
+function constructor$2() {
+	this.uid = uid();
+}
+
 var Distinct = function (_Extensible) {
 	inherits(Distinct, _Extensible);
 
@@ -655,7 +665,7 @@ var Distinct = function (_Extensible) {
 
 		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(Distinct).call(this));
 
-		_this.uid = uid();
+		constructor$2.call(_this);
 		return _this;
 	}
 
@@ -1039,16 +1049,6 @@ function _object(assignments) {
 	return results;
 }
 
-function hook(pool) {
-	var _this = this;
-
-	var args = arguments;
-	Object.keys(pool).forEach(function (id) {
-		var method = pool[id];
-		method.apply(_this, args);
-	});
-};
-
 function on(name, method) {
 	if (!isFunction$1(method)) {
 		return;
@@ -1057,9 +1057,19 @@ function on(name, method) {
 	var pool = events[name];
 	var self = this;
 	if (!pool) {
+		var dispatcher = function dispatcher() {
+			var _this = this;
+
+			var args = arguments;
+			Object.keys(pool).forEach(function (id) {
+				var method = pool[id];
+				method.apply(_this, args);
+			});
+		};
+
 		events[name] = {};
 		pool = events[name];
-		var dispatcher = hook.bind(this, pool);
+		;
 		var element = this.element;
 		if (isElement$1(element)) {
 			element.addEventListener(name, dispatcher, false);
@@ -1423,19 +1433,26 @@ var Text = {
 	path: _path$7
 };
 
+function placeholder() {}
 function nodeAttributes(node, callback) {
 	if (!isFunction$1(callback)) {
+		callback = placeholder;
+	}
+	if (!isElement$1(node)) {
 		return;
 	}
-	if (isElement$1(node)) {
-		var attributes = node.attributes;
-		for (var i = attributes.length - 1; i >= 0; i--) {
-			var attribute = attributes[i];
-			var name = attribute.name;
-			var value = attribute.value;
-			callback(name, value, attribute);
-		};
-	}
+	var attributeList = node.attributes;
+	var attributes = {};
+	for (var i = attributeList.length - 1; i >= 0; i--) {
+		var attribute = attributeList[i];
+		var name = attribute.name;
+		var value = attribute.value;
+		attributes[name] = value;
+		if (callback(name, value, attribute)) {
+			break;
+		}
+	};
+	return attributes;
 }
 
 function _undefined$2() {
@@ -2002,6 +2019,13 @@ function isStyleRule(u) {
 	return u instanceof StyleSheetRule;
 }
 
+function constructor$3() {
+	this.private.context = 'default';
+	this.private.style = {
+		rules: {}
+	};
+}
+
 var Styleable = function (_Distinct) {
 	inherits(Styleable, _Distinct);
 
@@ -2010,10 +2034,7 @@ var Styleable = function (_Distinct) {
 
 		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(Styleable).call(this));
 
-		_this.private.context = 'default';
-		_this.private.style = {
-			rules: {}
-		};
+		constructor$3.call(_this);
 		return _this;
 	}
 
@@ -2078,6 +2099,7 @@ var Element$1 = function (_Styleable) {
 		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(Element).call(this, tag));
 
 		constructor.call(_this, tag);
+
 		//if not default, change the context of the child elements
 		_this.on('contextChanged', function () {
 			_this.children(function (child) {
@@ -2978,7 +3000,7 @@ describe("Framework/TypeChecks/isUStyleRule", function () {
 	});
 });
 
-function constructor$1() {
+function constructor$4() {
 	Object.defineProperty(this, '$private', {
 		configurable: true,
 		enumerable: false,
@@ -3000,7 +3022,7 @@ function constructor$1() {
 var Data = function Data() {
 	classCallCheck(this, Data);
 
-	constructor$1.call(this);
+	constructor$4.call(this);
 };
 
 function $define(name, value) {
@@ -3243,10 +3265,10 @@ describe("Framework/Utilities/Elements/getClasses", function () {
 	});
 });
 
-function placeholder() {}
+function placeholder$1() {}
 function childNodes$1(node, callback) {
 	if (!isFunction$1(callback)) {
-		callback = placeholder;
+		callback = placeholder$1;
 	}
 	if (!isElement$1(node)) {
 		return;
@@ -3343,7 +3365,7 @@ function getTextNodes$1(el, stopAtFirst) {
 }
 
 describe("Framework/Utilities/Elements/getTextNodes", function () {
-	it("get the text nodes of an element", function () {
+	it("gets the text nodes of an element", function () {
 		var el = document.createElement('div');
 		var c1 = document.createElement('a');
 		var t1 = document.createTextNode('test1');
@@ -3358,7 +3380,107 @@ describe("Framework/Utilities/Elements/getTextNodes", function () {
 	});
 });
 
+describe("Framework/Utilities/Elements/nodeAttributes", function () {
+	var el = document.createElement('a');
+	var attrs = {
+		title: 'test',
+		href: 'http://faux-test.com'
+	};
+	for (var name in attrs) {
+		el.setAttribute(name, attrs[name]);
+	}
+
+	it("should iterate over existing attributes", function () {
+		var n = 0;
+		nodeAttributes(el, function (name, value) {
+			expect(attrs[name]).toBe(value);
+		});
+	});
+	it("should iterate over existing attributes, break when true is returned", function () {
+		var n = 0;
+		nodeAttributes(el, function (name, value) {
+			n++;
+			return true;
+		});
+		expect(n).toBe(1);
+	});
+	it("should return an object with attribute names as keys and attribute values as values", function () {
+		var attributes = nodeAttributes(el);
+		for (var name in attributes) {
+			expect(attributes[name]).toEqual(attrs[name]);
+		}
+	});
+});
+
+describe("Framework/Utilities/Events/on", function () {
+	var host = {
+		private: {
+			state: {},
+			events: {},
+			hooks: {}
+		}
+	};
+	var triggered = false;
+	var eventName = 'testEvent';
+	var action = function action() {
+		triggered = true;
+	};
+	var handler = on.call(host, eventName, action);
+	it("should have registered events", function () {
+		expect(host.private.events[eventName]).not.toBeUndefined(action);
+		expect(host.private.events[eventName][handler.id]).toBe(action);
+	});
+});
+
+describe("Framework/Utilities/Events/remove", function () {
+	it("", function () {
+		expect().toBe();
+	});
+});
+
+describe("Framework/Utilities/Events/removeAll", function () {
+	it("", function () {
+		expect().toBe();
+	});
+});
+
+function capitalize$1(text) {
+	return text.charAt(0).toUpperCase() + text.slice(1);
+};
+
+describe("Framework/Utilities/Strings/capitalize", function () {
+	it("should capitalize a string", function () {
+		expect(capitalize$1('test')).toBe('Test');
+	});
+});
+
+describe("Framework/Utilities/Strings/uncapitalize", function () {
+	it("should uncapitalize a string", function () {
+		expect(uncapitalize('Test')).toBe('test');
+	});
+});
+
 //Elements
+// //Events
+// //Functions
+// import debounce from '/Tests/Utilities/Functions/debounce';
+
+// //General
+// import uid from '/Tests/Utilities/General/uid';
+
+// //Paths
+// import get from '/Tests/Utilities/Paths/get';
+// import getter from '/Tests/Utilities/Paths/getter';
+// import set from '/Tests/Utilities/Paths/set';
+// import setter from '/Tests/Utilities/Paths/setter';
+// import getWithContext from '/Tests/Utilities/Paths/getWithContext';
+
+// //Properties
+// import add from '/Tests/Utilities/Properties/add';
+// import doOrSet from '/Tests/Utilities/Properties/doOrSet';
+// import getAll from '/Tests/Utilities/Properties/getAll';
+
+// //Strings
 
 }());
 

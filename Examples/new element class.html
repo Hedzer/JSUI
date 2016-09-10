@@ -8,15 +8,21 @@
 <body>
 	<script type="text/javascript" src="../build/JSUI.js"></script>
 	<script type="text/javascript">
+
+		//separate file
 		var structure = new JSUI.Style.Rule('.Example', {
 			display: 'block',
 			width: '100px',
 			height: '100px'
 		});
+
+		//separate file
 		var theme = new JSUI.Style.Rule('.Example', {
 			background: 'green'
 		});
-		class Example extends JSUI.Elements.div {
+
+		//separate file
+		class Example extends JSUI.Elements.Div {
 			constructor() {
 				super();
 				this.type = 'Example';
