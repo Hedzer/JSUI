@@ -1,4 +1,4 @@
-import rules from '/Framework/Sorts/StyleSheet/rules';
+import rules from 'Framework/Sorts/StyleSheet/rules';
 
 var Sorts = {
 	StyleSheet: {

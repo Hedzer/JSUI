@@ -1,7 +1,7 @@
-import Element from '/Framework/Classes/Element';
-import { default as elementConstructor } from '/Framework/Reflection/Class/constructor';
-import cleanName from '/Framework/Utilities/Functions/cleanName';
-import feval from '/Framework/Reflection/feval';
+import Element from 'Framework/Classes/Element';
+import { default as elementConstructor } from 'Framework/Reflection/Class/constructor';
+import cleanName from 'Framework/Utilities/Functions/cleanName';
+import feval from 'Framework/Reflection/feval';
 
 export default (function create(name, tag, inherits, constructor) {
 	name = cleanName(name);

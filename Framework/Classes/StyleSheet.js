@@ -1,11 +1,11 @@
-import isString from '/Framework/TypeChecks/isString';
-import isFunction from '/Framework/TypeChecks/isFunction';
-import isNumber from '/Framework/TypeChecks/isNumber';
-import isStyleRule from '/Framework/TypeChecks/isStyleRule';
-import isUStyleRule from '/Framework/TypeChecks/isUStyleRule';
-import { default as sort } from '/Framework/Sorts/StyleSheet/rules';
-import Sheets from '/Framework/Singletons/Style/Sheets';
-import Distinct from '/Framework/Classes/Distinct';
+import isString from 'Framework/TypeChecks/isString';
+import isFunction from 'Framework/TypeChecks/isFunction';
+import isNumber from 'Framework/TypeChecks/isNumber';
+import isStyleRule from 'Framework/TypeChecks/isStyleRule';
+import isUStyleRule from 'Framework/TypeChecks/isUStyleRule';
+import { default as sort } from 'Framework/Sorts/StyleSheet/rules';
+import Sheets from 'Framework/Singletons/Style/Sheets';
+import Distinct from 'Framework/Classes/Distinct';
 
 export default class StyleSheet extends Distinct {
 	constructor(context) {

@@ -1,6 +1,6 @@
-import isFunction from '/Framework/TypeChecks/isFunction';
-import isArray from '/Framework/TypeChecks/isArray';
-import getWithContext from '/Framework/Utilities/Paths/getWithContext';
+import isFunction from 'Framework/TypeChecks/isFunction';
+import isArray from 'Framework/TypeChecks/isArray';
+import getWithContext from 'Framework/Utilities/Paths/getWithContext';
 
 export default function _path(command, args) {
 	var path = getWithContext(this, command);

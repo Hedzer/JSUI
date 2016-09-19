@@ -1,31 +1,31 @@
-import getHandledType from '/Framework/Classes/Element/getHandledType';
-import unhandled from '/Framework/Classes/General/Handlers/unhandled';
-import isFunction from '/Framework/TypeChecks/isFunction';
-import isArray from '/Framework/TypeChecks/isArray';
-import isElement from '/Framework/TypeChecks/isElement';
-import isEmptyString from '/Framework/TypeChecks/isEmptyString';
+import getHandledType from 'Framework/Classes/Element/getHandledType';
+import unhandled from 'Framework/Classes/General/Handlers/unhandled';
+import isFunction from 'Framework/TypeChecks/isFunction';
+import isArray from 'Framework/TypeChecks/isArray';
+import isElement from 'Framework/TypeChecks/isElement';
+import isEmptyString from 'Framework/TypeChecks/isEmptyString';
 
 //constructor & destructor
-import constructor from '/Framework/Classes/Element/constructor';
-import destructor from '/Framework/Classes/Element/destructor';
+import constructor from 'Framework/Classes/Element/constructor';
+import destructor from 'Framework/Classes/Element/destructor';
 
 //handlers
-import Add from '/Framework/Classes/Element/Handlers/Add';
-import AddTo from '/Framework/Classes/Element/Handlers/AddTo';
-import Remove from '/Framework/Classes/Element/Handlers/Remove';
-import On from '/Framework/Classes/Element/Handlers/On';
-import Trigger from '/Framework/Classes/Element/Handlers/Trigger';
-import Find from '/Framework/Classes/Element/Handlers/Find';
-import With from '/Framework/Classes/Element/Handlers/With';
-import Do from '/Framework/Classes/Element/Handlers/Do';
-import Get from '/Framework/Classes/Element/Handlers/Get';
-import Set from '/Framework/Classes/Element/Handlers/Set';
-import Text from '/Framework/Classes/Element/Handlers/Text';
-import Attribute from '/Framework/Classes/Element/Handlers/Attribute';
-import Class from '/Framework/Classes/Element/Handlers/Class';
+import Add from 'Framework/Classes/Element/Handlers/Add';
+import AddTo from 'Framework/Classes/Element/Handlers/AddTo';
+import Remove from 'Framework/Classes/Element/Handlers/Remove';
+import On from 'Framework/Classes/Element/Handlers/On';
+import Trigger from 'Framework/Classes/Element/Handlers/Trigger';
+import Find from 'Framework/Classes/Element/Handlers/Find';
+import With from 'Framework/Classes/Element/Handlers/With';
+import Do from 'Framework/Classes/Element/Handlers/Do';
+import Get from 'Framework/Classes/Element/Handlers/Get';
+import Set from 'Framework/Classes/Element/Handlers/Set';
+import Text from 'Framework/Classes/Element/Handlers/Text';
+import Attribute from 'Framework/Classes/Element/Handlers/Attribute';
+import Class from 'Framework/Classes/Element/Handlers/Class';
 
 //classes
-import Styleable from '/Framework/Classes/Styleable';
+import Styleable from 'Framework/Classes/Styleable';
 
 export default class Element extends Styleable {
 	constructor(tag){

@@ -1,7 +1,7 @@
-import isNull from '/Framework/TypeChecks/isNull';
-import vendors from '/Framework/Constants/CSS/vendors';
-import equivalents from '/Framework/Constants/CSS/equivalents';
-import Distinct from '/Framework/Classes/Distinct';
+import isNull from 'Framework/TypeChecks/isNull';
+import vendors from 'Framework/Constants/CSS/vendors';
+import equivalents from 'Framework/Constants/CSS/equivalents';
+import Distinct from 'Framework/Classes/Distinct';
 
  class StyleRules extends Distinct {
 	constructor() {

@@ -1,5 +1,5 @@
-import isString from '/Framework/TypeChecks/isString';
-import isElement from '/Framework/TypeChecks/isElement';
+import isString from 'Framework/TypeChecks/isString';
+import isElement from 'Framework/TypeChecks/isElement';
 
 export default function addClass(el, name) {
 	if (!isString(name) || !isElement(el)) {return; }

@@ -1,4 +1,4 @@
-import Sheets from '/Framework/Singletons/Style/Sheets';
+import Sheets from 'Framework/Singletons/Style/Sheets';
 
 var Singletons = {
 	Style: {

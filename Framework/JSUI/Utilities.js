@@ -1,38 +1,38 @@
 //Elements
-import addClass from '/Framework/Utilities/Elements/addClass';
-import getClasses from '/Framework/Utilities/Elements/getClasses';
-import childNodes from '/Framework/Utilities/Elements/childNodes';
-import getFirstNonTextChild from '/Framework/Utilities/Elements/getFirstNonTextChild';
-import getTagName from '/Framework/Utilities/Elements/getTagName';
-import getTextNodes from '/Framework/Utilities/Elements/getTextNodes';
-import nodeAttributes from '/Framework/Utilities/Elements/nodeAttributes';
+import addClass from 'Framework/Utilities/Elements/addClass';
+import getClasses from 'Framework/Utilities/Elements/getClasses';
+import childNodes from 'Framework/Utilities/Elements/childNodes';
+import getFirstNonTextChild from 'Framework/Utilities/Elements/getFirstNonTextChild';
+import getTagName from 'Framework/Utilities/Elements/getTagName';
+import getTextNodes from 'Framework/Utilities/Elements/getTextNodes';
+import nodeAttributes from 'Framework/Utilities/Elements/nodeAttributes';
 
 //Events
-import remove from '/Framework/Utilities/Events/remove';
-import removeAll from '/Framework/Utilities/Events/removeAll';
-import on from '/Framework/Utilities/Events/on';
+import remove from 'Framework/Utilities/Events/remove';
+import removeAll from 'Framework/Utilities/Events/removeAll';
+import on from 'Framework/Utilities/Events/on';
 
 //Functions
-import debounce from '/Framework/Utilities/Functions/debounce';
+import debounce from 'Framework/Utilities/Functions/debounce';
 
 //General
-import uid from '/Framework/Utilities/General/uid';
+import uid from 'Framework/Utilities/General/uid';
 
 //Paths
-import get from '/Framework/Utilities/Paths/get';
-import getter from '/Framework/Utilities/Paths/getter';
-import set from '/Framework/Utilities/Paths/set';
-import setter from '/Framework/Utilities/Paths/setter';
-import getWithContext from '/Framework/Utilities/Paths/getWithContext';
+import get from 'Framework/Utilities/Paths/get';
+import getter from 'Framework/Utilities/Paths/getter';
+import set from 'Framework/Utilities/Paths/set';
+import setter from 'Framework/Utilities/Paths/setter';
+import getWithContext from 'Framework/Utilities/Paths/getWithContext';
 
 //Properties
-import add from '/Framework/Utilities/Properties/add';
-import doOrSet from '/Framework/Utilities/Properties/doOrSet';
-import getAll from '/Framework/Utilities/Properties/getAll';
+import add from 'Framework/Utilities/Properties/add';
+import doOrSet from 'Framework/Utilities/Properties/doOrSet';
+import getAll from 'Framework/Utilities/Properties/getAll';
 
 //Strings
-import capitalize from '/Framework/Utilities/Strings/capitalize';
-import uncapitalize from '/Framework/Utilities/Strings/uncapitalize';
+import capitalize from 'Framework/Utilities/Strings/capitalize';
+import uncapitalize from 'Framework/Utilities/Strings/uncapitalize';
 
 var Utilities = {
 	Elements: {

@@ -1,9 +1,9 @@
-import isFunction from '/Framework/TypeChecks/isFunction';
-import isString from '/Framework/TypeChecks/isString';
-import uid from '/Framework/Utilities/General/uid';
-import { default as removeEvent } from '/Framework/Utilities/Events/remove';
-import { default as removeAllEvents } from '/Framework/Utilities/Events/removeAll';
-import { default as constructor } from '/Framework/Classes/Data/constructor';
+import isFunction from 'Framework/TypeChecks/isFunction';
+import isString from 'Framework/TypeChecks/isString';
+import uid from 'Framework/Utilities/General/uid';
+import { default as removeEvent } from 'Framework/Utilities/Events/remove';
+import { default as removeAllEvents } from 'Framework/Utilities/Events/removeAll';
+import { default as constructor } from 'Framework/Classes/Data/constructor';
 
 class Data {
 	constructor() {

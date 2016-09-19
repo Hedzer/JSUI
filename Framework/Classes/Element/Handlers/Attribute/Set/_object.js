@@ -1,4 +1,4 @@
-import isObject from '/Framework/TypeChecks/isObject';
+import isObject from 'Framework/TypeChecks/isObject';
 
 export default function _object(macro, value){
 	var result = (isObject(value) ? value : {});

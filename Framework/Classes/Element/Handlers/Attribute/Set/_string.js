@@ -1,5 +1,5 @@
-import isUndefined from '/Framework/TypeChecks/isUndefined';
-import isNull from '/Framework/TypeChecks/isNull';
+import isUndefined from 'Framework/TypeChecks/isUndefined';
+import isNull from 'Framework/TypeChecks/isNull';
 
 export default function _set_string(name, value) {
 	if (isUndefined(value) || isNull(value)) {

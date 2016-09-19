@@ -1,4 +1,4 @@
-import addClass from '/Framework/Utilities/Elements/addClass';
+import addClass from 'Framework/Utilities/Elements/addClass';
 
 export default function _jsui(instance){
 	if (this.element && instance.element){

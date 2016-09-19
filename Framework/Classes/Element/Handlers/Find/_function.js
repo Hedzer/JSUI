@@ -1,4 +1,4 @@
-import Element from '/Framework/Classes/Element';
+import Element from 'Framework/Classes/Element';
 
 export default function _function(method) {
 	var results = [];

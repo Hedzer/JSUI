@@ -1,11 +1,11 @@
-import isString from '/Framework/TypeChecks/isString';
-import isNumber from '/Framework/TypeChecks/isNumber';
-import isObject from '/Framework/TypeChecks/isObject';
-import Sheets from '/Framework/Singletons/Style/Sheets';
-import equivalents from '/Framework/Constants/CSS/equivalents';
-import StyleRules from '/Framework/Classes/StyleRules';
-import JSUIError from '/Framework/Classes/JSUIError';
-import StyleSheet from '/Framework/Classes/StyleSheet';
+import isString from 'Framework/TypeChecks/isString';
+import isNumber from 'Framework/TypeChecks/isNumber';
+import isObject from 'Framework/TypeChecks/isObject';
+import Sheets from 'Framework/Singletons/Style/Sheets';
+import equivalents from 'Framework/Constants/CSS/equivalents';
+import StyleRules from 'Framework/Classes/StyleRules';
+import JSUIError from 'Framework/Classes/JSUIError';
+import StyleSheet from 'Framework/Classes/StyleSheet';
 
 export default class StyleSheetRule extends StyleRules {
 	constructor(selector, properties) {

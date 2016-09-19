@@ -1,4 +1,4 @@
-import isFunction from '/Framework/TypeChecks/isFunction';
+import isFunction from 'Framework/TypeChecks/isFunction';
 
 export default function doOrSet(obj, prop, value) {
 	if (obj.hasOwnProperty(prop)) {

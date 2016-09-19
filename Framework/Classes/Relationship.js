@@ -1,5 +1,5 @@
-import { default as uid } from '/Framework/Utilities/General/uid';
-import { default as Binding } from '/Framework/Classes/Relationship/Bind';
+import { default as uid } from 'Framework/Utilities/General/uid';
+import { default as Binding } from 'Framework/Classes/Relationship/Bind';
 
 export default class Relationship {
 	constructor() {

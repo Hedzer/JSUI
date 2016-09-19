@@ -1,4 +1,4 @@
-import tags from '/Framework/Constants/HTML/tags';
+import tags from 'Framework/Constants/HTML/tags';
 
 var Natives = {};
 tags.forEach((tag) => {

@@ -1,5 +1,5 @@
-import uncapitalize from '/Framework/Utilities/Strings/uncapitalize';
-import vendors from '/Framework/Constants/CSS/vendors';
+import uncapitalize from 'Framework/Utilities/Strings/uncapitalize';
+import vendors from 'Framework/Constants/CSS/vendors';
 
 //not a real constant, since it is generated
 var equivalents = {};

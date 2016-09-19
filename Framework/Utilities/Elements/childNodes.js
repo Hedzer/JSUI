@@ -1,5 +1,5 @@
-import isFunction from '/Framework/TypeChecks/isFunction';
-import isElement from '/Framework/TypeChecks/isElement';
+import isFunction from 'Framework/TypeChecks/isFunction';
+import isElement from 'Framework/TypeChecks/isElement';
 
 function placeholder(){}
 export default function childNodes(node, callback) {

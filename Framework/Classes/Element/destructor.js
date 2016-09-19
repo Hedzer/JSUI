@@ -1,5 +1,5 @@
-import isFunction from '/Framework/TypeChecks/isFunction';
-import isArray from '/Framework/TypeChecks/isArray';
+import isFunction from 'Framework/TypeChecks/isFunction';
+import isArray from 'Framework/TypeChecks/isArray';
 
 export default (function destructor() {
 	var _element = this.element;

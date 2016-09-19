@@ -1,6 +1,6 @@
-import { default as ElementAction } from '/Framework/Classes/ElementAction';
-import { default as isElement } from '/Framework/TypeChecks/isElement';
-import { default as getClasses } from '/Framework/Utilities/Elements/getClasses';
+import { default as ElementAction } from 'Framework/Classes/ElementAction';
+import { default as isElement } from 'Framework/TypeChecks/isElement';
+import { default as getClasses } from 'Framework/Utilities/Elements/getClasses';
 
 export default class ElementClassAction extends ElementAction {
 	constructor(element, className) {

@@ -1,4 +1,4 @@
-import Styleable from '/Framework/Classes/Styleable';
+import Styleable from 'Framework/Classes/Styleable';
 
 export default class Behavior extends Styleable {
 	constructor(host) {

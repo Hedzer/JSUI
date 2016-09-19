@@ -1,6 +1,6 @@
-import isElement from '/Framework/TypeChecks/isElement';
-import isString from '/Framework/TypeChecks/isString';
-import isArray from '/Framework/TypeChecks/isArray';
+import isElement from 'Framework/TypeChecks/isElement';
+import isString from 'Framework/TypeChecks/isString';
+import isArray from 'Framework/TypeChecks/isArray';
 
 export default function getClasses(el) {
 	if (!isElement(el)) {return; }

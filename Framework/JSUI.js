@@ -1,14 +1,14 @@
-import Polyfills from '/Framework/JSUI/Polyfills';
-import Classes from '/Framework/JSUI/Classes';
-import Constants from '/Framework/JSUI/Constants';
-import Singletons from '/Framework/JSUI/Singletons';
-import TypeChecks from '/Framework/JSUI/TypeChecks';
-import Utilities from '/Framework/JSUI/Utilities';
-import Sorts from '/Framework/JSUI/Sorts';
-import Reflection from '/Framework/JSUI/Reflection';
-import Elements from '/Framework/Classes/Elements';
-import Data from '/Framework/JSUI/Data';
-import Settings from '/Framework/Constants/JSUI/settings';
+import Polyfills from 'Framework/JSUI/Polyfills';
+import Classes from 'Framework/JSUI/Classes';
+import Constants from 'Framework/JSUI/Constants';
+import Singletons from 'Framework/JSUI/Singletons';
+import TypeChecks from 'Framework/JSUI/TypeChecks';
+import Utilities from 'Framework/JSUI/Utilities';
+import Sorts from 'Framework/JSUI/Sorts';
+import Reflection from 'Framework/JSUI/Reflection';
+import Elements from 'Framework/Classes/Elements';
+import Data from 'Framework/JSUI/Data';
+import Settings from 'Framework/Constants/JSUI/settings';
 
 var JSUI = {
 	Settings: Settings,

@@ -1,11 +1,11 @@
-import getFirstNonTextChild from '/Framework/Utilities/Elements/getFirstNonTextChild';
-import getTagName from '/Framework/Utilities/Elements/getTagName';
-import uid from '/Framework/Utilities/General/uid';
-import getter from '/Framework/Utilities/Paths/getter';
-import htmlToInstructions from '/Framework/Reflection/XML/Parse/htmlToInstructions';
-import feval from '/Framework/Reflection/feval';
-import Element from '/Framework/Classes/Element';
-import constructor from '/Framework/Classes/Element/constructor';
+import getFirstNonTextChild from 'Framework/Utilities/Elements/getFirstNonTextChild';
+import getTagName from 'Framework/Utilities/Elements/getTagName';
+import uid from 'Framework/Utilities/General/uid';
+import getter from 'Framework/Utilities/Paths/getter';
+import htmlToInstructions from 'Framework/Reflection/XML/Parse/htmlToInstructions';
+import feval from 'Framework/Reflection/feval';
+import Element from 'Framework/Classes/Element';
+import constructor from 'Framework/Classes/Element/constructor';
 
 export default function _class(node, classes, container) {
 	var children = node.childNodes;

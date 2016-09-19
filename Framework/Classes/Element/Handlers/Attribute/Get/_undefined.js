@@ -1,4 +1,4 @@
-import nodeAttributes from '/Framework/Utilities/Elements/nodeAttributes';
+import nodeAttributes from 'Framework/Utilities/Elements/nodeAttributes';
 
 export default function _undefined() {
 	var results = {};

@@ -1,4 +1,4 @@
-import { default as create } from '/Framework/Reflection/Data/create';
+import { default as create } from 'Framework/Reflection/Data/create';
 
 var Data = {
 	fromJSON: create

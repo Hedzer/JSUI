@@ -1,8 +1,8 @@
-import isFunction from '/Framework/TypeChecks/isFunction';
-import isElement from '/Framework/TypeChecks/isElement';
-import uid from '/Framework/Utilities/General/uid';
-import remove from '/Framework/Utilities/Events/remove';
-import removeAll from '/Framework/Utilities/Events/removeAll';
+import isFunction from 'Framework/TypeChecks/isFunction';
+import isElement from 'Framework/TypeChecks/isElement';
+import uid from 'Framework/Utilities/General/uid';
+import remove from 'Framework/Utilities/Events/remove';
+import removeAll from 'Framework/Utilities/Events/removeAll';
 
 export default function on(name, method) {
 	if (!isFunction(method)) {return; }

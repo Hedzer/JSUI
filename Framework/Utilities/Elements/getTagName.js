@@ -1,4 +1,4 @@
-import isElement from '/Framework/TypeChecks/isElement';
+import isElement from 'Framework/TypeChecks/isElement';
 
 export default function getTagName(el) {
 	if (isElement(el)) {

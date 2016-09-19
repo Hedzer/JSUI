@@ -1,5 +1,5 @@
-import { default as _array } from '/Framework/Classes/Element/Handlers/With/_array';
-import { default as _function } from '/Framework/Classes/Element/Handlers/With/_function';
+import { default as _array } from 'Framework/Classes/Element/Handlers/With/_array';
+import { default as _function } from 'Framework/Classes/Element/Handlers/With/_function';
 
 var With = {
 	array: _array,

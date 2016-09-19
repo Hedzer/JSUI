@@ -1,5 +1,5 @@
-import { default as _string } from '/Framework/Classes/Element/Handlers/Text/_string';
-import { default as _path } from '/Framework/Classes/Element/Handlers/Text/_path';
+import { default as _string } from 'Framework/Classes/Element/Handlers/Text/_string';
+import { default as _path } from 'Framework/Classes/Element/Handlers/Text/_path';
 
 var Text = {
 	string: _string,

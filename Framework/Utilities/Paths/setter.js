@@ -1,4 +1,4 @@
-import get from '/Framework/Utilities/Paths/get';
+import get from 'Framework/Utilities/Paths/get';
 
 export default function setter(obj, path, value) {
 	var parts = path.substring(1).split('.');

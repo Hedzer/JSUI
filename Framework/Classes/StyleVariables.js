@@ -1,8 +1,8 @@
-import isString from '/Framework/TypeChecks/isString';
-import isObject from '/Framework/TypeChecks/isObject';
-import isArray from '/Framework/TypeChecks/isArray';
-import { default as addProperty } from '/Framework/Utilities/Properties/add';
-import Distinct from '/Framework/Classes/Distinct';
+import isString from 'Framework/TypeChecks/isString';
+import isObject from 'Framework/TypeChecks/isObject';
+import isArray from 'Framework/TypeChecks/isArray';
+import { default as addProperty } from 'Framework/Utilities/Properties/add';
+import Distinct from 'Framework/Classes/Distinct';
 
 export default class StyleVariables extends Distinct {
 	constructor() {

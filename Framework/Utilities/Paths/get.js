@@ -1,6 +1,6 @@
-import isString from '/Framework/TypeChecks/isString';
-import isArray from '/Framework/TypeChecks/isArray';
-import getter from '/Framework/Utilities/Paths/getter';
+import isString from 'Framework/TypeChecks/isString';
+import isArray from 'Framework/TypeChecks/isArray';
+import getter from 'Framework/Utilities/Paths/getter';
 
 export default function get(obj, path) {
 	if (isString(path)) {

@@ -1,7 +1,7 @@
-import isStyleRule from '/Framework/TypeChecks/isStyleRule';
-import Sheets from '/Framework/Singletons/Style/Sheets';
-import Distinct from '/Framework/Classes/Distinct';
-import constructor from '/Framework/Classes/Styleable/constructor';
+import isStyleRule from 'Framework/TypeChecks/isStyleRule';
+import Sheets from 'Framework/Singletons/Style/Sheets';
+import Distinct from 'Framework/Classes/Distinct';
+import constructor from 'Framework/Classes/Styleable/constructor';
 
 export default class Styleable extends Distinct {
 	constructor() {

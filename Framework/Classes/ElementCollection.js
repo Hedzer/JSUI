@@ -1,4 +1,4 @@
-import Collection from '/Framework/Classes/Collection';
+import Collection from 'Framework/Classes/Collection';
 
 class ElementCollection extends Collection {
 	constructor(target) {

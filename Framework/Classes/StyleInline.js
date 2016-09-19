@@ -1,7 +1,7 @@
-import isJSUI from '/Framework/TypeChecks/isJSUI';
-import isObject from '/Framework/TypeChecks/isObject';
-import isString from '/Framework/TypeChecks/isString';
-import StyleRules from '/Framework/Classes/StyleRules';
+import isJSUI from 'Framework/TypeChecks/isJSUI';
+import isObject from 'Framework/TypeChecks/isObject';
+import isString from 'Framework/TypeChecks/isString';
+import StyleRules from 'Framework/Classes/StyleRules';
 
 export default class StyleInline extends StyleRules {
 	constructor(host) {

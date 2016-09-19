@@ -1,4 +1,4 @@
-import normalize from '/Framework/Classes/Relationship/Bind/normalize';
+import normalize from 'Framework/Classes/Relationship/Bind/normalize';
 
 export default function on(state, events) {
 	return {

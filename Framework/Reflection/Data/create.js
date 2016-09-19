@@ -1,9 +1,9 @@
-import { default as cleanName } from '/Framework/Utilities/Functions/cleanName';
-import { default as constructor } from '/Framework/Classes/Data/constructor';
-import { default as subconstructor } from '/Framework/Reflection/Data/constructor';
-import isObject from '/Framework/TypeChecks/isObject';
-import { default as Data } from '/Framework/Classes/Data';
-import feval from '/Framework/Reflection/feval';
+import { default as cleanName } from 'Framework/Utilities/Functions/cleanName';
+import { default as constructor } from 'Framework/Classes/Data/constructor';
+import { default as subconstructor } from 'Framework/Reflection/Data/constructor';
+import isObject from 'Framework/TypeChecks/isObject';
+import { default as Data } from 'Framework/Classes/Data';
+import feval from 'Framework/Reflection/feval';
 
 export default function create(name, json, namespace) {
 	name = cleanName(name);

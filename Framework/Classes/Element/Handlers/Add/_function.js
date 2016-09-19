@@ -1,4 +1,4 @@
-import isUJSUI from '/Framework/TypeChecks/isUJSUI';
+import isUJSUI from 'Framework/TypeChecks/isUJSUI';
 
 export default function _function(method) {
 	if (isUJSUI(method)) {

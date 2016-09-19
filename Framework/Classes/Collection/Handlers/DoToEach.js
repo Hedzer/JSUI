@@ -1,5 +1,5 @@
-import { default as _string } from '/Framework/Classes/Collection/Handlers/DoToEach/_string';
-import { default as _path } from '/Framework/Classes/Collection/Handlers/DoToEach/_path';
+import { default as _string } from 'Framework/Classes/Collection/Handlers/DoToEach/_string';
+import { default as _path } from 'Framework/Classes/Collection/Handlers/DoToEach/_path';
 
 var DoToEach = {
 	string: _string,

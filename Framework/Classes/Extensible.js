@@ -1,12 +1,12 @@
-import isString from '/Framework/TypeChecks/isString';
-import isArray from '/Framework/TypeChecks/isArray';
-import isFunction from '/Framework/TypeChecks/isFunction';
-import isObject from '/Framework/TypeChecks/isObject';
-import { default as addProperty } from '/Framework/Utilities/Properties/add';
-import { default as removeEvent } from '/Framework/Utilities/Events/remove';
-import { default as removeAllEvents } from '/Framework/Utilities/Events/removeAll';
-import uid from '/Framework/Utilities/General/uid';
-import constructor from '/Framework/Classes/Extensible/constructor';
+import isString from 'Framework/TypeChecks/isString';
+import isArray from 'Framework/TypeChecks/isArray';
+import isFunction from 'Framework/TypeChecks/isFunction';
+import isObject from 'Framework/TypeChecks/isObject';
+import { default as addProperty } from 'Framework/Utilities/Properties/add';
+import { default as removeEvent } from 'Framework/Utilities/Events/remove';
+import { default as removeAllEvents } from 'Framework/Utilities/Events/removeAll';
+import uid from 'Framework/Utilities/General/uid';
+import constructor from 'Framework/Classes/Extensible/constructor';
 
 export default class Extensible {
 	constructor() {

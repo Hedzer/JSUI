@@ -1,4 +1,4 @@
-import isFunction from '/Framework/TypeChecks/isFunction';
+import isFunction from 'Framework/TypeChecks/isFunction';
 
 export default function debounce(fn, time) {
 	if (isFunction(fn)) {

@@ -1,6 +1,6 @@
-import isElement from '/Framework/TypeChecks/isElement';
-import isTextNode from '/Framework/TypeChecks/isTextNode';
-import childNodes from '/Framework/Utilities/Elements/childNodes';
+import isElement from 'Framework/TypeChecks/isElement';
+import isTextNode from 'Framework/TypeChecks/isTextNode';
+import childNodes from 'Framework/Utilities/Elements/childNodes';
 
 export default function getFirstNonTextChild(node) {
 	if (isElement(node)) {

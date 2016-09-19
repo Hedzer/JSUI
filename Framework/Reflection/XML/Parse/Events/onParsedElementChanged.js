@@ -1,5 +1,5 @@
-import isFunction from '/Framework/TypeChecks/isFunction';
-import isObject from '/Framework/TypeChecks/isObject';
+import isFunction from 'Framework/TypeChecks/isFunction';
+import isObject from 'Framework/TypeChecks/isObject';
 
 export default function onParsedElementChanged(ev) {
 	var data = (ev ? ev.detail : false);

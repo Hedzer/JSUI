@@ -1,8 +1,8 @@
-import getTagName from '/Framework/Utilities/Elements/getTagName';
-import getter from '/Framework/Utilities/Paths/getter';
-import childNodes from '/Framework/Utilities/Elements/childNodes';
-import isUJSUI from '/Framework/TypeChecks/isUJSUI';
-import isTextNode from '/Framework/TypeChecks/isTextNode';
+import getTagName from 'Framework/Utilities/Elements/getTagName';
+import getter from 'Framework/Utilities/Paths/getter';
+import childNodes from 'Framework/Utilities/Elements/childNodes';
+import isUJSUI from 'Framework/TypeChecks/isUJSUI';
+import isTextNode from 'Framework/TypeChecks/isTextNode';
 
 export default function htmlToInstructions(node, classes, state) {
 	var isRoot = false;

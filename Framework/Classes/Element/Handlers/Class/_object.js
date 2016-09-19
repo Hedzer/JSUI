@@ -1,4 +1,4 @@
-import isString from '/Framework/TypeChecks/isString';
+import isString from 'Framework/TypeChecks/isString';
 
 export default function _object(classes) {
 	var className = '';

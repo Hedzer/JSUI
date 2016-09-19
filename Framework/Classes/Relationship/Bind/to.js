@@ -1,6 +1,6 @@
-import on from '/Framework/Classes/Relationship/Bind/on';
-import oneWay from '/Framework/Classes/Relationship/Bind/oneWay';
-import twoWay from '/Framework/Classes/Relationship/Bind/twoWay';
+import on from 'Framework/Classes/Relationship/Bind/on';
+import oneWay from 'Framework/Classes/Relationship/Bind/oneWay';
+import twoWay from 'Framework/Classes/Relationship/Bind/twoWay';
 
 export default function to(state, bindTo) {
 	return {

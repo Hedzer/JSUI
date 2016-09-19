@@ -1,3 +1,5 @@
+var path = require('path');
+var fs = require('fs');
 var gulp = require('gulp');
 var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
@@ -9,6 +11,7 @@ var footer = require('gulp-footer');
 var rollup = require('rollup-stream');
 var rollup_babel = require('rollup-plugin-babel');
 var rollup_import = require('rollup-plugin-root-import');
+var rollup_alias = require('rollup-import-alias');
 var util = require('gulp-util');
 var runSequence = require('run-sequence');
 
@@ -58,10 +61,12 @@ gulp.task('bundle', function(callback) {
 			format: 'iife',
 			sourceMap: true,
 			plugins: [
-				rollup_import({
-					root: './',
-					useEntry: 'prepend',
-					extensions: '.js'
+				rollup_alias({
+					Paths: {
+						Alias:path.join(__dirname, '/AliasTest/Alias'),
+						Framework:path.join(__dirname, '/Framework')						
+					},
+					Extensions: ['js']
 				}),
 				rollup_babel({})
 			]

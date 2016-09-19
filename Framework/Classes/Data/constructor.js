@@ -1,4 +1,4 @@
-import { default as uid } from '/Framework/Utilities/General/uid';
+import { default as uid } from 'Framework/Utilities/General/uid';
 
 export default function constructor() {
 	Object.defineProperty(this, '$private', {

@@ -1,10 +1,10 @@
-import getTagName from '/Framework/Utilities/Elements/getTagName';
-import childNodes from '/Framework/Utilities/Elements/childNodes';
-import doOrSet from '/Framework/Utilities/Properties/doOrSet';
-import getter from '/Framework/Utilities/Paths/getter';
-import isNativeTag from '/Framework/TypeChecks/isNativeTag';
-import isTextNode from '/Framework/TypeChecks/isTextNode';
-import onParsedElementChanged from '/Framework/Reflection/XML/Parse/Events/onParsedElementChanged';
+import getTagName from 'Framework/Utilities/Elements/getTagName';
+import childNodes from 'Framework/Utilities/Elements/childNodes';
+import doOrSet from 'Framework/Utilities/Properties/doOrSet';
+import getter from 'Framework/Utilities/Paths/getter';
+import isNativeTag from 'Framework/TypeChecks/isNativeTag';
+import isTextNode from 'Framework/TypeChecks/isTextNode';
+import onParsedElementChanged from 'Framework/Reflection/XML/Parse/Events/onParsedElementChanged';
 
 
 export default function _default(node, classes, container) {

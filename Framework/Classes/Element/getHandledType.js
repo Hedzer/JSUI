@@ -1,10 +1,10 @@
-import isNull from '/Framework/TypeChecks/isNull';
-import isArray from '/Framework/TypeChecks/isArray';
-import isElement from '/Framework/TypeChecks/isElement';
-import isJSUI from '/Framework/TypeChecks/isJSUI';
-import isRegex from '/Framework/TypeChecks/isRegex';
-import isHTML from '/Framework/TypeChecks/isHTML';
-import isPath from '/Framework/TypeChecks/isPath';
+import isNull from 'Framework/TypeChecks/isNull';
+import isArray from 'Framework/TypeChecks/isArray';
+import isElement from 'Framework/TypeChecks/isElement';
+import isJSUI from 'Framework/TypeChecks/isJSUI';
+import isRegex from 'Framework/TypeChecks/isRegex';
+import isHTML from 'Framework/TypeChecks/isHTML';
+import isPath from 'Framework/TypeChecks/isPath';
 
 var Types = {
 	object:{
