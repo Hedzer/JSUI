@@ -4,6 +4,146 @@
 		"selected_items":
 		[
 			[
+				"YOLO",
+				"YOLODATA"
+			],
+			[
+				"even",
+				"eventName"
+			],
+			[
+				"capi",
+				"capitalize"
+			],
+			[
+				"attr",
+				"attrs"
+			],
+			[
+				"attri",
+				"attributes"
+			],
+			[
+				"att",
+				"attrs"
+			],
+			[
+				"Style",
+				"Styleable"
+			],
+			[
+				"expe",
+				"expecting"
+			],
+			[
+				"chil",
+				"children"
+			],
+			[
+				"Da",
+				"Data"
+			],
+			[
+				"li",
+				"link	Tag"
+			],
+			[
+				"bind",
+				"binding"
+			],
+			[
+				"norma",
+				"normalize"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"pr",
+				"privateName"
+			],
+			[
+				"trigg",
+				"triggerName"
+			],
+			[
+				"priva",
+				"privateName"
+			],
+			[
+				"pri",
+				"privateName"
+			],
+			[
+				"defa",
+				"defaultValue"
+			],
+			[
+				"crea",
+				"createData"
+			],
+			[
+				"name",
+				"namespace"
+			],
+			[
+				"Data",
+				"DataClass"
+			],
+			[
+				"entr",
+				"entryList"
+			],
+			[
+				"conte",
+				"context"
+			],
+			[
+				"chi",
+				"children"
+			],
+			[
+				"Eleme",
+				"ElementAction"
+			],
+			[
+				"clas",
+				"classHandle"
+			],
+			[
+				"im",
+				"import"
+			],
+			[
+				"fo",
+				"for	for (…) {…}"
+			],
+			[
+				"exis",
+				"existing"
+			],
+			[
+				"constr",
+				"constructor"
+			],
+			[
+				"isF",
+				"isFunction"
+			],
+			[
+				"getT",
+				"getTagName"
+			],
+			[
+				"child",
+				"childNodes"
+			],
+			[
+				"from",
+				"fromTag"
+			],
+			[
 				"isE",
 				"isElement"
 			],
@@ -16,16 +156,8 @@
 				"getWithContext"
 			],
 			[
-				"defa",
-				"defaults"
-			],
-			[
 				"remove",
 				"removeHandlerJSUI"
-			],
-			[
-				"trigg",
-				"triggerPath"
 			],
 			[
 				"tri",
@@ -72,10 +204,6 @@
 				"property"
 			],
 			[
-				"conte",
-				"contextChanged"
-			],
-			[
 				"con",
 				"constructor"
 			],
@@ -86,14 +214,6 @@
 			[
 				"J",
 				"JSUIError"
-			],
-			[
-				"crea",
-				"created"
-			],
-			[
-				"pr",
-				"private"
 			],
 			[
 				"cont",
@@ -114,10 +234,6 @@
 			[
 				"rende",
 				"rendered"
-			],
-			[
-				"fun",
-				"fundamental"
 			],
 			[
 				"hoo",
@@ -196,24 +312,12 @@
 				"texts"
 			],
 			[
-				"chil",
-				"childName"
-			],
-			[
 				"ht",
 				"htmlToInstructions"
 			],
 			[
 				"htm",
 				"htmlToInstructions"
-			],
-			[
-				"attr",
-				"attribute"
-			],
-			[
-				"fo",
-				"forEach"
 			],
 			[
 				"objec",
@@ -248,20 +352,8 @@
 				"createTextNode"
 			],
 			[
-				"chi",
-				"child"
-			],
-			[
-				"child",
-				"children"
-			],
-			[
 				"do",
 				"document"
-			],
-			[
-				"att",
-				"attribute"
 			],
 			[
 				"val",
@@ -310,10 +402,6 @@
 			[
 				"des",
 				"destructor"
-			],
-			[
-				"clas",
-				"classes"
 			],
 			[
 				"cl",
@@ -426,148 +514,32 @@
 			[
 				"ass",
 				"assessmentsToKeep"
-			],
-			[
-				"stud",
-				"studentsToPass"
-			],
-			[
-				"students",
-				"studentsToGraduate"
-			],
-			[
-				"mig",
-				"migration"
-			],
-			[
-				"issue",
-				"issueText"
-			],
-			[
-				"Mi",
-				"MigrationDetails"
-			],
-			[
-				"curre",
-				"currentIds"
-			],
-			[
-				"toS",
-				"toStandardPerson"
-			],
-			[
-				"ski",
-				"skillsToKeep"
-			],
-			[
-				"skil",
-				"skillId"
-			],
-			[
-				"asse",
-				"assessmentId"
-			],
-			[
-				"curr",
-				"currentIds"
-			],
-			[
-				"year",
-				"yearId"
-			],
-			[
-				"getC",
-				"getCourses"
-			],
-			[
-				"stu",
-				"Students"
-			],
-			[
-				"Pro",
-				"ProgressBars"
-			],
-			[
-				"Ver",
-				"VerificationDetails"
-			],
-			[
-				"set",
-				"setTimeout"
-			],
-			[
-				"old",
-				"oldLevel"
-			],
-			[
-				"cure",
-				"currentLevel"
-			],
-			[
-				"sc",
-				"schoolConfig"
-			],
-			[
-				"sch",
-				"schoolConfig"
-			],
-			[
-				"grade",
-				"gradeLevels"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "ES6/JSUI.js",
+			"file": "/E/Dropbox/Projects/GitHub/JSUI-Paradigm/package.json",
 			"settings":
 			{
-				"buffer_size": 98,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "ES6/Classes/Distinct.js",
-			"settings":
-			{
-				"buffer_size": 187,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "ES6/Classes/Element.js",
-			"settings":
-			{
-				"buffer_size": 3375,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "ES6/Classes/Element/destructor.js",
-			"settings":
-			{
-				"buffer_size": 1218,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "ES6/Classes/Element/Handlers/DoToEach.js",
-			"settings":
-			{
-				"buffer_size": 512,
-				"line_ending": "Windows"
+				"buffer_size": 1379,
+				"line_ending": "Unix"
 			}
 		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 0.0,
+		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
 		],
-		"width": 0.0
+		"width": 400.0
 	},
 	"console":
 	{
@@ -584,134 +556,134 @@
 	},
 	"file_history":
 	[
-		"/E/Dropbox/Projects/GitHub/Charterhook/resources/assets/jsx/pages/charters.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/Attribute.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/Do.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/Get.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/Trigger.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/Remove.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/Constructor.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/Add.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Constants/JSUI/settings.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/DoToEach",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/Text.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Polyfills/all.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/JSUI/all.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/Set.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/StyleSheetRule.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/StyleSheet.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Polyfills/Array/map.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Polyfills/Array/reduce.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Polyfills/Object/keys.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Polyfills/Array/forEach.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Polyfills/Array/isArray.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Polyfills/Array/forEach",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Singletons/Style/Sheets.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/JSUIError.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Path/getWithContext.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/General/addEventedProperty.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Path/set.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Path/get.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Path/getter.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Path/setter.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/With.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/with.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/Find.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/On.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/constructor.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/AddTo.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Extensible.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Constants/JSUI/settings",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isUStyleRule.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isStyleRule.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/styleVariables.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/StyleInline.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Styleable.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/StyleRules.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isUJSUI.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Behavior.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isElement.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isJSUI.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/getHandledType.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/find.js",
-		"/C/Users/Hedzer/AppData/Local/Temp/Temp1_react-15.3.0.zip/react-15.3.0/examples/basic/index.html",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/getType.js",
-		"/E/Dropbox/Projects/GitHub/Charterhook/public/assets/javascript/plugins.js",
-		"/E/Dropbox/Projects/GitHub/Charterhook/gulpfile.js",
-		"/E/Dropbox/Projects/GitHub/Charterhook/package.json",
-		"/E/Dropbox/Projects/GitHub/Charterhook/.env.default",
 		"/C/Users/Hedzer/.homestead/Homestead.yaml",
-		"/E/Dropbox/Projects/GitHub/Charterhook/composer.json",
-		"/E/Dropbox/Projects/GitHub/Charterhook/scripts/setup_dev_volumes.sh",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/addTo.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/add.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/on.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/remove.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/trigger.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/constructor.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/JSUI - Copy.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/JSUI.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Events/removeAll.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Events/remove.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/Handlers/triggers.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/Element/getType.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Elements/childNodes.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Elements/nodeAttributes.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/styleInline.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/behavior.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/extendible.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/distinct.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/styleable.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/element.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/styleRules.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/styleSheet.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Classes/styleSheetRule.js",
+		"/E/Dropbox/Projects/GitHub/JSUI.IO/gulpfile.js",
+		"/E/Dropbox/Projects/GitHub/JSUI.IO/index.html",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Behavior.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Collection.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Collection/Handlers/DoToEach.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Collection/Handlers/DoToEach/_string.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Data.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Data/constructor.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Distinct.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Distinct/constructor.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/constructor.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/destructor.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/getHandledType.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Add.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Add/_function.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Add/_jsui.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Add/_path.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Add/_string.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/AddTo.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Attribute.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Attribute/Get/_object.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Attribute/Get/_path.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Attribute/Get/_undefined.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Attribute/Set/_object.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Attribute/Set/_path.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Attribute/Set/_string.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Class.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Class/_object.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Class/_path.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Class/_string.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Class/_undefined.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Constructor.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Constructor/_element.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Do.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Do/_path.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Do/_string.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Find.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Find/_function.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Find/_path.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Get.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Get/_path.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/On.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/On/_path.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/On/_string.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Remove.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Set.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Set/_path.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Text.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Trigger.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/Trigger/_path.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Element/Handlers/With.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/ElementClassAction.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/ElementCollection.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Elements.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Extensible.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Relationship.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Relationship/Bind.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Relationship/Bind/bind.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Relationship/Bind/on.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Relationship/Bind/to.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/Styleable.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/StyleInline.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/StyleRules.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/StyleSheet.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/StyleSheetRule.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Classes/StyleVariables.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Constants/CSS/equivalents.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/JSUI.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/JSUI/Classes.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/JSUI/Constants.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/JSUI/Data.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/JSUI/Polyfills.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/JSUI/Reflection.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/JSUI/Singletons.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/JSUI/Sorts.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/JSUI/TypeChecks.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/JSUI/Utilities.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Reflection/Class/constructor.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Reflection/Class/create.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Reflection/Data/create.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Reflection/XML/parse.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Reflection/XML/Parse/Events/onParsedElementChanged.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Reflection/XML/Parse/htmlToInstructions.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Reflection/XML/Parse/Tag.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Reflection/XML/Parse/Tag/_class.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Reflection/XML/Parse/Tag/_default.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/TypeChecks/isData.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/TypeChecks/isJSUI.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/TypeChecks/isNativeTag.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/TypeChecks/isStyleRule.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/TypeChecks/isUData.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/TypeChecks/isUJSUI.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/TypeChecks/isUStyleRule.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Elements/addClass.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Elements/childNodes.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Elements/getClasses.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Elements/getFirstNonTextChild.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Elements/getTagName.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Elements/getTextNodes.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Elements/nodeAttributes.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Events/on.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Functions/debounce.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Paths/get.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Paths/getter.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Paths/getWithContext.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Paths/set.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Paths/setter.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Utilities/Properties/doOrSet.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/webpack.config.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/build/JSUI.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Tests/JSUI.html",
+		"/E/Dropbox/Projects/GitHub/JSUI/Documentation/JSUI/TypeChecks.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Documentation/TypeChecks/isArray.js",
+		"/C/Users/Hedzer/AppData/Local/Temp/Temp1_css-element-queries-master (1).zip/css-element-queries-master/src/ResizeSensor.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Tests/JSUI/Utilities.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Tests/Utilities/Events/on.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Polyfills/DOM/CustomEvent.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Framework/Polyfills/Array/isArray.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Tests/Utilities/Events/remove.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Tests/Utilities/Events/removeAll.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/node_modules/rollup-plugin-root-import/dist/index.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/AliasTest/Alias/isArray.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/node_modules/rollup-plugin-root-import/dist/index.es2015.js",
+		"/E/Dropbox/Projects/GitHub/JSUI/Examples/new element class.html",
 		"/E/Dropbox/Projects/GitHub/JSUI/gulpfile.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/uid.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/addEventedProperty.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Constants/CSS/equivalents.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Elements/addClass.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/Elements/getTagName.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/unhandled.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isTextNode.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isNativeTag.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isRegex.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isHTML.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isPath.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/build/build.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/capitalize.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Utilities/uncapitalize.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isEmptyString.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isFunction.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isNumber.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isNull.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isObject.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isString.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isUndefined.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isArray.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Constants/CSS/vendors.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Sorts/styleSheetRule.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/JSUI.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/TypeChecks/isUStyleRule (2).js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Type/isArray.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Type/isJSUI.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Type/isFunction.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Type/isNull.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Type/isNumber.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Type/isObject.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Type/isString.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Type/isUndefined.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES6/Type/isEmptyString.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/ES5/JSUI.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/tasks/paradigm/task.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/A.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/B.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/package.json",
-		"/E/Dropbox/Projects/GitHub/JSUI/build.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/TEST/B.js",
-		"/E/Dropbox/Projects/GitHub/JSUI/TEST/A.js",
-		"/E/Dropbox/Projects/Project LedJS/Led.Core.Event.js",
-		"/E/Dropbox/Projects/Project JSUI/JSUI.Core.Tools.js"
+		"/E/Dropbox/Projects/GitHub/JSUI/compatibility.txt"
 	],
 	"find":
 	{
@@ -719,9 +691,12 @@
 	},
 	"find_in_files":
 	{
-		"height": 96.0,
+		"height": 0.0,
 		"where_history":
 		[
+			"E:\\Dropbox\\Projects\\GitHub\\JSUI\\Framework",
+			"E:\\Dropbox\\Projects\\GitHub\\JSUI",
+			"E:\\Dropbox\\Projects\\GitHub\\JSUI\\Framework",
 			"E:\\Dropbox\\Projects\\GitHub\\JSUI\\ES6",
 			"E:\\Dropbox\\Projects\\GitHub\\JSUI",
 			"E:\\Dropbox\\Projects\\GitHub\\JSUI\\ES6",
@@ -734,134 +709,134 @@
 		"case_sensitive": true,
 		"find_history":
 		[
-			"isArray",
-			"isFunction",
-			"unhandled",
-			"isNull",
-			"isArray",
-			"isFunction",
-			"_get_",
-			"_attribute_",
-			"attribute",
-			"map",
-			"Paths",
-			"Paths.",
-			"/Path/",
-			"get",
-			"trigger",
-			"Style.Sheets",
-			"Style",
-			"isObject",
-			"isFunction",
-			"styleVariables",
-			"styleSheetRule",
-			"styleSheet",
-			"stylRules",
-			"styleInline",
-			"styleable",
-			"extendible",
-			"element",
-			"distinct",
-			"behavior",
-			"distinct",
-			"styleSheet",
-			"distinct",
-			"StyleSheet",
-			"styleSheet",
-			"styleRules",
-			"distinct",
-			"styleRules",
-			"styleable",
-			"Styleable",
-			"styleable",
-			"distinct",
-			"Extendible",
-			"extendible",
-			"element",
-			"extendible",
-			"element",
-			"styleable",
-			"element",
-			"styleable",
-			"behavior",
-			"element",
-			"Methods",
-			"){",
-			":function",
-			"},",
-			"handler_trigger",
-			"handler_triggerPath",
-			"triggerString",
-			"triggerObject",
-			"triggerArray",
-			"handler_",
+			"jsui.io",
+			"JSUIIO",
+			"Framework",
 			"JSUI",
-			"Array",
-			"removeHandler",
-			"triggerHandler",
-			"handles",
-			"TriggerHandler",
-			"handlesTrigger",
-			"trigger",
-			"Methods.On",
-			"`",
-			"${ROOT}",
-			"`",
-			"'",
-			"../../..",
-			"'",
-			"Tools",
-			"_root",
-			"'",
-			"Tools.",
-			"Methods.Constructor",
-			"Tools.getType",
-			"Constructor",
-			"Tools.getType",
-			"./",
-			"isNull",
-			"Tools.",
-			"/Utilities/uid",
-			"styleRules",
-			"Tools",
+			"/Framework/",
+			"Framework/",
+			"/Framework/",
+			"YOLO",
+			"/Framework",
+			"/Framework/",
+			"jsui",
+			"nModified",
+			"div",
+			"on",
+			"capitalize",
+			"Strings",
+			"uncapitalize",
+			"Strings",
+			"uncapitalize",
+			"Strings",
+			"capitalize",
+			"Elements",
+			"child",
+			"childNodes",
+			"getTextNodes",
+			"Framework/Reflection/Class/create",
+			"inherits",
+			"getTagName",
+			"getFirstNonTextChild",
+			"getClasses",
+			"childNodes",
+			"isFunction",
+			"addClass",
+			"isElement",
+			"TypeChecks",
+			"isArray",
+			"Dependencies",
+			"Tests",
+			"Framework",
+			"unhandled",
+			"isData",
+			"Data",
+			"StyleRule",
+			"StyleSheetRule",
+			"isUStyleRule",
+			"isStyleRule",
+			"isTextNode",
+			"false",
+			"isTextNode",
+			"isStyleRule",
+			"false",
 			"isString",
+			"isRegex",
+			"isPath",
+			"false",
+			"true",
+			"isObject",
+			"isNumber",
+			"true",
+			"false",
+			"isHTML",
+			"isNull",
+			"isNativeTag",
 			"isJSUI",
-			"'page'",
-			"addEvent",
-			"capital",
-			"is",
-			"CSS",
-			"element",
-			"exports.element",
-			"undefined",
-			"default = undefined",
-			"distinct",
-			"{",
-			"}",
-			"{",
-			"}",
-			"{",
-			"}",
-			"Tools",
-			"`",
-			"styleSheetRule",
-			"styleInline",
-			"JSUIError",
-			"zindex",
-			"importance",
-			"styles",
-			"styleRule",
-			"styleRules",
-			"equivalent",
-			"isUninstancedJSUI",
-			"173.236.250.14",
-			"identity",
-			"extendible",
-			"fundamental",
-			"event",
-			"group",
+			"./",
+			"../../../..",
+			".",
+			"../../..",
+			"../../../..",
+			"../..",
+			"./",
+			"../..",
+			".",
+			"../..",
+			"..",
+			".",
+			"..",
+			".",
+			"..",
+			".",
+			"../..",
+			".",
+			"../../../..",
+			"../..",
+			"JSUIElement",
+			"isHTML",
+			"true",
+			"isFunction",
+			"true",
+			"isFunction",
+			"true",
+			"isFunction",
+			"../",
+			"true",
+			"isFunction",
+			"/Framework",
+			"../TypeChecks",
+			"Framework",
+			".",
+			"ES6",
+			"on",
+			"State",
+			"onParsedElementChanged",
 			"Events",
-			"var  = "
+			"Hooks",
+			"Hook",
+			"addEvent",
+			"destructor",
+			"isUStyleRule",
+			"StyleSheetRule",
+			"Elements",
+			"createClass",
+			"createData",
+			"store",
+			"private",
+			"add",
+			"host",
+			"add",
+			"$on",
+			"add",
+			"uid",
+			"subclasses",
+			"data",
+			"Data",
+			"step1",
+			"ugly",
+			"isFunction",
+			"trace"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -869,6 +844,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Framework/",
+			"/Framework/",
+			"Framework/"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -879,134 +857,30 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "ES6/JSUI.js",
+					"file": "/E/Dropbox/Projects/GitHub/JSUI-Paradigm/package.json",
 					"settings":
 					{
-						"buffer_size": 98,
+						"buffer_size": 1379,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								57,
-								57
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "ES6/Classes/Distinct.js",
-					"settings":
-					{
-						"buffer_size": 187,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								187,
-								187
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "ES6/Classes/Element.js",
-					"settings":
-					{
-						"buffer_size": 3375,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3217,
-								3217
+								675,
+								675
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "ES6/Classes/Element/destructor.js",
-					"settings":
-					{
-						"buffer_size": 1218,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								102,
-								102
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "ES6/Classes/Element/Handlers/DoToEach.js",
-					"settings":
-					{
-						"buffer_size": 512,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								512,
-								512
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1073,6 +947,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 189.0,
+	"side_bar_width": 309.0,
 	"status_bar_visible": true
 }

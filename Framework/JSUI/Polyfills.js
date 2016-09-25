@@ -9,6 +9,7 @@ import keys from 'Framework/Polyfills/Object/keys';
 
 //DOM
 import CustomEvent from 'Framework/Polyfills/DOM/CustomEvent';
+import addEventListener from 'Framework/Polyfills/DOM/addEventListener';
 
 var Polyfilled = {
 	Array: {
@@ -21,7 +22,8 @@ var Polyfilled = {
 		keys: keys
 	},
 	DOM: {
-		CustomEvent: CustomEvent
+		CustomEvent: CustomEvent,
+		addEventListener: addEventListener
 	}
 };
 

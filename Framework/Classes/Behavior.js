@@ -9,8 +9,8 @@ export default class Behavior extends Styleable {
 	get host() {
 		return this.private.host;
 	}
-	set host(jsui) {
-		this.private.host = jsui;
+	set host(element) {
+		this.private.host = element;
 	}
 	destructor() {
 		super.destructor();

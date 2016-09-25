@@ -1,4 +1,5 @@
 1. DONE: Data class from json
+1.1 Add behavior attach/detach
 2. One way binding (Bond class)
 3. Two way binding
 4. Unit tests
