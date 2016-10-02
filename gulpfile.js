@@ -5,7 +5,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var babel = require('gulp-babel');
-var uglify = require('gulp-uglifyjs');
+var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var footer = require('gulp-footer');
 var rollup = require('rollup-stream');
@@ -13,6 +13,7 @@ var rollup_babel = require('rollup-plugin-babel');
 var rollup_import = require('rollup-plugin-root-import');
 var rollup_alias = require('rollup-import-alias');
 var util = require('gulp-util');
+var dereserve = require('gulp-dereserve');
 var runSequence = require('run-sequence');
 
 gulp.task('compress', function(callback) {
@@ -21,7 +22,7 @@ gulp.task('compress', function(callback) {
 		.pipe(sourcemaps.init())
 		.pipe(uglify({
 			inSourceMap: './build/JSUI.js.map',
-			outSourceMap: 'JSUI.min.js.map',
+			outSourceMap: '../JSUI.min.js.map',
 			mangle: {
 				toplevel: true,
 				screw_ie8: true
@@ -43,16 +44,17 @@ gulp.task('compress', function(callback) {
 				join_vars: true,
 				cascade: true,
 			}
-		}))
+		})
+		.pipe(dereserve())
 		.pipe(rename(function(path) {
 			if (path.extname === '.js') {
 				path.extname = ".min.js"
 			}
 		}))
-		.pipe(sourcemaps.write('./build', {
+		.pipe(sourcemaps.write('./', {
 			addComment: false
 		}))
-		.pipe(gulp.dest('./build'));
+		.pipe(gulp.dest('./'));
 });
 gulp.task('bundle', function(callback) {
 	console.log('-> Building...');
@@ -63,7 +65,6 @@ gulp.task('bundle', function(callback) {
 			plugins: [
 				rollup_alias({
 					Paths: {
-						Alias:path.join(__dirname, '/AliasTest/Alias'),
 						Framework:path.join(__dirname, '/Framework')						
 					},
 					Extensions: ['js']

@@ -211,8 +211,129 @@ var reduce = !hasReduce;
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
+
+
+
+
+
+var asyncGenerator = function () {
+  function AwaitValue(value) {
+    this.value = value;
+  }
+
+  function AsyncGenerator(gen) {
+    var front, back;
+
+    function send(key, arg) {
+      return new Promise(function (resolve, reject) {
+        var request = {
+          key: key,
+          arg: arg,
+          resolve: resolve,
+          reject: reject,
+          next: null
+        };
+
+        if (back) {
+          back = back.next = request;
+        } else {
+          front = back = request;
+          resume(key, arg);
+        }
+      });
+    }
+
+    function resume(key, arg) {
+      try {
+        var result = gen[key](arg);
+        var value = result.value;
+
+        if (value instanceof AwaitValue) {
+          Promise.resolve(value.value).then(function (arg) {
+            resume("next", arg);
+          }, function (arg) {
+            resume("throw", arg);
+          });
+        } else {
+          settle(result.done ? "return" : "normal", result.value);
+        }
+      } catch (err) {
+        settle("throw", err);
+      }
+    }
+
+    function settle(type, value) {
+      switch (type) {
+        case "return":
+          front.resolve({
+            value: value,
+            done: true
+          });
+          break;
+
+        case "throw":
+          front.reject(value);
+          break;
+
+        default:
+          front.resolve({
+            value: value,
+            done: false
+          });
+          break;
+      }
+
+      front = front.next;
+
+      if (front) {
+        resume(front.key, front.arg);
+      } else {
+        back = null;
+      }
+    }
+
+    this._invoke = send;
+
+    if (typeof gen.return !== "function") {
+      this.return = undefined;
+    }
+  }
+
+  if (typeof Symbol === "function" && Symbol.asyncIterator) {
+    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
+      return this;
+    };
+  }
+
+  AsyncGenerator.prototype.next = function (arg) {
+    return this._invoke("next", arg);
+  };
+
+  AsyncGenerator.prototype.throw = function (arg) {
+    return this._invoke("throw", arg);
+  };
+
+  AsyncGenerator.prototype.return = function (arg) {
+    return this._invoke("return", arg);
+  };
+
+  return {
+    wrap: function (fn) {
+      return function () {
+        return new AsyncGenerator(fn.apply(this, arguments));
+      };
+    },
+    await: function (value) {
+      return new AwaitValue(value);
+    }
+  };
+}();
+
+
+
+
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -238,7 +359,13 @@ var createClass = function () {
   };
 }();
 
-var get = function get(object, property, receiver) {
+
+
+
+
+
+
+var get$1 = function get$1(object, property, receiver) {
   if (object === null) object = Function.prototype;
   var desc = Object.getOwnPropertyDescriptor(object, property);
 
@@ -248,7 +375,7 @@ var get = function get(object, property, receiver) {
     if (parent === null) {
       return undefined;
     } else {
-      return get(parent, property, receiver);
+      return get$1(parent, property, receiver);
     }
   } else if ("value" in desc) {
     return desc.value;
@@ -279,12 +406,46 @@ var inherits = function (subClass, superClass) {
   if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 };
 
+
+
+
+
+
+
+
+
+
+
 var possibleConstructorReturn = function (self, call) {
   if (!self) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
   }
 
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
+
+
+var set$1 = function set$1(object, property, value, receiver) {
+  var desc = Object.getOwnPropertyDescriptor(object, property);
+
+  if (desc === undefined) {
+    var parent = Object.getPrototypeOf(object);
+
+    if (parent !== null) {
+      set$1(parent, property, value, receiver);
+    }
+  } else if ("value" in desc && desc.writable) {
+    desc.value = value;
+  } else {
+    var setter = desc.set;
+
+    if (setter !== undefined) {
+      setter.call(receiver, value);
+    }
+  }
+
+  return value;
 };
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
@@ -332,7 +493,7 @@ var keys = !hasObjectKeys;
 //from https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
 var hasCustomEvent = typeof window.CustomEvent === "function";
 if (!hasCustomEvent) {
-	var CustomEvent$1 = function CustomEvent(event, params) {
+	var CustomEvent$1 = function CustomEvent$1(event, params) {
 		params = params || { bubbles: false, cancelable: false, detail: undefined };
 		var evt = document.createEvent('CustomEvent');
 		evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
@@ -504,7 +665,7 @@ function isFunction$1(u) {
 	return typeof u === 'function';
 }
 
-function add(host, name, defaultValue) {
+function add$1(host, name, defaultValue) {
 	Object.defineProperty(host, name, {
 		get: function get() {
 			var value = this.private.state.hasOwnProperty(name) ? this.private.state[name] : defaultValue;
@@ -533,7 +694,7 @@ function add(host, name, defaultValue) {
 	});
 }
 
-function remove() {
+function remove$1() {
 	delete this.pool[this.id];
 }
 
@@ -573,11 +734,11 @@ var Extensible = function () {
 
 	createClass(Extensible, [{
 		key: 'add',
-		value: function add$$(item, value) {
+		value: function add(item, value) {
 			var _this = this;
 
 			if (isString(item)) {
-				add(this, item);
+				add$1(this, item);
 				return;
 			}
 			if (isArray$1(item)) {
@@ -626,7 +787,7 @@ var Extensible = function () {
 
 					events[name] = {};
 					pool = events[name];
-					;
+					
 					hooks[name] = hook;
 				}
 				if (typeof method === 'function') {
@@ -636,7 +797,7 @@ var Extensible = function () {
 				var handle = {
 					id: eid,
 					pool: pool,
-					remove: remove,
+					remove: remove$1,
 					removeAll: removeAll
 				};
 				return handle;
@@ -672,7 +833,7 @@ var Distinct = function (_Extensible) {
 	function Distinct() {
 		classCallCheck(this, Distinct);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(Distinct).call(this));
+		var _this = possibleConstructorReturn(this, (Distinct.__proto__ || Object.getPrototypeOf(Distinct)).call(this));
 
 		constructor$1.call(_this);
 		return _this;
@@ -687,7 +848,7 @@ var StyleRules = function (_Distinct) {
 	function StyleRules() {
 		classCallCheck(this, StyleRules);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(StyleRules).call(this));
+		var _this = possibleConstructorReturn(this, (StyleRules.__proto__ || Object.getPrototypeOf(StyleRules)).call(this));
 
 		_this.private.styles = {};
 		return _this;
@@ -733,7 +894,7 @@ var JSUIError = function (_Error) {
 
 	function JSUIError(title, message, severity) {
 		classCallCheck(this, JSUIError);
-		return possibleConstructorReturn(this, Object.getPrototypeOf(JSUIError).call(this));
+		return possibleConstructorReturn(this, (JSUIError.__proto__ || Object.getPrototypeOf(JSUIError)).call(this));
 	}
 
 	createClass(JSUIError, [{
@@ -766,7 +927,7 @@ var StyleSheet = function (_Distinct) {
 	function StyleSheet(context) {
 		classCallCheck(this, StyleSheet);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(StyleSheet).call(this));
+		var _this = possibleConstructorReturn(this, (StyleSheet.__proto__ || Object.getPrototypeOf(StyleSheet)).call(this));
 
 		context = context || 'default';
 
@@ -796,15 +957,15 @@ var StyleSheet = function (_Distinct) {
 		key: 'add',
 		value: function add(rule) {
 			if (isStyleRule(rule)) {
-				var rules = this.private.rules;
-				if (!rules[rule.uid]) {
-					rules[rule.uid] = {
+				var rules$$1 = this.private.rules;
+				if (!rules$$1[rule.uid]) {
+					rules$$1[rule.uid] = {
 						references: 1,
 						rule: rule
 					};
 					return this.render(10);
 				}
-				rules[rule.uid].references++;
+				rules$$1[rule.uid].references++;
 				return true;
 			}
 			if (isUStyleRule(rule)) {
@@ -814,13 +975,13 @@ var StyleSheet = function (_Distinct) {
 	}, {
 		key: 'remove',
 		value: function remove(rule) {
-			var rules = this.private.rules;
+			var rules$$1 = this.private.rules;
 			if (isString(rule)) {
-				var entry = rules[rule];
+				var entry = rules$$1[rule];
 				if (entry) {
 					entry.references--;
 					if (entry.references < 1) {
-						delete rules[rule];
+						delete rules$$1[rule];
 						this.render(10);
 					}
 				}
@@ -908,7 +1069,7 @@ var StyleSheetRule = function (_StyleRules) {
 	function StyleSheetRule(selector, properties) {
 		classCallCheck(this, StyleSheetRule);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(StyleSheetRule).call(this));
+		var _this = possibleConstructorReturn(this, (StyleSheetRule.__proto__ || Object.getPrototypeOf(StyleSheetRule)).call(this));
 
 		_this.private.importance = 0;
 		_this.private.created = new Date().valueOf();
@@ -1068,7 +1229,7 @@ var Styleable = function (_Distinct) {
 	function Styleable() {
 		classCallCheck(this, Styleable);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(Styleable).call(this));
+		var _this = possibleConstructorReturn(this, (Styleable.__proto__ || Object.getPrototypeOf(Styleable)).call(this));
 
 		constructor$2.call(_this);
 		return _this;
@@ -1129,7 +1290,7 @@ var Behavior = function (_Styleable) {
 	function Behavior(host) {
 		classCallCheck(this, Behavior);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(Behavior).call(this));
+		var _this = possibleConstructorReturn(this, (Behavior.__proto__ || Object.getPrototypeOf(Behavior)).call(this));
 
 		_this.private.host = host;
 		_this.context = 'behavior';
@@ -1139,7 +1300,7 @@ var Behavior = function (_Styleable) {
 	createClass(Behavior, [{
 		key: 'destructor',
 		value: function destructor() {
-			get(Object.getPrototypeOf(Behavior.prototype), 'destructor', this).call(this);
+			get$1(Behavior.prototype.__proto__ || Object.getPrototypeOf(Behavior.prototype), 'destructor', this).call(this);
 		}
 	}, {
 		key: 'host',
@@ -1218,7 +1379,7 @@ var StyleInline = function (_StyleRules) {
 	function StyleInline(host) {
 		classCallCheck(this, StyleInline);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(StyleInline).call(this));
+		var _this = possibleConstructorReturn(this, (StyleInline.__proto__ || Object.getPrototypeOf(StyleInline)).call(this));
 
 		_this.private.host = host || false;
 		_this.on('styleChanged', function (ev) {
@@ -1291,7 +1452,7 @@ function constructor$3(tag) {
 	var _this = this;
 
 	//select the proper constructor action
-	var type = getHandledType(tag);
+	var type = getHandledType$1(tag);
 	var action = Constructor[type];
 	tag = (action || function () {
 		return Constructor.string.call(this, 'div');
@@ -1307,7 +1468,7 @@ function constructor$3(tag) {
 	}
 
 	//setup first type+event
-	add(this, 'type');
+	add$1(this, 'type');
 	this.on('typeChanged', function (e) {
 		if (e && e.detail && e.detail.new) {
 			if (_this.element && e.detail.new) {
@@ -1429,7 +1590,7 @@ function _array(collection) {
 }
 
 function _string$3(prop) {
-	add(this, prop);
+	add$1(this, prop);
 }
 
 function _html(markup) {
@@ -1542,7 +1703,7 @@ function _object(assignments) {
 	return results;
 }
 
-function on(name, method) {
+function on$1(name, method) {
 	if (!isFunction$1(method)) {
 		return;
 	}
@@ -1562,7 +1723,7 @@ function on(name, method) {
 
 		events[name] = {};
 		pool = events[name];
-		;
+		
 		var element = this.element;
 		if (isElement(element)) {
 			element.addEventListener(name, dispatcher, false);
@@ -1575,14 +1736,14 @@ function on(name, method) {
 	var handle = {
 		id: eid,
 		pool: pool,
-		remove: remove,
+		remove: remove$1,
 		removeAll: removeAll
 	};
 	return handle;
 }
 
 function _string$4(name, method) {
-	return on.call(this, name, method);
+	return on$1.call(this, name, method);
 }
 
 function _path$2(name, method) {
@@ -1768,7 +1929,7 @@ function getter(obj, prop) {
 	return obj[prop];
 }
 
-function get$1(obj, path) {
+function get$2(obj, path) {
 	if (isString(path)) {
 		return path.substring(1).split('.').reduce(getter, obj);
 	}
@@ -1789,7 +1950,7 @@ function getWithContext(obj, path) {
 		};
 	}
 	var tail = parts.splice(parts.length - 1, 1);
-	var reference = get$1(obj, parts);
+	var reference = get$2(obj, parts);
 	if (reference) {
 		return {
 			context: reference,
@@ -1838,7 +1999,7 @@ function _string$8(property) {
 }
 
 function _path$6(path) {
-	return get$1(this, path);
+	return get$2(this, path);
 }
 
 var Get = {
@@ -1875,7 +2036,7 @@ function setter(obj, path, value) {
 		return true;
 	}
 	var tail = parts.splice(parts.length - 1, 1);
-	var reference = get$1(obj, parts);
+	var reference = get$2(obj, parts);
 	if (reference) {
 		reference[tail[0]] = value;
 		return true;
@@ -1883,12 +2044,12 @@ function setter(obj, path, value) {
 	return false;
 }
 
-function set$1(obj, path, value) {
+function set$2(obj, path, value) {
 	return setter(obj, path, value);
 }
 
 function _path$7(path, value) {
-	return set$1(this, path, value);
+	return set$2(this, path, value);
 }
 
 var Set = {
@@ -1938,7 +2099,7 @@ function nodeAttributes(node, callback) {
 		if (callback(name, value, attribute)) {
 			break;
 		}
-	};
+	}
 	return attributes;
 }
 
@@ -2091,7 +2252,7 @@ var ElementClassAction = function (_ElementAction) {
 	function ElementClassAction(element, className) {
 		classCallCheck(this, ElementClassAction);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(ElementClassAction).call(this, element));
+		var _this = possibleConstructorReturn(this, (ElementClassAction.__proto__ || Object.getPrototypeOf(ElementClassAction)).call(this, element));
 
 		_this.element = element;
 		_this.private.classes = className.split(' ');
@@ -2143,7 +2304,7 @@ var ElementClassAction = function (_ElementAction) {
 				if (!existing[name]) {
 					return false;
 				}
-			};
+			}
 			return true;
 		}
 	}]);
@@ -2182,7 +2343,7 @@ var Element$1 = function (_Styleable) {
 	function Element(tag) {
 		classCallCheck(this, Element);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(Element).call(this, tag));
+		var _this = possibleConstructorReturn(this, (Element.__proto__ || Object.getPrototypeOf(Element)).call(this, tag));
 
 		constructor$3.call(_this, tag);
 
@@ -2199,78 +2360,78 @@ var Element$1 = function (_Styleable) {
 	createClass(Element, [{
 		key: 'add',
 		value: function add(item) {
-			var type = getHandledType(item);
+			var type = getHandledType$1(item);
 			var action = Add[type];
-			return (action || get(Object.getPrototypeOf(Element.prototype), 'add', this) || unhandled).call(this, item);
+			return (action || get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'add', this) || unhandled).call(this, item);
 		}
 	}, {
 		key: 'addTo',
 		value: function addTo(item) {
-			var type = getHandledType(item);
+			var type = getHandledType$1(item);
 			var action = AddTo[type];
 			return (action || unhandled).call(this, item);
 		}
 	}, {
 		key: 'remove',
 		value: function remove(item) {
-			var type = getHandledType(item);
+			var type = getHandledType$1(item);
 			var action = Remove[type];
 			return (action || unhandled).call(this, item);
 		}
 	}, {
 		key: 'on',
 		value: function on(event, method) {
-			var type = getHandledType(event);
+			var type = getHandledType$1(event);
 			var action = On[type];
 			return (action || unhandled).call(this, event, method);
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger(event, args) {
-			var type = getHandledType(event);
+			var type = getHandledType$1(event);
 			var action = Trigger[type];
-			get(Object.getPrototypeOf(Element.prototype), 'trigger', this).call(this, event, args);
+			get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'trigger', this).call(this, event, args);
 			return (action || unhandled).call(this, event, args);
 		}
 	}, {
 		key: 'find',
 		value: function find(what) {
-			var type = getHandledType(what);
+			var type = getHandledType$1(what);
 			var action = Find[type];
 			return (action || unhandled([])).call(this, what);
 		}
 	}, {
 		key: 'with',
 		value: function _with(method) {
-			var type = getHandledType(method);
+			var type = getHandledType$1(method);
 			var action = With[type];
 			return (action || unhandled).call(this, method);
 		}
 	}, {
 		key: 'do',
 		value: function _do(method, args) {
-			var type = getHandledType(method);
+			var type = getHandledType$1(method);
 			var action = Do[type];
 			return (action || unhandled).call(this, method, args);
 		}
 	}, {
 		key: 'get',
 		value: function get(property) {
-			var type = getHandledType(property);
+			var type = getHandledType$1(property);
 			var action = Get[type];
 			return (action || unhandled).call(this, property);
 		}
 	}, {
 		key: 'set',
 		value: function set(property, value) {
-			var type = getHandledType(property);
+			var type = getHandledType$1(property);
 			var action = Set[type];
 			return (action || unhandled).call(this, property, value);
 		}
 	}, {
 		key: 'text',
 		value: function text(_text) {
-			var type = getHandledType(_text);
+			var type = getHandledType$1(_text);
 			var action = Text[type];
 			return (action || unhandled).call(this, _text);
 		}
@@ -2280,7 +2441,7 @@ var Element$1 = function (_Styleable) {
 			if (!isElement(this.element) || isEmptyString(name)) {
 				return;
 			}
-			var type = getHandledType(name);
+			var type = getHandledType$1(name);
 			var isSet = arguments.length > 1;
 			var action = Attribute[isSet ? 'Set' : 'Get'][type];
 			return (action || unhandled).apply(this, [name, value]);
@@ -2288,7 +2449,7 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'class',
 		value: function _class(name) {
-			var type = getHandledType(name);
+			var type = getHandledType$1(name);
 			var action = Class[type];
 			return (action || unhandled).call(this, name);
 		}
@@ -2347,7 +2508,7 @@ var Types = {
 	}
 };
 
-var getHandledType = (function getHandledType(u) {
+var getHandledType$1 = (function getHandledType(u) {
 	var type = typeof u === 'undefined' ? 'undefined' : _typeof(u);
 	var subtypes = Types[type];
 	if (!subtypes) {
@@ -2368,7 +2529,7 @@ var Collection = function (_Array) {
 	function Collection(target) {
 		classCallCheck(this, Collection);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(Collection).call(this));
+		var _this = possibleConstructorReturn(this, (Collection.__proto__ || Object.getPrototypeOf(Collection)).call(this));
 
 		if (isArray$1(target)) {
 			target.forEach(function (item) {
@@ -2381,7 +2542,7 @@ var Collection = function (_Array) {
 	createClass(Collection, [{
 		key: 'doToEach',
 		value: function doToEach(method, args) {
-			var type = getHandledType(method);
+			var type = getHandledType$1(method);
 			var action = DoToEach[type];
 			return (action || unhandled).call(this, method, args);
 		}
@@ -2397,7 +2558,7 @@ var ElementCollection = function (_Collection) {
 
 		classCallCheck(this, ElementCollection);
 
-		var _this = possibleConstructorReturn(this, Object.getPrototypeOf(ElementCollection).call(this, target));
+		var _this = possibleConstructorReturn(this, (ElementCollection.__proto__ || Object.getPrototypeOf(ElementCollection)).call(this, target));
 
 		return _ret = _this.doToEach('constructor', arguments), possibleConstructorReturn(_this, _ret);
 	}
@@ -2514,7 +2675,7 @@ var classCreate = (function create(name, tag, inherits, constructor) {
 
 function capitalize(text) {
 	return text.charAt(0).toUpperCase() + text.slice(1);
-};
+}
 
 var Elements = {};
 tags.forEach(function (tag) {
@@ -2531,16 +2692,16 @@ var StyleVariables = function (_Distinct) {
 
 	function StyleVariables() {
 		classCallCheck(this, StyleVariables);
-		return possibleConstructorReturn(this, Object.getPrototypeOf(StyleVariables).call(this));
+		return possibleConstructorReturn(this, (StyleVariables.__proto__ || Object.getPrototypeOf(StyleVariables)).call(this));
 	}
 
 	createClass(StyleVariables, [{
 		key: 'add',
-		value: function add$$(name, value) {
+		value: function add(name, value) {
 			var _this2 = this;
 
 			if (isString(name)) {
-				add(this, name, value);
+				add$1(this, name, value);
 				this.trigger('variableAdded', {
 					name: name,
 					value: value
@@ -2628,7 +2789,7 @@ $define('$on', function $on(name, method) {
 
 			events[name] = {};
 			pool = events[name];
-			;
+			
 			hooks[name] = hook;
 		}
 		if (isFunction$1(method)) {
@@ -2638,7 +2799,7 @@ $define('$on', function $on(name, method) {
 		var handle = {
 			id: eid,
 			pool: pool,
-			remove: remove,
+			remove: remove$1,
 			removeAll: removeAll
 		};
 		return handle;
@@ -2838,8 +2999,8 @@ var Utilities = {
 		nodeAttributes: nodeAttributes
 	},
 	Events: {
-		on: on,
-		remove: remove,
+		on: on$1,
+		remove: remove$1,
 		removeAll: removeAll
 	},
 	Functions: {
@@ -2849,14 +3010,14 @@ var Utilities = {
 		uid: uid
 	},
 	Paths: {
-		get: get$1,
+		get: get$2,
 		getter: getter,
-		set: set$1,
+		set: set$2,
 		setter: setter,
 		getWithContext: getWithContext
 	},
 	Properties: {
-		add: add,
+		add: add$1,
 		doOrSet: doOrSet,
 		getAll: getAll
 	},
@@ -2903,7 +3064,7 @@ function subconstructor(name, namespace, Subclasses) {
 	});
 }
 
-function create(name, json, namespace) {
+function create$1(name, json, namespace) {
 	name = cleanName(name);
 	namespace = namespace || name;
 	var Subclasses = {};
@@ -2912,7 +3073,7 @@ function create(name, json, namespace) {
 	Object.keys(json).forEach(function (key) {
 		var value = json[key];
 		if (isObject(value)) {
-			Subclasses[key] = create(key, value, name + '.' + key);
+			Subclasses[key] = create$1(key, value, name + '.' + key);
 			return;
 		}
 		Object.defineProperty(DataClass.prototype, key, {
@@ -2992,7 +3153,7 @@ function _default(node, classes, container) {
 		instance.add(name);
 		instance.on(name + 'Changed', onParsedElementChanged);
 		instance[name] = value;
-	};
+	}
 	var textNodes = [];
 	childNodes(node, function (child) {
 		if (isTextNode(child)) {
@@ -3051,7 +3212,7 @@ function htmlToInstructions(node, classes, state) {
 	}
 	if (!alias) {
 		alias = directory.alias;
-	};
+	}
 	var as = node.getAttribute('as');
 	var name = 'instance' + state.Counts.instance;
 	state.Counts.instance++;
@@ -3100,7 +3261,7 @@ function htmlToInstructions(node, classes, state) {
 	};
 }
 
-function _class(node, classes, container) {
+function _class$1(node, classes, container) {
 	var children = node.childNodes;
 	var count = children.length;
 	var root = getFirstNonTextChild(node);
@@ -3140,7 +3301,7 @@ function _class(node, classes, container) {
 
 var Tag = {
 	default: _default,
-	class: _class
+	class: _class$1
 };
 
 function parse(html, classes) {
@@ -3169,13 +3330,13 @@ var Reflection = {
 		parse: parse
 	},
 	Data: {
-		create: create
+		create: create$1
 	},
 	feval: feval
 };
 
-var Data$1 = {
-	fromJSON: create
+var Data$2 = {
+	fromJSON: create$1
 };
 
 var JSUI = {
@@ -3196,7 +3357,7 @@ var JSUI = {
 	Utilities: Utilities,
 	Sorts: Sorts,
 	Reflection: Reflection,
-	Data: Data$1,
+	Data: Data$2,
 	Polyfilled: Polyfilled
 };
 
