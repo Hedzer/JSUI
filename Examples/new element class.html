@@ -28,8 +28,15 @@
 				this.type = 'Example';
 				this.add([structure, theme]);
 			}
+			get test() {
+				console.log('get test');
+			}
+			set test(value) {
+				console.log('set test', value);
+			}
 		}
 		var example = new Example();
+		example.get('test');
 		example.addTo(document.body);
 	</script>
 </body>
