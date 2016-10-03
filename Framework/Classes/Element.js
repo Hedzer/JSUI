@@ -20,6 +20,7 @@ import With from 'Framework/Classes/Element/Handlers/With';
 import Do from 'Framework/Classes/Element/Handlers/Do';
 import Get from 'Framework/Classes/Element/Handlers/Get';
 import Set from 'Framework/Classes/Element/Handlers/Set';
+import State from 'Framework/Classes/Element/Handlers/State';
 import Text from 'Framework/Classes/Element/Handlers/Text';
 import Attribute from 'Framework/Classes/Element/Handlers/Attribute';
 import Class from 'Framework/Classes/Element/Handlers/Class';
@@ -89,6 +90,11 @@ export default class Element extends Styleable {
 	set(property, value) {
 		var type = getHandledType(property);
 		var action = Set[type];
+		return (action || unhandled).call(this, property, value);
+	}
+	state(property, value) {
+		var type = getHandledType(property);
+		var action = State[type];
 		return (action || unhandled).call(this, property, value);
 	}
 	text(text) {

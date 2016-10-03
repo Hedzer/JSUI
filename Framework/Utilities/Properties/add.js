@@ -9,6 +9,7 @@ export default function add(host, name, defaultValue){
 			var old = value;
 			value = v;
 			if (old !== v){
+				this.private.state[name] = value;
 				var data = {
 					owner: this,
 					property: name,

@@ -676,6 +676,7 @@ function add$1(host, name, defaultValue) {
 			var old = value;
 			value = v;
 			if (old !== v) {
+				this.private.state[name] = value;
 				var data = {
 					owner: this,
 					property: name,
@@ -1467,9 +1468,9 @@ function constructor$3(tag) {
 		this.element.JSUI = this;
 	}
 
-	//setup first type+event
-	add$1(this, 'type');
-	this.on('typeChanged', function (e) {
+	//setup first name+event
+	this.add('name');
+	this.on('nameChanged', function (e) {
 		if (e && e.detail && e.detail.new) {
 			if (_this.element && e.detail.new) {
 				var name = e.detail.new;
@@ -1480,7 +1481,7 @@ function constructor$3(tag) {
 			}
 		}
 	});
-	this.type = tag;
+	this.name = tag;
 
 	//add styling capabilities
 	this.style = new StyleInline(this);
@@ -2058,7 +2059,30 @@ var Set = {
 	path: _path$7
 };
 
-function _string$10(text) {
+function _string$10(property, value) {
+	var old = this.private.state[property];
+	var hasChanged = old !== value;
+	var self = this;
+
+	if (hasChanged) {
+		this.private.state[property] = value;
+		var data = {
+			property: property,
+			old: old,
+			new: value
+		};
+		self.trigger(property + "Changed", data);
+		self.trigger("Changed", data);
+	}
+
+	return hasChanged;
+}
+
+var State = {
+	string: _string$10
+};
+
+function _string$11(text) {
 	if (this.private && this.element) {
 		if (!this.private.text) {
 			var text = document.createTextNode(text);
@@ -2077,7 +2101,7 @@ function _path$8(text) {
 }
 
 var Text = {
-	string: _string$10,
+	string: _string$11,
 	path: _path$8
 };
 
@@ -2311,7 +2335,7 @@ var ElementClassAction = function (_ElementAction) {
 	return ElementClassAction;
 }(ElementAction);
 
-function _string$11(name) {
+function _string$12(name) {
 	if (isEmptyString(name)) {
 		return;
 	}
@@ -2319,7 +2343,7 @@ function _string$11(name) {
 }
 
 function _path$9() {
-	return _string$11.apply(this, arguments);
+	return _string$12.apply(this, arguments);
 }
 
 function _undefined$3() {
@@ -2329,7 +2353,7 @@ function _undefined$3() {
 var Class = {
 	array: _array$10,
 	object: _object$5,
-	string: _string$11,
+	string: _string$12,
 	path: _path$9,
 	undefined: _undefined$3
 };
@@ -2426,6 +2450,13 @@ var Element$1 = function (_Styleable) {
 		value: function set(property, value) {
 			var type = getHandledType$1(property);
 			var action = Set[type];
+			return (action || unhandled).call(this, property, value);
+		}
+	}, {
+		key: 'state',
+		value: function state(property, value) {
+			var type = getHandledType$1(property);
+			var action = State[type];
 			return (action || unhandled).call(this, property, value);
 		}
 	}, {
@@ -2669,7 +2700,7 @@ var classCreate = (function create(name, tag, inherits, constructor) {
 	name = cleanName(name);
 	var inherit = inherits || Element$1;
 	var construct = constructor || constructor$4;
-	var src = '\n\t\treturn (function(element, constructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this, \'' + tag + '\');\n\t\t\t\tthis.type = \'' + tag + '\';\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(element.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\treturn ' + name + ';\t\t\t\t\t\n\t\t})\n\t';
+	var src = '\n\t\treturn (function(element, constructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this, \'' + tag + '\');\n\t\t\t\tthis.name = \'' + tag + '\';\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(element.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\treturn ' + name + ';\t\t\t\t\t\n\t\t})\n\t';
 	return feval.call(window, src)(inherit, construct);
 });
 

@@ -22,9 +22,9 @@ export default function constructor(tag) {
 		this.element.JSUI = this;
 	}
 
-	//setup first type+event
-	addProperty(this, 'type');
-	this.on('typeChanged', (e) => {
+	//setup first name+event
+	this.add('name');
+	this.on('nameChanged', (e) => {
 		if (e && e.detail && e.detail.new){
 			if (this.element && e.detail.new){
 				var name = e.detail.new;
@@ -33,7 +33,7 @@ export default function constructor(tag) {
 			}
 		}
 	});
-	this.type = tag;
+	this.name = tag;
 
 	//add styling capabilities
 	this.style = new StyleInline(this);

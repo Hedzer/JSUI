@@ -44,7 +44,7 @@ gulp.task('compress', function(callback) {
 				join_vars: true,
 				cascade: true,
 			}
-		})
+		}))
 		.pipe(dereserve())
 		.pipe(rename(function(path) {
 			if (path.extname === '.js') {

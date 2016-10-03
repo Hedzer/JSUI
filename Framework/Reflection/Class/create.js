@@ -11,7 +11,7 @@ export default (function create(name, tag, inherits, constructor) {
 		return (function(element, constructor) {
 			function ${name}() {
 				constructor.call(this, '${tag}');
-				this.type = '${tag}';
+				this.name = '${tag}';
 			}
 			${name}.prototype = Object.create(element.prototype);
 			${name}.constructor = ${name};
