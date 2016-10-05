@@ -1,8 +1,10 @@
+import Identity from 'Framework/Classes/Identity';
 import Extensible from 'Framework/Classes/Extensible';
 import uid from 'Framework/Utilities/General/uid';
 import constructor from 'Framework/Classes/Distinct/constructor';
 
-const version = Object.freeze({
+const identity = new Identity({
+	class: 'Distinct',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -12,21 +14,21 @@ export default class Distinct extends Extensible {
 	constructor() {
 		super();
 		constructor.call(this);
+
+		//basics
+		this.identity = identity;
 	}
 	get uid() {
 		return this.private.uid;
 	}
-	get name() {
-		return this.state('name');
+	get identity() {
+		return this.state('identity');
 	}
-	set name(name) {
-		this.state('name', name);
-		if (!this.private.Is[name]) {
-			this.private.Is[name] = true;
+	set identity(identity) {
+		this.state('identity', identity);
+		if (!this.private.Is[identity]) {
+			this.private.Is[identity.class] = identity;
 		}
-	}
-	get version() {
-		return version;
 	}
 	get Is() {
 		return this.private.Is;

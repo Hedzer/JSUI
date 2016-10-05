@@ -1,5 +1,13 @@
+import Identity from 'Framework/Classes/Identity';
 import { default as uid } from 'Framework/Utilities/General/uid';
 import { default as Binding } from 'Framework/Classes/Relationship/Bind';
+
+const identity = new Identity({
+	class: 'Relationship',
+	major: 1,
+	minor: 0,
+	patch: 0
+});
 
 export default class Relationship {
 	constructor() {

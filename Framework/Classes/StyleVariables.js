@@ -1,10 +1,12 @@
+import Identity from 'Framework/Classes/Identity';
 import isString from 'Framework/TypeChecks/isString';
 import isObject from 'Framework/TypeChecks/isObject';
 import isArray from 'Framework/TypeChecks/isArray';
 import { default as addProperty } from 'Framework/Utilities/Properties/add';
 import Distinct from 'Framework/Classes/Distinct';
 
-const version = Object.freeze({
+const identity = new Identity({
+	class: 'StyleVariables',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -13,7 +15,7 @@ const version = Object.freeze({
 export default class StyleVariables extends Distinct {
 	constructor() {
 		super();
-		this.name = 'StyleVariables';
+		this.identity = identity;
 	}
 	add(name, value) {
 		if (isString(name)) {
@@ -45,8 +47,5 @@ export default class StyleVariables extends Distinct {
 			});
 			return true;
 		}
-	}
-	get version() {
-		return version;
 	}
 }

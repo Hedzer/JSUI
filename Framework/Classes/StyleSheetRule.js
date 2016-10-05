@@ -1,3 +1,4 @@
+import Identity from 'Framework/Classes/Identity';
 import isString from 'Framework/TypeChecks/isString';
 import isNumber from 'Framework/TypeChecks/isNumber';
 import isObject from 'Framework/TypeChecks/isObject';
@@ -7,7 +8,8 @@ import StyleRules from 'Framework/Classes/StyleRules';
 import JSUIError from 'Framework/Classes/JSUIError';
 import StyleSheet from 'Framework/Classes/StyleSheet';
 
-const version = Object.freeze({
+const identity = new Identity({
+	class: 'StyleSheetRule',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -16,6 +18,7 @@ const version = Object.freeze({
 export default class StyleSheetRule extends StyleRules {
 	constructor(selector, properties) {
 		super();
+		this.identity = identity;
 		this.private.importance = 0;
 		this.private.created = new Date().valueOf();
 		if (selector) {
@@ -24,7 +27,6 @@ export default class StyleSheetRule extends StyleRules {
 		if (isObject(properties)) {
 			this.set(properties);
 		}
-		this.name = 'StyleSheetRule';
 	}
 	get selector() {
 		return this.private.selector;
@@ -83,9 +85,6 @@ export default class StyleSheetRule extends StyleRules {
 	set context(context) {
 		this.private.context = context;
 		this.trigger('contextChanged');
-	}
-	get version() {
-		return version;
 	}
 	set(name, value) {
 		if (isObject(name)) {

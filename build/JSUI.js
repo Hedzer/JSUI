@@ -612,16 +612,71 @@ var Polyfilled = {
 	}
 };
 
+function isObject(u) {
+	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object';
+}
+
 function isString(u) {
 	return typeof u === 'string';
 }
 
+var Identity = function () {
+	function Identity(identity) {
+		classCallCheck(this, Identity);
+
+
+		var defaults$$1 = {
+			class: 'NoClassSet',
+			major: 0,
+			minor: 0,
+			patch: 0
+		};
+
+		if (isObject(identity)) {
+			defaults$$1.class = identity.class || defaults$$1.class;
+			defaults$$1.major = identity.major || defaults$$1.major;
+			defaults$$1.minor = identity.minor || defaults$$1.minor;
+			defaults$$1.patch = identity.patch || defaults$$1.patch;
+		}
+
+		if (isString(identity)) {
+			defaults$$1.class = identity;
+		}
+
+		Object.defineProperty(this, 'private', {
+			value: defaults$$1,
+			enumerable: false
+		});
+
+		Object.freeze(this.private);
+	}
+
+	createClass(Identity, [{
+		key: 'class',
+		get: function get() {
+			return this.private.class;
+		}
+	}, {
+		key: 'major',
+		get: function get() {
+			return this.private.major;
+		}
+	}, {
+		key: 'minor',
+		get: function get() {
+			return this.private.minor;
+		}
+	}, {
+		key: 'patch',
+		get: function get() {
+			return this.private.patch;
+		}
+	}]);
+	return Identity;
+}();
+
 function isNumber(u) {
 	return !isNaN(u) && typeof u === 'number';
-}
-
-function isObject(u) {
-	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object';
 }
 
 var Sheets = {};
@@ -852,7 +907,8 @@ function constructor$1() {
 	this.private.Is = {};
 }
 
-var version$4 = Object.freeze({
+var identity$4 = new Identity({
+	class: 'Distinct',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -867,6 +923,9 @@ var Distinct = function (_Extensible) {
 		var _this = possibleConstructorReturn(this, (Distinct.__proto__ || Object.getPrototypeOf(Distinct)).call(this));
 
 		constructor$1.call(_this);
+
+		//basics
+		_this.identity = identity$4;
 		return _this;
 	}
 
@@ -876,20 +935,15 @@ var Distinct = function (_Extensible) {
 			return this.private.uid;
 		}
 	}, {
-		key: 'name',
+		key: 'identity',
 		get: function get() {
-			return this.state('name');
+			return this.state('identity');
 		},
-		set: function set(name) {
-			this.state('name', name);
-			if (!this.private.Is[name]) {
-				this.private.Is[name] = true;
+		set: function set(identity) {
+			this.state('identity', identity);
+			if (!this.private.Is[identity]) {
+				this.private.Is[identity.class] = identity;
 			}
-		}
-	}, {
-		key: 'version',
-		get: function get() {
-			return version$4;
 		}
 	}, {
 		key: 'Is',
@@ -900,7 +954,8 @@ var Distinct = function (_Extensible) {
 	return Distinct;
 }(Extensible);
 
-var version$3 = Object.freeze({
+var identity$3 = new Identity({
+	class: 'StyleRules',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -915,16 +970,10 @@ var StyleRules = function (_Distinct) {
 		var _this = possibleConstructorReturn(this, (StyleRules.__proto__ || Object.getPrototypeOf(StyleRules)).call(this));
 
 		_this.private.styles = {};
-		_this.name = 'StyleRules';
+		_this.identity = identity$3;
 		return _this;
 	}
 
-	createClass(StyleRules, [{
-		key: 'version',
-		get: function get() {
-			return version$3;
-		}
-	}]);
 	return StyleRules;
 }(Distinct);
 
@@ -992,7 +1041,8 @@ function rules(a, b) {
 	return importance;
 }
 
-var version$5 = Object.freeze({
+var identity$5 = new Identity({
+	class: 'StyleSheet',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -1028,7 +1078,7 @@ var StyleSheet = function (_Distinct) {
 		_this.private.element = element;
 		Sheets[context] = _this;
 
-		_this.name = 'StyleSheet';
+		_this.identity = identity$5;
 		return _this;
 	}
 
@@ -1122,11 +1172,6 @@ var StyleSheet = function (_Distinct) {
 			return this.private.context;
 		}
 	}, {
-		key: 'version',
-		get: function get() {
-			return version$5;
-		}
-	}, {
 		key: 'variables',
 		get: function get() {},
 		set: function set(vars) {}
@@ -1147,7 +1192,8 @@ var StyleSheet = function (_Distinct) {
 	return StyleSheet;
 }(Distinct);
 
-var version$2 = Object.freeze({
+var identity$2 = new Identity({
+	class: 'StyleSheetRule',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -1161,6 +1207,7 @@ var StyleSheetRule = function (_StyleRules) {
 
 		var _this = possibleConstructorReturn(this, (StyleSheetRule.__proto__ || Object.getPrototypeOf(StyleSheetRule)).call(this));
 
+		_this.identity = identity$2;
 		_this.private.importance = 0;
 		_this.private.created = new Date().valueOf();
 		if (selector) {
@@ -1169,7 +1216,6 @@ var StyleSheetRule = function (_StyleRules) {
 		if (isObject(properties)) {
 			_this.set(properties);
 		}
-		_this.name = 'StyleSheetRule';
 		return _this;
 	}
 
@@ -1299,11 +1345,6 @@ var StyleSheetRule = function (_StyleRules) {
 			this.private.context = context;
 			this.trigger('contextChanged');
 		}
-	}, {
-		key: 'version',
-		get: function get() {
-			return version$2;
-		}
 	}]);
 	return StyleSheetRule;
 }(StyleRules);
@@ -1319,7 +1360,8 @@ function constructor$2() {
 	};
 }
 
-var version$1 = Object.freeze({
+var identity$1 = new Identity({
+	class: 'Styleable',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -1334,7 +1376,7 @@ var Styleable = function (_Distinct) {
 		var _this = possibleConstructorReturn(this, (Styleable.__proto__ || Object.getPrototypeOf(Styleable)).call(this));
 
 		constructor$2.call(_this);
-		_this.name = 'Styleable';
+		_this.identity = identity$1;
 		return _this;
 	}
 
@@ -1382,11 +1424,6 @@ var Styleable = function (_Distinct) {
 				entry.rule.render(_this2.private.context);
 			});
 			this.trigger('contextChanged');
-		}
-	}, {
-		key: 'version',
-		get: function get() {
-			return version$1;
 		}
 	}]);
 	return Styleable;
@@ -1472,7 +1509,8 @@ var defaults$1 = {
 	Production: {}
 };
 
-var version$7 = Object.freeze({
+var identity$7 = new Identity({
+	class: 'StyleInline',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -1492,7 +1530,7 @@ var StyleInline = function (_StyleRules) {
 				_this.private.host.element.style[ev.property] = ev.new;
 			}
 		});
-		_this.name = 'StyleInline';
+		_this.identity = identity$7;
 		return _this;
 	}
 
@@ -1526,11 +1564,6 @@ var StyleInline = function (_StyleRules) {
 			if (isJSUI(element)) {
 				this.private.host = element.element;
 			}
-		}
-	}, {
-		key: 'version',
-		get: function get() {
-			return version$7;
 		}
 	}]);
 	return StyleInline;
@@ -1582,8 +1615,6 @@ function constructor$3(tag) {
 	//add styling capabilities
 	this.style = new StyleInline(this);
 
-	//signal that this class has been built
-	this.trigger('constructed');
 	return this;
 }
 
@@ -2434,7 +2465,8 @@ var Class = {
 //constructor & destructor
 //handlers
 //classes
-var version$6 = Object.freeze({
+var identity$6 = new Identity({
+	class: 'Element',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -2449,7 +2481,7 @@ var Element$1 = function (_Styleable) {
 		var _this = possibleConstructorReturn(this, (Element.__proto__ || Object.getPrototypeOf(Element)).call(this, tag));
 
 		constructor$3.call(_this, tag);
-		_this.name = 'Element';
+		_this.identity = identity$6;
 		return _this;
 	}
 
@@ -2583,18 +2615,13 @@ var Element$1 = function (_Styleable) {
 			});
 		}
 	}, {
-		key: 'name',
+		key: 'identity',
 		get: function get() {
-			return get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'name', this);
+			return get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'identity', this);
 		},
-		set: function set(name) {
-			set$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'name', name, this);
-			addClass(this.element, name);
-		}
-	}, {
-		key: 'version',
-		get: function get() {
-			return version$6;
+		set: function set(identity) {
+			set$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'identity', identity, this);
+			addClass(this.element, identity.class);
 		}
 	}]);
 	return Element;
@@ -2604,7 +2631,8 @@ function isJSUI(u) {
 	return u instanceof Element$1;
 }
 
-var version = Object.freeze({
+var identity = new Identity({
+	class: 'Behavior',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -2625,7 +2653,7 @@ var Behavior = function (_Styleable) {
 		}
 
 		//setup new props
-		_this.name = 'behavior';
+		_this.identity = identity;
 		_this.context = 'behavior';
 		return _this;
 	}
@@ -2831,8 +2859,14 @@ var classCreate = (function create(name, tag, inherits, constructor) {
 	tag = tag.toLowerCase();
 	var inherit = inherits || Element$1;
 	var construct = constructor || constructor$4;
-	var src = '\n\t\treturn (function(element, constructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this, \'' + tag + '\');\n\t\t\t\tthis.name = \'' + name + '\';\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(element.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\treturn ' + name + ';\t\t\t\t\t\n\t\t})\n\t';
-	return feval.call(window, src)(inherit, construct);
+	var identity = new Identity({
+		class: name,
+		major: 1,
+		minor: 0,
+		patch: 0
+	});
+	var src = '\n\t\treturn (function(element, constructor, identity) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this, \'' + tag + '\');\n\t\t\t\tthis.identity = identity;\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(element.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\treturn ' + name + ';\t\t\t\t\t\n\t\t})\n\t';
+	return feval.call(window, src)(inherit, construct, identity);
 });
 
 function capitalize(text) {
@@ -2849,7 +2883,8 @@ tags.forEach(function (tag) {
 	}
 });
 
-var version$8 = Object.freeze({
+var identity$8 = new Identity({
+	class: 'StyleVariables',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -2863,7 +2898,7 @@ var StyleVariables = function (_Distinct) {
 
 		var _this = possibleConstructorReturn(this, (StyleVariables.__proto__ || Object.getPrototypeOf(StyleVariables)).call(this));
 
-		_this.name = 'StyleVariables';
+		_this.identity = identity$8;
 		return _this;
 	}
 
@@ -2905,11 +2940,6 @@ var StyleVariables = function (_Distinct) {
 				});
 				return true;
 			}
-		}
-	}, {
-		key: 'version',
-		get: function get() {
-			return version$8;
 		}
 	}]);
 	return StyleVariables;
@@ -3012,7 +3042,8 @@ var Classes = {
 	StyleSheet: StyleSheet,
 	StyleSheetRule: StyleSheetRule,
 	StyleVariables: StyleVariables,
-	Data: Data
+	Data: Data,
+	Identity: Identity
 };
 
 var Constants = {
@@ -3520,6 +3551,7 @@ var JSUI = {
 	Settings: defaults$1,
 	Behavior: Classes.Behavior,
 	Element: Classes.Element,
+	Identity: Classes.Identity,
 	Elements: Elements,
 	Style: {
 		Sheet: Classes.StyleSheet,

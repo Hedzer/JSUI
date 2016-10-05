@@ -15,6 +15,7 @@ import StyleVariables from 'Framework/Classes/StyleVariables';
 import ElementAction from 'Framework/Classes/ElementAction';
 import ElementClassAction from 'Framework/Classes/ElementClassAction';
 import Data from 'Framework/Classes/Data';
+import Identity from 'Framework/Classes/Identity';
 
 var Classes = {
 	Behavior: Behavior,
@@ -32,7 +33,8 @@ var Classes = {
 	StyleSheet: StyleSheet,
 	StyleSheetRule: StyleSheetRule,
 	StyleVariables: StyleVariables,
-	Data: Data
+	Data: Data,
+	Identity: Identity
 };
 
 export default Classes;

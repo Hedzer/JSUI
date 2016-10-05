@@ -1,22 +1,21 @@
+import Identity from 'Framework/Classes/Identity';
 import isNull from 'Framework/TypeChecks/isNull';
 import vendors from 'Framework/Constants/CSS/vendors';
 import equivalents from 'Framework/Constants/CSS/equivalents';
 import Distinct from 'Framework/Classes/Distinct';
 
-const version = Object.freeze({
+const identity = new Identity({
+	class: 'StyleRules',
 	major: 1,
 	minor: 0,
 	patch: 0
 });
 
- class StyleRules extends Distinct {
+class StyleRules extends Distinct {
 	constructor() {
 		super();
 		this.private.styles = {};
-		this.name = 'StyleRules';
-	}
-	get version() {
-		return version;
+		this.identity = identity;
 	}
 }
 

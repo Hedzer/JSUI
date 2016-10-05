@@ -1,7 +1,9 @@
+import Identity from 'Framework/Classes/Identity';
 import Styleable from 'Framework/Classes/Styleable';
 import isJSUI from 'Framework/TypeChecks/isJSUI';
 
-var version = Object.freeze({
+const identity = new Identity({
+	class: 'Behavior',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -18,7 +20,7 @@ export default class Behavior extends Styleable {
 		}
 
 		//setup new props
-		this.name = 'behavior';
+		this.identity = identity;
 		this.context = 'behavior';
 	}
 	attach(host) {

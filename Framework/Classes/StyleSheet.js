@@ -1,3 +1,4 @@
+import Identity from 'Framework/Classes/Identity';
 import isString from 'Framework/TypeChecks/isString';
 import isFunction from 'Framework/TypeChecks/isFunction';
 import isNumber from 'Framework/TypeChecks/isNumber';
@@ -7,7 +8,8 @@ import { default as sort } from 'Framework/Sorts/StyleSheet/rules';
 import Sheets from 'Framework/Singletons/Style/Sheets';
 import Distinct from 'Framework/Classes/Distinct';
 
-const version = Object.freeze({
+const identity = new Identity({
+	class: 'StyleSheet',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -36,7 +38,7 @@ export default class StyleSheet extends Distinct {
 		this.private.element = element;
 		Sheets[context] = this;
 
-		this.name = 'StyleSheet';
+		this.identity = identity;
 	}
 	add(rule) {
 		if (isStyleRule(rule)) {
@@ -74,9 +76,6 @@ export default class StyleSheet extends Distinct {
 	}
 	get context() {
 		return this.private.context;
-	}
-	get version() {
-		return version;
 	}
 	get variables() {}
 	set variables(vars) {}

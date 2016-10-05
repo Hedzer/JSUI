@@ -14,6 +14,7 @@ var JSUI = {
 	Settings: Settings,
 	Behavior: Classes.Behavior,
 	Element: Classes.Element,
+	Identity: Classes.Identity,
 	Elements: Elements,
 	Style: {
 		Sheet: Classes.StyleSheet,

@@ -26,9 +26,11 @@ import Attribute from 'Framework/Classes/Element/Handlers/Attribute';
 import Class from 'Framework/Classes/Element/Handlers/Class';
 
 //classes
+import Identity from 'Framework/Classes/Identity';
 import Styleable from 'Framework/Classes/Styleable';
 
-const version = Object.freeze({
+const identity = new Identity({
+	class: 'Element',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -38,7 +40,7 @@ export default class Element extends Styleable {
 	constructor(tag){
 		super(tag);
 		constructor.call(this, tag);
-		this.name = 'Element';
+		this.identity = identity;
 	}
 	set context(context) {
 		super.context = context;
@@ -49,15 +51,12 @@ export default class Element extends Styleable {
 			child.context = (child.context === 'default' ? this.context : child.context);
 		});
 	}
-	get name() {
-		return super.name;
+	get identity() {
+		return super.identity;
 	}
-	set name(name) {
-		super.name = name;
-		addClass(this.element, name);
-	}
-	get version() {
-		return version;
+	set identity(identity) {
+		super.identity = identity;
+		addClass(this.element, identity.class);
 	}
 	add(item) {
 		var type = getHandledType(item);

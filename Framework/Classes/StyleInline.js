@@ -1,9 +1,11 @@
+import Identity from 'Framework/Classes/Identity';
 import isJSUI from 'Framework/TypeChecks/isJSUI';
 import isObject from 'Framework/TypeChecks/isObject';
 import isString from 'Framework/TypeChecks/isString';
 import StyleRules from 'Framework/Classes/StyleRules';
 
-const version = Object.freeze({
+const identity = new Identity({
+	class: 'StyleInline',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -18,7 +20,7 @@ export default class StyleInline extends StyleRules {
 				this.private.host.element.style[ev.property] = ev.new;
 			}
 		});
-		this.name = 'StyleInline';
+		this.identity = identity;
 	}
 	get host() {
 		return this.private.host;
@@ -27,9 +29,6 @@ export default class StyleInline extends StyleRules {
 		if (isJSUI(element)) {
 			this.private.host = element.element;
 		}
-	}
-	get version() {
-		return version;
 	}
 	set(name, value) {
 		if (isObject(name)) {

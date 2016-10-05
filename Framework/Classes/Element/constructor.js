@@ -27,7 +27,5 @@ export default function constructor(tag) {
 	//add styling capabilities
 	this.style = new StyleInline(this);
 
-	//signal that this class has been built
-	this.trigger('constructed');
 	return this;
 }

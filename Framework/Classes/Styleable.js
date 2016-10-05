@@ -1,9 +1,11 @@
+import Identity from 'Framework/Classes/Identity';
 import isStyleRule from 'Framework/TypeChecks/isStyleRule';
 import Sheets from 'Framework/Singletons/Style/Sheets';
 import Distinct from 'Framework/Classes/Distinct';
 import constructor from 'Framework/Classes/Styleable/constructor';
 
-const version = Object.freeze({
+const identity = new Identity({
+	class: 'Styleable',
 	major: 1,
 	minor: 0,
 	patch: 0
@@ -13,7 +15,7 @@ export default class Styleable extends Distinct {
 	constructor() {
 		super();
 		constructor.call(this);
-		this.name = 'Styleable';
+		this.identity = identity;
 	}
 	get context() {
 		return this.private.context;
@@ -30,9 +32,6 @@ export default class Styleable extends Distinct {
 			entry.rule.render(this.private.context);
 		});
 		this.trigger('contextChanged');
-	}
-	get version() {
-		return version;
 	}
 	add(style) {
 		if (isStyleRule(style)) {
