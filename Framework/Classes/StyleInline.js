@@ -3,6 +3,12 @@ import isObject from 'Framework/TypeChecks/isObject';
 import isString from 'Framework/TypeChecks/isString';
 import StyleRules from 'Framework/Classes/StyleRules';
 
+const version = Object.freeze({
+	major: 1,
+	minor: 0,
+	patch: 0
+});
+
 export default class StyleInline extends StyleRules {
 	constructor(host) {
 		super();
@@ -12,6 +18,7 @@ export default class StyleInline extends StyleRules {
 				this.private.host.element.style[ev.property] = ev.new;
 			}
 		});
+		this.name = 'StyleInline';
 	}
 	get host() {
 		return this.private.host;
@@ -20,6 +27,9 @@ export default class StyleInline extends StyleRules {
 		if (isJSUI(element)) {
 			this.private.host = element.element;
 		}
+	}
+	get version() {
+		return version;
 	}
 	set(name, value) {
 		if (isObject(name)) {

@@ -5,13 +5,14 @@ import feval from 'Framework/Reflection/feval';
 
 export default (function create(name, tag, inherits, constructor) {
 	name = cleanName(name);
-	var inherit = (inherits || Element);
-	var construct = (constructor || elementConstructor);
-	var src = `
+	tag = tag.toLowerCase();
+	let inherit = (inherits || Element);
+	let construct = (constructor || elementConstructor);
+	let src = `
 		return (function(element, constructor) {
 			function ${name}() {
 				constructor.call(this, '${tag}');
-				this.name = '${tag}';
+				this.name = '${name}';
 			}
 			${name}.prototype = Object.create(element.prototype);
 			${name}.constructor = ${name};

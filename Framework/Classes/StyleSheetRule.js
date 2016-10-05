@@ -7,6 +7,12 @@ import StyleRules from 'Framework/Classes/StyleRules';
 import JSUIError from 'Framework/Classes/JSUIError';
 import StyleSheet from 'Framework/Classes/StyleSheet';
 
+const version = Object.freeze({
+	major: 1,
+	minor: 0,
+	patch: 0
+});
+
 export default class StyleSheetRule extends StyleRules {
 	constructor(selector, properties) {
 		super();
@@ -18,6 +24,7 @@ export default class StyleSheetRule extends StyleRules {
 		if (isObject(properties)) {
 			this.set(properties);
 		}
+		this.name = 'StyleSheetRule';
 	}
 	get selector() {
 		return this.private.selector;
@@ -76,6 +83,9 @@ export default class StyleSheetRule extends StyleRules {
 	set context(context) {
 		this.private.context = context;
 		this.trigger('contextChanged');
+	}
+	get version() {
+		return version;
 	}
 	set(name, value) {
 		if (isObject(name)) {

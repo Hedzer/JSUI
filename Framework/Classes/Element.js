@@ -4,6 +4,7 @@ import isFunction from 'Framework/TypeChecks/isFunction';
 import isArray from 'Framework/TypeChecks/isArray';
 import isElement from 'Framework/TypeChecks/isElement';
 import isEmptyString from 'Framework/TypeChecks/isEmptyString';
+import addClass from 'Framework/Utilities/Elements/addClass';
 
 //constructor & destructor
 import constructor from 'Framework/Classes/Element/constructor';
@@ -20,7 +21,6 @@ import With from 'Framework/Classes/Element/Handlers/With';
 import Do from 'Framework/Classes/Element/Handlers/Do';
 import Get from 'Framework/Classes/Element/Handlers/Get';
 import Set from 'Framework/Classes/Element/Handlers/Set';
-import State from 'Framework/Classes/Element/Handlers/State';
 import Text from 'Framework/Classes/Element/Handlers/Text';
 import Attribute from 'Framework/Classes/Element/Handlers/Attribute';
 import Class from 'Framework/Classes/Element/Handlers/Class';
@@ -28,18 +28,36 @@ import Class from 'Framework/Classes/Element/Handlers/Class';
 //classes
 import Styleable from 'Framework/Classes/Styleable';
 
+const version = Object.freeze({
+	major: 1,
+	minor: 0,
+	patch: 0
+});
+
 export default class Element extends Styleable {
 	constructor(tag){
 		super(tag);
 		constructor.call(this, tag);
-		
+		this.name = 'Element';
+	}
+	set context(context) {
+		super.context = context;
+
 		//if not default, change the context of the child elements
-		this.on('contextChanged', () => {
-			this.children((child) => {
-				//allow context to only change once
-				child.context = (child.context === 'default' ? this.context : child.context);
-			});
+		this.children((child) => {
+			//allow context to only change once
+			child.context = (child.context === 'default' ? this.context : child.context);
 		});
+	}
+	get name() {
+		return super.name;
+	}
+	set name(name) {
+		super.name = name;
+		addClass(this.element, name);
+	}
+	get version() {
+		return version;
 	}
 	add(item) {
 		var type = getHandledType(item);
@@ -90,11 +108,6 @@ export default class Element extends Styleable {
 	set(property, value) {
 		var type = getHandledType(property);
 		var action = Set[type];
-		return (action || unhandled).call(this, property, value);
-	}
-	state(property, value) {
-		var type = getHandledType(property);
-		var action = State[type];
 		return (action || unhandled).call(this, property, value);
 	}
 	text(text) {

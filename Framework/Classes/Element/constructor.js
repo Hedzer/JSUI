@@ -1,5 +1,4 @@
 import { default as addProperty } from 'Framework/Utilities/Properties/add';
-import addClass from 'Framework/Utilities/Elements/addClass';
 import getHandledType from 'Framework/Classes/Element/getHandledType';
 import settings from 'Framework/Constants/JSUI/settings';
 import StyleInline from 'Framework/Classes/StyleInline';
@@ -23,16 +22,6 @@ export default function constructor(tag) {
 	}
 
 	//setup first name+event
-	this.add('name');
-	this.on('nameChanged', (e) => {
-		if (e && e.detail && e.detail.new){
-			if (this.element && e.detail.new){
-				var name = e.detail.new;
-				if (!name) {return; }
-				addClass(this.element, name);
-			}
-		}
-	});
 	this.name = tag;
 
 	//add styling capabilities

@@ -40,6 +40,27 @@ export default class Extensible {
 			});
 		}
 	}
+	state(property, value) {
+		let old = this.private.state[property];
+		if (arguments.length === 1) {
+			return old;
+		}
+
+		let hasChanged = (old !== value);
+
+		if (hasChanged) {
+			this.private.state[property] = value;
+			let data = {
+				property: property,
+				old: old,
+				new: value
+			};
+			this.trigger(`${property}Changed`, data);
+			this.trigger(`Changed`, data);
+		}
+
+		return hasChanged;	
+	}
 	on(name, method) {
 		if (isString(name) && isFunction(method)) {
 			var events = this.private.events;
