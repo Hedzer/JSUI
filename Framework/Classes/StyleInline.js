@@ -6,9 +6,7 @@ import StyleRules from 'Framework/Classes/StyleRules';
 
 const identity = new Identity({
 	class: 'StyleInline',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 export default class StyleInline extends StyleRules {

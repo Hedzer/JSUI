@@ -5,9 +5,7 @@ import constructor from 'Framework/Classes/Distinct/constructor';
 
 const identity = new Identity({
 	class: 'Distinct',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 export default class Distinct extends Extensible {

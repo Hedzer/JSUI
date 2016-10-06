@@ -6,9 +6,7 @@ import constructor from 'Framework/Classes/Styleable/constructor';
 
 const identity = new Identity({
 	class: 'Styleable',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 export default class Styleable extends Distinct {

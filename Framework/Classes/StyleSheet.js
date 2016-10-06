@@ -10,9 +10,7 @@ import Distinct from 'Framework/Classes/Distinct';
 
 const identity = new Identity({
 	class: 'StyleSheet',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 export default class StyleSheet extends Distinct {

@@ -31,9 +31,7 @@ import Styleable from 'Framework/Classes/Styleable';
 
 const identity = new Identity({
 	class: 'Element',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 export default class Element extends Styleable {

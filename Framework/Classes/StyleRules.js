@@ -6,9 +6,7 @@ import Distinct from 'Framework/Classes/Distinct';
 
 const identity = new Identity({
 	class: 'StyleRules',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 class StyleRules extends Distinct {

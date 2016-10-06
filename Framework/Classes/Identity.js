@@ -5,10 +5,8 @@ export default class Identity {
 	constructor(identity) {
 
 		let defaults = {
-			class: 'NoClassSet',
-			major: 0,
-			minor: 0,
-			patch: 0
+			class: 'NoClass',
+			major: 0, minor: 0, patch: 0
 		};
 
 		if (isObject(identity)) {

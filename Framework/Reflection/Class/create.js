@@ -11,9 +11,7 @@ export default (function create(name, tag, inherits, constructor) {
 	let construct = (constructor || elementConstructor);
 	let identity = new Identity({
 		class: name,
-		major: 1,
-		minor: 0,
-		patch: 0
+		major: 1, minor: 0, patch: 0
 	});
 	let src = `
 		return (function(element, constructor, identity) {

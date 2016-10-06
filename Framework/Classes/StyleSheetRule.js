@@ -10,9 +10,7 @@ import StyleSheet from 'Framework/Classes/StyleSheet';
 
 const identity = new Identity({
 	class: 'StyleSheetRule',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 export default class StyleSheetRule extends StyleRules {

@@ -4,9 +4,7 @@ import isJSUI from 'Framework/TypeChecks/isJSUI';
 
 const identity = new Identity({
 	class: 'Behavior',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 export default class Behavior extends Styleable {
