@@ -1,4 +1,5 @@
 var defaults = {
+	namespace: 'JSUI',
 	Development: {
 		enabled: false,
 		traceErrors: true,

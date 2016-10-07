@@ -612,6 +612,17 @@ var Polyfilled = {
 	}
 };
 
+var defaults$1 = {
+	namespace: 'JSUI',
+	Development: {
+		enabled: false,
+		traceErrors: true,
+		haltOnErrors: true,
+		references: true
+	},
+	Production: {}
+};
+
 function isObject(u) {
 	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object';
 }
@@ -620,19 +631,21 @@ function isString(u) {
 	return typeof u === 'string';
 }
 
+var namespace = defaults$1.namespace;
+
 var Identity = function () {
 	function Identity(identity) {
 		classCallCheck(this, Identity);
 
 
 		var defaults$$1 = {
-			class: 'NoClassSet',
-			major: 0,
-			minor: 0,
-			patch: 0
+			namespace: namespace,
+			class: 'NoClass',
+			major: 0, minor: 0, patch: 0
 		};
 
 		if (isObject(identity)) {
+			defaults$$1.namespace = identity.namespace || defaults$$1.namespace;
 			defaults$$1.class = identity.class || defaults$$1.class;
 			defaults$$1.major = identity.major || defaults$$1.major;
 			defaults$$1.minor = identity.minor || defaults$$1.minor;
@@ -652,6 +665,11 @@ var Identity = function () {
 	}
 
 	createClass(Identity, [{
+		key: 'namespace',
+		get: function get() {
+			return this.private.namespace;
+		}
+	}, {
 		key: 'class',
 		get: function get() {
 			return this.private.class;
@@ -909,9 +927,7 @@ function constructor$1() {
 
 var identity$4 = new Identity({
 	class: 'Distinct',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 var Distinct = function (_Extensible) {
@@ -956,9 +972,7 @@ var Distinct = function (_Extensible) {
 
 var identity$3 = new Identity({
 	class: 'StyleRules',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 var StyleRules = function (_Distinct) {
@@ -1043,9 +1057,7 @@ function rules(a, b) {
 
 var identity$5 = new Identity({
 	class: 'StyleSheet',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 var StyleSheet = function (_Distinct) {
@@ -1194,9 +1206,7 @@ var StyleSheet = function (_Distinct) {
 
 var identity$2 = new Identity({
 	class: 'StyleSheetRule',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 var StyleSheetRule = function (_StyleRules) {
@@ -1362,9 +1372,7 @@ function constructor$2() {
 
 var identity$1 = new Identity({
 	class: 'Styleable',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 var Styleable = function (_Distinct) {
@@ -1446,13 +1454,18 @@ function isPath(u) {
 	return typeof u === 'string' && u.length > 0 && u[0] === '@';
 }
 
+function isBehavior(u) {
+	return u instanceof Behavior;
+}
+
 var Types = {
 	object: {
 		null: isNull,
 		array: isArray$1,
 		element: isElement,
 		jsui: isJSUI,
-		regex: isRegex
+		regex: isRegex,
+		behavior: isBehavior
 	},
 	string: {
 		html: isHTML,
@@ -1499,21 +1512,9 @@ function addClass(el, name) {
 	el.className = classes.join(' ');
 }
 
-var defaults$1 = {
-	Development: {
-		enabled: false,
-		traceErrors: true,
-		haltOnErrors: true,
-		references: true
-	},
-	Production: {}
-};
-
 var identity$7 = new Identity({
 	class: 'StyleInline',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 var StyleInline = function (_StyleRules) {
@@ -1741,10 +1742,21 @@ function isUJSUI(u) {
 	return !!(u && u.prototype && (u.prototype instanceof Element$1 || u === Element$1));
 }
 
+function isUBehavior(u) {
+	return !!(u && u.prototype && (u.prototype instanceof Behavior || u === Behavior));
+}
+
 function _function(method) {
 	if (isUJSUI(method)) {
 		return this.add(new method());
 	}
+	if (isUBehavior(method)) {
+		return this.add(new method());
+	}
+}
+
+function _behavior(instance) {
+	return instance.attach(this);
 }
 
 var Add = {
@@ -1754,7 +1766,8 @@ var Add = {
 	string: _string$2,
 	html: _html,
 	path: _path,
-	function: _function
+	function: _function,
+	behavior: _behavior
 };
 
 function _element$2(element) {
@@ -2467,9 +2480,7 @@ var Class = {
 //classes
 var identity$6 = new Identity({
 	class: 'Element',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 var Element$1 = function (_Styleable) {
@@ -2621,7 +2632,14 @@ var Element$1 = function (_Styleable) {
 		},
 		set: function set(identity) {
 			set$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'identity', identity, this);
-			addClass(this.element, identity.class);
+			if (identity.namespace) {
+				addClass(this.element, identity.namespace);
+			}
+			// else {} throw error here later
+			if (identity.class) {
+				addClass(this.element, identity.class);
+			}
+			// else {} also throw one here later
 		}
 	}]);
 	return Element;
@@ -2633,9 +2651,7 @@ function isJSUI(u) {
 
 var identity = new Identity({
 	class: 'Behavior',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 var Behavior = function (_Styleable) {
@@ -2661,14 +2677,31 @@ var Behavior = function (_Styleable) {
 	createClass(Behavior, [{
 		key: 'attach',
 		value: function attach(host) {
+			var _this2 = this;
+
 			if (isJSUI(host)) {
-				var id = host.uid;
-				if (this.private.hosts[id]) {
-					return;
-				}
-				this.private.hosts[id] = host;
-				this.trigger('attach', host);
-				return;
+				var _ret = function () {
+					var id = host.uid;
+					var addAs = _this2.identity.class;
+					if (_this2.private.hosts[id]) {
+						return {
+							v: void 0
+						};
+					}
+					_this2.private.hosts[id] = host;
+					host[addAs] = _this2;
+					_this2.trigger('attach', host);
+					return {
+						v: {
+							as: function (name) {
+								delete host[addAs];
+								host[name] = this;
+							}.bind(_this2)
+						}
+					};
+				}();
+
+				if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 			}
 		}
 	}, {
@@ -2681,6 +2714,21 @@ var Behavior = function (_Styleable) {
 			host = this.private.hosts[id];
 			delete this.private.hosts[id];
 			this.trigger('detach', host);
+		}
+	}, {
+		key: 'hosts',
+		value: function hosts(each) {
+			var results = [];
+			var hasTask = isFunction$1(each);
+			var hosts = this.private.hosts;
+			Object.keys(hosts).forEach(function (id) {
+				var host = hosts[id];
+				if (hasTask) {
+					each(host);
+				}
+				results.push(host);
+			});
+			return results;
 		}
 	}, {
 		key: 'destructor',
@@ -2861,9 +2909,7 @@ var classCreate = (function create(name, tag, inherits, constructor) {
 	var construct = constructor || constructor$4;
 	var identity = new Identity({
 		class: name,
-		major: 1,
-		minor: 0,
-		patch: 0
+		major: 1, minor: 0, patch: 0
 	});
 	var src = '\n\t\treturn (function(element, constructor, identity) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this, \'' + tag + '\');\n\t\t\t\tthis.identity = identity;\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(element.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\treturn ' + name + ';\t\t\t\t\t\n\t\t})\n\t';
 	return feval.call(window, src)(inherit, construct, identity);
@@ -2885,9 +2931,7 @@ tags.forEach(function (tag) {
 
 var identity$8 = new Identity({
 	class: 'StyleVariables',
-	major: 1,
-	minor: 0,
-	patch: 0
+	major: 1, minor: 0, patch: 0
 });
 
 var StyleVariables = function (_Distinct) {

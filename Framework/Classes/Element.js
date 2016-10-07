@@ -54,7 +54,14 @@ export default class Element extends Styleable {
 	}
 	set identity(identity) {
 		super.identity = identity;
-		addClass(this.element, identity.class);
+		if (identity.namespace) {
+			addClass(this.element, identity.namespace);
+		}
+		// else {} throw error here later
+		if (identity.class) {
+			addClass(this.element, identity.class);
+		}
+		// else {} also throw one here later
 	}
 	add(item) {
 		var type = getHandledType(item);

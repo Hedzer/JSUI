@@ -5,6 +5,7 @@ import { default as _string } from 'Framework/Classes/Element/Handlers/Add/_stri
 import { default as _html } from 'Framework/Classes/Element/Handlers/Add/_html';
 import { default as _path } from 'Framework/Classes/Element/Handlers/Add/_path';
 import { default as _function } from 'Framework/Classes/Element/Handlers/Add/_function';
+import { default as _behavior } from 'Framework/Classes/Element/Handlers/Add/_behavior';
 
 var Add = {
 	element: _element,
@@ -13,7 +14,8 @@ var Add = {
 	string: _string,
 	html: _html,
 	path: _path,
-	function: _function
+	function: _function,
+	behavior: _behavior
 };
 
 export default Add;
