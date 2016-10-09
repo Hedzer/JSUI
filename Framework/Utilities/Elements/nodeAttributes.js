@@ -6,7 +6,7 @@ export default function nodeAttributes(node, callback) {
 	if (!isFunction(callback)) {
 		callback = placeholder;
 	}
-	if (!isElement(node)) {return; }
+	if (!isElement(node)) { return; }
 	var attributeList = node.attributes;
 	var attributes = {};
 	for (var i = attributeList.length - 1; i >= 0; i--) {

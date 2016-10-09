@@ -120,7 +120,7 @@ export default class Element extends Styleable {
 		return (action || unhandled).call(this, text);
 	}
 	attribute(name, value) {
-		if (!isElement(this.element) || isEmptyString(name)) {return; }
+		if (!isElement(this.element) || isEmptyString(name)) { return; }
 		var type = getHandledType(name);
 		var isSet = (arguments.length > 1);
 		var action = Attribute[(isSet ? 'Set' : 'Get')][type];

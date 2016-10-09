@@ -5,7 +5,7 @@ import remove from 'Framework/Utilities/Events/remove';
 import removeAll from 'Framework/Utilities/Events/removeAll';
 
 export default function on(name, method) {
-	if (!isFunction(method)) {return; }
+	if (!isFunction(method)) { return; }
 	var events = this.private.events;
 	var pool = events[name];
 	var self = this;

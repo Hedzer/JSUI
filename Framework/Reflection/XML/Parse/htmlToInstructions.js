@@ -23,7 +23,7 @@ export default function htmlToInstructions(node, classes, state) {
 	var alias;
 	if (!directory) {
 		var type = tag.split('-').reduce(getter, classes);
-		if (!isUJSUI(type)) {return; }
+		if (!isUJSUI(type)) { return; }
 		alias = 'element'+state.Counts.element;
 		state.Counts.element++;
 		directory = {

@@ -11,7 +11,7 @@ export default function _class(node, classes, container) {
 	var children = node.childNodes;
 	var count = children.length;
 	var root = getFirstNonTextChild(node);
-	if (!root) {return; }
+	if (!root) { return; }
 	var tag = getTagName(root);
 	var name = (container.getAttribute('name') || 'Anonymous'+uid());
 	var inherits = container.getAttribute('inherits');

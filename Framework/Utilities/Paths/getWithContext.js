@@ -2,7 +2,7 @@ import get from 'Framework/Utilities/Paths/get';
 
 export default function getWithContext(obj, path) {
 	var parts = path.substring(1).split('.');
-	if (!parts.length) {return; }
+	if (!parts.length) { return; }
 	if (parts.length === 1) {
 		return {
 			context: obj,

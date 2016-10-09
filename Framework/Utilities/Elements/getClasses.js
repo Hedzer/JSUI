@@ -3,7 +3,7 @@ import isString from 'Framework/TypeChecks/isString';
 import isArray from 'Framework/TypeChecks/isArray';
 
 export default function getClasses(el) {
-	if (!isElement(el)) {return; }
+	if (!isElement(el)) { return; }
 	var classes = {};
 	if (isString(el.className)) {
 		var list = el.className.split(' ');

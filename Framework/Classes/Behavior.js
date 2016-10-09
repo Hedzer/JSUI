@@ -26,7 +26,7 @@ export default class Behavior extends Styleable {
 		if (isJSUI(host)) {
 			let id = host.uid;
 			let addAs = this.identity.class;
-			if (this.private.hosts[id]) {return; }
+			if (this.private.hosts[id]) { return; }
 			this.private.hosts[id] = host;
 			host[addAs] = this;
 			this.trigger('attach', host);

@@ -14,7 +14,7 @@ export default function parse(html, classes) {
 	if (isElement(html)) {
 		container = html;
 	}
-	if (!container) {return; }
+	if (!container) { return; }
 	var root = getFirstNonTextChild(container);
 	var tag = getTagName(root);
 	var parser = Tag[tag];
