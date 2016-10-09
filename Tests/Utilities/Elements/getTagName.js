@@ -1,5 +1,5 @@
-import { default as tags } from '/Framework/Constants/HTML/tags';
-import getTagName from '/Framework/Utilities/Elements/getTagName';
+import { default as tags } from 'Framework/Constants/HTML/tags';
+import getTagName from 'Framework/Utilities/Elements/getTagName';
 
 export default describe("Framework/Utilities/Elements/getTagName", function() {
 	it("should get the tag name of the element", function() {

@@ -1,4 +1,4 @@
-import isNumber from '/Framework/TypeChecks/isNumber';
+import isNumber from 'Framework/TypeChecks/isNumber';
 
 export default describe("Framework/TypeChecks/isNumber", function() {
 	//TRUE

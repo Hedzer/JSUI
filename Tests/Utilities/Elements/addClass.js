@@ -1,4 +1,4 @@
-import addClass from '/Framework/Utilities/Elements/addClass';
+import addClass from 'Framework/Utilities/Elements/addClass';
 
 export default describe("Framework/Utilities/Elements/addClass", function() {
 	it("should add a class when there is none", function() {

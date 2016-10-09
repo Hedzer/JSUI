@@ -1,4 +1,4 @@
-import isUndefined from '/Framework/TypeChecks/isUndefined';
+import isUndefined from 'Framework/TypeChecks/isUndefined';
 
 export default describe("Framework/TypeChecks/isUndefined", function() {
 	//TRUE

@@ -1,4 +1,4 @@
-import isEmptyString from '/Framework/TypeChecks/isEmptyString';
+import isEmptyString from 'Framework/TypeChecks/isEmptyString';
 
 export default describe("Framework/TypeChecks/isEmptyString", function() {
 	//TRUE

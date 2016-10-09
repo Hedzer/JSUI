@@ -1,4 +1,4 @@
-import isTextNode from '/Framework/TypeChecks/isTextNode';
+import isTextNode from 'Framework/TypeChecks/isTextNode';
 
 export default describe("Framework/TypeChecks/isTextNode", function() {
 	//TRUE

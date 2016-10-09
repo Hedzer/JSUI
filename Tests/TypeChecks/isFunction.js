@@ -1,4 +1,4 @@
-import isFunction from '/Framework/TypeChecks/isFunction';
+import isFunction from 'Framework/TypeChecks/isFunction';
 
 export default describe("Framework/TypeChecks/isFunction", function() {
 	it("should return true if argument is a function", function() {

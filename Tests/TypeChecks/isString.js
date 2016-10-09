@@ -1,4 +1,4 @@
-import isString from '/Framework/TypeChecks/isString';
+import isString from 'Framework/TypeChecks/isString';
 
 export default describe("Framework/TypeChecks/isString", function() {
 	//TRUE

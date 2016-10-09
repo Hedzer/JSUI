@@ -1,4 +1,4 @@
-import childNodes from '/Framework/Utilities/Elements/childNodes';
+import childNodes from 'Framework/Utilities/Elements/childNodes';
 
 export default describe("Framework/Utilities/Elements/childNodes", function() {
 	var el = document.createElement('div');

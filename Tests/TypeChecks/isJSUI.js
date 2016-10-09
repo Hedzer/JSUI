@@ -1,5 +1,5 @@
-import { default as Element } from '/Framework/Classes/Element';
-import isJSUI from '/Framework/TypeChecks/isJSUI';
+import { default as Element } from 'Framework/Classes/Element';
+import isJSUI from 'Framework/TypeChecks/isJSUI';
 
 export default describe("Framework/TypeChecks/isJSUI", function() {
 	//TRUE

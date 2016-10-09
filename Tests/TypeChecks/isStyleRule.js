@@ -1,5 +1,5 @@
-import StyleRule from '/Framework/Classes/StyleSheetRule';
-import isStyleRule from '/Framework/TypeChecks/isStyleRule';
+import StyleRule from 'Framework/Classes/StyleSheetRule';
+import isStyleRule from 'Framework/TypeChecks/isStyleRule';
 
 export default describe("Framework/TypeChecks/isStyleRule", function() {
 	//TRUE

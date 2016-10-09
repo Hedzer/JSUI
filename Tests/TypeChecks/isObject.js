@@ -1,4 +1,4 @@
-import isObject from '/Framework/TypeChecks/isObject';
+import isObject from 'Framework/TypeChecks/isObject';
 
 export default describe("Framework/TypeChecks/isObject", function() {
 	//TRUE

@@ -1,4 +1,4 @@
-import on from '/Framework/Utilities/Events/on';
+import on from 'Framework/Utilities/Events/on';
 
 export default describe("Framework/Utilities/Events/on", function() {
 	var host = {

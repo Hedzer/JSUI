@@ -1,5 +1,5 @@
-import { default as Element } from '/Framework/Classes/Element';
-import isUJSUI from '/Framework/TypeChecks/isUJSUI';
+import { default as Element } from 'Framework/Classes/Element';
+import isUJSUI from 'Framework/TypeChecks/isUJSUI';
 
 export default describe("Framework/TypeChecks/isUJSUI", function() {
 	//TRUE

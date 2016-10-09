@@ -1,4 +1,4 @@
-import isPath from '/Framework/TypeChecks/isPath';
+import isPath from 'Framework/TypeChecks/isPath';
 
 export default describe("Framework/TypeChecks/isPath", function() {
 	//TRUE

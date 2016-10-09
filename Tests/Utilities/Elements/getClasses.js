@@ -1,4 +1,4 @@
-import getClasses from '/Framework/Utilities/Elements/getClasses';
+import getClasses from 'Framework/Utilities/Elements/getClasses';
 
 export default describe("Framework/Utilities/Elements/getClasses", function() {
 	it("should return an object with class names for keys, true for values", function() {

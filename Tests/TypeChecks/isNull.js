@@ -1,4 +1,4 @@
-import isNull from '/Framework/TypeChecks/isNull';
+import isNull from 'Framework/TypeChecks/isNull';
 
 export default describe("Framework/TypeChecks/isNull", function() {
 	//TRUE

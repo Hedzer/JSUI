@@ -1,4 +1,4 @@
-import nodeAttributes from '/Framework/Utilities/Elements/nodeAttributes';
+import nodeAttributes from 'Framework/Utilities/Elements/nodeAttributes';
 
 export default describe("Framework/Utilities/Elements/nodeAttributes", function() {
 	var el = document.createElement('a');

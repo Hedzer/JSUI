@@ -1,4 +1,4 @@
-import isArray from '/Framework/TypeChecks/isArray';
+import isArray from 'Framework/TypeChecks/isArray';
 
 export default describe("Framework/TypeChecks/isArray", function() {
 	it("should return false if argument is a function", function() {

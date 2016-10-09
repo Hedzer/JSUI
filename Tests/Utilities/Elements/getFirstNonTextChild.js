@@ -1,4 +1,4 @@
-import getFirstNonTextChild from '/Framework/Utilities/Elements/getFirstNonTextChild';
+import getFirstNonTextChild from 'Framework/Utilities/Elements/getFirstNonTextChild';
 
 export default describe("Framework/Utilities/Elements/getFirstNonTextChild", function() {
 	it("should return the first non-text node of an element's set of chidren", function() {

@@ -1,5 +1,5 @@
-import Data from '/Framework/Classes/Data';
-import isData from '/Framework/TypeChecks/isData';
+import Data from 'Framework/Classes/Data';
+import isData from 'Framework/TypeChecks/isData';
 
 export default describe("Framework/TypeChecks/isData", function() {
 	//TRUE

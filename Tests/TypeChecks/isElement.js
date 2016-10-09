@@ -1,4 +1,4 @@
-import isElement from '/Framework/TypeChecks/isElement';
+import isElement from 'Framework/TypeChecks/isElement';
 
 export default describe("Framework/TypeChecks/isElement", function() {
 	it("should return true if argument is a DOM element", function() {

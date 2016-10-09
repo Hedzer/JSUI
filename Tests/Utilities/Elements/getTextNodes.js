@@ -1,4 +1,4 @@
-import getTextNodes from '/Framework/Utilities/Elements/getTextNodes';
+import getTextNodes from 'Framework/Utilities/Elements/getTextNodes';
 
 export default describe("Framework/Utilities/Elements/getTextNodes", function() {
 	it("gets the text nodes of an element", function() {

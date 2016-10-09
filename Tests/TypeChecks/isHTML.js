@@ -1,4 +1,4 @@
-import isHTML from '/Framework/TypeChecks/isHTML';
+import isHTML from 'Framework/TypeChecks/isHTML';
 
 export default describe("Framework/TypeChecks/isHTML", function() {
 	//TRUE

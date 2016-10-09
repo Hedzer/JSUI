@@ -1,4 +1,4 @@
-import isRegex from '/Framework/TypeChecks/isRegex';
+import isRegex from 'Framework/TypeChecks/isRegex';
 
 export default describe("Framework/TypeChecks/isRegex", function() {
 	//TRUE

@@ -1,4 +1,4 @@
-import uncapitalize from '/Framework/Utilities/Strings/uncapitalize';
+import uncapitalize from 'Framework/Utilities/Strings/uncapitalize';
 
 export default describe("Framework/Utilities/Strings/uncapitalize", function() {
 	it("should uncapitalize a string", function() {

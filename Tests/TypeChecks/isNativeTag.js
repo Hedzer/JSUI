@@ -1,5 +1,5 @@
-import { default as tags } from '/Framework/Constants/HTML/tags';
-import isNativeTag from '/Framework/TypeChecks/isNativeTag';
+import { default as tags } from 'Framework/Constants/HTML/tags';
+import isNativeTag from 'Framework/TypeChecks/isNativeTag';
 
 export default describe("Framework/TypeChecks/isNativeTag", function() {
 	//TRUE

@@ -65,7 +65,8 @@ gulp.task('bundle', function(callback) {
 			plugins: [
 				rollup_alias({
 					Paths: {
-						Framework:path.join(__dirname, '/Framework')						
+						Framework:path.join(__dirname, '/Framework'),
+						Tests:path.join(__dirname, '/Tests')						
 					},
 					Extensions: ['js']
 				}),
@@ -87,10 +88,12 @@ gulp.task('bundle-test', function(callback) {
 			format: 'iife',
 			sourceMap: true,
 			plugins: [
-				rollup_import({
-					root: './',
-					useEntry: 'prepend',
-					extensions: '.js'
+				rollup_alias({
+					Paths: {
+						Framework:path.join(__dirname, '/Framework'),
+						Tests:path.join(__dirname, '/Tests')						
+					},
+					Extensions: ['js']
 				}),
 				rollup_babel({})
 			]
