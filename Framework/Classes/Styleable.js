@@ -2,6 +2,7 @@ import Identity from 'Framework/Classes/Identity';
 import isStyleRule from 'Framework/TypeChecks/isStyleRule';
 import Sheets from 'Framework/Singletons/Style/Sheets';
 import Distinct from 'Framework/Classes/Distinct';
+import StyleableHost from 'Framework/Classes/StyleableHost';
 import constructor from 'Framework/Classes/Styleable/constructor';
 
 const identity = new Identity({
@@ -15,44 +16,34 @@ export default class Styleable extends Distinct {
 		constructor.call(this);
 		this.identity = identity;
 	}
-	get context() {
-		return this.private.context;
-	}
-	set context(context) {
-		var old = this.private.context;
-		if (old === context) {
-			return;
+	get Style() {
+		if (!this.private.Style) {
+			this.private.Style = new StyleableHost(this);
 		}
-		this.private.context = context;
-		Object.keys(this.private.style.rules).forEach((uid) => {
-			var entry = this.private.style.rules[uid];
-			Sheets[old].remove(entry.rule);
-			entry.rule.render(this.private.context);
-		});
-		this.trigger('contextChanged');
+		return this.private.Style;
 	}
 	add(style) {
 		if (isStyleRule(style)) {
-			var rules = this.private.style.rules;
-			var entry = rules[style.uid];
+			let rules = this.private.style.rules;
+			let entry = rules[style.uid];
+			let Style = this.Style;
 			if (!entry) {
 				entry = {
 					rule: style,
-					context: this.context
+					context: Style.context
 				};
 				rules[style.uid] = entry;
-				style.render(this.context);
+				style.render(Style.context);
 				return;
 			}
-			if (entry.context !== this.context) {
-				var sheet = Sheets[entry.context];
+			if (entry.context !== Style.context) {
+				let sheet = Sheets[entry.context];
 				if (sheet) {
 					sheet.remove(style);
-					style.render(this.context);
+					style.render(Style.context);
 				}
 				return;
 			}
 		}
-		
 	}
 }

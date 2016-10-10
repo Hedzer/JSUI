@@ -1,5 +1,6 @@
 import Identity from 'Framework/Classes/Identity';
 import isJSUI from 'Framework/TypeChecks/isJSUI';
+import isBehavior from 'Framework/TypeChecks/isBehavior';
 import isObject from 'Framework/TypeChecks/isObject';
 import isString from 'Framework/TypeChecks/isString';
 import StyleRules from 'Framework/Classes/StyleRules';
@@ -12,12 +13,26 @@ const identity = new Identity({
 export default class StyleInline extends StyleRules {
 	constructor(host) {
 		super();
+
 		this.private.host = (host || false);
-		this.on('styleChanged', (ev) => {
-			if (this.private.host && ev.property) {
-				this.private.host.element.style[ev.property] = ev.new;
-			}
-		});
+
+		let handler = (() => {});
+		if (isJSUI(host)) {
+			handler = (ev) => {
+				if (this.private.host && ev.property) {
+					this.private.host.element.style[ev.property] = ev.new;
+				}				
+			};
+		}
+		if (isBehavior(host)) {
+			handler = (ev) => {
+				host.hosts((jsui) => {
+					jsui.element.style[ev.property] = ev.new;
+				});
+			};
+		}
+
+		this.on('styleChanged', handler);
 		this.identity = identity;
 	}
 	get host() {

@@ -5,64 +5,64 @@
 // Reference: http://es5.github.io/#x15.4.4.18
 var hasForEach = !!Array.prototype.forEach;
 if (!hasForEach) {
-	Array.prototype.forEach = function (callback, thisArg) {
+		Array.prototype.forEach = function (callback, thisArg) {
 
-		var T, k;
+				var T, k;
 
-		if (this === null) {
-			throw new TypeError(' this is null or not defined');
-		}
+				if (this === null) {
+						throw new TypeError(' this is null or not defined');
+				}
 
-		// 1. Let O be the result of calling toObject() passing the
-		// |this| value as the argument.
-		var O = Object(this);
+				// 1. Let O be the result of calling toObject() passing the
+				// |this| value as the argument.
+				var O = Object(this);
 
-		// 2. Let lenValue be the result of calling the Get() internal
-		// method of O with the argument "length".
-		// 3. Let len be toUint32(lenValue).
-		var len = O.length >>> 0;
+				// 2. Let lenValue be the result of calling the Get() internal
+				// method of O with the argument "length".
+				// 3. Let len be toUint32(lenValue).
+				var len = O.length >>> 0;
 
-		// 4. If isCallable(callback) is false, throw a TypeError exception. 
-		// See: http://es5.github.com/#x9.11
-		if (typeof callback !== "function") {
-			throw new TypeError(callback + ' is not a function');
-		}
+				// 4. If isCallable(callback) is false, throw a TypeError exception. 
+				// See: http://es5.github.com/#x9.11
+				if (typeof callback !== "function") {
+						throw new TypeError(callback + ' is not a function');
+				}
 
-		// 5. If thisArg was supplied, let T be thisArg; else let
-		// T be undefined.
-		if (arguments.length > 1) {
-			T = thisArg;
-		}
+				// 5. If thisArg was supplied, let T be thisArg; else let
+				// T be undefined.
+				if (arguments.length > 1) {
+						T = thisArg;
+				}
 
-		// 6. Let k be 0
-		k = 0;
+				// 6. Let k be 0
+				k = 0;
 
-		// 7. Repeat, while k < len
-		while (k < len) {
+				// 7. Repeat, while k < len
+				while (k < len) {
 
-			var kValue;
+						var kValue;
 
-			// a. Let Pk be ToString(k).
-			//    This is implicit for LHS operands of the in operator
-			// b. Let kPresent be the result of calling the HasProperty
-			//    internal method of O with argument Pk.
-			//    This step can be combined with c
-			// c. If kPresent is true, then
-			if (k in O) {
+						// a. Let Pk be ToString(k).
+						//    This is implicit for LHS operands of the in operator
+						// b. Let kPresent be the result of calling the HasProperty
+						//    internal method of O with argument Pk.
+						//    This step can be combined with c
+						// c. If kPresent is true, then
+						if (k in O) {
 
-				// i. Let kValue be the result of calling the Get internal
-				// method of O with argument Pk.
-				kValue = O[k];
+								// i. Let kValue be the result of calling the Get internal
+								// method of O with argument Pk.
+								kValue = O[k];
 
-				// ii. Call the Call internal method of callback with T as
-				// the this value and argument list containing kValue, k, and O.
-				callback.call(T, kValue, k, O);
-			}
-			// d. Increase k by 1.
-			k++;
-		}
-		// 8. return undefined
-	};
+								// ii. Call the Call internal method of callback with T as
+								// the this value and argument list containing kValue, k, and O.
+								callback.call(T, kValue, k, O);
+						}
+						// d. Increase k by 1.
+						k++;
+				}
+				// 8. return undefined
+		};
 }
 
 var forEach = !hasForEach;
@@ -81,90 +81,90 @@ var isArray = !hasIsArray;
 var hasMap = !!Array.prototype.map;
 if (!hasMap) {
 
-	Array.prototype.map = function (callback, thisArg) {
+		Array.prototype.map = function (callback, thisArg) {
 
-		var T, A, k;
+				var T, A, k;
 
-		if (this == null) {
-			throw new TypeError(' this is null or not defined');
-		}
+				if (this == null) {
+						throw new TypeError(' this is null or not defined');
+				}
 
-		// 1. Let O be the result of calling ToObject passing the |this| 
-		//    value as the argument.
-		var O = Object(this);
+				// 1. Let O be the result of calling ToObject passing the |this| 
+				//    value as the argument.
+				var O = Object(this);
 
-		// 2. Let lenValue be the result of calling the Get internal 
-		//    method of O with the argument "length".
-		// 3. Let len be ToUint32(lenValue).
-		var len = O.length >>> 0;
+				// 2. Let lenValue be the result of calling the Get internal 
+				//    method of O with the argument "length".
+				// 3. Let len be ToUint32(lenValue).
+				var len = O.length >>> 0;
 
-		// 4. If IsCallable(callback) is false, throw a TypeError exception.
-		// See: http://es5.github.com/#x9.11
-		if (typeof callback !== 'function') {
-			throw new TypeError(callback + ' is not a function');
-		}
+				// 4. If IsCallable(callback) is false, throw a TypeError exception.
+				// See: http://es5.github.com/#x9.11
+				if (typeof callback !== 'function') {
+						throw new TypeError(callback + ' is not a function');
+				}
 
-		// 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
-		if (arguments.length > 1) {
-			T = thisArg;
-		}
+				// 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
+				if (arguments.length > 1) {
+						T = thisArg;
+				}
 
-		// 6. Let A be a new array created as if by the expression new Array(len) 
-		//    where Array is the standard built-in constructor with that name and 
-		//    len is the value of len.
-		A = new Array(len);
+				// 6. Let A be a new array created as if by the expression new Array(len) 
+				//    where Array is the standard built-in constructor with that name and 
+				//    len is the value of len.
+				A = new Array(len);
 
-		// 7. Let k be 0
-		k = 0;
+				// 7. Let k be 0
+				k = 0;
 
-		// 8. Repeat, while k < len
-		while (k < len) {
+				// 8. Repeat, while k < len
+				while (k < len) {
 
-			var kValue, mappedValue;
+						var kValue, mappedValue;
 
-			// a. Let Pk be ToString(k).
-			//   This is implicit for LHS operands of the in operator
-			// b. Let kPresent be the result of calling the HasProperty internal 
-			//    method of O with argument Pk.
-			//   This step can be combined with c
-			// c. If kPresent is true, then
-			if (k in O) {
+						// a. Let Pk be ToString(k).
+						//   This is implicit for LHS operands of the in operator
+						// b. Let kPresent be the result of calling the HasProperty internal 
+						//    method of O with argument Pk.
+						//   This step can be combined with c
+						// c. If kPresent is true, then
+						if (k in O) {
 
-				// i. Let kValue be the result of calling the Get internal 
-				//    method of O with argument Pk.
-				kValue = O[k];
+								// i. Let kValue be the result of calling the Get internal 
+								//    method of O with argument Pk.
+								kValue = O[k];
 
-				// ii. Let mappedValue be the result of calling the Call internal 
-				//     method of callback with T as the this value and argument 
-				//     list containing kValue, k, and O.
-				mappedValue = callback.call(T, kValue, k, O);
+								// ii. Let mappedValue be the result of calling the Call internal 
+								//     method of callback with T as the this value and argument 
+								//     list containing kValue, k, and O.
+								mappedValue = callback.call(T, kValue, k, O);
 
-				// iii. Call the DefineOwnProperty internal method of A with arguments
-				// Pk, Property Descriptor
-				// { Value: mappedValue,
-				//   Writable: true,
-				//   Enumerable: true,
-				//   Configurable: true },
-				// and false.
+								// iii. Call the DefineOwnProperty internal method of A with arguments
+								// Pk, Property Descriptor
+								// { Value: mappedValue,
+								//   Writable: true,
+								//   Enumerable: true,
+								//   Configurable: true },
+								// and false.
 
-				// In browsers that support Object.defineProperty, use the following:
-				// Object.defineProperty(A, k, {
-				//   value: mappedValue,
-				//   writable: true,
-				//   enumerable: true,
-				//   configurable: true
-				// });
+								// In browsers that support Object.defineProperty, use the following:
+								// Object.defineProperty(A, k, {
+								//   value: mappedValue,
+								//   writable: true,
+								//   enumerable: true,
+								//   configurable: true
+								// });
 
-				// For best browser support, use the following:
-				A[k] = mappedValue;
-			}
-			// d. Increase k by 1.
-			k++;
-		}
+								// For best browser support, use the following:
+								A[k] = mappedValue;
+						}
+						// d. Increase k by 1.
+						k++;
+				}
 
-		// 9. return A
-		return A;
-	};
+				// 9. return A
+				return A;
+		};
 }
 
 var map = !hasMap;
@@ -612,6 +612,39 @@ var Polyfilled = {
 	}
 };
 
+function isArray$1(u) {
+	return Array.isArray(u);
+}
+
+function isElement(u) {
+	return u instanceof Element;
+}
+
+function isEmptyString(u) {
+	return u === "";
+}
+
+function isFunction$1(u) {
+	return typeof u === 'function';
+}
+
+var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
+function isHTML(u) {
+	return htmlRegex.test(u);
+}
+
+function isNull(u) {
+	return u === null;
+}
+
+function isRegex(u) {
+	return u instanceof RegExp;
+}
+
+function isPath(u) {
+	return typeof u === 'string' && u.length > 0 && u[0] === '@';
+}
+
 var defaults$1 = {
 	namespace: 'JSUI',
 	Development: {
@@ -697,7 +730,7 @@ function isNumber(u) {
 	return !isNaN(u) && typeof u === 'number';
 }
 
-var Sheets = {};
+var Sheets$1 = {};
 
 function uncapitalize(text) {
 	return text.charAt(0).toLowerCase() + text.slice(1);
@@ -724,18 +757,6 @@ for (var key in example.style) {
 			}
 		});
 	} catch (e) {}
-}
-
-function isNull(u) {
-	return u === null;
-}
-
-function isArray$1(u) {
-	return Array.isArray(u);
-}
-
-function isFunction$1(u) {
-	return typeof u === 'function';
 }
 
 function add$1(host, name, defaultValue) {
@@ -925,7 +946,7 @@ function constructor$1() {
 	this.private.Is = {};
 }
 
-var identity$4 = new Identity({
+var identity$5 = new Identity({
 	class: 'Distinct',
 	major: 1, minor: 0, patch: 0
 });
@@ -941,7 +962,7 @@ var Distinct = function (_Extensible) {
 		constructor$1.call(_this);
 
 		//basics
-		_this.identity = identity$4;
+		_this.identity = identity$5;
 		return _this;
 	}
 
@@ -970,7 +991,7 @@ var Distinct = function (_Extensible) {
 	return Distinct;
 }(Extensible);
 
-var identity$3 = new Identity({
+var identity$4 = new Identity({
 	class: 'StyleRules',
 	major: 1, minor: 0, patch: 0
 });
@@ -984,7 +1005,7 @@ var StyleRules = function (_Distinct) {
 		var _this = possibleConstructorReturn(this, (StyleRules.__proto__ || Object.getPrototypeOf(StyleRules)).call(this));
 
 		_this.private.styles = {};
-		_this.identity = identity$3;
+		_this.identity = identity$4;
 		return _this;
 	}
 
@@ -1055,7 +1076,7 @@ function rules(a, b) {
 	return importance;
 }
 
-var identity$5 = new Identity({
+var identity$6 = new Identity({
 	class: 'StyleSheet',
 	major: 1, minor: 0, patch: 0
 });
@@ -1075,7 +1096,7 @@ var StyleSheet = function (_Distinct) {
 		_this.private.element = false;
 		_this.private.context = context;
 
-		var contextSheet = Sheets[context];
+		var contextSheet = Sheets$1[context];
 		if (contextSheet) {
 			var _ret;
 
@@ -1088,9 +1109,9 @@ var StyleSheet = function (_Distinct) {
 		element.setAttribute('id', 'style-' + context);
 		document.head.appendChild(element);
 		_this.private.element = element;
-		Sheets[context] = _this;
+		Sheets$1[context] = _this;
 
-		_this.identity = identity$5;
+		_this.identity = identity$6;
 		return _this;
 	}
 
@@ -1204,7 +1225,7 @@ var StyleSheet = function (_Distinct) {
 	return StyleSheet;
 }(Distinct);
 
-var identity$2 = new Identity({
+var identity$3 = new Identity({
 	class: 'StyleSheetRule',
 	major: 1, minor: 0, patch: 0
 });
@@ -1217,7 +1238,7 @@ var StyleSheetRule = function (_StyleRules) {
 
 		var _this = possibleConstructorReturn(this, (StyleSheetRule.__proto__ || Object.getPrototypeOf(StyleSheetRule)).call(this));
 
-		_this.identity = identity$2;
+		_this.identity = identity$3;
 		_this.private.importance = 0;
 		_this.private.created = new Date().valueOf();
 		if (selector) {
@@ -1256,7 +1277,7 @@ var StyleSheetRule = function (_StyleRules) {
 			var _this3 = this;
 
 			context = context || this.private.context || 'default';
-			var sheet = Sheets[context] || new StyleSheet(context);
+			var sheet = Sheets$1[context] || new StyleSheet(context);
 			if (!sheet.private.rules[this.uid]) {
 				sheet.add(this);
 				return;
@@ -1363,6 +1384,135 @@ function isStyleRule(u) {
 	return u instanceof StyleSheetRule;
 }
 
+var identity$8 = new Identity({
+	class: 'StyleInline',
+	major: 1, minor: 0, patch: 0
+});
+
+var StyleInline = function (_StyleRules) {
+	inherits(StyleInline, _StyleRules);
+
+	function StyleInline(host) {
+		classCallCheck(this, StyleInline);
+
+		var _this = possibleConstructorReturn(this, (StyleInline.__proto__ || Object.getPrototypeOf(StyleInline)).call(this));
+
+		_this.private.host = host || false;
+
+		var handler = function handler() {};
+		if (isJSUI(host)) {
+			handler = function handler(ev) {
+				if (_this.private.host && ev.property) {
+					_this.private.host.element.style[ev.property] = ev.new;
+				}
+			};
+		}
+		if (isBehavior(host)) {
+			handler = function handler(ev) {
+				host.hosts(function (jsui) {
+					jsui.element.style[ev.property] = ev.new;
+				});
+			};
+		}
+
+		_this.on('styleChanged', handler);
+		_this.identity = identity$8;
+		return _this;
+	}
+
+	createClass(StyleInline, [{
+		key: 'set',
+		value: function set(name, value) {
+			var _this2 = this;
+
+			if (isObject(name)) {
+				Object.keys(name).forEach(function (key) {
+					var value = name[key];
+					_this2[key] = value;
+				});
+				return;
+			}
+			if (isString(name)) {
+				if (arguments.length > 1) {
+					if (isString(value)) {
+						this[name] = value;
+					}
+					//there will be room here for functions and other stuff
+				}
+			}
+		}
+	}, {
+		key: 'host',
+		get: function get() {
+			return this.private.host;
+		},
+		set: function set(element) {
+			if (isJSUI(element)) {
+				this.private.host = element.element;
+			}
+		}
+	}]);
+	return StyleInline;
+}(StyleRules);
+
+var identity$7 = new Identity({
+	class: 'StyleableHost',
+	major: 1, minor: 0, patch: 0
+});
+
+var StyleableHost = function (_Distinct) {
+	inherits(StyleableHost, _Distinct);
+
+	function StyleableHost(host) {
+		classCallCheck(this, StyleableHost);
+
+		var _this = possibleConstructorReturn(this, (StyleableHost.__proto__ || Object.getPrototypeOf(StyleableHost)).call(this));
+
+		_this.private.host = host;
+		_this.identity = identity$7;
+		return _this;
+	}
+
+	createClass(StyleableHost, [{
+		key: 'Inline',
+		get: function get() {
+			var inline = this.private.Inline;
+			if (!inline) {
+				this.private.Inline = new StyleInline(this.private.host);
+			}
+			return inline;
+		}
+	}, {
+		key: 'context',
+		get: function get() {
+			return this.private.context;
+		},
+		set: function set(context) {
+			var _this2 = this;
+
+			var host = this.private.host;
+			var old = this.private.context;
+
+			if (old === context) {
+				return;
+			}
+
+			this.private.context = context;
+			Object.keys(host.private.style.rules).forEach(function (uid) {
+				var entry = host.private.style.rules[uid];
+				Sheets[old].remove(entry.rule);
+				entry.rule.render(_this2.private.context);
+			});
+
+			host.trigger('Style.contextChanged', {
+				old: old,
+				new: context
+			});
+		}
+	}]);
+	return StyleableHost;
+}(Distinct);
+
 function constructor$2() {
 	this.private.context = 'default';
 	this.private.style = {
@@ -1370,7 +1520,7 @@ function constructor$2() {
 	};
 }
 
-var identity$1 = new Identity({
+var identity$2 = new Identity({
 	class: 'Styleable',
 	major: 1, minor: 0, patch: 0
 });
@@ -1384,7 +1534,7 @@ var Styleable = function (_Distinct) {
 		var _this = possibleConstructorReturn(this, (Styleable.__proto__ || Object.getPrototypeOf(Styleable)).call(this));
 
 		constructor$2.call(_this);
-		_this.identity = identity$1;
+		_this.identity = identity$2;
 		return _this;
 	}
 
@@ -1394,65 +1544,127 @@ var Styleable = function (_Distinct) {
 			if (isStyleRule(style)) {
 				var rules = this.private.style.rules;
 				var entry = rules[style.uid];
+				var Style = this.Style;
 				if (!entry) {
 					entry = {
 						rule: style,
-						context: this.context
+						context: Style.context
 					};
 					rules[style.uid] = entry;
-					style.render(this.context);
+					style.render(Style.context);
 					return;
 				}
-				if (entry.context !== this.context) {
-					var sheet = Sheets[entry.context];
+				if (entry.context !== Style.context) {
+					var sheet = Sheets$1[entry.context];
 					if (sheet) {
 						sheet.remove(style);
-						style.render(this.context);
+						style.render(Style.context);
 					}
 					return;
 				}
 			}
 		}
 	}, {
-		key: 'context',
+		key: 'Style',
 		get: function get() {
-			return this.private.context;
-		},
-		set: function set(context) {
-			var _this2 = this;
-
-			var old = this.private.context;
-			if (old === context) {
-				return;
+			if (!this.private.Style) {
+				this.private.Style = new StyleableHost(this);
 			}
-			this.private.context = context;
-			Object.keys(this.private.style.rules).forEach(function (uid) {
-				var entry = _this2.private.style.rules[uid];
-				Sheets[old].remove(entry.rule);
-				entry.rule.render(_this2.private.context);
-			});
-			this.trigger('contextChanged');
+			return this.private.Style;
 		}
 	}]);
 	return Styleable;
 }(Distinct);
 
-function isElement(u) {
-	return u instanceof Element;
-}
+var identity$1 = new Identity({
+	class: 'Behavior',
+	major: 1, minor: 0, patch: 0
+});
 
-function isRegex(u) {
-	return u instanceof RegExp;
-}
+var Behavior = function (_Styleable) {
+	inherits(Behavior, _Styleable);
 
-var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
-function isHTML(u) {
-	return htmlRegex.test(u);
-}
+	function Behavior(host) {
+		classCallCheck(this, Behavior);
 
-function isPath(u) {
-	return typeof u === 'string' && u.length > 0 && u[0] === '@';
-}
+		//create hosts container
+		var _this = possibleConstructorReturn(this, (Behavior.__proto__ || Object.getPrototypeOf(Behavior)).call(this));
+
+		_this.private.hosts = {};
+		if (host) {
+			_this.attach(host);
+		}
+
+		//setup new props
+		_this.identity = identity$1;
+		_this.Style.context = 'behavior';
+		return _this;
+	}
+
+	createClass(Behavior, [{
+		key: 'attach',
+		value: function attach(host) {
+			var _this2 = this;
+
+			if (isJSUI(host)) {
+				var _ret = function () {
+					var id = host.uid;
+					var addAs = _this2.identity.class;
+					if (_this2.private.hosts[id]) {
+						return {
+							v: void 0
+						};
+					}
+					_this2.private.hosts[id] = host;
+					host[addAs] = _this2;
+					_this2.trigger('attach', host);
+					return {
+						v: {
+							as: function (name) {
+								delete host[addAs];
+								host[name] = this;
+							}.bind(_this2)
+						}
+					};
+				}();
+
+				if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+			}
+		}
+	}, {
+		key: 'detach',
+		value: function detach(host) {
+			var id = void 0;
+			if (isJSUI(host)) {
+				id = host.uid;
+			}
+			host = this.private.hosts[id];
+			delete this.private.hosts[id];
+			this.trigger('detach', host);
+		}
+	}, {
+		key: 'hosts',
+		value: function hosts(each) {
+			var results = [];
+			var hasTask = isFunction$1(each);
+			var hosts = this.private.hosts;
+			Object.keys(hosts).forEach(function (id) {
+				var host = hosts[id];
+				if (hasTask) {
+					each(host);
+				}
+				results.push(host);
+			});
+			return results;
+		}
+	}, {
+		key: 'destructor',
+		value: function destructor() {
+			get$1(Behavior.prototype.__proto__ || Object.getPrototypeOf(Behavior.prototype), 'destructor', this).call(this);
+		}
+	}]);
+	return Behavior;
+}(Styleable);
 
 function isBehavior(u) {
 	return u instanceof Behavior;
@@ -1492,10 +1704,6 @@ function unhandled(args) {
   return args;
 }
 
-function isEmptyString(u) {
-	return u === "";
-}
-
 function addClass(el, name) {
 	if (!isString(name) || !isElement(el)) {
 		return;
@@ -1511,64 +1719,6 @@ function addClass(el, name) {
 	classes.push(name);
 	el.className = classes.join(' ');
 }
-
-var identity$7 = new Identity({
-	class: 'StyleInline',
-	major: 1, minor: 0, patch: 0
-});
-
-var StyleInline = function (_StyleRules) {
-	inherits(StyleInline, _StyleRules);
-
-	function StyleInline(host) {
-		classCallCheck(this, StyleInline);
-
-		var _this = possibleConstructorReturn(this, (StyleInline.__proto__ || Object.getPrototypeOf(StyleInline)).call(this));
-
-		_this.private.host = host || false;
-		_this.on('styleChanged', function (ev) {
-			if (_this.private.host && ev.property) {
-				_this.private.host.element.style[ev.property] = ev.new;
-			}
-		});
-		_this.identity = identity$7;
-		return _this;
-	}
-
-	createClass(StyleInline, [{
-		key: 'set',
-		value: function set(name, value) {
-			var _this2 = this;
-
-			if (isObject(name)) {
-				Object.keys(name).forEach(function (key) {
-					var value = name[key];
-					_this2[key] = value;
-				});
-				return;
-			}
-			if (isString(name)) {
-				if (arguments.length > 1) {
-					if (isString(value)) {
-						this[name] = value;
-					}
-					//there will be room here for functions and other stuff
-				}
-			}
-		}
-	}, {
-		key: 'host',
-		get: function get() {
-			return this.private.host;
-		},
-		set: function set(element) {
-			if (isJSUI(element)) {
-				this.private.host = element.element;
-			}
-		}
-	}]);
-	return StyleInline;
-}(StyleRules);
 
 function getTagName(el) {
 	if (isElement(el)) {
@@ -1609,12 +1759,6 @@ function constructor$3(tag) {
 	if (development.enabled && development.references) {
 		this.element.JSUI = this;
 	}
-
-	//setup first name+event
-	this.name = tag;
-
-	//add styling capabilities
-	this.style = new StyleInline(this);
 
 	return this;
 }
@@ -1689,7 +1833,9 @@ function _jsui(instance) {
 		this.private.children = this.private.children || {};
 		this.private.children[instance.uid] = instance;
 		instance.private.parent = this;
-		instance.context = instance.context === 'default' ? this.context : instance.context;
+
+		var Style = instance.Style;
+		Style.context = Style.context === 'default' ? this.Style.context : Style.context;
 	}
 	var options = {
 		as: function (name) {
@@ -2478,7 +2624,7 @@ var Class = {
 //constructor & destructor
 //handlers
 //classes
-var identity$6 = new Identity({
+var identity = new Identity({
 	class: 'Element',
 	major: 1, minor: 0, patch: 0
 });
@@ -2492,7 +2638,16 @@ var Element$1 = function (_Styleable) {
 		var _this = possibleConstructorReturn(this, (Element.__proto__ || Object.getPrototypeOf(Element)).call(this, tag));
 
 		constructor$3.call(_this, tag);
-		_this.identity = identity$6;
+		_this.identity = identity;
+		_this.on('Style.contextChanged', function () {
+			//if not default, change the context of the child elements
+			var context = _this.Style.context;
+			_this.children(function (child) {
+				//allow context to only change once
+				var childStyle = child.Style;
+				childStyle.context = childStyle.context === 'default' ? context : childStyle.context;
+			});
+		});
 		return _this;
 	}
 
@@ -2613,19 +2768,6 @@ var Element$1 = function (_Styleable) {
 			_destructor.call(this);
 		}
 	}, {
-		key: 'context',
-		set: function set(context) {
-			var _this2 = this;
-
-			set$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'context', context, this);
-
-			//if not default, change the context of the child elements
-			this.children(function (child) {
-				//allow context to only change once
-				child.context = child.context === 'default' ? _this2.context : child.context;
-			});
-		}
-	}, {
 		key: 'identity',
 		get: function get() {
 			return get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'identity', this);
@@ -2649,95 +2791,132 @@ function isJSUI(u) {
 	return u instanceof Element$1;
 }
 
-var identity = new Identity({
-	class: 'Behavior',
-	major: 1, minor: 0, patch: 0
+var tags = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio', 'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command', 'datalist', 'dd', 'del', 'details', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'menu', 'meta', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'u', 'ul', 'video', 'wbr'];
+
+var Natives = {};
+tags.forEach(function (tag) {
+	Natives[tag] = true;
 });
 
-var Behavior = function (_Styleable) {
-	inherits(Behavior, _Styleable);
+function isNativeTag(u) {
+	return !!Natives[u];
+}
 
-	function Behavior(host) {
-		classCallCheck(this, Behavior);
+function isTextNode(u) {
+	return !!(u && u.nodeName === "#text");
+}
 
-		//create hosts container
-		var _this = possibleConstructorReturn(this, (Behavior.__proto__ || Object.getPrototypeOf(Behavior)).call(this));
-
-		_this.private.hosts = {};
-		if (host) {
-			_this.attach(host);
+function constructor$4() {
+	Object.defineProperty(this, '$private', {
+		configurable: true,
+		enumerable: false,
+		writable: true,
+		value: {
+			events: {},
+			hooks: {},
+			state: {}
 		}
+	});
+	Object.defineProperty(this, '$uid', {
+		configurable: true,
+		enumerable: false,
+		writable: true,
+		value: uid()
+	});
+}
 
-		//setup new props
-		_this.identity = identity;
-		_this.context = 'behavior';
-		return _this;
+var Data = function Data() {
+	classCallCheck(this, Data);
+
+	constructor$4.call(this);
+};
+
+function $define(name, value) {
+	Object.defineProperty(Data.prototype, name, {
+		configurable: true,
+		enumerable: false,
+		writable: true,
+		value: value
+	});
+}
+
+$define('$on', function $on(name, method) {
+	if (isString(name) && isFunction$1(method)) {
+		var events = this.$private.events;
+		var hooks = this.$private.hooks;
+		var pool = events[name];
+		var self = this;
+		if (!pool) {
+			var hook = function hook() {
+				var args = arguments;
+				Object.keys(pool).forEach(function (id) {
+					var method = pool[id];
+					method.apply(self, args);
+				});
+			};
+
+			events[name] = {};
+			pool = events[name];
+			
+			hooks[name] = hook;
+		}
+		if (isFunction$1(method)) {
+			var eid = uid();
+			pool[eid] = method;
+		}
+		var handle = {
+			id: eid,
+			pool: pool,
+			remove: remove$1,
+			removeAll: removeAll
+		};
+		return handle;
 	}
+});
+$define('$trigger', function $trigger(event, args) {
+	var hooks = this.$private.hooks;
+	var hook = hooks[event];
+	if (isFunction$1(hook)) {
+		hook(args);
+	}
+});
+$define('$destructor', function $destructor() {
+	for (var key in this) {
+		delete this[key];
+	}
+});
+$define('$bind', function $bind(event) {});
 
-	createClass(Behavior, [{
-		key: 'attach',
-		value: function attach(host) {
-			var _this2 = this;
+function isData(u) {
+	return u instanceof Data;
+}
 
-			if (isJSUI(host)) {
-				var _ret = function () {
-					var id = host.uid;
-					var addAs = _this2.identity.class;
-					if (_this2.private.hosts[id]) {
-						return {
-							v: void 0
-						};
-					}
-					_this2.private.hosts[id] = host;
-					host[addAs] = _this2;
-					_this2.trigger('attach', host);
-					return {
-						v: {
-							as: function (name) {
-								delete host[addAs];
-								host[name] = this;
-							}.bind(_this2)
-						}
-					};
-				}();
+function isUStyleRule$1(u) {
+	return !!(u && u.prototype && (u.prototype instanceof Data || u === Data));
+}
 
-				if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-			}
-		}
-	}, {
-		key: 'detach',
-		value: function detach(host) {
-			var id = void 0;
-			if (isJSUI(host)) {
-				id = host.uid;
-			}
-			host = this.private.hosts[id];
-			delete this.private.hosts[id];
-			this.trigger('detach', host);
-		}
-	}, {
-		key: 'hosts',
-		value: function hosts(each) {
-			var results = [];
-			var hasTask = isFunction$1(each);
-			var hosts = this.private.hosts;
-			Object.keys(hosts).forEach(function (id) {
-				var host = hosts[id];
-				if (hasTask) {
-					each(host);
-				}
-				results.push(host);
-			});
-			return results;
-		}
-	}, {
-		key: 'destructor',
-		value: function destructor() {
-			get$1(Behavior.prototype.__proto__ || Object.getPrototypeOf(Behavior.prototype), 'destructor', this).call(this);
-		}
-	}]);
-	return Behavior;
-}(Styleable);
+var TypeChecks = {
+	isArray: isArray$1,
+	isElement: isElement,
+	isEmptyString: isEmptyString,
+	isFunction: isFunction$1,
+	isHTML: isHTML,
+	isJSUI: isJSUI,
+	isNativeTag: isNativeTag,
+	isNull: isNull,
+	isNumber: isNumber,
+	isObject: isObject,
+	isPath: isPath,
+	isRegex: isRegex,
+	isString: isString,
+	isStyleRule: isStyleRule,
+	isTextNode: isTextNode,
+	isUJSUI: isUJSUI,
+	isUndefined: isUndefined,
+	isUStyleRule: isUStyleRule,
+	isData: isData,
+	isUData: isUStyleRule$1
+};
 
 function _string$11(command, args) {
 	var results = [];
@@ -2879,9 +3058,7 @@ var ElementCollection = function (_Collection) {
 	return ElementCollection;
 }(Collection);
 
-var tags = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio', 'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command', 'datalist', 'dd', 'del', 'details', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'menu', 'meta', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'u', 'ul', 'video', 'wbr'];
-
-function constructor$4() {
+function constructor$5() {
 	constructor.apply(this, arguments);
 	constructor$1.apply(this, arguments);
 	constructor$2.apply(this, arguments);
@@ -2906,7 +3083,7 @@ var classCreate = (function create(name, tag, inherits, constructor) {
 	name = cleanName(name);
 	tag = tag.toLowerCase();
 	var inherit = inherits || Element$1;
-	var construct = constructor || constructor$4;
+	var construct = constructor || constructor$5;
 	var identity = new Identity({
 		class: name,
 		major: 1, minor: 0, patch: 0
@@ -2929,7 +3106,7 @@ tags.forEach(function (tag) {
 	}
 });
 
-var identity$8 = new Identity({
+var identity$9 = new Identity({
 	class: 'StyleVariables',
 	major: 1, minor: 0, patch: 0
 });
@@ -2942,7 +3119,7 @@ var StyleVariables = function (_Distinct) {
 
 		var _this = possibleConstructorReturn(this, (StyleVariables.__proto__ || Object.getPrototypeOf(StyleVariables)).call(this));
 
-		_this.identity = identity$8;
+		_this.identity = identity$9;
 		return _this;
 	}
 
@@ -2989,87 +3166,6 @@ var StyleVariables = function (_Distinct) {
 	return StyleVariables;
 }(Distinct);
 
-function constructor$5() {
-	Object.defineProperty(this, '$private', {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: {
-			events: {},
-			hooks: {},
-			state: {}
-		}
-	});
-	Object.defineProperty(this, '$uid', {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: uid()
-	});
-}
-
-var Data = function Data() {
-	classCallCheck(this, Data);
-
-	constructor$5.call(this);
-};
-
-function $define(name, value) {
-	Object.defineProperty(Data.prototype, name, {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: value
-	});
-}
-
-$define('$on', function $on(name, method) {
-	if (isString(name) && isFunction$1(method)) {
-		var events = this.$private.events;
-		var hooks = this.$private.hooks;
-		var pool = events[name];
-		var self = this;
-		if (!pool) {
-			var hook = function hook() {
-				var args = arguments;
-				Object.keys(pool).forEach(function (id) {
-					var method = pool[id];
-					method.apply(self, args);
-				});
-			};
-
-			events[name] = {};
-			pool = events[name];
-			
-			hooks[name] = hook;
-		}
-		if (isFunction$1(method)) {
-			var eid = uid();
-			pool[eid] = method;
-		}
-		var handle = {
-			id: eid,
-			pool: pool,
-			remove: remove$1,
-			removeAll: removeAll
-		};
-		return handle;
-	}
-});
-$define('$trigger', function $trigger(event, args) {
-	var hooks = this.$private.hooks;
-	var hook = hooks[event];
-	if (isFunction$1(hook)) {
-		hook(args);
-	}
-});
-$define('$destructor', function $destructor() {
-	for (var key in this) {
-		delete this[key];
-	}
-});
-$define('$bind', function $bind(event) {});
-
 var Classes = {
 	Behavior: Behavior,
 	Collection: Collection,
@@ -3102,52 +3198,8 @@ var Constants = {
 
 var Singletons = {
 	Style: {
-		Sheets: Sheets
+		Sheets: Sheets$1
 	}
-};
-
-var Natives = {};
-tags.forEach(function (tag) {
-	Natives[tag] = true;
-});
-
-function isNativeTag(u) {
-	return !!Natives[u];
-}
-
-function isTextNode(u) {
-	return !!(u && u.nodeName === "#text");
-}
-
-function isData(u) {
-	return u instanceof Data;
-}
-
-function isUStyleRule$1(u) {
-	return !!(u && u.prototype && (u.prototype instanceof Data || u === Data));
-}
-
-var TypeChecks = {
-	isArray: isArray$1,
-	isElement: isElement,
-	isEmptyString: isEmptyString,
-	isFunction: isFunction$1,
-	isHTML: isHTML,
-	isJSUI: isJSUI,
-	isNativeTag: isNativeTag,
-	isNull: isNull,
-	isNumber: isNumber,
-	isObject: isObject,
-	isPath: isPath,
-	isRegex: isRegex,
-	isString: isString,
-	isStyleRule: isStyleRule,
-	isTextNode: isTextNode,
-	isUJSUI: isUJSUI,
-	isUndefined: isUndefined,
-	isUStyleRule: isUStyleRule,
-	isData: isData,
-	isUData: isUStyleRule$1
 };
 
 function placeholder$1() {}
@@ -3321,7 +3373,7 @@ function create$1(name, json, namespace) {
 	namespace = namespace || name;
 	var Subclasses = {};
 	var src = '\n\t\treturn (function(name, namespace, structure, Data, Subclasses, constructor, subconstructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this);\n\t\t\t\tsubconstructor.call(this, name, namespace, Subclasses);\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(Data.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\t' + name + '.prototype.toJSON = function toJSON() {\n\t\t\t\tvar self = this;\n\t\t\t\tvar copy = {};\n\t\t\t\tObject.keys(structure).forEach(function(key) {\n\t\t\t\t\tconsole.log(key)\n\t\t\t\t\tcopy[key] = self[key];\n\t\t\t\t});\n\t\t\t\tconsole.log(copy);\n\t\t\t\treturn copy;\n\t\t\t};\n\t\t\treturn ' + name + ';\n\t\t})\n\t';
-	var DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor$5, subconstructor);
+	var DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor$4, subconstructor);
 	Object.keys(json).forEach(function (key) {
 		var value = json[key];
 		if (isObject(value)) {

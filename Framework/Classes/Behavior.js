@@ -20,7 +20,7 @@ export default class Behavior extends Styleable {
 
 		//setup new props
 		this.identity = identity;
-		this.context = 'behavior';
+		this.Style.context = 'behavior';
 	}
 	attach(host) {
 		if (isJSUI(host)) {

@@ -6,7 +6,9 @@ export default function _jsui(instance){
 		this.private.children = (this.private.children || {});
 		this.private.children[instance.uid] = instance;
 		instance.private.parent = this;
-		instance.context = (instance.context === 'default' ? this.context : instance.context);
+
+		let Style = instance.Style;
+		Style.context = (Style.context === 'default' ? this.Style.context : Style.context);
 	}
 	var options = {
 		as:(function(name){

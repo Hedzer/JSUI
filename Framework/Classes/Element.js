@@ -39,14 +39,14 @@ export default class Element extends Styleable {
 		super(tag);
 		constructor.call(this, tag);
 		this.identity = identity;
-	}
-	set context(context) {
-		super.context = context;
-
-		//if not default, change the context of the child elements
-		this.children((child) => {
-			//allow context to only change once
-			child.context = (child.context === 'default' ? this.context : child.context);
+		this.on('Style.contextChanged', () => {
+			//if not default, change the context of the child elements
+			let context = this.Style.context;
+			this.children((child) => {
+				//allow context to only change once
+				let childStyle = child.Style;
+				childStyle.context = (childStyle.context === 'default' ? context : childStyle.context);
+			});			
 		});
 	}
 	get identity() {
