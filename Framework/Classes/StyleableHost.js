@@ -14,11 +14,10 @@ export default class StyleableHost extends Distinct {
 		this.identity = identity;
 	}
 	get Inline() {
-		var inline = this.private.Inline;
-		if (!inline) {
+		if (!this.private.Inline) {
 			this.private.Inline = new StyleInline(this.private.host);
 		}
-		return inline;
+		return this.private.Inline;
 	}
 	get context() {
 		return this.private.context;

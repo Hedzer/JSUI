@@ -1476,11 +1476,10 @@ var StyleableHost = function (_Distinct) {
 	createClass(StyleableHost, [{
 		key: 'Inline',
 		get: function get() {
-			var inline = this.private.Inline;
-			if (!inline) {
+			if (!this.private.Inline) {
 				this.private.Inline = new StyleInline(this.private.host);
 			}
-			return inline;
+			return this.private.Inline;
 		}
 	}, {
 		key: 'context',
