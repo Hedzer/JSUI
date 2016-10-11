@@ -13,7 +13,7 @@ import remove from 'Tests/Utilities/Events/remove';
 import removeAll from 'Tests/Utilities/Events/removeAll';
 
 // //Functions
-// import debounce from 'Tests/Utilities/Functions/debounce';
+import debounce from 'Tests/Utilities/Functions/debounce';
 
 // //General
 // import uid from 'Tests/Utilities/General/uid';
@@ -49,9 +49,9 @@ var Utilities = {
 		remove: remove,
 		removeAll: removeAll
 	},
-	// Functions: {
-	// 	debounce: debounce
-	// },
+	Functions: {
+		debounce: debounce
+	},
 	// General: {
 	// 	uid: uid
 	// },
