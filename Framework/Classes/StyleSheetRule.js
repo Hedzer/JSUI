@@ -2,6 +2,7 @@ import Identity from 'Framework/Classes/Identity';
 import isString from 'Framework/TypeChecks/isString';
 import isNumber from 'Framework/TypeChecks/isNumber';
 import isObject from 'Framework/TypeChecks/isObject';
+import isJSUI from 'Framework/TypeChecks/isJSUI';
 import Sheets from 'Framework/Singletons/Style/Sheets';
 import equivalents from 'Framework/Constants/CSS/equivalents';
 import StyleRules from 'Framework/Classes/StyleRules';
@@ -19,6 +20,8 @@ export default class StyleSheetRule extends StyleRules {
 		this.identity = identity;
 		this.private.importance = 0;
 		this.private.created = new Date().valueOf();
+		this.private.isSwitchable = false;
+		this.private.isOnByDefault = true;
 		if (selector) {
 			this.selector = selector;
 		}
@@ -72,17 +75,21 @@ export default class StyleSheetRule extends StyleRules {
 		return (this.private.importance || 0);
 	}
 	set importance(zindex) {
+		let old = this.private.importance;
 		if (isNumber(zindex)) {
+			if (old === zindex) { return; }
 			this.private.importance = zindex;
 		}
-		this.trigger('importanceChanged');
+		this.trigger('importanceChanged', {old: old, new: zindex});
 	}
 	get context() {
 		return (this.private.context || 'default');
 	}
 	set context(context) {
+		let old = this.private.context;
+		if (old === context) { return; }
 		this.private.context = context;
-		this.trigger('contextChanged');
+		this.trigger('contextChanged', {old: old, new: context});
 	}
 	set(name, value) {
 		if (isObject(name)) {
@@ -131,5 +138,44 @@ export default class StyleSheetRule extends StyleRules {
 			rendered = `${media} {\n${rendered}\n}`;
 		}
 		return rendered;
+	}
+	get isSwitchable() {
+		return this.private.isSwitchable;
+	}
+	set isSwitchable(bool) {
+		let old = this.private.isSwitchable;
+		if (old === bool) { return; }
+		this.private.isSwitchable = bool;
+		this.trigger('isSwitchableChanged', {old: old, new: bool});
+	}
+	get isOnByDefault() {
+		return this.private.isOnByDefault;
+	}
+	set isOnByDefault(bool) {
+		let old = this.private.isOnByDefault;
+		if (old === bool) { return; }
+		this.private.isOnByDefault = bool;
+		this.trigger('isOnByDefaultChanged', {old: old, new: bool});
+	}
+	get class() {
+		return this.private.class;
+	}
+	set class(className) {
+		let old = this.private.class;
+		if (old === className) { return; }
+		this.private.class = className;
+		this.trigger('classChanged', {old: old, new: className});
+	}
+	_on(JSUIElement) {
+		if (!this.isSwitchable || !this.class) { return; }
+		if (isJSUI(JSUIElement)) {
+			JSUIElement.class(this.class).add();
+		}
+	}
+	_off(JSUIElement) {
+		if (!this.isSwitchable || !this.class) { return; }
+		if (isJSUI(JSUIElement)) {
+			JSUIElement.class(this.class).remove();
+		}
 	}
 }

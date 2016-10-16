@@ -1,5 +1,5 @@
 import Identity from 'Framework/Classes/Identity';
-import isStyleRule from 'Framework/TypeChecks/isStyleRule';
+import isStyleSheetRule from 'Framework/TypeChecks/isStyleSheetRule';
 import Sheets from 'Framework/Singletons/Style/Sheets';
 import Distinct from 'Framework/Classes/Distinct';
 import StyleableHost from 'Framework/Classes/StyleableHost';
@@ -23,7 +23,7 @@ export default class Styleable extends Distinct {
 		return this.private.Style;
 	}
 	add(style) {
-		if (isStyleRule(style)) {
+		if (isStyleSheetRule(style)) {
 			let rules = this.private.style.rules;
 			let entry = rules[style.uid];
 			let Style = this.Style;

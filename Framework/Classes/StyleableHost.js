@@ -1,3 +1,4 @@
+import isStyleSheetRule from 'Framework/TypeChecks/isStyleSheetRule';
 import Identity from 'Framework/Classes/Identity';
 import Distinct from 'Framework/Classes/Distinct';
 import StyleInline from 'Framework/Classes/StyleInline';
@@ -41,5 +42,18 @@ export default class StyleableHost extends Distinct {
 			old: old,
 			new: context
 		});
+	}
+	switch(style) {
+		if (isStyleSheetRule(style)) {
+			let styleActions = this.private.styleActions = (this.private.styleActions || {});
+			let host = this.private.host;
+
+			let action = (styleActions[style.uid] || {
+				on: style._on.bind(style, host),
+				off: style._off.bind(style, host)
+			});
+			
+			return action;
+		}
 	}
 }

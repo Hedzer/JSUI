@@ -1,6 +1,6 @@
 export default function rules(a, b) {
-	var importance = b.importance - a.importance;
-	var created = b.private.created - a.private.created;
+	var importance = a.importance - b.importance;
+	var created = a.private.created - b.private.created;
 	if (!importance) {
 		return created;
 	}

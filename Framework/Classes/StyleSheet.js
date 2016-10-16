@@ -2,8 +2,8 @@ import Identity from 'Framework/Classes/Identity';
 import isString from 'Framework/TypeChecks/isString';
 import isFunction from 'Framework/TypeChecks/isFunction';
 import isNumber from 'Framework/TypeChecks/isNumber';
-import isStyleRule from 'Framework/TypeChecks/isStyleRule';
-import isUStyleRule from 'Framework/TypeChecks/isUStyleRule';
+import isStyleSheetRule from 'Framework/TypeChecks/isStyleSheetRule';
+import isUStyleSheetRule from 'Framework/TypeChecks/isUStyleSheetRule';
 import { default as sort } from 'Framework/Sorts/StyleSheet/rules';
 import Sheets from 'Framework/Singletons/Style/Sheets';
 import Distinct from 'Framework/Classes/Distinct';
@@ -39,7 +39,7 @@ export default class StyleSheet extends Distinct {
 		this.identity = identity;
 	}
 	add(rule) {
-		if (isStyleRule(rule)) {
+		if (isStyleSheetRule(rule)) {
 			var rules = this.private.rules;
 			if (!rules[rule.uid]) {
 				rules[rule.uid] = {
@@ -51,7 +51,7 @@ export default class StyleSheet extends Distinct {
 			rules[rule.uid].references++;
 			return true;
 		}
-		if (isUStyleRule(rule)) {
+		if (isUStyleSheetRule(rule)) {
 			return this.add(new rule(this.context));
 		}
 	}
@@ -68,7 +68,7 @@ export default class StyleSheet extends Distinct {
 			}
 			return;
 		}
-		if (isStyleRule(rule)) {
+		if (isStyleSheetRule(rule)) {
 			this.remove(rule.uid);
 		}
 	}
@@ -121,7 +121,7 @@ export default class StyleSheet extends Distinct {
 		//render each rule
 		articles.forEach((rule) => {
 			var value = rule.render(this.context);
-			element.sheet.insertRule(value, rule.importance);
+			element.sheet.insertRule(value, 0);
 		});
 		
 		//enable the new stylesheet and remove the old one

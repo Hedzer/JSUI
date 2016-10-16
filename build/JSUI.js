@@ -5,64 +5,64 @@
 // Reference: http://es5.github.io/#x15.4.4.18
 var hasForEach = !!Array.prototype.forEach;
 if (!hasForEach) {
-	Array.prototype.forEach = function (callback, thisArg) {
+		Array.prototype.forEach = function (callback, thisArg) {
 
-		var T, k;
+				var T, k;
 
-		if (this === null) {
-			throw new TypeError(' this is null or not defined');
-		}
+				if (this === null) {
+						throw new TypeError(' this is null or not defined');
+				}
 
-		// 1. Let O be the result of calling toObject() passing the
-		// |this| value as the argument.
-		var O = Object(this);
+				// 1. Let O be the result of calling toObject() passing the
+				// |this| value as the argument.
+				var O = Object(this);
 
-		// 2. Let lenValue be the result of calling the Get() internal
-		// method of O with the argument "length".
-		// 3. Let len be toUint32(lenValue).
-		var len = O.length >>> 0;
+				// 2. Let lenValue be the result of calling the Get() internal
+				// method of O with the argument "length".
+				// 3. Let len be toUint32(lenValue).
+				var len = O.length >>> 0;
 
-		// 4. If isCallable(callback) is false, throw a TypeError exception. 
-		// See: http://es5.github.com/#x9.11
-		if (typeof callback !== "function") {
-			throw new TypeError(callback + ' is not a function');
-		}
+				// 4. If isCallable(callback) is false, throw a TypeError exception. 
+				// See: http://es5.github.com/#x9.11
+				if (typeof callback !== "function") {
+						throw new TypeError(callback + ' is not a function');
+				}
 
-		// 5. If thisArg was supplied, let T be thisArg; else let
-		// T be undefined.
-		if (arguments.length > 1) {
-			T = thisArg;
-		}
+				// 5. If thisArg was supplied, let T be thisArg; else let
+				// T be undefined.
+				if (arguments.length > 1) {
+						T = thisArg;
+				}
 
-		// 6. Let k be 0
-		k = 0;
+				// 6. Let k be 0
+				k = 0;
 
-		// 7. Repeat, while k < len
-		while (k < len) {
+				// 7. Repeat, while k < len
+				while (k < len) {
 
-			var kValue;
+						var kValue;
 
-			// a. Let Pk be ToString(k).
-			//    This is implicit for LHS operands of the in operator
-			// b. Let kPresent be the result of calling the HasProperty
-			//    internal method of O with argument Pk.
-			//    This step can be combined with c
-			// c. If kPresent is true, then
-			if (k in O) {
+						// a. Let Pk be ToString(k).
+						//    This is implicit for LHS operands of the in operator
+						// b. Let kPresent be the result of calling the HasProperty
+						//    internal method of O with argument Pk.
+						//    This step can be combined with c
+						// c. If kPresent is true, then
+						if (k in O) {
 
-				// i. Let kValue be the result of calling the Get internal
-				// method of O with argument Pk.
-				kValue = O[k];
+								// i. Let kValue be the result of calling the Get internal
+								// method of O with argument Pk.
+								kValue = O[k];
 
-				// ii. Call the Call internal method of callback with T as
-				// the this value and argument list containing kValue, k, and O.
-				callback.call(T, kValue, k, O);
-			}
-			// d. Increase k by 1.
-			k++;
-		}
-		// 8. return undefined
-	};
+								// ii. Call the Call internal method of callback with T as
+								// the this value and argument list containing kValue, k, and O.
+								callback.call(T, kValue, k, O);
+						}
+						// d. Increase k by 1.
+						k++;
+				}
+				// 8. return undefined
+		};
 }
 
 var forEach = !hasForEach;
@@ -81,90 +81,90 @@ var isArray = !hasIsArray;
 var hasMap = !!Array.prototype.map;
 if (!hasMap) {
 
-	Array.prototype.map = function (callback, thisArg) {
+		Array.prototype.map = function (callback, thisArg) {
 
-		var T, A, k;
+				var T, A, k;
 
-		if (this == null) {
-			throw new TypeError(' this is null or not defined');
-		}
+				if (this == null) {
+						throw new TypeError(' this is null or not defined');
+				}
 
-		// 1. Let O be the result of calling ToObject passing the |this| 
-		//    value as the argument.
-		var O = Object(this);
+				// 1. Let O be the result of calling ToObject passing the |this| 
+				//    value as the argument.
+				var O = Object(this);
 
-		// 2. Let lenValue be the result of calling the Get internal 
-		//    method of O with the argument "length".
-		// 3. Let len be ToUint32(lenValue).
-		var len = O.length >>> 0;
+				// 2. Let lenValue be the result of calling the Get internal 
+				//    method of O with the argument "length".
+				// 3. Let len be ToUint32(lenValue).
+				var len = O.length >>> 0;
 
-		// 4. If IsCallable(callback) is false, throw a TypeError exception.
-		// See: http://es5.github.com/#x9.11
-		if (typeof callback !== 'function') {
-			throw new TypeError(callback + ' is not a function');
-		}
+				// 4. If IsCallable(callback) is false, throw a TypeError exception.
+				// See: http://es5.github.com/#x9.11
+				if (typeof callback !== 'function') {
+						throw new TypeError(callback + ' is not a function');
+				}
 
-		// 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
-		if (arguments.length > 1) {
-			T = thisArg;
-		}
+				// 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
+				if (arguments.length > 1) {
+						T = thisArg;
+				}
 
-		// 6. Let A be a new array created as if by the expression new Array(len) 
-		//    where Array is the standard built-in constructor with that name and 
-		//    len is the value of len.
-		A = new Array(len);
+				// 6. Let A be a new array created as if by the expression new Array(len) 
+				//    where Array is the standard built-in constructor with that name and 
+				//    len is the value of len.
+				A = new Array(len);
 
-		// 7. Let k be 0
-		k = 0;
+				// 7. Let k be 0
+				k = 0;
 
-		// 8. Repeat, while k < len
-		while (k < len) {
+				// 8. Repeat, while k < len
+				while (k < len) {
 
-			var kValue, mappedValue;
+						var kValue, mappedValue;
 
-			// a. Let Pk be ToString(k).
-			//   This is implicit for LHS operands of the in operator
-			// b. Let kPresent be the result of calling the HasProperty internal 
-			//    method of O with argument Pk.
-			//   This step can be combined with c
-			// c. If kPresent is true, then
-			if (k in O) {
+						// a. Let Pk be ToString(k).
+						//   This is implicit for LHS operands of the in operator
+						// b. Let kPresent be the result of calling the HasProperty internal 
+						//    method of O with argument Pk.
+						//   This step can be combined with c
+						// c. If kPresent is true, then
+						if (k in O) {
 
-				// i. Let kValue be the result of calling the Get internal 
-				//    method of O with argument Pk.
-				kValue = O[k];
+								// i. Let kValue be the result of calling the Get internal 
+								//    method of O with argument Pk.
+								kValue = O[k];
 
-				// ii. Let mappedValue be the result of calling the Call internal 
-				//     method of callback with T as the this value and argument 
-				//     list containing kValue, k, and O.
-				mappedValue = callback.call(T, kValue, k, O);
+								// ii. Let mappedValue be the result of calling the Call internal 
+								//     method of callback with T as the this value and argument 
+								//     list containing kValue, k, and O.
+								mappedValue = callback.call(T, kValue, k, O);
 
-				// iii. Call the DefineOwnProperty internal method of A with arguments
-				// Pk, Property Descriptor
-				// { Value: mappedValue,
-				//   Writable: true,
-				//   Enumerable: true,
-				//   Configurable: true },
-				// and false.
+								// iii. Call the DefineOwnProperty internal method of A with arguments
+								// Pk, Property Descriptor
+								// { Value: mappedValue,
+								//   Writable: true,
+								//   Enumerable: true,
+								//   Configurable: true },
+								// and false.
 
-				// In browsers that support Object.defineProperty, use the following:
-				// Object.defineProperty(A, k, {
-				//   value: mappedValue,
-				//   writable: true,
-				//   enumerable: true,
-				//   configurable: true
-				// });
+								// In browsers that support Object.defineProperty, use the following:
+								// Object.defineProperty(A, k, {
+								//   value: mappedValue,
+								//   writable: true,
+								//   enumerable: true,
+								//   configurable: true
+								// });
 
-				// For best browser support, use the following:
-				A[k] = mappedValue;
-			}
-			// d. Increase k by 1.
-			k++;
-		}
+								// For best browser support, use the following:
+								A[k] = mappedValue;
+						}
+						// d. Increase k by 1.
+						k++;
+				}
 
-		// 9. return A
-		return A;
-	};
+				// 9. return A
+				return A;
+		};
 }
 
 var map = !hasMap;
@@ -1063,13 +1063,13 @@ var JSUIError = function (_Error) {
 	return JSUIError;
 }(Error);
 
-function isUStyleRule(u) {
+function isUStyleSheetRule(u) {
 	return !!(u && u.prototype && (u.prototype instanceof StyleSheetRule || u === StyleSheetRule));
 }
 
 function rules(a, b) {
-	var importance = b.importance - a.importance;
-	var created = b.private.created - a.private.created;
+	var importance = a.importance - b.importance;
+	var created = a.private.created - b.private.created;
 	if (!importance) {
 		return created;
 	}
@@ -1118,7 +1118,7 @@ var StyleSheet = function (_Distinct) {
 	createClass(StyleSheet, [{
 		key: 'add',
 		value: function add(rule) {
-			if (isStyleRule(rule)) {
+			if (isStyleSheetRule(rule)) {
 				var rules$$1 = this.private.rules;
 				if (!rules$$1[rule.uid]) {
 					rules$$1[rule.uid] = {
@@ -1130,7 +1130,7 @@ var StyleSheet = function (_Distinct) {
 				rules$$1[rule.uid].references++;
 				return true;
 			}
-			if (isUStyleRule(rule)) {
+			if (isUStyleSheetRule(rule)) {
 				return this.add(new rule(this.context));
 			}
 		}
@@ -1149,7 +1149,7 @@ var StyleSheet = function (_Distinct) {
 				}
 				return;
 			}
-			if (isStyleRule(rule)) {
+			if (isStyleSheetRule(rule)) {
 				this.remove(rule.uid);
 			}
 		}
@@ -1190,7 +1190,7 @@ var StyleSheet = function (_Distinct) {
 			//render each rule
 			articles.forEach(function (rule) {
 				var value = rule.render(_this2.context);
-				element.sheet.insertRule(value, rule.importance);
+				element.sheet.insertRule(value, 0);
 			});
 
 			//enable the new stylesheet and remove the old one
@@ -1241,6 +1241,8 @@ var StyleSheetRule = function (_StyleRules) {
 		_this.identity = identity$3;
 		_this.private.importance = 0;
 		_this.private.created = new Date().valueOf();
+		_this.private.isSwitchable = false;
+		_this.private.isOnByDefault = true;
 		if (selector) {
 			_this.selector = selector;
 		}
@@ -1307,6 +1309,26 @@ var StyleSheetRule = function (_StyleRules) {
 			return rendered;
 		}
 	}, {
+		key: '_on',
+		value: function _on(JSUIElement) {
+			if (!this.isSwitchable || !this.class) {
+				return;
+			}
+			if (isJSUI(JSUIElement)) {
+				JSUIElement.class(this.class).add();
+			}
+		}
+	}, {
+		key: '_off',
+		value: function _off(JSUIElement) {
+			if (!this.isSwitchable || !this.class) {
+				return;
+			}
+			if (isJSUI(JSUIElement)) {
+				JSUIElement.class(this.class).remove();
+			}
+		}
+	}, {
 		key: 'selector',
 		get: function get() {
 			return this.private.selector;
@@ -1362,10 +1384,14 @@ var StyleSheetRule = function (_StyleRules) {
 			return this.private.importance || 0;
 		},
 		set: function set(zindex) {
+			var old = this.private.importance;
 			if (isNumber(zindex)) {
+				if (old === zindex) {
+					return;
+				}
 				this.private.importance = zindex;
 			}
-			this.trigger('importanceChanged');
+			this.trigger('importanceChanged', { old: old, new: zindex });
 		}
 	}, {
 		key: 'context',
@@ -1373,14 +1399,57 @@ var StyleSheetRule = function (_StyleRules) {
 			return this.private.context || 'default';
 		},
 		set: function set(context) {
+			var old = this.private.context;
+			if (old === context) {
+				return;
+			}
 			this.private.context = context;
-			this.trigger('contextChanged');
+			this.trigger('contextChanged', { old: old, new: context });
+		}
+	}, {
+		key: 'isSwitchable',
+		get: function get() {
+			return this.private.isSwitchable;
+		},
+		set: function set(bool) {
+			var old = this.private.isSwitchable;
+			if (old === bool) {
+				return;
+			}
+			this.private.isSwitchable = bool;
+			this.trigger('isSwitchableChanged', { old: old, new: bool });
+		}
+	}, {
+		key: 'isOnByDefault',
+		get: function get() {
+			return this.private.isOnByDefault;
+		},
+		set: function set(bool) {
+			var old = this.private.isOnByDefault;
+			if (old === bool) {
+				return;
+			}
+			this.private.isOnByDefault = bool;
+			this.trigger('isOnByDefaultChanged', { old: old, new: bool });
+		}
+	}, {
+		key: 'class',
+		get: function get() {
+			return this.private.class;
+		},
+		set: function set(className) {
+			var old = this.private.class;
+			if (old === className) {
+				return;
+			}
+			this.private.class = className;
+			this.trigger('classChanged', { old: old, new: className });
 		}
 	}]);
 	return StyleSheetRule;
 }(StyleRules);
 
-function isStyleRule(u) {
+function isStyleSheetRule(u) {
 	return u instanceof StyleSheetRule;
 }
 
@@ -1474,6 +1543,21 @@ var StyleableHost = function (_Distinct) {
 	}
 
 	createClass(StyleableHost, [{
+		key: 'switch',
+		value: function _switch(style) {
+			if (isStyleSheetRule(style)) {
+				var styleActions = this.private.styleActions = this.private.styleActions || {};
+				var host = this.private.host;
+
+				var action = styleActions[style.uid] || {
+					on: style._on.bind(style, host),
+					off: style._off.bind(style, host)
+				};
+
+				return action;
+			}
+		}
+	}, {
 		key: 'Inline',
 		get: function get() {
 			if (!this.private.Inline) {
@@ -1540,7 +1624,7 @@ var Styleable = function (_Distinct) {
 	createClass(Styleable, [{
 		key: 'add',
 		value: function add(style) {
-			if (isStyleRule(style)) {
+			if (isStyleSheetRule(style)) {
 				var rules = this.private.style.rules;
 				var entry = rules[style.uid];
 				var Style = this.Style;
@@ -2890,7 +2974,7 @@ function isData(u) {
 	return u instanceof Data;
 }
 
-function isUStyleRule$1(u) {
+function isUData(u) {
 	return !!(u && u.prototype && (u.prototype instanceof Data || u === Data));
 }
 
@@ -2908,13 +2992,13 @@ var TypeChecks = {
 	isPath: isPath,
 	isRegex: isRegex,
 	isString: isString,
-	isStyleRule: isStyleRule,
+	isStyleSheetRule: isStyleSheetRule,
 	isTextNode: isTextNode,
 	isUJSUI: isUJSUI,
 	isUndefined: isUndefined,
-	isUStyleRule: isUStyleRule,
+	isUStyleSheetRule: isUStyleSheetRule,
 	isData: isData,
-	isUData: isUStyleRule$1
+	isUData: isUData
 };
 
 function _string$11(command, args) {
