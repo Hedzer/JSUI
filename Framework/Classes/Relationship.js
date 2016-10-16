@@ -15,12 +15,15 @@ export default class Relationship {
 		this.uid = uid();
 	}
 	bind(subject) {
-		var state = {
-			subject: subject
-		};
-		return Binding.bind.call(this, state);
+		var state = {};
+		return Binding.bind.call(this, state, subject);
 	}
+	release(subject) {
 
+	}
+	releaseAll() {
+
+	}
 }
 
 //(new Bond(data)).to(element).
@@ -29,6 +32,7 @@ export default class Relationship {
 		count:{'->':'length'}
 	}).change();
 */
+
 (new Relationship()).bind(data).to(element).on({
 	textChanged: {
 		text: {'->': 'label'}

@@ -1,3 +1,3 @@
-export default function normalize(state, methods) {
+export default function normalize(binding, methods) {
 	return {}
 }
