@@ -647,7 +647,7 @@ function isNumber(u) {
 	return !isNaN(u) && typeof u === 'number';
 }
 
-var Sheets = {};
+var Sheets$1 = {};
 
 function uncapitalize(text) {
 	return text.charAt(0).toLowerCase() + text.slice(1);
@@ -658,22 +658,29 @@ var vendors = ['webkit', 'moz', 'ms', 'o'];
 //not a real constant, since it is generated
 var equivalents = {};
 var example = document.createElement('div');
-for (var key in example.style) {
+
+var _loop = function _loop(key) {
 	try {
-		example.style[key] = 'inherit';
-		var name = (example.getAttribute('style') || '').split(':')[0];
-		equivalents[key] = name;
-		example.setAttribute('style', '');
-		vendors.forEach(function (vendor) {
-			var prefix = '-' + vendor + '-';
-			if (~name.indexOf(prefix)) {
-				var w3cKey = key;
-				w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
-				equivalents[w3cKey] = name;
-				equivalents[name.replace(prefix, '')] = name;
-			}
-		});
+		(function () {
+			example.style[key] = 'inherit';
+			var name = (example.getAttribute('style') || '').split(':')[0];
+			equivalents[key] = name;
+			example.setAttribute('style', '');
+			vendors.forEach(function (vendor) {
+				var prefix = '-' + vendor + '-';
+				if (~name.indexOf(prefix)) {
+					var w3cKey = key;
+					w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
+					equivalents[w3cKey] = name;
+					equivalents[name.replace(prefix, '')] = name;
+				}
+			});
+		})();
 	} catch (e) {}
+};
+
+for (var key in example.style) {
+	_loop(key);
 }
 
 function add$1(host, name, defaultValue) {
@@ -782,9 +789,12 @@ var Extensible = function () {
 		}
 	}, {
 		key: 'state',
-		value: function state(property, value) {
+		value: function state(property, value, defaultValue) {
 			var old = this.private.state[property];
 			if (arguments.length === 1) {
+				if (this.private.state.hasOwnProperty(property)) {
+					return defaultValue;
+				}
 				return old;
 			}
 
@@ -797,8 +807,7 @@ var Extensible = function () {
 					old: old,
 					new: value
 				};
-				this.trigger(property + 'Changed', data);
-				this.trigger('Changed', data);
+				this.trigger([property + 'Changed', 'Changed'], data);
 			}
 
 			return hasChanged;
@@ -806,41 +815,65 @@ var Extensible = function () {
 	}, {
 		key: 'on',
 		value: function on(name, method) {
-			if (isString(name) && isFunction$1(method)) {
-				var events = this.private.events;
-				var hooks = this.private.hooks;
-				var pool = events[name];
-				var self = this;
-				if (!pool) {
-					var hook = function hook() {
-						var args = arguments;
-						Object.keys(pool).forEach(function (id) {
-							var method = pool[id];
-							method.apply(self, args);
-						});
-					};
+			var _this3 = this;
 
-					events[name] = {};
-					pool = events[name];
-					
-					hooks[name] = hook;
-				}
-				if (typeof method === 'function') {
+			if (isString(name) && isFunction$1(method)) {
+				var _ret = function () {
+					var events = _this3.private.events;
+					var hooks = _this3.private.hooks;
+					var pool = events[name];
+					var self = _this3;
+					if (!pool) {
+						var hook = function hook() {
+							var args = arguments;
+							Object.keys(pool).forEach(function (id) {
+								var method = pool[id];
+								method.apply(self, args);
+							});
+						};
+
+						events[name] = {};
+						pool = events[name];
+						
+						hooks[name] = hook;
+					}
 					var eid = uid();
-					pool[eid] = method;
-				}
-				var handle = {
-					id: eid,
-					pool: pool,
-					remove: remove$1,
-					removeAll: removeAll
-				};
-				return handle;
+					if (typeof method === 'function') {
+						pool[eid] = method;
+					}
+					var handle = {
+						id: eid,
+						pool: pool,
+						remove: remove$1,
+						removeAll: removeAll
+					};
+					return {
+						v: handle
+					};
+				}();
+
+				if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 			}
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger(event, args) {
+			var _this4 = this;
+
+			if (isArray$1(event)) {
+				var _ret2 = function () {
+					var results = [];
+					event.forEach(function (e) {
+						results.push(_this4.trigger(e, args));
+					});
+					return {
+						v: results
+					};
+				}();
+
+				if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
+			}
+
 			var hooks = this.private.hooks;
 			var hook = hooks[event];
 			if (isFunction$1(hook)) {
@@ -980,7 +1013,7 @@ var JSUIError = function (_Error) {
 	return JSUIError;
 }(Error);
 
-function isUStyleRule(u) {
+function isUStyleSheetRule(u) {
 	return !!(u && u.prototype && (u.prototype instanceof StyleSheetRule || u === StyleSheetRule));
 }
 
@@ -1013,7 +1046,7 @@ var StyleSheet = function (_Distinct) {
 		_this.private.element = false;
 		_this.private.context = context;
 
-		var contextSheet = Sheets[context];
+		var contextSheet = Sheets$1[context];
 		if (contextSheet) {
 			var _ret;
 
@@ -1026,7 +1059,7 @@ var StyleSheet = function (_Distinct) {
 		element.setAttribute('id', 'style-' + context);
 		document.head.appendChild(element);
 		_this.private.element = element;
-		Sheets[context] = _this;
+		Sheets$1[context] = _this;
 
 		_this.identity = identity$6;
 		return _this;
@@ -1035,7 +1068,7 @@ var StyleSheet = function (_Distinct) {
 	createClass(StyleSheet, [{
 		key: 'add',
 		value: function add(rule) {
-			if (isStyleRule(rule)) {
+			if (isStyleSheetRule(rule)) {
 				var rules$$1 = this.private.rules;
 				if (!rules$$1[rule.uid]) {
 					rules$$1[rule.uid] = {
@@ -1047,7 +1080,7 @@ var StyleSheet = function (_Distinct) {
 				rules$$1[rule.uid].references++;
 				return true;
 			}
-			if (isUStyleRule(rule)) {
+			if (isUStyleSheetRule(rule)) {
 				return this.add(new rule(this.context));
 			}
 		}
@@ -1066,7 +1099,7 @@ var StyleSheet = function (_Distinct) {
 				}
 				return;
 			}
-			if (isStyleRule(rule)) {
+			if (isStyleSheetRule(rule)) {
 				this.remove(rule.uid);
 			}
 		}
@@ -1107,7 +1140,7 @@ var StyleSheet = function (_Distinct) {
 			//render each rule
 			articles.forEach(function (rule) {
 				var value = rule.render(_this2.context);
-				element.sheet.insertRule(value, rule.importance);
+				element.sheet.insertRule(value, 0);
 			});
 
 			//enable the new stylesheet and remove the old one
@@ -1158,6 +1191,8 @@ var StyleSheetRule = function (_StyleRules) {
 		_this.identity = identity$3;
 		_this.private.importance = 0;
 		_this.private.created = new Date().valueOf();
+		_this.private.isSwitchable = false;
+		_this.private.isOnByDefault = true;
 		if (selector) {
 			_this.selector = selector;
 		}
@@ -1194,7 +1229,7 @@ var StyleSheetRule = function (_StyleRules) {
 			var _this3 = this;
 
 			context = context || this.private.context || 'default';
-			var sheet = Sheets[context] || new StyleSheet(context);
+			var sheet = Sheets$1[context] || new StyleSheet(context);
 			if (!sheet.private.rules[this.uid]) {
 				sheet.add(this);
 				return;
@@ -1222,6 +1257,26 @@ var StyleSheetRule = function (_StyleRules) {
 				rendered = media + ' {\n' + rendered + '\n}';
 			}
 			return rendered;
+		}
+	}, {
+		key: '_on',
+		value: function _on(JSUIElement) {
+			if (!this.isSwitchable || !this.class) {
+				return;
+			}
+			if (isJSUI$1(JSUIElement)) {
+				JSUIElement.class(this.class).add();
+			}
+		}
+	}, {
+		key: '_off',
+		value: function _off(JSUIElement) {
+			if (!this.isSwitchable || !this.class) {
+				return;
+			}
+			if (isJSUI$1(JSUIElement)) {
+				JSUIElement.class(this.class).remove();
+			}
 		}
 	}, {
 		key: 'selector',
@@ -1279,10 +1334,14 @@ var StyleSheetRule = function (_StyleRules) {
 			return this.private.importance || 0;
 		},
 		set: function set(zindex) {
+			var old = this.private.importance;
 			if (isNumber(zindex)) {
+				if (old === zindex) {
+					return;
+				}
 				this.private.importance = zindex;
 			}
-			this.trigger('importanceChanged');
+			this.trigger('importanceChanged', { old: old, new: zindex });
 		}
 	}, {
 		key: 'context',
@@ -1290,16 +1349,202 @@ var StyleSheetRule = function (_StyleRules) {
 			return this.private.context || 'default';
 		},
 		set: function set(context) {
+			var old = this.private.context;
+			if (old === context) {
+				return;
+			}
 			this.private.context = context;
-			this.trigger('contextChanged');
+			this.trigger('contextChanged', { old: old, new: context });
+		}
+	}, {
+		key: 'isSwitchable',
+		get: function get() {
+			return this.private.isSwitchable;
+		},
+		set: function set(bool) {
+			var old = this.private.isSwitchable;
+			if (old === bool) {
+				return;
+			}
+			this.private.isSwitchable = bool;
+			this.trigger('isSwitchableChanged', { old: old, new: bool });
+		}
+	}, {
+		key: 'isOnByDefault',
+		get: function get() {
+			return this.private.isOnByDefault;
+		},
+		set: function set(bool) {
+			var old = this.private.isOnByDefault;
+			if (old === bool) {
+				return;
+			}
+			this.private.isOnByDefault = bool;
+			this.trigger('isOnByDefaultChanged', { old: old, new: bool });
+		}
+	}, {
+		key: 'class',
+		get: function get() {
+			return this.private.class;
+		},
+		set: function set(className) {
+			var old = this.private.class;
+			if (old === className) {
+				return;
+			}
+			this.private.class = className;
+			this.trigger('classChanged', { old: old, new: className });
 		}
 	}]);
 	return StyleSheetRule;
 }(StyleRules);
 
-function isStyleRule(u) {
+function isStyleSheetRule(u) {
 	return u instanceof StyleSheetRule;
 }
+
+var identity$8 = new Identity({
+	class: 'StyleInline',
+	major: 1, minor: 0, patch: 0
+});
+
+var StyleInline = function (_StyleRules) {
+	inherits(StyleInline, _StyleRules);
+
+	function StyleInline(host) {
+		classCallCheck(this, StyleInline);
+
+		var _this = possibleConstructorReturn(this, (StyleInline.__proto__ || Object.getPrototypeOf(StyleInline)).call(this));
+
+		_this.private.host = host || false;
+
+		var handler = function handler() {};
+		if (isJSUI$1(host)) {
+			handler = function handler(ev) {
+				if (_this.private.host && ev.property) {
+					_this.private.host.element.style[ev.property] = ev.new;
+				}
+			};
+		}
+		if (isBehavior(host)) {
+			handler = function handler(ev) {
+				host.hosts(function (jsui) {
+					jsui.element.style[ev.property] = ev.new;
+				});
+			};
+		}
+
+		_this.on('styleChanged', handler);
+		_this.identity = identity$8;
+		return _this;
+	}
+
+	createClass(StyleInline, [{
+		key: 'set',
+		value: function set(name, value) {
+			var _this2 = this;
+
+			if (isObject(name)) {
+				Object.keys(name).forEach(function (key) {
+					var value = name[key];
+					_this2[key] = value;
+				});
+				return;
+			}
+			if (isString(name)) {
+				if (arguments.length > 1) {
+					if (isString(value)) {
+						this[name] = value;
+					}
+					//there will be room here for functions and other stuff
+				}
+			}
+		}
+	}, {
+		key: 'host',
+		get: function get() {
+			return this.private.host;
+		},
+		set: function set(element) {
+			if (isJSUI$1(element)) {
+				this.private.host = element.element;
+			}
+		}
+	}]);
+	return StyleInline;
+}(StyleRules);
+
+var identity$7 = new Identity({
+	class: 'StyleableHost',
+	major: 1, minor: 0, patch: 0
+});
+
+var StyleableHost = function (_Distinct) {
+	inherits(StyleableHost, _Distinct);
+
+	function StyleableHost(host) {
+		classCallCheck(this, StyleableHost);
+
+		var _this = possibleConstructorReturn(this, (StyleableHost.__proto__ || Object.getPrototypeOf(StyleableHost)).call(this));
+
+		_this.private.host = host;
+		_this.identity = identity$7;
+		return _this;
+	}
+
+	createClass(StyleableHost, [{
+		key: 'switch',
+		value: function _switch(style) {
+			if (isStyleSheetRule(style)) {
+				var styleActions = this.private.styleActions = this.private.styleActions || {};
+				var host = this.private.host;
+
+				var action = styleActions[style.uid] || {
+					on: style._on.bind(style, host),
+					off: style._off.bind(style, host)
+				};
+
+				return action;
+			}
+		}
+	}, {
+		key: 'Inline',
+		get: function get() {
+			if (!this.private.Inline) {
+				this.private.Inline = new StyleInline(this.private.host);
+			}
+			return this.private.Inline;
+		}
+	}, {
+		key: 'context',
+		get: function get() {
+			return this.private.context;
+		},
+		set: function set(context) {
+			var _this2 = this;
+
+			var host = this.private.host;
+			var old = this.private.context;
+
+			if (old === context) {
+				return;
+			}
+
+			this.private.context = context;
+			Object.keys(host.private.style.rules).forEach(function (uid) {
+				var entry = host.private.style.rules[uid];
+				Sheets[old].remove(entry.rule);
+				entry.rule.render(_this2.private.context);
+			});
+
+			host.trigger('Style.contextChanged', {
+				old: old,
+				new: context
+			});
+		}
+	}]);
+	return StyleableHost;
+}(Distinct);
 
 function constructor$2() {
 	this.private.context = 'default';
@@ -1329,47 +1574,36 @@ var Styleable = function (_Distinct) {
 	createClass(Styleable, [{
 		key: 'add',
 		value: function add(style) {
-			if (isStyleRule(style)) {
+			if (isStyleSheetRule(style)) {
 				var rules = this.private.style.rules;
 				var entry = rules[style.uid];
+				var Style = this.Style;
 				if (!entry) {
 					entry = {
 						rule: style,
-						context: this.context
+						context: Style.context
 					};
 					rules[style.uid] = entry;
-					style.render(this.context);
+					style.render(Style.context);
 					return;
 				}
-				if (entry.context !== this.context) {
-					var sheet = Sheets[entry.context];
+				if (entry.context !== Style.context) {
+					var sheet = Sheets$1[entry.context];
 					if (sheet) {
 						sheet.remove(style);
-						style.render(this.context);
+						style.render(Style.context);
 					}
 					return;
 				}
 			}
 		}
 	}, {
-		key: 'context',
+		key: 'Style',
 		get: function get() {
-			return this.private.context;
-		},
-		set: function set(context) {
-			var _this2 = this;
-
-			var old = this.private.context;
-			if (old === context) {
-				return;
+			if (!this.private.Style) {
+				this.private.Style = new StyleableHost(this);
 			}
-			this.private.context = context;
-			Object.keys(this.private.style.rules).forEach(function (uid) {
-				var entry = _this2.private.style.rules[uid];
-				Sheets[old].remove(entry.rule);
-				entry.rule.render(_this2.private.context);
-			});
-			this.trigger('contextChanged');
+			return this.private.Style;
 		}
 	}]);
 	return Styleable;
@@ -1396,7 +1630,7 @@ var Behavior = function (_Styleable) {
 
 		//setup new props
 		_this.identity = identity$1;
-		_this.context = 'behavior';
+		_this.Style.context = 'behavior';
 		return _this;
 	}
 
@@ -1519,64 +1753,6 @@ function addClass(el, name) {
 	el.className = classes.join(' ');
 }
 
-var identity$7 = new Identity({
-	class: 'StyleInline',
-	major: 1, minor: 0, patch: 0
-});
-
-var StyleInline = function (_StyleRules) {
-	inherits(StyleInline, _StyleRules);
-
-	function StyleInline(host) {
-		classCallCheck(this, StyleInline);
-
-		var _this = possibleConstructorReturn(this, (StyleInline.__proto__ || Object.getPrototypeOf(StyleInline)).call(this));
-
-		_this.private.host = host || false;
-		_this.on('styleChanged', function (ev) {
-			if (_this.private.host && ev.property) {
-				_this.private.host.element.style[ev.property] = ev.new;
-			}
-		});
-		_this.identity = identity$7;
-		return _this;
-	}
-
-	createClass(StyleInline, [{
-		key: 'set',
-		value: function set(name, value) {
-			var _this2 = this;
-
-			if (isObject(name)) {
-				Object.keys(name).forEach(function (key) {
-					var value = name[key];
-					_this2[key] = value;
-				});
-				return;
-			}
-			if (isString(name)) {
-				if (arguments.length > 1) {
-					if (isString(value)) {
-						this[name] = value;
-					}
-					//there will be room here for functions and other stuff
-				}
-			}
-		}
-	}, {
-		key: 'host',
-		get: function get() {
-			return this.private.host;
-		},
-		set: function set(element) {
-			if (isJSUI$1(element)) {
-				this.private.host = element.element;
-			}
-		}
-	}]);
-	return StyleInline;
-}(StyleRules);
-
 function getTagName(el) {
 	if (isElement$1(el)) {
 		return el.tagName.toLowerCase();
@@ -1616,12 +1792,6 @@ function constructor$3(tag) {
 	if (development.enabled && development.references) {
 		this.element.JSUI = this;
 	}
-
-	//setup first name+event
-	this.name = tag;
-
-	//add styling capabilities
-	this.style = new StyleInline(this);
 
 	return this;
 }
@@ -1696,7 +1866,9 @@ function _jsui(instance) {
 		this.private.children = this.private.children || {};
 		this.private.children[instance.uid] = instance;
 		instance.private.parent = this;
-		instance.context = instance.context === 'default' ? this.context : instance.context;
+
+		var Style = instance.Style;
+		Style.context = Style.context === 'default' ? this.Style.context : Style.context;
 	}
 	var options = {
 		as: function (name) {
@@ -1877,8 +2049,8 @@ function on$1(name, method) {
 			element.addEventListener(name, dispatcher, false);
 		}
 	}
+	var eid = uid();
 	if (isFunction$1(method)) {
-		var eid = uid();
 		pool[eid] = method;
 	}
 	var handle = {
@@ -1955,15 +2127,19 @@ function _array$5(collection) {
 }
 
 function _function$1(method) {
+	var _this = this;
+
 	var results = [];
 	var isJSUI = Element$1.isPrototypeOf(method.prototype);
 	if (isJSUI) {
-		var proto = method.prototype;
-		this.children(function (child) {
-			if (proto.isPrototypeOf(child)) {
-				results.push(child);
-			}
-		});
+		(function () {
+			var proto = method.prototype;
+			_this.children(function (child) {
+				if (proto.isPrototypeOf(child)) {
+					results.push(child);
+				}
+			});
+		})();
 	}
 	return results;
 }
@@ -2209,9 +2385,9 @@ var Set = {
 function _string$9(text) {
 	if (this.private && this.element) {
 		if (!this.private.text) {
-			var text = document.createTextNode(text);
-			this.private.text = text;
-			this.element.appendChild(text);
+			var textNode = document.createTextNode(text);
+			this.private.text = textNode;
+			this.element.appendChild(textNode);
 			return true;
 		}
 		this.private.text.nodeValue = text;
@@ -2500,6 +2676,15 @@ var Element$1 = function (_Styleable) {
 
 		constructor$3.call(_this, tag);
 		_this.identity = identity;
+		_this.on('Style.contextChanged', function () {
+			//if not default, change the context of the child elements
+			var context = _this.Style.context;
+			_this.children(function (child) {
+				//allow context to only change once
+				var childStyle = child.Style;
+				childStyle.context = childStyle.context === 'default' ? context : childStyle.context;
+			});
+		});
 		return _this;
 	}
 
@@ -2604,13 +2789,15 @@ var Element$1 = function (_Styleable) {
 		value: function children(callback) {
 			var results = [];
 			if (isFunction$1(callback) && self.private && self.private.children) {
-				var children = self.private.children;
-				Object.keys(children).forEach(function (id) {
-					var child = children[id];
-					if (child) {
-						results.push(callback(child, id));
-					}
-				});
+				(function () {
+					var children = self.private.children;
+					Object.keys(children).forEach(function (id) {
+						var child = children[id];
+						if (child) {
+							results.push(callback(child, id));
+						}
+					});
+				})();
 			}
 			return results;
 		}
@@ -2618,19 +2805,6 @@ var Element$1 = function (_Styleable) {
 		key: 'destructor',
 		value: function destructor() {
 			_destructor.call(this);
-		}
-	}, {
-		key: 'context',
-		set: function set(context) {
-			var _this2 = this;
-
-			set$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'context', context, this);
-
-			//if not default, change the context of the child elements
-			this.children(function (child) {
-				//allow context to only change once
-				child.context = child.context === 'default' ? _this2.context : child.context;
-			});
 		}
 	}, {
 		key: 'identity',
@@ -3087,10 +3261,10 @@ describe("Framework/TypeChecks/isString", function () {
 	});
 });
 
-describe("Framework/TypeChecks/isStyleRule", function () {
+describe("Framework/TypeChecks/isStyleSheetRule", function () {
 	//TRUE
 	it("should return true if argument is a style rule", function () {
-		expect(isStyleRule(new StyleSheetRule())).toBe(true);
+		expect(isStyleSheetRule(new StyleSheetRule())).toBe(true);
 	});
 	it("should return true if argument is inherited from a style rule", function () {
 		var SomeRule = function (_StyleRule) {
@@ -3104,55 +3278,55 @@ describe("Framework/TypeChecks/isStyleRule", function () {
 			return SomeRule;
 		}(StyleSheetRule);
 
-		expect(isStyleRule(new SomeRule())).toBe(true);
+		expect(isStyleSheetRule(new SomeRule())).toBe(true);
 	});
 	//FALSE
 	it("should return false if argument is a function", function () {
-		expect(isStyleRule(function () {})).toBe(false);
+		expect(isStyleSheetRule(function () {})).toBe(false);
 	});
 	it("should return false if argument is an arrow function", function () {
-		expect(isStyleRule(function () {})).toBe(false);
+		expect(isStyleSheetRule(function () {})).toBe(false);
 	});
 	it("should return false if argument is a class", function () {
-		expect(isStyleRule(function A() {
+		expect(isStyleSheetRule(function A() {
 			classCallCheck(this, A);
 		})).toBe(false);
 	});
 	it("should return false if argument is a string", function () {
-		expect(isStyleRule("a string")).toBe(false);
+		expect(isStyleSheetRule("a string")).toBe(false);
 	});
 	it("should return false if argument is object", function () {
-		expect(isStyleRule({})).toBe(false);
+		expect(isStyleSheetRule({})).toBe(false);
 	});
 	it("should return false if argument is array", function () {
-		expect(isStyleRule([])).toBe(false);
+		expect(isStyleSheetRule([])).toBe(false);
 	});
 	it("should return false if argument is a number = 1", function () {
-		expect(isStyleRule(1)).toBe(false);
+		expect(isStyleSheetRule(1)).toBe(false);
 	});
 	it("should return false if argument is a number = 0", function () {
-		expect(isStyleRule(0)).toBe(false);
+		expect(isStyleSheetRule(0)).toBe(false);
 	});
 	it("should return false if argument is a number = NaN", function () {
-		expect(isStyleRule(NaN)).toBe(false);
+		expect(isStyleSheetRule(NaN)).toBe(false);
 	});
 	it("should return false if argument is a number = Infinity", function () {
-		expect(isStyleRule(Infinity)).toBe(false);
+		expect(isStyleSheetRule(Infinity)).toBe(false);
 	});
 	it("should return false if argument is a number = -Infinity", function () {
-		expect(isStyleRule(-Infinity)).toBe(false);
+		expect(isStyleSheetRule(-Infinity)).toBe(false);
 	});
 	it("should return false if argument is a number = -1", function () {
-		expect(isStyleRule(-1)).toBe(false);
+		expect(isStyleSheetRule(-1)).toBe(false);
 	});
 	it("should return false if argument is undefined", function () {
-		expect(isStyleRule(undefined)).toBe(false);
+		expect(isStyleSheetRule(undefined)).toBe(false);
 	});
 	it("should return false if argument is boolean = false", function () {
-		expect(isStyleRule(false)).toBe(false);
+		expect(isStyleSheetRule(false)).toBe(false);
 	});
 	it("should return false if argument is boolean = true", function () {
-		expect(isStyleRule(true)).toBe(false);
+		expect(isStyleSheetRule(true)).toBe(false);
 	});
 });
 
@@ -3353,10 +3527,10 @@ describe("Framework/TypeChecks/isUndefined", function () {
 	});
 });
 
-describe("Framework/TypeChecks/isUStyleRule", function () {
+describe("Framework/TypeChecks/isUStyleSheetRule", function () {
 	//TRUE
 	it("should return true if argument is an uninstanced style rule", function () {
-		expect(isUStyleRule(StyleSheetRule)).toBe(true);
+		expect(isUStyleSheetRule(StyleSheetRule)).toBe(true);
 	});
 	it("should return true if argument is inherited from a style rule and is uninstanced", function () {
 		var SomeRule = function (_StyleRule) {
@@ -3370,55 +3544,55 @@ describe("Framework/TypeChecks/isUStyleRule", function () {
 			return SomeRule;
 		}(StyleSheetRule);
 
-		expect(isUStyleRule(SomeRule)).toBe(true);
+		expect(isUStyleSheetRule(SomeRule)).toBe(true);
 	});
 	//FALSE
 	it("should return false if argument is a function", function () {
-		expect(isUStyleRule(function () {})).toBe(false);
+		expect(isUStyleSheetRule(function () {})).toBe(false);
 	});
 	it("should return false if argument is an arrow function", function () {
-		expect(isUStyleRule(function () {})).toBe(false);
+		expect(isUStyleSheetRule(function () {})).toBe(false);
 	});
 	it("should return false if argument is a class", function () {
-		expect(isUStyleRule(function A() {
+		expect(isUStyleSheetRule(function A() {
 			classCallCheck(this, A);
 		})).toBe(false);
 	});
 	it("should return false if argument is a string", function () {
-		expect(isUStyleRule("a string")).toBe(false);
+		expect(isUStyleSheetRule("a string")).toBe(false);
 	});
 	it("should return false if argument is object", function () {
-		expect(isUStyleRule({})).toBe(false);
+		expect(isUStyleSheetRule({})).toBe(false);
 	});
 	it("should return false if argument is array", function () {
-		expect(isUStyleRule([])).toBe(false);
+		expect(isUStyleSheetRule([])).toBe(false);
 	});
 	it("should return false if argument is a number = 1", function () {
-		expect(isUStyleRule(1)).toBe(false);
+		expect(isUStyleSheetRule(1)).toBe(false);
 	});
 	it("should return false if argument is a number = 0", function () {
-		expect(isUStyleRule(0)).toBe(false);
+		expect(isUStyleSheetRule(0)).toBe(false);
 	});
 	it("should return false if argument is a number = NaN", function () {
-		expect(isUStyleRule(NaN)).toBe(false);
+		expect(isUStyleSheetRule(NaN)).toBe(false);
 	});
 	it("should return false if argument is a number = Infinity", function () {
-		expect(isUStyleRule(Infinity)).toBe(false);
+		expect(isUStyleSheetRule(Infinity)).toBe(false);
 	});
 	it("should return false if argument is a number = -Infinity", function () {
-		expect(isUStyleRule(-Infinity)).toBe(false);
+		expect(isUStyleSheetRule(-Infinity)).toBe(false);
 	});
 	it("should return false if argument is a number = -1", function () {
-		expect(isUStyleRule(-1)).toBe(false);
+		expect(isUStyleSheetRule(-1)).toBe(false);
 	});
 	it("should return false if argument is undefined", function () {
-		expect(isUStyleRule(undefined)).toBe(false);
+		expect(isUStyleSheetRule(undefined)).toBe(false);
 	});
 	it("should return false if argument is boolean = false", function () {
-		expect(isUStyleRule(false)).toBe(false);
+		expect(isUStyleSheetRule(false)).toBe(false);
 	});
 	it("should return false if argument is boolean = true", function () {
-		expect(isUStyleRule(true)).toBe(false);
+		expect(isUStyleSheetRule(true)).toBe(false);
 	});
 });
 
@@ -3457,36 +3631,44 @@ function $define(name, value) {
 }
 
 $define('$on', function $on(name, method) {
-	if (isString(name) && isFunction$1(method)) {
-		var events = this.$private.events;
-		var hooks = this.$private.hooks;
-		var pool = events[name];
-		var self = this;
-		if (!pool) {
-			var hook = function hook() {
-				var args = arguments;
-				Object.keys(pool).forEach(function (id) {
-					var method = pool[id];
-					method.apply(self, args);
-				});
-			};
+	var _this = this;
 
-			events[name] = {};
-			pool = events[name];
-			
-			hooks[name] = hook;
-		}
-		if (isFunction$1(method)) {
-			var eid = uid();
-			pool[eid] = method;
-		}
-		var handle = {
-			id: eid,
-			pool: pool,
-			remove: remove$1,
-			removeAll: removeAll
-		};
-		return handle;
+	if (isString(name) && isFunction$1(method)) {
+		var _ret = function () {
+			var events = _this.$private.events;
+			var hooks = _this.$private.hooks;
+			var pool = events[name];
+			var self = _this;
+			if (!pool) {
+				var hook = function hook() {
+					var args = arguments;
+					Object.keys(pool).forEach(function (id) {
+						var method = pool[id];
+						method.apply(self, args);
+					});
+				};
+
+				events[name] = {};
+				pool = events[name];
+				
+				hooks[name] = hook;
+			}
+			if (isFunction$1(method)) {
+				var _eid = uid();
+				pool[_eid] = method;
+			}
+			var handle = {
+				id: eid,
+				pool: pool,
+				remove: remove$1,
+				removeAll: removeAll
+			};
+			return {
+				v: handle
+			};
+		}();
+
+		if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 	}
 });
 $define('$trigger', function $trigger(event, args) {
@@ -3576,14 +3758,14 @@ describe("Framework/TypeChecks/isData", function () {
 	});
 });
 
-function isUStyleRule$2(u) {
+function isUData$1(u) {
 	return !!(u && u.prototype && (u.prototype instanceof Data || u === Data));
 }
 
 describe("Framework/TypeChecks/isUData", function () {
 	//TRUE
 	it("should return true if argument is an uninstanced data class", function () {
-		expect(isUStyleRule$2(Data)).toBe(true);
+		expect(isUData$1(Data)).toBe(true);
 	});
 	it("should return true if argument is inherited from the data class and is uninstanced", function () {
 		var SomeData = function (_Data) {
@@ -3597,55 +3779,55 @@ describe("Framework/TypeChecks/isUData", function () {
 			return SomeData;
 		}(Data);
 
-		expect(isUStyleRule$2(SomeData)).toBe(true);
+		expect(isUData$1(SomeData)).toBe(true);
 	});
 	//FALSE
 	it("should return false if argument is a function", function () {
-		expect(isUStyleRule$2(function () {})).toBe(false);
+		expect(isUData$1(function () {})).toBe(false);
 	});
 	it("should return false if argument is an arrow function", function () {
-		expect(isUStyleRule$2(function () {})).toBe(false);
+		expect(isUData$1(function () {})).toBe(false);
 	});
 	it("should return false if argument is a class", function () {
-		expect(isUStyleRule$2(function A() {
+		expect(isUData$1(function A() {
 			classCallCheck(this, A);
 		})).toBe(false);
 	});
 	it("should return false if argument is a string", function () {
-		expect(isUStyleRule$2("a string")).toBe(false);
+		expect(isUData$1("a string")).toBe(false);
 	});
 	it("should return false if argument is object", function () {
-		expect(isUStyleRule$2({})).toBe(false);
+		expect(isUData$1({})).toBe(false);
 	});
 	it("should return false if argument is array", function () {
-		expect(isUStyleRule$2([])).toBe(false);
+		expect(isUData$1([])).toBe(false);
 	});
 	it("should return false if argument is a number = 1", function () {
-		expect(isUStyleRule$2(1)).toBe(false);
+		expect(isUData$1(1)).toBe(false);
 	});
 	it("should return false if argument is a number = 0", function () {
-		expect(isUStyleRule$2(0)).toBe(false);
+		expect(isUData$1(0)).toBe(false);
 	});
 	it("should return false if argument is a number = NaN", function () {
-		expect(isUStyleRule$2(NaN)).toBe(false);
+		expect(isUData$1(NaN)).toBe(false);
 	});
 	it("should return false if argument is a number = Infinity", function () {
-		expect(isUStyleRule$2(Infinity)).toBe(false);
+		expect(isUData$1(Infinity)).toBe(false);
 	});
 	it("should return false if argument is a number = -Infinity", function () {
-		expect(isUStyleRule$2(-Infinity)).toBe(false);
+		expect(isUData$1(-Infinity)).toBe(false);
 	});
 	it("should return false if argument is a number = -1", function () {
-		expect(isUStyleRule$2(-1)).toBe(false);
+		expect(isUData$1(-1)).toBe(false);
 	});
 	it("should return false if argument is undefined", function () {
-		expect(isUStyleRule$2(undefined)).toBe(false);
+		expect(isUData$1(undefined)).toBe(false);
 	});
 	it("should return false if argument is boolean = false", function () {
-		expect(isUStyleRule$2(false)).toBe(false);
+		expect(isUData$1(false)).toBe(false);
 	});
 	it("should return false if argument is boolean = true", function () {
-		expect(isUStyleRule$2(true)).toBe(false);
+		expect(isUData$1(true)).toBe(false);
 	});
 });
 
@@ -3737,7 +3919,7 @@ describe("Framework/Utilities/Elements/childNodes", function () {
 
 function getFirstNonTextChild$1(node) {
 	if (isElement$1(node)) {
-		var root;
+		var root = void 0;
 		childNodes$1(node, function (child) {
 			if (!isTextNode$1(child)) {
 				root = child;
@@ -3867,13 +4049,18 @@ describe("Framework/Utilities/Events/removeAll", function () {
 });
 
 function debounce$1(fn, time) {
-	debugger;
 	if (isFunction$1(fn)) {
-		var dbcTimer;
-		return function () {
-			clearTimeout(dbcTimer);
-			dbcTimer = setTimeout(fn, time);
-		};
+		var _ret = function () {
+			var dbcTimer = void 0;
+			return {
+				v: function v() {
+					clearTimeout(dbcTimer);
+					dbcTimer = setTimeout(fn, time);
+				}
+			};
+		}();
+
+		if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 	}
 }
 

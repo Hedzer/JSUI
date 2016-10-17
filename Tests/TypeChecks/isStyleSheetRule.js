@@ -1,59 +1,59 @@
 import StyleRule from 'Framework/Classes/StyleSheetRule';
-import isStyleRule from 'Framework/TypeChecks/isStyleRule';
+import isStyleSheetRule from 'Framework/TypeChecks/isStyleSheetRule';
 
-export default describe("Framework/TypeChecks/isStyleRule", function() {
+export default describe("Framework/TypeChecks/isStyleSheetRule", function() {
 	//TRUE
 	it("should return true if argument is a style rule", function() {
-		expect(isStyleRule((new StyleRule()))).toBe(true);
+		expect(isStyleSheetRule((new StyleRule()))).toBe(true);
 	});
 	it("should return true if argument is inherited from a style rule", function() {
 		class SomeRule extends StyleRule {}
-		expect(isStyleRule((new SomeRule()))).toBe(true);
+		expect(isStyleSheetRule((new SomeRule()))).toBe(true);
 	});
 	//FALSE
 	it("should return false if argument is a function", function() {
-		expect(isStyleRule(function(){})).toBe(false);
+		expect(isStyleSheetRule(function(){})).toBe(false);
 	});
 	it("should return false if argument is an arrow function", function() {
-		expect(isStyleRule(() => {})).toBe(false);
+		expect(isStyleSheetRule(() => {})).toBe(false);
 	});
 	it("should return false if argument is a class", function() {
-		expect(isStyleRule(class A {})).toBe(false);
+		expect(isStyleSheetRule(class A {})).toBe(false);
 	});
 	it("should return false if argument is a string", function() {
-		expect(isStyleRule("a string")).toBe(false);
+		expect(isStyleSheetRule("a string")).toBe(false);
 	});
 	it("should return false if argument is object", function() {
-		expect(isStyleRule({})).toBe(false);
+		expect(isStyleSheetRule({})).toBe(false);
 	});
 	it("should return false if argument is array", function() {
-		expect(isStyleRule([])).toBe(false);
+		expect(isStyleSheetRule([])).toBe(false);
 	});
 	it("should return false if argument is a number = 1", function() {
-		expect(isStyleRule(1)).toBe(false);
+		expect(isStyleSheetRule(1)).toBe(false);
 	});
 	it("should return false if argument is a number = 0", function() {
-		expect(isStyleRule(0)).toBe(false);
+		expect(isStyleSheetRule(0)).toBe(false);
 	});
 	it("should return false if argument is a number = NaN", function() {
-		expect(isStyleRule(NaN)).toBe(false);
+		expect(isStyleSheetRule(NaN)).toBe(false);
 	});
 	it("should return false if argument is a number = Infinity", function() {
-		expect(isStyleRule(Infinity)).toBe(false);
+		expect(isStyleSheetRule(Infinity)).toBe(false);
 	});
 	it("should return false if argument is a number = -Infinity", function() {
-		expect(isStyleRule(-Infinity)).toBe(false);
+		expect(isStyleSheetRule(-Infinity)).toBe(false);
 	});
 	it("should return false if argument is a number = -1", function() {
-		expect(isStyleRule(-1)).toBe(false);
+		expect(isStyleSheetRule(-1)).toBe(false);
 	});
 	it("should return false if argument is undefined", function() {
-		expect(isStyleRule(undefined)).toBe(false);
+		expect(isStyleSheetRule(undefined)).toBe(false);
 	});
 	it("should return false if argument is boolean = false", function() {
-		expect(isStyleRule(false)).toBe(false);
+		expect(isStyleSheetRule(false)).toBe(false);
 	});
 	it("should return false if argument is boolean = true", function() {
-		expect(isStyleRule(true)).toBe(false);
+		expect(isStyleSheetRule(true)).toBe(false);
 	});
 });

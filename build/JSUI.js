@@ -7,7 +7,8 @@ var hasForEach = !!Array.prototype.forEach;
 if (!hasForEach) {
 	Array.prototype.forEach = function (callback, thisArg) {
 
-		var T, k;
+		var T = void 0,
+		    k = void 0;
 
 		if (this === null) {
 			throw new TypeError(' this is null or not defined');
@@ -40,7 +41,7 @@ if (!hasForEach) {
 		// 7. Repeat, while k < len
 		while (k < len) {
 
-			var kValue;
+			var kValue = void 0;
 
 			// a. Let Pk be ToString(k).
 			//    This is implicit for LHS operands of the in operator
@@ -83,7 +84,9 @@ if (!hasMap) {
 
 	Array.prototype.map = function (callback, thisArg) {
 
-		var T, A, k;
+		var T = void 0,
+		    A = void 0,
+		    k = void 0;
 
 		if (this == null) {
 			throw new TypeError(' this is null or not defined');
@@ -120,7 +123,8 @@ if (!hasMap) {
 		// 8. Repeat, while k < len
 		while (k < len) {
 
-			var kValue, mappedValue;
+			var kValue = void 0,
+			    mappedValue = void 0;
 
 			// a. Let Pk be ToString(k).
 			//   This is implicit for LHS operands of the in operator
@@ -185,7 +189,7 @@ if (!Array.prototype.reduce) {
 		var t = Object(this),
 		    len = t.length >>> 0,
 		    k = 0,
-		    value;
+		    value = void 0;
 		if (arguments.length == 2) {
 			value = arguments[1];
 		} else {
@@ -467,8 +471,8 @@ if (!hasObjectKeys) {
 			}
 
 			var result = [],
-			    prop,
-			    i;
+			    prop = void 0,
+			    i = void 0;
 
 			for (prop in obj) {
 				if (hasOwnProperty.call(obj, prop)) {
@@ -509,89 +513,91 @@ var CustomEvent$2 = !hasCustomEvent;
 //from https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 var hasAddEventListener = !!Element.prototype.addEventListener;
 if (!hasAddEventListener) {
-	var eventListeners = [];
+	(function () {
+		var eventListeners = [];
 
-	var addEventListener = function addEventListener(type, listener /*, useCapture (will be ignored) */) {
-		var self = this;
-		var wrapper = function wrapper(e) {
-			e.target = e.srcElement;
-			e.currentTarget = self;
-			if (typeof listener.handleEvent != 'undefined') {
-				listener.handleEvent(e);
-			} else {
-				listener.call(self, e);
-			}
-		};
-		if (type == "DOMContentLoaded") {
-			var wrapper2 = function wrapper2(e) {
-				if (document.readyState == "complete") {
-					wrapper(e);
+		var addEventListener = function addEventListener(type, listener /*, useCapture (will be ignored) */) {
+			var self = this;
+			var wrapper = function wrapper(e) {
+				e.target = e.srcElement;
+				e.currentTarget = self;
+				if (typeof listener.handleEvent != 'undefined') {
+					listener.handleEvent(e);
+				} else {
+					listener.call(self, e);
 				}
 			};
-			document.attachEvent("onreadystatechange", wrapper2);
-			eventListeners.push({
-				object: this,
-				type: type,
-				listener: listener,
-				wrapper: wrapper2
-			});
+			if (type == "DOMContentLoaded") {
+				var wrapper2 = function wrapper2(e) {
+					if (document.readyState == "complete") {
+						wrapper(e);
+					}
+				};
+				document.attachEvent("onreadystatechange", wrapper2);
+				eventListeners.push({
+					object: this,
+					type: type,
+					listener: listener,
+					wrapper: wrapper2
+				});
 
-			if (document.readyState == "complete") {
-				var e = new Event();
-				e.srcElement = window;
-				wrapper2(e);
-			}
-		} else {
-			this.attachEvent("on" + type, wrapper);
-			eventListeners.push({
-				object: this,
-				type: type,
-				listener: listener,
-				wrapper: wrapper
-			});
-		}
-	};
-	var removeEventListener = function removeEventListener(type, listener /*, useCapture (will be ignored) */) {
-		var counter = 0;
-		while (counter < eventListeners.length) {
-			var eventListener = eventListeners[counter];
-			if (eventListener.object == this && eventListener.type == type && eventListener.listener == listener) {
-				if (type == "DOMContentLoaded") {
-					this.detachEvent("onreadystatechange", eventListener.wrapper);
-				} else {
-					this.detachEvent("on" + type, eventListener.wrapper);
+				if (document.readyState == "complete") {
+					var e = new Event();
+					e.srcElement = window;
+					wrapper2(e);
 				}
-				eventListeners.splice(counter, 1);
-				break;
+			} else {
+				this.attachEvent("on" + type, wrapper);
+				eventListeners.push({
+					object: this,
+					type: type,
+					listener: listener,
+					wrapper: wrapper
+				});
 			}
-			++counter;
+		};
+		var removeEventListener = function removeEventListener(type, listener /*, useCapture (will be ignored) */) {
+			var counter = 0;
+			while (counter < eventListeners.length) {
+				var eventListener = eventListeners[counter];
+				if (eventListener.object == this && eventListener.type == type && eventListener.listener == listener) {
+					if (type == "DOMContentLoaded") {
+						this.detachEvent("onreadystatechange", eventListener.wrapper);
+					} else {
+						this.detachEvent("on" + type, eventListener.wrapper);
+					}
+					eventListeners.splice(counter, 1);
+					break;
+				}
+				++counter;
+			}
+		};
+
+		Element.prototype.addEventListener = addEventListener;
+		Element.prototype.removeEventListener = removeEventListener;
+
+		if (HTMLDocument) {
+			HTMLDocument.prototype.addEventListener = addEventListener;
+			HTMLDocument.prototype.removeEventListener = removeEventListener;
 		}
-	};
-
-	Element.prototype.addEventListener = addEventListener;
-	Element.prototype.removeEventListener = removeEventListener;
-
-	if (HTMLDocument) {
-		HTMLDocument.prototype.addEventListener = addEventListener;
-		HTMLDocument.prototype.removeEventListener = removeEventListener;
-	}
-	if (Window) {
-		Window.prototype.addEventListener = addEventListener;
-		Window.prototype.removeEventListener = removeEventListener;
-	}
-	if (!Event.prototype.preventDefault) {
-		Event.prototype.preventDefault = function () {
-			this.returnValue = false;
-		};
-	}
-	if (!Event.prototype.stopPropagation) {
-		Event.prototype.stopPropagation = function () {
-			this.cancelBubble = true;
-		};
-	}
+		if (Window) {
+			Window.prototype.addEventListener = addEventListener;
+			Window.prototype.removeEventListener = removeEventListener;
+		}
+		if (!Event.prototype.preventDefault) {
+			Event.prototype.preventDefault = function () {
+				this.returnValue = false;
+			};
+		}
+		if (!Event.prototype.stopPropagation) {
+			Event.prototype.stopPropagation = function () {
+				this.cancelBubble = true;
+			};
+		}
+	})();
 }
 
-var addEventListener$1 = !hasAddEventListener;
+var addEventListener = !hasAddEventListener;
 
 //Array
 //Object
@@ -608,7 +614,7 @@ var Polyfilled = {
 	},
 	DOM: {
 		CustomEvent: CustomEvent$2,
-		addEventListener: addEventListener$1
+		addEventListener: addEventListener
 	}
 };
 
@@ -741,22 +747,29 @@ var vendors = ['webkit', 'moz', 'ms', 'o'];
 //not a real constant, since it is generated
 var equivalents = {};
 var example = document.createElement('div');
-for (var key in example.style) {
+
+var _loop = function _loop(key) {
 	try {
-		example.style[key] = 'inherit';
-		var name = (example.getAttribute('style') || '').split(':')[0];
-		equivalents[key] = name;
-		example.setAttribute('style', '');
-		vendors.forEach(function (vendor) {
-			var prefix = '-' + vendor + '-';
-			if (~name.indexOf(prefix)) {
-				var w3cKey = key;
-				w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
-				equivalents[w3cKey] = name;
-				equivalents[name.replace(prefix, '')] = name;
-			}
-		});
+		(function () {
+			example.style[key] = 'inherit';
+			var name = (example.getAttribute('style') || '').split(':')[0];
+			equivalents[key] = name;
+			example.setAttribute('style', '');
+			vendors.forEach(function (vendor) {
+				var prefix = '-' + vendor + '-';
+				if (~name.indexOf(prefix)) {
+					var w3cKey = key;
+					w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
+					equivalents[w3cKey] = name;
+					equivalents[name.replace(prefix, '')] = name;
+				}
+			});
+		})();
 	} catch (e) {}
+};
+
+for (var key in example.style) {
+	_loop(key);
 }
 
 function add$1(host, name, defaultValue) {
@@ -883,8 +896,7 @@ var Extensible = function () {
 					old: old,
 					new: value
 				};
-				this.trigger(property + 'Changed', data);
-				this.trigger('Changed', data);
+				this.trigger([property + 'Changed', 'Changed'], data);
 			}
 
 			return hasChanged;
@@ -892,41 +904,65 @@ var Extensible = function () {
 	}, {
 		key: 'on',
 		value: function on(name, method) {
-			if (isString(name) && isFunction$1(method)) {
-				var events = this.private.events;
-				var hooks = this.private.hooks;
-				var pool = events[name];
-				var self = this;
-				if (!pool) {
-					var hook = function hook() {
-						var args = arguments;
-						Object.keys(pool).forEach(function (id) {
-							var method = pool[id];
-							method.apply(self, args);
-						});
-					};
+			var _this3 = this;
 
-					events[name] = {};
-					pool = events[name];
-					
-					hooks[name] = hook;
-				}
-				if (typeof method === 'function') {
+			if (isString(name) && isFunction$1(method)) {
+				var _ret = function () {
+					var events = _this3.private.events;
+					var hooks = _this3.private.hooks;
+					var pool = events[name];
+					var self = _this3;
+					if (!pool) {
+						var hook = function hook() {
+							var args = arguments;
+							Object.keys(pool).forEach(function (id) {
+								var method = pool[id];
+								method.apply(self, args);
+							});
+						};
+
+						events[name] = {};
+						pool = events[name];
+						
+						hooks[name] = hook;
+					}
 					var eid = uid();
-					pool[eid] = method;
-				}
-				var handle = {
-					id: eid,
-					pool: pool,
-					remove: remove$1,
-					removeAll: removeAll
-				};
-				return handle;
+					if (typeof method === 'function') {
+						pool[eid] = method;
+					}
+					var handle = {
+						id: eid,
+						pool: pool,
+						remove: remove$1,
+						removeAll: removeAll
+					};
+					return {
+						v: handle
+					};
+				}();
+
+				if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 			}
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger(event, args) {
+			var _this4 = this;
+
+			if (isArray$1(event)) {
+				var _ret2 = function () {
+					var results = [];
+					event.forEach(function (e) {
+						results.push(_this4.trigger(e, args));
+					});
+					return {
+						v: results
+					};
+				}();
+
+				if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
+			}
+
 			var hooks = this.private.hooks;
 			var hook = hooks[event];
 			if (isFunction$1(hook)) {
@@ -2102,8 +2138,8 @@ function on$1(name, method) {
 			element.addEventListener(name, dispatcher, false);
 		}
 	}
+	var eid = uid();
 	if (isFunction$1(method)) {
-		var eid = uid();
 		pool[eid] = method;
 	}
 	var handle = {
@@ -2180,15 +2216,19 @@ function _array$5(collection) {
 }
 
 function _function$1(method) {
+	var _this = this;
+
 	var results = [];
 	var isJSUI = Element$1.isPrototypeOf(method.prototype);
 	if (isJSUI) {
-		var proto = method.prototype;
-		this.children(function (child) {
-			if (proto.isPrototypeOf(child)) {
-				results.push(child);
-			}
-		});
+		(function () {
+			var proto = method.prototype;
+			_this.children(function (child) {
+				if (proto.isPrototypeOf(child)) {
+					results.push(child);
+				}
+			});
+		})();
 	}
 	return results;
 }
@@ -2434,9 +2474,9 @@ var Set = {
 function _string$9(text) {
 	if (this.private && this.element) {
 		if (!this.private.text) {
-			var text = document.createTextNode(text);
-			this.private.text = text;
-			this.element.appendChild(text);
+			var textNode = document.createTextNode(text);
+			this.private.text = textNode;
+			this.element.appendChild(textNode);
 			return true;
 		}
 		this.private.text.nodeValue = text;
@@ -2838,13 +2878,15 @@ var Element$1 = function (_Styleable) {
 		value: function children(callback) {
 			var results = [];
 			if (isFunction$1(callback) && self.private && self.private.children) {
-				var children = self.private.children;
-				Object.keys(children).forEach(function (id) {
-					var child = children[id];
-					if (child) {
-						results.push(callback(child, id));
-					}
-				});
+				(function () {
+					var children = self.private.children;
+					Object.keys(children).forEach(function (id) {
+						var child = children[id];
+						if (child) {
+							results.push(callback(child, id));
+						}
+					});
+				})();
 			}
 			return results;
 		}
@@ -2927,36 +2969,44 @@ function $define(name, value) {
 }
 
 $define('$on', function $on(name, method) {
-	if (isString(name) && isFunction$1(method)) {
-		var events = this.$private.events;
-		var hooks = this.$private.hooks;
-		var pool = events[name];
-		var self = this;
-		if (!pool) {
-			var hook = function hook() {
-				var args = arguments;
-				Object.keys(pool).forEach(function (id) {
-					var method = pool[id];
-					method.apply(self, args);
-				});
-			};
+	var _this = this;
 
-			events[name] = {};
-			pool = events[name];
-			
-			hooks[name] = hook;
-		}
-		if (isFunction$1(method)) {
-			var eid = uid();
-			pool[eid] = method;
-		}
-		var handle = {
-			id: eid,
-			pool: pool,
-			remove: remove$1,
-			removeAll: removeAll
-		};
-		return handle;
+	if (isString(name) && isFunction$1(method)) {
+		var _ret = function () {
+			var events = _this.$private.events;
+			var hooks = _this.$private.hooks;
+			var pool = events[name];
+			var self = _this;
+			if (!pool) {
+				var hook = function hook() {
+					var args = arguments;
+					Object.keys(pool).forEach(function (id) {
+						var method = pool[id];
+						method.apply(self, args);
+					});
+				};
+
+				events[name] = {};
+				pool = events[name];
+				
+				hooks[name] = hook;
+			}
+			if (isFunction$1(method)) {
+				var _eid = uid();
+				pool[_eid] = method;
+			}
+			var handle = {
+				id: eid,
+				pool: pool,
+				remove: remove$1,
+				removeAll: removeAll
+			};
+			return {
+				v: handle
+			};
+		}();
+
+		if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 	}
 });
 $define('$trigger', function $trigger(event, args) {
@@ -3310,7 +3360,7 @@ function childNodes(node, callback) {
 
 function getFirstNonTextChild(node) {
 	if (isElement(node)) {
-		var root;
+		var root = void 0;
 		childNodes(node, function (child) {
 			if (!isTextNode(child)) {
 				root = child;
@@ -3337,11 +3387,17 @@ function getTextNodes(el, stopAtFirst) {
 
 function debounce(fn, time) {
 	if (isFunction$1(fn)) {
-		var dbcTimer;
-		return function () {
-			clearTimeout(dbcTimer);
-			dbcTimer = setTimeout(fn, time);
-		};
+		var _ret = function () {
+			var dbcTimer = void 0;
+			return {
+				v: function v() {
+					clearTimeout(dbcTimer);
+					dbcTimer = setTimeout(fn, time);
+				}
+			};
+		}();
+
+		if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 	}
 }
 
@@ -3458,7 +3514,7 @@ function create$1(name, json, namespace) {
 	name = cleanName(name);
 	namespace = namespace || name;
 	var Subclasses = {};
-	var src = '\n\t\treturn (function(name, namespace, structure, Data, Subclasses, constructor, subconstructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this);\n\t\t\t\tsubconstructor.call(this, name, namespace, Subclasses);\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(Data.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\t' + name + '.prototype.toJSON = function toJSON() {\n\t\t\t\tvar self = this;\n\t\t\t\tvar copy = {};\n\t\t\t\tObject.keys(structure).forEach(function(key) {\n\t\t\t\t\tconsole.log(key)\n\t\t\t\t\tcopy[key] = self[key];\n\t\t\t\t});\n\t\t\t\tconsole.log(copy);\n\t\t\t\treturn copy;\n\t\t\t};\n\t\t\treturn ' + name + ';\n\t\t})\n\t';
+	var src = '\n\t\treturn (function(name, namespace, structure, Data, Subclasses, constructor, subconstructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this);\n\t\t\t\tsubconstructor.call(this, name, namespace, Subclasses);\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(Data.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\t' + name + '.prototype.toJSON = function toJSON() {\n\t\t\t\tlet self = this;\n\t\t\t\tlet copy = {};\n\t\t\t\tObject.keys(structure).forEach(function(key) {\n\t\t\t\t\tconsole.log(key)\n\t\t\t\t\tcopy[key] = self[key];\n\t\t\t\t});\n\t\t\t\tconsole.log(copy);\n\t\t\t\treturn copy;\n\t\t\t};\n\t\t\treturn ' + name + ';\n\t\t})\n\t';
 	var DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor$4, subconstructor);
 	Object.keys(json).forEach(function (key) {
 		var value = json[key];
@@ -3547,10 +3603,10 @@ function _default(node, classes, container) {
 	var textNodes = [];
 	childNodes(node, function (child) {
 		if (isTextNode(child)) {
-			var node = document.createTextNode("");
-			instance.element.appendChild(node);
-			instance.private.text = node;
-			textNodes.push({ node: node, value: child.nodeValue });
+			var _node = document.createTextNode("");
+			instance.element.appendChild(_node);
+			instance.private.text = _node;
+			textNodes.push({ node: _node, value: child.nodeValue });
 			return;
 		}
 		var as = child.getAttribute('as');
@@ -3585,7 +3641,7 @@ function htmlToInstructions(node, classes, state) {
 	}
 	var tag = getTagName(node);
 	var directory = state.map[tag];
-	var alias;
+	var alias = void 0;
 	if (!directory) {
 		var type = tag.split('-').reduce(getter, classes);
 		if (!isUJSUI(type)) {
@@ -3607,7 +3663,7 @@ function htmlToInstructions(node, classes, state) {
 	var name = 'instance' + state.Counts.instance;
 	state.Counts.instance++;
 	var comments = "\t\/\/ " + (as || 'Anonymous Element');
-	var instantiation = '\tvar ' + name + ' = ' + (isRoot ? 'this' : 'new ' + alias + '();');
+	var instantiation = '\tlet ' + name + ' = ' + (isRoot ? 'this' : 'new ' + alias + '();');
 
 	var assignments = [];
 	var instructions = [];
@@ -3615,7 +3671,7 @@ function htmlToInstructions(node, classes, state) {
 	childNodes(node, function (child) {
 		if (isTextNode(child)) {
 			var textName = 'text' + state.Counts.text;
-			instructions.push('\tvar ' + textName + ' = document.createTextNode(\'\');');
+			instructions.push('\tlet ' + textName + ' = document.createTextNode(\'\');');
 			instructions.push('\t' + name + '.element.appendChild(' + textName + ');');
 			assignments.push({
 				name: textName,
@@ -3662,7 +3718,7 @@ function _class$1(node, classes, container) {
 	var name = container.getAttribute('name') || 'Anonymous' + uid();
 	var inherits = container.getAttribute('inherits');
 	var asTag = container.getAttribute('tag') || tag;
-	var parent;
+	var parent = void 0;
 	if (inherits) {
 		parent = inherits.split('-').reduce(getter, classes);
 	}
@@ -3672,7 +3728,7 @@ function _class$1(node, classes, container) {
 	//build headers
 	var header = ['\n\t\/\/ Imports'];
 	aliases.forEach(function (alias) {
-		header.push('\tvar ' + alias + ' = classes.' + alias + '.type;');
+		header.push('\tlet ' + alias + ' = classes.' + alias + '.type;');
 	});
 	header.push('\n');
 	//build text
@@ -3695,7 +3751,7 @@ var Tag = {
 };
 
 function parse(html, classes) {
-	var container;
+	var container = void 0;
 	if (isString(html)) {
 		container = document.createElement('container');
 		container.innerHTML = html;

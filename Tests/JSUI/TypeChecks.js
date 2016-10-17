@@ -11,11 +11,11 @@ import isObject from 'Tests/TypeChecks/isObject';
 import isPath from 'Tests/TypeChecks/isPath';
 import isRegex from 'Tests/TypeChecks/isRegex';
 import isString from 'Tests/TypeChecks/isString';
-import isStyleRule from 'Tests/TypeChecks/isStyleRule';
+import isStyleSheetRule from 'Tests/TypeChecks/isStyleSheetRule';
 import isTextNode from 'Tests/TypeChecks/isTextNode';
 import isUJSUI from 'Tests/TypeChecks/isUJSUI';
 import isUndefined from 'Tests/TypeChecks/isUndefined';
-import isUStyleRule from 'Tests/TypeChecks/isUStyleRule';
+import isUStyleSheetRule from 'Tests/TypeChecks/isUStyleSheetRule';
 import isData from 'Tests/TypeChecks/isData';
 import isUData from 'Tests/TypeChecks/isUData';
 
@@ -33,11 +33,11 @@ var TypeChecks = {
 	isPath: isPath,
 	isRegex: isRegex,
 	isString: isString,
-	isStyleRule: isStyleRule,
+	isStyleSheetRule: isStyleSheetRule,
 	isTextNode: isTextNode,
 	isUJSUI: isUJSUI,
 	isUndefined: isUndefined,
-	isUStyleRule: isUStyleRule,
+	isUStyleSheetRule: isUStyleSheetRule,
 	isData: isData,
 	isUData: isUData
 };
