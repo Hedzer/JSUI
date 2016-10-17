@@ -40,9 +40,12 @@ export default class Extensible {
 			});
 		}
 	}
-	state(property, value) {
+	state(property, value, defaultValue) {
 		let old = this.private.state[property];
 		if (arguments.length === 1) {
+			if (this.private.state.hasOwnProperty(property)) {
+				return defaultValue;
+			}
 			return old;
 		}
 
@@ -55,35 +58,34 @@ export default class Extensible {
 				old: old,
 				new: value
 			};
-			this.trigger(`${property}Changed`, data);
-			this.trigger(`Changed`, data);
+			this.trigger([`${property}Changed`, 'Changed'], data);
 		}
 
 		return hasChanged;	
 	}
 	on(name, method) {
 		if (isString(name) && isFunction(method)) {
-			var events = this.private.events;
-			var hooks = this.private.hooks;
-			var pool = events[name];
-			var self = this;
+			let events = this.private.events;
+			let hooks = this.private.hooks;
+			let pool = events[name];
+			let self = this;
 			if (!pool){
 				events[name] = {};
 				pool = events[name];
 				function hook() {
-					var args = arguments;
+					let args = arguments;
 					Object.keys(pool).forEach(function(id) {
-						var method = pool[id];
+						let method = pool[id];
 						method.apply(self, args);
 					});
 				};
 				hooks[name] = hook;
 			}
 			if (typeof method === 'function'){
-				var eid = uid();
+				let eid = uid();
 				pool[eid] = method;
 			}
-			var handle = {
+			let handle = {
 				id: eid,
 				pool: pool,
 				remove: removeEvent,
@@ -93,14 +95,23 @@ export default class Extensible {
 		}
 	}
 	trigger(event, args) {
-		var hooks = this.private.hooks;
-		var hook = hooks[event];
+
+		if (isArray(event)) {
+			let results = [];
+			event.forEach((e) => {
+				results.push(this.trigger(e, args));
+			});
+			return results;
+		}
+
+		let hooks = this.private.hooks;
+		let hook = hooks[event];
 		if (isFunction(hook)) {
 			hook(args);
 		}
 	}
 	destructor() {
-		for (var key in this) {
+		for (let key in this) {
 			delete this[key];
 		}
 	}
