@@ -21,10 +21,8 @@ export default function create(name, json, namespace) {
 				let self = this;
 				let copy = {};
 				Object.keys(structure).forEach(function(key) {
-					console.log(key)
 					copy[key] = self[key];
 				});
-				console.log(copy);
 				return copy;
 			};
 			return ${name};
@@ -66,8 +64,7 @@ export default function create(name, json, namespace) {
 						}
 						
 						if (trigger){
-							trigger(`${key}Changed`, data);
-							trigger('Changed', data);
+							trigger([`${key}Changed`, 'Changed'], data);
 						}
 					}
 					return;				

@@ -1,4 +1,5 @@
 import isFunction from 'Framework/TypeChecks/isFunction';
+import isArray from 'Framework/TypeChecks/isArray';
 import isString from 'Framework/TypeChecks/isString';
 import uid from 'Framework/Utilities/General/uid';
 import { default as removeEvent } from 'Framework/Utilities/Events/remove';
@@ -52,6 +53,13 @@ $define('$on', function $on(name, method) {
 	}
 });
 $define('$trigger', function $trigger(event, args) {
+	if (isArray(event)) {
+		let results = [];
+		event.forEach((e) => {
+			results.push(this.$trigger(e, args));
+		});
+		return results;
+	}
 	let hooks = this.$private.hooks;
 	let hook = hooks[event];
 	if (isFunction(hook)) {
