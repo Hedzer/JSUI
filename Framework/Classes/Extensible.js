@@ -40,12 +40,9 @@ export default class Extensible {
 			});
 		}
 	}
-	state(property, value, defaultValue) {
+	state(property, value) {
 		let old = this.private.state[property];
 		if (arguments.length === 1) {
-			if (this.private.state.hasOwnProperty(property)) {
-				return defaultValue;
-			}
 			return old;
 		}
 

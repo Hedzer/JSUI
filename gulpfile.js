@@ -16,6 +16,11 @@ var util = require('gulp-util');
 var dereserve = require('gulp-dereserve');
 var runSequence = require('run-sequence');
 
+
+var paths = {
+	Framework:path.join(__dirname, '/Framework'),
+	Tests:path.join(__dirname, '/Tests')						
+}
 gulp.task('compress', function(callback) {
 	console.log('-> Uglifying...');
 	return gulp.src('./build/JSUI.js')
@@ -61,6 +66,7 @@ gulp.task('bundle', function(callback) {
 	return rollup({
 			entry: 'Framework/JSUI.js',
 			format: 'iife',
+			moduleName: 'JSUI',
 			sourceMap: true,
 			plugins: [
 				rollup_alias({
@@ -81,6 +87,28 @@ gulp.task('bundle', function(callback) {
 		.pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest('./build'));
 });
+gulp.task('bundle-es6', function(callback) {
+	console.log('-> Building...');
+	return rollup({
+			entry: 'Framework/JSUI.js',
+			format: 'iife',
+			moduleName: 'JSUI',
+			sourceMap: true,
+			plugins: [
+				rollup_alias({
+					Paths: paths,
+					Extensions: ['js']
+				})
+			]
+		})
+		.pipe(source('JSUI.ES6.js'))
+		.pipe(buffer())
+		.pipe(sourcemaps.init({
+			loadMaps: true
+		}))
+		.pipe(sourcemaps.write('./'))
+		.pipe(gulp.dest('./build'));
+});
 gulp.task('bundle-test', function(callback) {
 	console.log('-> Building...');
 	return rollup({
@@ -89,10 +117,7 @@ gulp.task('bundle-test', function(callback) {
 			sourceMap: true,
 			plugins: [
 				rollup_alias({
-					Paths: {
-						Framework:path.join(__dirname, '/Framework'),
-						Tests:path.join(__dirname, '/Tests')						
-					},
+					Paths: paths,
 					Extensions: ['js']
 				}),
 				rollup_babel({})

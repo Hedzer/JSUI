@@ -1,4 +1,3 @@
-import Polyfills from 'Framework/JSUI/Polyfills';
 import TypeChecks from 'Framework/JSUI/TypeChecks';
 import Classes from 'Framework/JSUI/Classes';
 import Constants from 'Framework/JSUI/Constants';
@@ -29,8 +28,9 @@ let JSUI = {
 	Utilities: Utilities,
 	Sorts: Sorts,
 	Reflection: Reflection,
-	Data: Data,
-	Polyfilled: Polyfills
+	Data: Data
 };
 
 window.JSUI = JSUI;
+
+export default JSUI;

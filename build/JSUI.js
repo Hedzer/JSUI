@@ -1,216 +1,49 @@
-(function () {
+var JSUI = (function () {
 'use strict';
 
-// Production steps of ECMA-262, Edition 5, 15.4.4.18
-// Reference: http://es5.github.io/#x15.4.4.18
-var hasForEach = !!Array.prototype.forEach;
-if (!hasForEach) {
-	Array.prototype.forEach = function (callback, thisArg) {
-
-		var T = void 0,
-		    k = void 0;
-
-		if (this === null) {
-			throw new TypeError(' this is null or not defined');
-		}
-
-		// 1. Let O be the result of calling toObject() passing the
-		// |this| value as the argument.
-		var O = Object(this);
-
-		// 2. Let lenValue be the result of calling the Get() internal
-		// method of O with the argument "length".
-		// 3. Let len be toUint32(lenValue).
-		var len = O.length >>> 0;
-
-		// 4. If isCallable(callback) is false, throw a TypeError exception. 
-		// See: http://es5.github.com/#x9.11
-		if (typeof callback !== "function") {
-			throw new TypeError(callback + ' is not a function');
-		}
-
-		// 5. If thisArg was supplied, let T be thisArg; else let
-		// T be undefined.
-		if (arguments.length > 1) {
-			T = thisArg;
-		}
-
-		// 6. Let k be 0
-		k = 0;
-
-		// 7. Repeat, while k < len
-		while (k < len) {
-
-			var kValue = void 0;
-
-			// a. Let Pk be ToString(k).
-			//    This is implicit for LHS operands of the in operator
-			// b. Let kPresent be the result of calling the HasProperty
-			//    internal method of O with argument Pk.
-			//    This step can be combined with c
-			// c. If kPresent is true, then
-			if (k in O) {
-
-				// i. Let kValue be the result of calling the Get internal
-				// method of O with argument Pk.
-				kValue = O[k];
-
-				// ii. Call the Call internal method of callback with T as
-				// the this value and argument list containing kValue, k, and O.
-				callback.call(T, kValue, k, O);
-			}
-			// d. Increase k by 1.
-			k++;
-		}
-		// 8. return undefined
-	};
+function isArray(u) {
+	return Array.isArray(u);
 }
 
-var forEach = !hasForEach;
-
-var hasIsArray = !!Array.isArray;
-if (!hasIsArray) {
-	Array.isArray = function (arg) {
-		return Object.prototype.toString.call(arg) === '[object Array]';
-	};
+function isElement(u) {
+	return u instanceof Element;
 }
 
-var isArray = !hasIsArray;
-
-// Production steps of ECMA-262, Edition 5, 15.4.4.19
-// Reference: http://es5.github.io/#x15.4.4.19
-var hasMap = !!Array.prototype.map;
-if (!hasMap) {
-
-	Array.prototype.map = function (callback, thisArg) {
-
-		var T = void 0,
-		    A = void 0,
-		    k = void 0;
-
-		if (this == null) {
-			throw new TypeError(' this is null or not defined');
-		}
-
-		// 1. Let O be the result of calling ToObject passing the |this| 
-		//    value as the argument.
-		var O = Object(this);
-
-		// 2. Let lenValue be the result of calling the Get internal 
-		//    method of O with the argument "length".
-		// 3. Let len be ToUint32(lenValue).
-		var len = O.length >>> 0;
-
-		// 4. If IsCallable(callback) is false, throw a TypeError exception.
-		// See: http://es5.github.com/#x9.11
-		if (typeof callback !== 'function') {
-			throw new TypeError(callback + ' is not a function');
-		}
-
-		// 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
-		if (arguments.length > 1) {
-			T = thisArg;
-		}
-
-		// 6. Let A be a new array created as if by the expression new Array(len) 
-		//    where Array is the standard built-in constructor with that name and 
-		//    len is the value of len.
-		A = new Array(len);
-
-		// 7. Let k be 0
-		k = 0;
-
-		// 8. Repeat, while k < len
-		while (k < len) {
-
-			var kValue = void 0,
-			    mappedValue = void 0;
-
-			// a. Let Pk be ToString(k).
-			//   This is implicit for LHS operands of the in operator
-			// b. Let kPresent be the result of calling the HasProperty internal 
-			//    method of O with argument Pk.
-			//   This step can be combined with c
-			// c. If kPresent is true, then
-			if (k in O) {
-
-				// i. Let kValue be the result of calling the Get internal 
-				//    method of O with argument Pk.
-				kValue = O[k];
-
-				// ii. Let mappedValue be the result of calling the Call internal 
-				//     method of callback with T as the this value and argument 
-				//     list containing kValue, k, and O.
-				mappedValue = callback.call(T, kValue, k, O);
-
-				// iii. Call the DefineOwnProperty internal method of A with arguments
-				// Pk, Property Descriptor
-				// { Value: mappedValue,
-				//   Writable: true,
-				//   Enumerable: true,
-				//   Configurable: true },
-				// and false.
-
-				// In browsers that support Object.defineProperty, use the following:
-				// Object.defineProperty(A, k, {
-				//   value: mappedValue,
-				//   writable: true,
-				//   enumerable: true,
-				//   configurable: true
-				// });
-
-				// For best browser support, use the following:
-				A[k] = mappedValue;
-			}
-			// d. Increase k by 1.
-			k++;
-		}
-
-		// 9. return A
-		return A;
-	};
+function isEmptyString(u) {
+	return u === "";
 }
 
-var map = !hasMap;
-
-// Production steps of ECMA-262, Edition 5, 15.4.4.21
-// Reference: http://es5.github.io/#x15.4.4.21
-var hasReduce = !!Array.prototype.reduce;
-if (!Array.prototype.reduce) {
-	Array.prototype.reduce = function (callback /*, initialValue*/) {
-		'use strict';
-
-		if (this == null) {
-			throw new TypeError('Array.prototype.reduce called on null or undefined');
-		}
-		if (typeof callback !== 'function') {
-			throw new TypeError(callback + ' is not a function');
-		}
-		var t = Object(this),
-		    len = t.length >>> 0,
-		    k = 0,
-		    value = void 0;
-		if (arguments.length == 2) {
-			value = arguments[1];
-		} else {
-			while (k < len && !(k in t)) {
-				k++;
-			}
-			if (k >= len) {
-				throw new TypeError('Reduce of empty array with no initial value');
-			}
-			value = t[k++];
-		}
-		for (; k < len; k++) {
-			if (k in t) {
-				value = callback(value, t[k], k, t);
-			}
-		}
-		return value;
-	};
+function isFunction$1(u) {
+	return typeof u === 'function';
 }
 
-var reduce = !hasReduce;
+var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
+function isHTML(u) {
+	return htmlRegex.test(u);
+}
+
+function isNull(u) {
+	return u === null;
+}
+
+function isRegex(u) {
+	return u instanceof RegExp;
+}
+
+function isPath(u) {
+	return typeof u === 'string' && u.length > 0 && u[0] === '@';
+}
+
+var defaults = {
+	namespace: 'JSUI',
+	Development: {
+		enabled: false,
+		traceErrors: true,
+		haltOnErrors: true,
+		references: true
+	},
+	Production: {}
+};
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -452,216 +285,6 @@ var set$1 = function set$1(object, property, value, receiver) {
   return value;
 };
 
-// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
-var hasObjectKeys = !!Object.keys;
-if (!hasObjectKeys) {
-	Object.keys = function () {
-		'use strict';
-
-		var hasOwnProperty = Object.prototype.hasOwnProperty,
-		    hasDontEnumBug = !{
-			toString: null
-		}.propertyIsEnumerable('toString'),
-		    dontEnums = ['toString', 'toLocaleString', 'valueOf', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'constructor'],
-		    dontEnumsLength = dontEnums.length;
-
-		return function (obj) {
-			if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object' && (typeof obj !== 'function' || obj === null)) {
-				throw new TypeError('Object.keys called on non-object');
-			}
-
-			var result = [],
-			    prop = void 0,
-			    i = void 0;
-
-			for (prop in obj) {
-				if (hasOwnProperty.call(obj, prop)) {
-					result.push(prop);
-				}
-			}
-
-			if (hasDontEnumBug) {
-				for (i = 0; i < dontEnumsLength; i++) {
-					if (hasOwnProperty.call(obj, dontEnums[i])) {
-						result.push(dontEnums[i]);
-					}
-				}
-			}
-			return result;
-		};
-	}();
-}
-
-var keys = !hasObjectKeys;
-
-//from https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
-var hasCustomEvent = typeof window.CustomEvent === "function";
-if (!hasCustomEvent) {
-	var CustomEvent$1 = function CustomEvent$1(event, params) {
-		params = params || { bubbles: false, cancelable: false, detail: undefined };
-		var evt = document.createEvent('CustomEvent');
-		evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-		return evt;
-	};
-
-	CustomEvent$1.prototype = window.Event.prototype;
-	window.CustomEvent = CustomEvent$1;
-}
-
-var CustomEvent$2 = !hasCustomEvent;
-
-//from https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
-var hasAddEventListener = !!Element.prototype.addEventListener;
-if (!hasAddEventListener) {
-	(function () {
-		var eventListeners = [];
-
-		var addEventListener = function addEventListener(type, listener /*, useCapture (will be ignored) */) {
-			var self = this;
-			var wrapper = function wrapper(e) {
-				e.target = e.srcElement;
-				e.currentTarget = self;
-				if (typeof listener.handleEvent != 'undefined') {
-					listener.handleEvent(e);
-				} else {
-					listener.call(self, e);
-				}
-			};
-			if (type == "DOMContentLoaded") {
-				var wrapper2 = function wrapper2(e) {
-					if (document.readyState == "complete") {
-						wrapper(e);
-					}
-				};
-				document.attachEvent("onreadystatechange", wrapper2);
-				eventListeners.push({
-					object: this,
-					type: type,
-					listener: listener,
-					wrapper: wrapper2
-				});
-
-				if (document.readyState == "complete") {
-					var e = new Event();
-					e.srcElement = window;
-					wrapper2(e);
-				}
-			} else {
-				this.attachEvent("on" + type, wrapper);
-				eventListeners.push({
-					object: this,
-					type: type,
-					listener: listener,
-					wrapper: wrapper
-				});
-			}
-		};
-		var removeEventListener = function removeEventListener(type, listener /*, useCapture (will be ignored) */) {
-			var counter = 0;
-			while (counter < eventListeners.length) {
-				var eventListener = eventListeners[counter];
-				if (eventListener.object == this && eventListener.type == type && eventListener.listener == listener) {
-					if (type == "DOMContentLoaded") {
-						this.detachEvent("onreadystatechange", eventListener.wrapper);
-					} else {
-						this.detachEvent("on" + type, eventListener.wrapper);
-					}
-					eventListeners.splice(counter, 1);
-					break;
-				}
-				++counter;
-			}
-		};
-
-		Element.prototype.addEventListener = addEventListener;
-		Element.prototype.removeEventListener = removeEventListener;
-
-		if (HTMLDocument) {
-			HTMLDocument.prototype.addEventListener = addEventListener;
-			HTMLDocument.prototype.removeEventListener = removeEventListener;
-		}
-		if (Window) {
-			Window.prototype.addEventListener = addEventListener;
-			Window.prototype.removeEventListener = removeEventListener;
-		}
-		if (!Event.prototype.preventDefault) {
-			Event.prototype.preventDefault = function () {
-				this.returnValue = false;
-			};
-		}
-		if (!Event.prototype.stopPropagation) {
-			Event.prototype.stopPropagation = function () {
-				this.cancelBubble = true;
-			};
-		}
-	})();
-}
-
-var addEventListener = !hasAddEventListener;
-
-//Array
-//Object
-//DOM
-var Polyfilled = {
-	Array: {
-		forEach: forEach,
-		isArray: isArray,
-		map: map,
-		reduce: reduce
-	},
-	Object: {
-		keys: keys
-	},
-	DOM: {
-		CustomEvent: CustomEvent$2,
-		addEventListener: addEventListener
-	}
-};
-
-function isArray$1(u) {
-	return Array.isArray(u);
-}
-
-function isElement(u) {
-	return u instanceof Element;
-}
-
-function isEmptyString(u) {
-	return u === "";
-}
-
-function isFunction$1(u) {
-	return typeof u === 'function';
-}
-
-var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
-function isHTML(u) {
-	return htmlRegex.test(u);
-}
-
-function isNull(u) {
-	return u === null;
-}
-
-function isRegex(u) {
-	return u instanceof RegExp;
-}
-
-function isPath(u) {
-	return typeof u === 'string' && u.length > 0 && u[0] === '@';
-}
-
-var defaults$1 = {
-	namespace: 'JSUI',
-	Development: {
-		enabled: false,
-		traceErrors: true,
-		haltOnErrors: true,
-		references: true
-	},
-	Production: {}
-};
-
 function isObject(u) {
 	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object';
 }
@@ -670,7 +293,7 @@ function isString(u) {
 	return typeof u === 'string';
 }
 
-var namespace = defaults$1.namespace;
+var namespace = defaults.namespace;
 
 var Identity = function () {
 	function Identity(identity) {
@@ -849,7 +472,7 @@ var Extensible = function () {
 				add$1(this, item);
 				return;
 			}
-			if (isArray$1(item)) {
+			if (isArray(item)) {
 				item.forEach(function (key) {
 					_this.add(key, value);
 				});
@@ -870,7 +493,7 @@ var Extensible = function () {
 				delete this[item];
 				return;
 			}
-			if (isArray$1(item)) {
+			if (isArray(item)) {
 				item.forEach(function (value) {
 					_this2.remove(value);
 				});
@@ -878,12 +501,9 @@ var Extensible = function () {
 		}
 	}, {
 		key: 'state',
-		value: function state(property, value, defaultValue) {
+		value: function state(property, value) {
 			var old = this.private.state[property];
 			if (arguments.length === 1) {
-				if (this.private.state.hasOwnProperty(property)) {
-					return defaultValue;
-				}
 				return old;
 			}
 
@@ -949,7 +569,7 @@ var Extensible = function () {
 		value: function trigger(event, args) {
 			var _this4 = this;
 
-			if (isArray$1(event)) {
+			if (isArray(event)) {
 				var _ret2 = function () {
 					var results = [];
 					event.forEach(function (e) {
@@ -1795,7 +1415,7 @@ function isBehavior(u) {
 var Types = {
 	object: {
 		null: isNull,
-		array: isArray$1,
+		array: isArray,
 		element: isElement,
 		jsui: isJSUI,
 		regex: isRegex,
@@ -1877,7 +1497,7 @@ function constructor$3(tag) {
 	this.element.uid = this.uid;
 
 	//add references 
-	var development = defaults$1.Development;
+	var development = defaults.Development;
 	if (development.enabled && development.references) {
 		this.element.JSUI = this;
 	}
@@ -1912,7 +1532,7 @@ var _destructor = (function destructor() {
 	if (_parent) {
 		if (_private && _private.mapped) {
 			var map = _private.mapped[_parent.uid];
-			if (map && isArray$1(map)) {
+			if (map && isArray(map)) {
 				map.forEach(function (name) {
 					delete _parent[name];
 				});
@@ -2328,7 +1948,7 @@ function _object$2(macro) {
 
 function _string$6(command, args) {
 	if (isFunction$1(this[command])) {
-		if (isArray$1(args)) {
+		if (isArray(args)) {
 			return this[command].apply(this, args);
 		}
 		return this[command](args);
@@ -2346,7 +1966,7 @@ function get$2(obj, path) {
 	if (isString(path)) {
 		return path.substring(1).split('.').reduce(getter, obj);
 	}
-	if (isArray$1(path)) {
+	if (isArray(path)) {
 		return path.reduce(getter, obj);
 	}
 }
@@ -2380,7 +2000,7 @@ function _path$4(command, args) {
 	}
 	var method = path.context[path.property];
 	if (isFunction$1(method)) {
-		if (isArray$1(args)) {
+		if (isArray(args)) {
 			return method.apply(path.context, args);
 		}
 		return method.call(path.context, args);
@@ -2650,7 +2270,7 @@ function getClasses(el) {
 	var classes = {};
 	if (isString(el.className)) {
 		var list = el.className.split(' ');
-		if (isArray$1(list)) {
+		if (isArray(list)) {
 			list.forEach(function (name) {
 				classes[name] = true;
 			});
@@ -3032,7 +2652,7 @@ function isUData(u) {
 }
 
 var TypeChecks = {
-	isArray: isArray$1,
+	isArray: isArray,
 	isElement: isElement,
 	isEmptyString: isEmptyString,
 	isFunction: isFunction$1,
@@ -3083,7 +2703,7 @@ var Collection = function (_Array) {
 
 		var _this = possibleConstructorReturn(this, (Collection.__proto__ || Object.getPrototypeOf(Collection)).call(this));
 
-		if (isArray$1(target)) {
+		if (isArray(target)) {
 			target.forEach(function (item) {
 				_this.push(item);
 			});
@@ -3291,7 +2911,7 @@ var StyleVariables = function (_Distinct) {
 				}
 				return false;
 			}
-			if (isArray$1(name)) {
+			if (isArray(name)) {
 				name.forEach(function (key) {
 					_this3.remove(key);
 				});
@@ -3786,7 +3406,7 @@ var Data$2 = {
 };
 
 var JSUI = {
-	Settings: defaults$1,
+	Settings: defaults,
 	Behavior: Classes.Behavior,
 	Element: Classes.Element,
 	Identity: Classes.Identity,
@@ -3804,11 +3424,12 @@ var JSUI = {
 	Utilities: Utilities,
 	Sorts: Sorts,
 	Reflection: Reflection,
-	Data: Data$2,
-	Polyfilled: Polyfilled
+	Data: Data$2
 };
 
 window.JSUI = JSUI;
+
+return JSUI;
 
 }());
 
