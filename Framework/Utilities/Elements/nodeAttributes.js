@@ -7,12 +7,12 @@ export default function nodeAttributes(node, callback) {
 		callback = placeholder;
 	}
 	if (!isElement(node)) { return; }
-	var attributeList = node.attributes;
-	var attributes = {};
-	for (var i = attributeList.length - 1; i >= 0; i--) {
-		var attribute = attributeList[i];
-		var name = attribute.name;
-		var value = attribute.value;
+	let attributeList = node.attributes;
+	let attributes = {};
+	for (let i = attributeList.length - 1; i >= 0; i--) {
+		let attribute = attributeList[i];
+		let name = attribute.name;
+		let value = attribute.value;
 		attributes[name] = value;
 		if (callback(name, value, attribute)) {break; }
 	};

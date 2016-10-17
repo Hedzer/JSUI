@@ -9,10 +9,10 @@ export default function childNodes(node, callback) {
 	if (!isElement(node)) {
 		return;
 	}
-	var children = [];
-	var count = node.childNodes.length;
-	for (var i = 0; i < count; i++) {
-		var child = node.childNodes[i];
+	let children = [];
+	let count = node.childNodes.length;
+	for (let i = 0; i < count; i++) {
+		let child = node.childNodes[i];
 		children.push(child);
 		if (callback(child)) {break; }
 	}

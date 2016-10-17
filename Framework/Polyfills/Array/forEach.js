@@ -1,10 +1,10 @@
 // Production steps of ECMA-262, Edition 5, 15.4.4.18
 // Reference: http://es5.github.io/#x15.4.4.18
-var hasForEach = !!Array.prototype.forEach;
+let hasForEach = !!Array.prototype.forEach;
 if (!hasForEach) {
 	Array.prototype.forEach = function(callback, thisArg) {
 
-		var T, k;
+		let T, k;
 
 		if (this === null) {
 			throw new TypeError(' this is null or not defined');
@@ -12,12 +12,12 @@ if (!hasForEach) {
 
 		// 1. Let O be the result of calling toObject() passing the
 		// |this| value as the argument.
-		var O = Object(this);
+		let O = Object(this);
 
 		// 2. Let lenValue be the result of calling the Get() internal
 		// method of O with the argument "length".
 		// 3. Let len be toUint32(lenValue).
-		var len = O.length >>> 0;
+		let len = O.length >>> 0;
 
 		// 4. If isCallable(callback) is false, throw a TypeError exception. 
 		// See: http://es5.github.com/#x9.11
@@ -37,7 +37,7 @@ if (!hasForEach) {
 		// 7. Repeat, while k < len
 		while (k < len) {
 
-			var kValue;
+			let kValue;
 
 			// a. Let Pk be ToString(k).
 			//    This is implicit for LHS operands of the in operator

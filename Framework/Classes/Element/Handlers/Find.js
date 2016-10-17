@@ -6,7 +6,7 @@ import { default as _string } from 'Framework/Classes/Element/Handlers/Find/_str
 import { default as _path } from 'Framework/Classes/Element/Handlers/Find/_path';
 import { default as _undefined } from 'Framework/Classes/Element/Handlers/Find/_undefined';
 
-var Find = {
+let Find = {
 	array: _array,
 	function: _function,
 	jsui: _jsui,

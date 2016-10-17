@@ -11,7 +11,7 @@ import keys from 'Framework/Polyfills/Object/keys';
 import CustomEvent from 'Framework/Polyfills/DOM/CustomEvent';
 import addEventListener from 'Framework/Polyfills/DOM/addEventListener';
 
-var Polyfilled = {
+let Polyfilled = {
 	Array: {
 		forEach: forEach,
 		isArray: isArray,

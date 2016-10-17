@@ -23,13 +23,13 @@ export default class StyleSheet extends Distinct {
 		this.private.element = false;
 		this.private.context = context;
 
-		var contextSheet = Sheets[context];
+		let contextSheet = Sheets[context];
 		if (contextSheet) {
 			this.private = contextSheet.private;
 			return this;
 		}
 
-		var element = document.createElement('style');
+		let element = document.createElement('style');
 		element.appendChild(document.createTextNode(""));
 		element.setAttribute('id', `style-${context}`);
 		document.head.appendChild(element);
@@ -40,7 +40,7 @@ export default class StyleSheet extends Distinct {
 	}
 	add(rule) {
 		if (isStyleSheetRule(rule)) {
-			var rules = this.private.rules;
+			let rules = this.private.rules;
 			if (!rules[rule.uid]) {
 				rules[rule.uid] = {
 					references: 1,
@@ -56,9 +56,9 @@ export default class StyleSheet extends Distinct {
 		}
 	}
 	remove(rule) {
-		var rules = this.private.rules;
+		let rules = this.private.rules;
 		if (isString(rule)) {
-			var entry = rules[rule];
+			let entry = rules[rule];
 			if (entry) {
 				entry.references--;
 				if (entry.references < 1) {
@@ -89,14 +89,14 @@ export default class StyleSheet extends Distinct {
 		}
 	}
 	render(timeout) {
-		var entries = this.private.rules;
+		let entries = this.private.rules;
 		clearTimeout(this.private.timer);
 		if (isNumber(timeout)) {
 			this.private.timer = setTimeout(this.render.bind(this), timeout);
 			return;
 		}
 
-		var entryList = Object.keys(entries);
+		let entryList = Object.keys(entries);
 		//check to see if there are any entries
 		if (!entryList.length) {
 			document.head.removeChild(this.private.element);
@@ -104,23 +104,23 @@ export default class StyleSheet extends Distinct {
 		}
 
 		//create the stylesheet and disable it
-		var element = document.createElement('style');
+		let element = document.createElement('style');
 		element.setAttribute('id', `style-${this.context}`);
 		element.appendChild(document.createTextNode(""));
 		document.head.appendChild(element);
 		element.sheet.disabled = true;
 
 		//fetch all the entries and organize them
-		var articles = [];
+		let articles = [];
 		entryList.forEach((uid) => {
-			var entry = entries[uid];
+			let entry = entries[uid];
 			articles.push(entry.rule);
 		});
 		articles.sort(this.sorter);
 
 		//render each rule
 		articles.forEach((rule) => {
-			var value = rule.render(this.context);
+			let value = rule.render(this.context);
 			element.sheet.insertRule(value, 0);
 		});
 		

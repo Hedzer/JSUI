@@ -81,8 +81,8 @@ export default class Extensible {
 				};
 				hooks[name] = hook;
 			}
+			let eid = uid();
 			if (typeof method === 'function'){
-				let eid = uid();
 				pool[eid] = method;
 			}
 			let handle = {

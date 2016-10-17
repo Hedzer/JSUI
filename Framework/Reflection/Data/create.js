@@ -8,8 +8,8 @@ import feval from 'Framework/Reflection/feval';
 export default function create(name, json, namespace) {
 	name = cleanName(name);
 	namespace = (namespace || name);
-	var Subclasses = {};
-	var src = `
+	let Subclasses = {};
+	let src = `
 		return (function(name, namespace, structure, Data, Subclasses, constructor, subconstructor) {
 			function ${name}() {
 				constructor.call(this);
@@ -18,8 +18,8 @@ export default function create(name, json, namespace) {
 			${name}.prototype = Object.create(Data.prototype);
 			${name}.constructor = ${name};
 			${name}.prototype.toJSON = function toJSON() {
-				var self = this;
-				var copy = {};
+				let self = this;
+				let copy = {};
 				Object.keys(structure).forEach(function(key) {
 					console.log(key)
 					copy[key] = self[key];
@@ -30,36 +30,36 @@ export default function create(name, json, namespace) {
 			return ${name};
 		})
 	`;
-	var DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor, subconstructor);
+	let DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor, subconstructor);
 	Object.keys(json).forEach((key) => {
-		var value = json[key];
+		let value = json[key];
 		if (isObject(value)) {
 			Subclasses[key] = create(key, value, `${name}.${key}`);
 			return;
 		}
 		Object.defineProperty(DataClass.prototype, key, {
 			get:function() {
-				var state = this.$private.state;
+				let state = this.$private.state;
 				if (!state.hasOwnProperty(key)) {
 					return value;
 				}
 				return this.$private.state[key];
 			},
 			set:function(v) {
-				var state = this.$private.state;
+				let state = this.$private.state;
 				if (state) {
-					var old = state[key];
+					let old = state[key];
 					state[key] = v;
 					if (old !== v){
 
-						var data = {
+						let data = {
 							owner: this,
 							property: key,
 							old: old,
 							new: v
 						};
 
-						var trigger = state.$trigger;
+						let trigger = state.$trigger;
 						if (!trigger) {
 							trigger = this.$trigger.bind(this);
 							state.$trigger = trigger;

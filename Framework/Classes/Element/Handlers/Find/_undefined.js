@@ -1,5 +1,5 @@
 export default function _undefined() {
-	var results = [];
+	let results = [];
 	this.children(function(child) {
 		results.push(child);
 	});

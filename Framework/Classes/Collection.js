@@ -13,8 +13,8 @@ export default class Collection extends Array {
 		}
 	}
 	doToEach(method, args) {
-		var type = getHandledType(method);
-		var action = DoToEach[type];
+		let type = getHandledType(method);
+		let action = DoToEach[type];
 		return (action || unhandled).call(this, method, args);
 	}
 }

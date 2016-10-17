@@ -1,5 +1,5 @@
 export default function subconstructor(name, namespace, Subclasses) {
-	var self = this;
+	let self = this;
 	Object.defineProperty(this, '$name', {
 		configurable:true,
 		enumerable:false,
@@ -13,7 +13,7 @@ export default function subconstructor(name, namespace, Subclasses) {
 		value: `${namespace}`
 	});
 	Object.keys(Subclasses).forEach(function(key) {
-		var subclass = new Subclasses[key]();
+		let subclass = new Subclasses[key]();
 		Object.defineProperty(subclass, '$parent', {
 			configurable:true,
 			enumerable:false,

@@ -34,7 +34,7 @@ import getAll from 'Framework/Utilities/Properties/getAll';
 import capitalize from 'Framework/Utilities/Strings/capitalize';
 import uncapitalize from 'Framework/Utilities/Strings/uncapitalize';
 
-var Utilities = {
+let Utilities = {
 	Elements: {
 		addClass: addClass,
 		getClasses: getClasses,

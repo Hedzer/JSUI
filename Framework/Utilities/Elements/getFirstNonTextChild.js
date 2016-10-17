@@ -4,7 +4,7 @@ import childNodes from 'Framework/Utilities/Elements/childNodes';
 
 export default function getFirstNonTextChild(node) {
 	if (isElement(node)) {
-		var root;
+		let root;
 		childNodes(node, (child) => {
 			if (!isTextNode(child)) {
 				root = child;

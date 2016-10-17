@@ -5,7 +5,7 @@ import isUJSUI from 'Framework/TypeChecks/isUJSUI';
 import isTextNode from 'Framework/TypeChecks/isTextNode';
 
 export default function htmlToInstructions(node, classes, state) {
-	var isRoot = false;
+	let isRoot = false;
 	if (!state) {
 		state = {
 			map:{},
@@ -18,11 +18,11 @@ export default function htmlToInstructions(node, classes, state) {
 		};
 		isRoot = true;				
 	}
-	var tag = getTagName(node);
-	var directory = state.map[tag];
-	var alias;
+	let tag = getTagName(node);
+	let directory = state.map[tag];
+	let alias;
 	if (!directory) {
-		var type = tag.split('-').reduce(getter, classes);
+		let type = tag.split('-').reduce(getter, classes);
 		if (!isUJSUI(type)) { return; }
 		alias = 'element'+state.Counts.element;
 		state.Counts.element++;
@@ -34,19 +34,19 @@ export default function htmlToInstructions(node, classes, state) {
 		state.aliases[alias] = directory;
 	}
 	if (!alias) {alias = directory.alias};
-	var as = node.getAttribute('as');
-	var name = 'instance'+state.Counts.instance;
+	let as = node.getAttribute('as');
+	let name = 'instance'+state.Counts.instance;
 	state.Counts.instance++;
-	var comments = "\t\/\/ "+(as || 'Anonymous Element');
-	var instantiation = `\tvar ${name} = ` + (isRoot ? 'this' :  `new ${alias}();`);
+	let comments = "\t\/\/ "+(as || 'Anonymous Element');
+	let instantiation = `\tlet ${name} = ` + (isRoot ? 'this' :  `new ${alias}();`);
 
-	var assignments = [];
-	var instructions = [];
-	var texts = [];
+	let assignments = [];
+	let instructions = [];
+	let texts = [];
 	childNodes(node, (child) => {
 		if (isTextNode(child)) {
-			var textName = 'text'+state.Counts.text;
-			instructions.push(`\tvar ${textName} = document.createTextNode('');`);
+			let textName = 'text'+state.Counts.text;
+			instructions.push(`\tlet ${textName} = document.createTextNode('');`);
 			instructions.push(`\t${name}.element.appendChild(${textName});`);
 			assignments.push({
 				name:textName,
@@ -56,8 +56,8 @@ export default function htmlToInstructions(node, classes, state) {
 			return;
 		}
 		instructions.push('\n');
-		var instruction = htmlToInstructions(child, classes, state);
-		var childName = instruction.name;
+		let instruction = htmlToInstructions(child, classes, state);
+		let childName = instruction.name;
 		instructions.push(instruction.code);
 		instructions.push('\n\t\/\/ Adding Children');
 		instructions.push(`\t${name}.add(${childName})`+(as ? `.as('${as}')` : '')+';');
@@ -66,8 +66,8 @@ export default function htmlToInstructions(node, classes, state) {
 		return;
 	});
 	//add the last text as primary
-	var lastText = assignments[assignments.length - 1];
-	var lastTextName = lastText.name;
+	let lastText = assignments[assignments.length - 1];
+	let lastTextName = lastText.name;
 	instructions.push(`\t${name}.private.text = ${lastTextName};`);
 	assignments = Array.prototype.concat.apply(assignments, texts);
 	instructions = instructions.join('\n');

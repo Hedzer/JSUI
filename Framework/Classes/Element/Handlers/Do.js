@@ -3,7 +3,7 @@ import { default as _object } from 'Framework/Classes/Element/Handlers/Do/_objec
 import { default as _string } from 'Framework/Classes/Element/Handlers/Do/_string';
 import { default as _path } from 'Framework/Classes/Element/Handlers/Do/_path';
 
-var Do = {
+let Do = {
 	array: _array,
 	object: _object,
 	string: _string,

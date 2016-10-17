@@ -1,2 +1,2 @@
-var Sheets = {};
+let Sheets = {};
 export default Sheets;

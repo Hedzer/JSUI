@@ -2,7 +2,7 @@ import { default as _element } from 'Framework/Classes/Element/Handlers/AddTo/_e
 import { default as _jsui } from 'Framework/Classes/Element/Handlers/AddTo/_jsui';
 import { default as _array } from 'Framework/Classes/Element/Handlers/AddTo/_array';
 
-var AddTo = {
+let AddTo = {
 	element: _element,
 	jsui: _jsui,
 	array: _array

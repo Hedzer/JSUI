@@ -1,7 +1,7 @@
 import nodeAttributes from 'Framework/Utilities/Elements/nodeAttributes';
 
 export default function _undefined() {
-	var results = {};
+	let results = {};
 	nodeAttributes(this.element, (attribute, value, ref) => {
 		results[attribute] = value;
 	});

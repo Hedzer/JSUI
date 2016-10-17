@@ -1,4 +1,4 @@
-var defaults = {
+let defaults = {
 	namespace: 'JSUI',
 	Development: {
 		enabled: false,

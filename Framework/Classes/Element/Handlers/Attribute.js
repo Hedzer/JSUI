@@ -11,7 +11,7 @@ import { default as _set_path } from 'Framework/Classes/Element/Handlers/Attribu
 import { default as _set_array } from 'Framework/Classes/Element/Handlers/Attribute/Set/_array';
 import { default as _set_object } from 'Framework/Classes/Element/Handlers/Attribute/Set/_object';
 
-var Attribute = {
+let Attribute = {
 	Get:{
 		undefined: _get_undefined,
 		string: _get_string,

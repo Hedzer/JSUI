@@ -33,9 +33,9 @@ export default class StyleSheetRule extends StyleRules {
 		return this.private.selector;
 	}
 	set selector(selector) {
-		var self = this;
-		var changed = () => {
-			var old = this.private.selector;
+		let self = this;
+		let changed = () => {
+			let old = this.private.selector;
 			this.trigger('selectorChanged', {
 				owner: self,
 				old: old,
@@ -54,9 +54,9 @@ export default class StyleSheetRule extends StyleRules {
 		return this.private.media;
 	}
 	set media(media) {
-		var self = this;
-		var changed = () => {
-			var old = this.private.media;
+		let self = this;
+		let changed = () => {
+			let old = this.private.media;
 			this.trigger('mediaChanged', {
 				owner: self,
 				old: old,
@@ -94,7 +94,7 @@ export default class StyleSheetRule extends StyleRules {
 	set(name, value) {
 		if (isObject(name)) {
 			Object.keys(name).forEach((key) => {
-				var value = name[key];
+				let value = name[key];
 				this[key] = value;
 			});
 			return;
@@ -110,29 +110,29 @@ export default class StyleSheetRule extends StyleRules {
 	}
 	render(context) {
 		context = (context || this.private.context || 'default');
-		var sheet = Sheets[context] || new StyleSheet(context);
+		let sheet = Sheets[context] || new StyleSheet(context);
 		if (!sheet.private.rules[this.uid]) {
 			sheet.add(this);
 			return;
 		}
 
 		if (!this.selector) {
-			var error = new JSUIError();
+			let error = new JSUIError();
 			error.throw();
 		}
-		var styles = [];
-		var rendered = '';
+		let styles = [];
+		let rendered = '';
 		Object.keys(this.private.styles).forEach((key) => {
-			var name = equivalents[key];
-			var value = this.private.styles[key];
+			let name = equivalents[key];
+			let value = this.private.styles[key];
 			//needs handlers for values
 			styles.push(`${name}: ${value};`);
 		});
-		var selector = this.selector;
-		var media = this.media;
-		var tab = (media ? '\t' : '');
+		let selector = this.selector;
+		let media = this.media;
+		let tab = (media ? '\t' : '');
 		//needs handers for selectors
-		var styleText = styles.join(`\n\t${tab}`);
+		let styleText = styles.join(`\n\t${tab}`);
 		rendered = `${tab}${selector} {\n\t${tab}${styleText}\n${tab}}`;
 		if (media) {
 			rendered = `${media} {\n${rendered}\n}`;

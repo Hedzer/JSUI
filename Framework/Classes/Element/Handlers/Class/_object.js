@@ -1,7 +1,7 @@
 import isString from 'Framework/TypeChecks/isString';
 
 export default function _object(classes) {
-	var className = '';
+	let className = '';
 	Object.keys(classes).forEach((name) => {
 		if (classes[name]) {
 			className += name;

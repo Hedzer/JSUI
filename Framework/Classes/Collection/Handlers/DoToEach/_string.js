@@ -1,7 +1,7 @@
 import isFunction from 'Framework/TypeChecks/isFunction';
 
 export default function _string(command, args) {
-	var results = [];
+	let results = [];
 	this.forEach((item) => {
 		if (isFunction(item[command])) {
 			results.push(item[command].apply(item, args));

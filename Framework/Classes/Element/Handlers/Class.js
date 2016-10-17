@@ -4,7 +4,7 @@ import { default as _string } from 'Framework/Classes/Element/Handlers/Class/_st
 import { default as _path } from 'Framework/Classes/Element/Handlers/Class/_path';
 import { default as _undefined } from 'Framework/Classes/Element/Handlers/Class/_undefined';
 
-var Class = {
+let Class = {
 	array: _array,
 	object: _object,
 	string: _string,

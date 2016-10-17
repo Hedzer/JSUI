@@ -1,10 +1,10 @@
 import Element from 'Framework/Classes/Element';
 
 export default function _function(method) {
-	var results = [];
-	var isJSUI = Element.isPrototypeOf(method.prototype);
+	let results = [];
+	let isJSUI = Element.isPrototypeOf(method.prototype);
 	if (isJSUI) {
-		var proto = method.prototype;
+		let proto = method.prototype;
 		this.children(function(child) {
 			if (proto.isPrototypeOf(child)) {
 				results.push(child);

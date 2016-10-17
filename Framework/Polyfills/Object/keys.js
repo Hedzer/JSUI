@@ -1,9 +1,9 @@
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
-var hasObjectKeys = !!Object.keys;
+let hasObjectKeys = !!Object.keys;
 if (!hasObjectKeys) {
 	Object.keys = (function() {
 		'use strict';
-		var hasOwnProperty = Object.prototype.hasOwnProperty,
+		let hasOwnProperty = Object.prototype.hasOwnProperty,
 			hasDontEnumBug = !({
 				toString: null
 			}).propertyIsEnumerable('toString'),
@@ -23,7 +23,7 @@ if (!hasObjectKeys) {
 				throw new TypeError('Object.keys called on non-object');
 			}
 
-			var result = [],
+			let result = [],
 				prop, i;
 
 			for (prop in obj) {

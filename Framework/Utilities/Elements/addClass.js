@@ -7,7 +7,7 @@ export default function addClass(el, name) {
 		el.classList.add.apply(el.classList, name.split(' '));
 		return;
 	}
-	var classes = el.className.split(' ');
+	let classes = el.className.split(' ');
 	if (~classes.indexOf(name)) { return; }
 	classes.push(name);
 	el.className = classes.join(' ');

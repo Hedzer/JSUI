@@ -9,7 +9,7 @@ export default class ElementClassAction extends ElementAction {
 		this.private.classes = className.split(' ');
 	}
 	add() {
-		var existing = (getClasses(this.element) || {});
+		let existing = (getClasses(this.element) || {});
 		this.private.classes.forEach((name) => {
 			existing[name] = true;
 		});
@@ -17,7 +17,7 @@ export default class ElementClassAction extends ElementAction {
 		return existing;
 	}
 	remove() {
-		var existing = (getClasses(this.element) || {});
+		let existing = (getClasses(this.element) || {});
 		this.private.classes.forEach((name) => {
 			delete existing[name];
 		});
@@ -25,7 +25,7 @@ export default class ElementClassAction extends ElementAction {
 		return existing;
 	}
 	toggle() {
-		var existing = (getClasses(this.element) || {});
+		let existing = (getClasses(this.element) || {});
 		this.private.classes.forEach((name) => {
 			if (existing[name]) {
 				delete existing[name];
@@ -37,11 +37,11 @@ export default class ElementClassAction extends ElementAction {
 		return existing;
 	}
 	exists() {
-		var existing = (getClasses(this.element) || {});
-		var classes = this.private.classes;
-		var count = classes.length;
-		for (var i = 0; i < count; i++) {
-			var name = classes[i];
+		let existing = (getClasses(this.element) || {});
+		let classes = this.private.classes;
+		let count = classes.length;
+		for (let i = 0; i < count; i++) {
+			let name = classes[i];
 			if (!existing[name]) {
 				return false;
 			}

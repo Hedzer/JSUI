@@ -5,8 +5,8 @@ import handler from 'Framework/Classes/Element/Handlers/Constructor';
 
 export default function constructor(tag) {
 	//select the proper constructor action
-	var type = getHandledType(tag);
-	var action = handler[type];
+	let type = getHandledType(tag);
+	let action = handler[type];
 	tag = (action || function(){
 		return handler.string.call(this, 'div');
 	}).call(this, tag);
@@ -15,7 +15,7 @@ export default function constructor(tag) {
 	this.element.uid = this.uid;
 
 	//add references 
-	var development = settings.Development;
+	let development = settings.Development;
 	if (development.enabled && development.references) {
 		this.element.JSUI = this;
 	}

@@ -2,7 +2,7 @@ import { default as _array } from 'Framework/Classes/Element/Handlers/Remove/_ar
 import { default as _jsui } from 'Framework/Classes/Element/Handlers/Remove/_jsui';
 import { default as _undefined } from 'Framework/Classes/Element/Handlers/Remove/_undefined';
 
-var Remove = {
+let Remove = {
 	array: _array,
 	jsui: _jsui,
 	undefined: _undefined

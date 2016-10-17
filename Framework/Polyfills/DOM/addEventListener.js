@@ -1,11 +1,11 @@
 //from https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
-var hasAddEventListener = !!Element.prototype.addEventListener;
+let hasAddEventListener = !!Element.prototype.addEventListener;
 if (!hasAddEventListener) {
-	var eventListeners = [];
+	let eventListeners = [];
 
-	var addEventListener = function(type, listener /*, useCapture (will be ignored) */ ) {
-		var self = this;
-		var wrapper = function(e) {
+	let addEventListener = function(type, listener /*, useCapture (will be ignored) */ ) {
+		let self = this;
+		let wrapper = function(e) {
 			e.target = e.srcElement;
 			e.currentTarget = self;
 			if (typeof listener.handleEvent != 'undefined') {
@@ -15,7 +15,7 @@ if (!hasAddEventListener) {
 			}
 		};
 		if (type == "DOMContentLoaded") {
-			var wrapper2 = function(e) {
+			let wrapper2 = function(e) {
 				if (document.readyState == "complete") {
 					wrapper(e);
 				}
@@ -29,7 +29,7 @@ if (!hasAddEventListener) {
 			});
 
 			if (document.readyState == "complete") {
-				var e = new Event();
+				let e = new Event();
 				e.srcElement = window;
 				wrapper2(e);
 			}
@@ -43,10 +43,10 @@ if (!hasAddEventListener) {
 			});
 		}
 	};
-	var removeEventListener = function(type, listener /*, useCapture (will be ignored) */ ) {
-		var counter = 0;
+	let removeEventListener = function(type, listener /*, useCapture (will be ignored) */ ) {
+		let counter = 0;
 		while (counter < eventListeners.length) {
-			var eventListener = eventListeners[counter];
+			let eventListener = eventListeners[counter];
 			if (eventListener.object == this && eventListener.type == type && eventListener.listener == listener) {
 				if (type == "DOMContentLoaded") {
 					this.detachEvent("onreadystatechange", eventListener.wrapper);

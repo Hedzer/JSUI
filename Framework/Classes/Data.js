@@ -22,27 +22,27 @@ function $define(name, value) {
 
 $define('$on', function $on(name, method) {
 	if (isString(name) && isFunction(method)) {
-		var events = this.$private.events;
-		var hooks = this.$private.hooks;
-		var pool = events[name];
-		var self = this;
+		let events = this.$private.events;
+		let hooks = this.$private.hooks;
+		let pool = events[name];
+		let self = this;
 		if (!pool){
 			events[name] = {};
 			pool = events[name];
 			function hook() {
-				var args = arguments;
+				let args = arguments;
 				Object.keys(pool).forEach(function(id) {
-					var method = pool[id];
+					let method = pool[id];
 					method.apply(self, args);
 				});
 			};
 			hooks[name] = hook;
 		}
 		if (isFunction(method)){
-			var eid = uid();
+			let eid = uid();
 			pool[eid] = method;
 		}
-		var handle = {
+		let handle = {
 			id: eid,
 			pool: pool,
 			remove: removeEvent,
@@ -52,14 +52,14 @@ $define('$on', function $on(name, method) {
 	}
 });
 $define('$trigger', function $trigger(event, args) {
-	var hooks = this.$private.hooks;
-	var hook = hooks[event];
+	let hooks = this.$private.hooks;
+	let hook = hooks[event];
 	if (isFunction(hook)) {
 		hook(args);
 	}
 });
 $define('$destructor', function $destructor() {
-	for (var key in this) {
+	for (let key in this) {
 		delete this[key];
 	}
 });

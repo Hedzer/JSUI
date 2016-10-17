@@ -8,19 +8,19 @@ import onParsedElementChanged from 'Framework/Reflection/XML/Parse/Events/onPars
 
 
 export default function _default(node, classes, container) {
-	var tag = getTagName(node);
-	var type = tag.split('-').reduce(getter, classes);
+	let tag = getTagName(node);
+	let type = tag.split('-').reduce(getter, classes);
 	if (!type) {
 		//WARN
 		return undefined;
 	}
-	var instance = new type();
-	var attributes = node.attributes;
-	var isNative = isNativeTag(tag);
-	for (var i = attributes.length - 1; i >= 0; i--) {
-		var attribute = attributes[i];
-		var name = attribute.name;
-		var value = attribute.value;
+	let instance = new type();
+	let attributes = node.attributes;
+	let isNative = isNativeTag(tag);
+	for (let i = attributes.length - 1; i >= 0; i--) {
+		let attribute = attributes[i];
+		let name = attribute.name;
+		let value = attribute.value;
 		instance.element.setAttribute(name, value);
 		if (instance.hasOwnProperty(name)) {
 			doOrSet(instance, name, value);
@@ -30,17 +30,17 @@ export default function _default(node, classes, container) {
 		instance.on(`${name}Changed`, onParsedElementChanged);
 		instance[name] = value;
 	};
-	var textNodes = [];
+	let textNodes = [];
 	childNodes(node, (child) => {
 		if (isTextNode(child)) {
-			var node = document.createTextNode("");
+			let node = document.createTextNode("");
 			instance.element.appendChild(node);
 			instance.private.text = node;
 			textNodes.push({node:node, value:child.nodeValue});
 			return;
 		}
-		var as = child.getAttribute('as');
-		var handle = instance.add(_default(child, classes));
+		let as = child.getAttribute('as');
+		let handle = instance.add(_default(child, classes));
 		if (as) {
 			if (handle && isFunction(handle.as)) {
 				handle.as(as);

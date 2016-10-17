@@ -1,6 +1,6 @@
 import Sheets from 'Framework/Singletons/Style/Sheets';
 
-var Singletons = {
+let Singletons = {
 	Style: {
 		Sheets: Sheets
 	}

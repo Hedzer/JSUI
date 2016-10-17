@@ -1,4 +1,4 @@
-var vendors = [
+let vendors = [
 	'webkit',
 	'moz',
 	'ms',

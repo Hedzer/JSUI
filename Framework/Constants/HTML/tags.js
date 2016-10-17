@@ -1,4 +1,4 @@
-var tags = [
+let tags = [
 	'a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio',
 	'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button',
 	'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command',

@@ -1,6 +1,6 @@
 import tags from 'Framework/Constants/HTML/tags';
 
-var Natives = {};
+let Natives = {};
 tags.forEach((tag) => {
 	Natives[tag] = true;
 });

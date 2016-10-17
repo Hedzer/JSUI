@@ -1,6 +1,6 @@
-var prefix = '';
-var current = 0;
-var max = Number.MAX_SAFE_INTEGER - 1;			
+let prefix = '';
+let current = 0;
+let max = Number.MAX_SAFE_INTEGER - 1;			
 export default function uid(){
 	if (current > max){
 		prefix += current;

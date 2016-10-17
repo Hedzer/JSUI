@@ -6,7 +6,7 @@ import Tag from 'Framework/Reflection/XML/Parse/Tag';
 import Elements from 'Framework/Classes/Elements';
 
 export default function parse(html, classes) {
-	var container;
+	let container;
 	if (isString(html)) {
 		container = document.createElement('container');
 		container.innerHTML = html;				
@@ -15,8 +15,8 @@ export default function parse(html, classes) {
 		container = html;
 	}
 	if (!container) { return; }
-	var root = getFirstNonTextChild(container);
-	var tag = getTagName(root);
-	var parser = Tag[tag];
+	let root = getFirstNonTextChild(container);
+	let tag = getTagName(root);
+	let parser = Tag[tag];
 	return (parser || Tag.default).call(this, root, (classes || Elements), root);
 }

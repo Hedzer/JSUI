@@ -1,5 +1,5 @@
 export default function _object(assignments) {
-	var results = {};
+	let results = {};
 	Object.keys(assignments).forEach((command) => {
 		results[command] = this.set(command, assignments[command]);
 	});

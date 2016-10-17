@@ -46,7 +46,7 @@ export default class StyleInline extends StyleRules {
 	set(name, value) {
 		if (isObject(name)) {
 			Object.keys(name).forEach((key) => {
-				var value = name[key];
+				let value = name[key];
 				this[key] = value;
 			});
 			return;

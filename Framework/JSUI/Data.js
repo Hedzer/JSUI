@@ -1,6 +1,6 @@
 import { default as create } from 'Framework/Reflection/Data/create';
 
-var Data = {
+let Data = {
 	fromJSON: create
 };
 

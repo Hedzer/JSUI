@@ -7,7 +7,7 @@ import { default as _path } from 'Framework/Classes/Element/Handlers/Add/_path';
 import { default as _function } from 'Framework/Classes/Element/Handlers/Add/_function';
 import { default as _behavior } from 'Framework/Classes/Element/Handlers/Add/_behavior';
 
-var Add = {
+let Add = {
 	element: _element,
 	jsui: _jsui,
 	array: _array,

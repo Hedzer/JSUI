@@ -24,13 +24,13 @@ Object.keys(equivalents).forEach((key) => {
 			return this.private.styles[key];
 		},
 		set:function(value){
-			var old = this.private.styles[key];
+			let old = this.private.styles[key];
 			this.private.styles[key] = value;
 			if (isNull(value)) {
 				delete this.private.styles[key];
 			}
 			if (old !== value){
-				var data = {
+				let data = {
 					owner:this,
 					property:key,
 					old:old,

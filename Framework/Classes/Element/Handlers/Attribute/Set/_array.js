@@ -1,5 +1,5 @@
 export default function _array(collection, value) {
-	var results = [];
+	let results = [];
 	collection.forEach((attribute) => {
 		results.push(this.attribute(attribute, value));
 	});

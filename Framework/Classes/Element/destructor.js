@@ -2,10 +2,10 @@ import isFunction from 'Framework/TypeChecks/isFunction';
 import isArray from 'Framework/TypeChecks/isArray';
 
 export default (function destructor() {
-	var _element = this.element;
-	var _private = this.private;
+	let _element = this.element;
+	let _private = this.private;
 	if (_element){
-		var parent = _element.parentNode;
+		let parent = _element.parentNode;
 		if (isFunction(_element.remove)){
 			_element.remove();
 			return;
@@ -15,17 +15,17 @@ export default (function destructor() {
 			return;
 		}
 	}
-	var _style = this.style;
+	let _style = this.style;
 	if (_style && _style.Host){
 		delete _style.Host;
 	}
 	Object.keys(this).forEach((key) => {
 		delete this[key];
 	});
-	var _parent = _private.parent;
+	let _parent = _private.parent;
 	if (_parent){
 		if (_private && _private.mapped){
-			var map = _private.mapped[_parent.uid];
+			let map = _private.mapped[_parent.uid];
 			if (map && isArray(map)){
 				map.forEach((name) => {
 					delete _parent[name];
@@ -36,10 +36,10 @@ export default (function destructor() {
 			delete _parent.children[this.uid];
 		}
 	}
-	var _children = _private.children;
+	let _children = _private.children;
 	if (_children){
 		Object.keys(_children).forEach((key) => {
-			var child = _children[key];
+			let child = _children[key];
 			if (!child){return;}
 			if (isFunction(child.remove)){
 				child.remove();

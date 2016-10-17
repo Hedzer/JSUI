@@ -6,29 +6,29 @@ import removeAll from 'Framework/Utilities/Events/removeAll';
 
 export default function on(name, method) {
 	if (!isFunction(method)) { return; }
-	var events = this.private.events;
-	var pool = events[name];
-	var self = this;
+	let events = this.private.events;
+	let pool = events[name];
+	let self = this;
 	if (!pool){
 		events[name] = {};
 		pool = events[name];
 		function dispatcher() {
-			var args = arguments;
+			let args = arguments;
 			Object.keys(pool).forEach((id) => {
-				var method = pool[id];
+				let method = pool[id];
 				method.apply(this, args);
 			});
 		};
-		var element = this.element;
+		let element = this.element;
 		if (isElement(element)) {
 			element.addEventListener(name, dispatcher, false);
 		}
 	}
+	let eid = uid();
 	if (isFunction(method)){
-		var eid = uid();
 		pool[eid] = method;
 	}
-	var handle = {
+	let handle = {
 		id: eid,
 		pool: pool,
 		remove: remove,

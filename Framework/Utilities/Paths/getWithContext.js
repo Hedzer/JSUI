@@ -1,7 +1,7 @@
 import get from 'Framework/Utilities/Paths/get';
 
 export default function getWithContext(obj, path) {
-	var parts = path.substring(1).split('.');
+	let parts = path.substring(1).split('.');
 	if (!parts.length) { return; }
 	if (parts.length === 1) {
 		return {
@@ -9,8 +9,8 @@ export default function getWithContext(obj, path) {
 			property: parts[0]
 		};
 	}
-	var tail = parts.splice(parts.length - 1, 1);
-	var reference = get(obj, parts);
+	let tail = parts.splice(parts.length - 1, 1);
+	let reference = get(obj, parts);
 	if (reference) {
 		return {
 			context: reference,

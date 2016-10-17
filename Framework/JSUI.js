@@ -10,7 +10,7 @@ import Elements from 'Framework/Classes/Elements';
 import Data from 'Framework/JSUI/Data';
 import Settings from 'Framework/Constants/JSUI/settings';
 
-var JSUI = {
+let JSUI = {
 	Settings: Settings,
 	Behavior: Classes.Behavior,
 	Element: Classes.Element,

@@ -3,9 +3,9 @@ import isArray from 'Framework/TypeChecks/isArray';
 import getWithContext from 'Framework/Utilities/Paths/getWithContext';
 
 export default function _path(command, args) {
-	var path = getWithContext(this, command);
+	let path = getWithContext(this, command);
 	if (!path || !path.context || !path.property) { return; }
-	var method = path.context[path.property];
+	let method = path.context[path.property];
 	if (isFunction(method)) {
 		if (isArray(args)) {
 			return method.apply(path.context, args);

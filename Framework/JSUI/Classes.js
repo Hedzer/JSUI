@@ -17,7 +17,7 @@ import ElementClassAction from 'Framework/Classes/ElementClassAction';
 import Data from 'Framework/Classes/Data';
 import Identity from 'Framework/Classes/Identity';
 
-var Classes = {
+let Classes = {
 	Behavior: Behavior,
 	Collection: Collection,
 	Distinct: Distinct,

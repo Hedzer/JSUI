@@ -64,79 +64,79 @@ export default class Element extends Styleable {
 		// else {} also throw one here later
 	}
 	add(item) {
-		var type = getHandledType(item);
-		var action = Add[type];
+		let type = getHandledType(item);
+		let action = Add[type];
 		return (action || super.add || unhandled).call(this, item);
 	}
 	addTo(item) {
-		var type = getHandledType(item);
-		var action = AddTo[type];
+		let type = getHandledType(item);
+		let action = AddTo[type];
 		return (action || unhandled).call(this, item);
 	}
 	remove(item) {
-		var type = getHandledType(item);
-		var action = Remove[type];
+		let type = getHandledType(item);
+		let action = Remove[type];
 		return (action || unhandled).call(this, item);
 	}
 	on(event, method) {
-		var type = getHandledType(event);
-		var action = On[type];
+		let type = getHandledType(event);
+		let action = On[type];
 		return (action || unhandled).call(this, event, method);
 	}
 	trigger(event, args) {
-		var type = getHandledType(event);
-		var action = Trigger[type];
+		let type = getHandledType(event);
+		let action = Trigger[type];
 		super.trigger(event, args);
 		return (action || unhandled).call(this, event, args);
 	}
 	find(what) {
-		var type = getHandledType(what);
-		var action = Find[type];
+		let type = getHandledType(what);
+		let action = Find[type];
 		return (action || unhandled([])).call(this, what);
 	}
 	with(method) {
-		var type = getHandledType(method);
-		var action = With[type];
+		let type = getHandledType(method);
+		let action = With[type];
 		return (action || unhandled).call(this, method);
 	}
 	do(method, args) {
-		var type = getHandledType(method);
-		var action = Do[type];
+		let type = getHandledType(method);
+		let action = Do[type];
 		return (action || unhandled).call(this, method, args);
 	}
 	get(property) {
-		var type = getHandledType(property);
-		var action = Get[type];
+		let type = getHandledType(property);
+		let action = Get[type];
 		return (action || unhandled).call(this, property);
 	}
 	set(property, value) {
-		var type = getHandledType(property);
-		var action = Set[type];
+		let type = getHandledType(property);
+		let action = Set[type];
 		return (action || unhandled).call(this, property, value);
 	}
 	text(text) {
-		var type = getHandledType(text);
-		var action = Text[type];
+		let type = getHandledType(text);
+		let action = Text[type];
 		return (action || unhandled).call(this, text);
 	}
 	attribute(name, value) {
 		if (!isElement(this.element) || isEmptyString(name)) { return; }
-		var type = getHandledType(name);
-		var isSet = (arguments.length > 1);
-		var action = Attribute[(isSet ? 'Set' : 'Get')][type];
+		let type = getHandledType(name);
+		let isSet = (arguments.length > 1);
+		let action = Attribute[(isSet ? 'Set' : 'Get')][type];
 		return (action || unhandled).apply(this, [name, value]);
 	}
 	class(name) {
-		var type = getHandledType(name);
-		var action = Class[type];
+		let type = getHandledType(name);
+		let action = Class[type];
 		return (action || unhandled).call(this, name);
 	}
 	children(callback) {
-		var results = [];
+		let results = [];
 		if (isFunction(callback) && self.private && self.private.children){
-			var children = self.private.children;
+			let children = self.private.children;
 			Object.keys(children).forEach((id) => {
-				var child = children[id];
+				let child = children[id];
 				if (child){
 					results.push(callback(child, id));
 				}

@@ -15,7 +15,7 @@ export default class Relationship {
 		this.uid = uid();
 	}
 	bind(subject) {
-		var state = {};
+		let state = {};
 		return Binding.bind.call(this, state, subject);
 	}
 	release(subject) {

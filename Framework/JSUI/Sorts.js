@@ -1,6 +1,6 @@
 import rules from 'Framework/Sorts/StyleSheet/rules';
 
-var Sorts = {
+let Sorts = {
 	StyleSheet: {
 		rules: rules
 	}

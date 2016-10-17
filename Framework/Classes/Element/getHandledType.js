@@ -7,7 +7,7 @@ import isHTML from 'Framework/TypeChecks/isHTML';
 import isPath from 'Framework/TypeChecks/isPath';
 import isBehavior from 'Framework/TypeChecks/isBehavior';
 
-var Types = {
+let Types = {
 	object: {
 		null: isNull,
 		array: isArray,
@@ -23,12 +23,12 @@ var Types = {
 };
 
 export default (function getHandledType(u){
-	var type = typeof u;
-	var subtypes = Types[type];
+	let type = typeof u;
+	let subtypes = Types[type];
 	if (!subtypes) {
 		return type;
 	}
-	for (var name in subtypes) {
+	for (let name in subtypes) {
 		let subtype = subtypes[name];
 		if (subtype(u)) {
 			return name;

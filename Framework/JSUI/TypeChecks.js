@@ -19,7 +19,7 @@ import isUStyleSheetRule from 'Framework/TypeChecks/isUStyleSheetRule';
 import isData from 'Framework/TypeChecks/isData';
 import isUData from 'Framework/TypeChecks/isUData';
 
-var TypeChecks = {
+let TypeChecks = {
 	isArray: isArray,
 	isElement: isElement,
 	isEmptyString: isEmptyString,

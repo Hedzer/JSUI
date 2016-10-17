@@ -2,7 +2,7 @@ import { default as _object } from 'Framework/Classes/Element/Handlers/Set/_obje
 import { default as _string } from 'Framework/Classes/Element/Handlers/Set/_string';
 import { default as _path } from 'Framework/Classes/Element/Handlers/Set/_path';
 
-var Set = {
+let Set = {
 	object: _object,
 	string: _string,
 	path: _path

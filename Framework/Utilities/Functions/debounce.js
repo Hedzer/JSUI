@@ -2,7 +2,7 @@ import isFunction from 'Framework/TypeChecks/isFunction';
 
 export default function debounce(fn, time) {
 	if (isFunction(fn)) {
-		var dbcTimer;
+		let dbcTimer;
 		return function() {
 			clearTimeout(dbcTimer);
 			dbcTimer = setTimeout(fn, time);

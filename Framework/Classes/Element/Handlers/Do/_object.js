@@ -1,5 +1,5 @@
 export default function _object(macro) {
-	var results = {};
+	let results = {};
 	Object.keys(macro).forEach((command) => {
 		results[command] = this.do(command, macro[command]);
 	});

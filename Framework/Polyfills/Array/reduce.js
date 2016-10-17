@@ -1,6 +1,6 @@
 // Production steps of ECMA-262, Edition 5, 15.4.4.21
 // Reference: http://es5.github.io/#x15.4.4.21
-var hasReduce = !!Array.prototype.reduce;
+let hasReduce = !!Array.prototype.reduce;
 if (!Array.prototype.reduce) {
 	Array.prototype.reduce = function(callback /*, initialValue*/ ) {
 		'use strict';
@@ -10,7 +10,7 @@ if (!Array.prototype.reduce) {
 		if (typeof callback !== 'function') {
 			throw new TypeError(callback + ' is not a function');
 		}
-		var t = Object(this),
+		let t = Object(this),
 			len = t.length >>> 0,
 			k = 0,
 			value;
