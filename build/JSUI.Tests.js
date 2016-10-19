@@ -789,12 +789,9 @@ var Extensible = function () {
 		}
 	}, {
 		key: 'state',
-		value: function state(property, value, defaultValue) {
+		value: function state(property, value) {
 			var old = this.private.state[property];
 			if (arguments.length === 1) {
-				if (this.private.state.hasOwnProperty(property)) {
-					return defaultValue;
-				}
 				return old;
 			}
 
@@ -3672,6 +3669,21 @@ $define('$on', function $on(name, method) {
 	}
 });
 $define('$trigger', function $trigger(event, args) {
+	var _this2 = this;
+
+	if (isArray$1(event)) {
+		var _ret2 = function () {
+			var results = [];
+			event.forEach(function (e) {
+				results.push(_this2.$trigger(e, args));
+			});
+			return {
+				v: results
+			};
+		}();
+
+		if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
+	}
 	var hooks = this.$private.hooks;
 	var hook = hooks[event];
 	if (isFunction$1(hook)) {
@@ -4120,6 +4132,55 @@ describe("Framework/Utilities/Functions/debounce", function () {
 
         jasmine.clock().uninstall();
         done();
+    });
+});
+
+/*
+	Code Pulled/Modified From: http://stackoverflow.com/questions/19669849/is-there-a-javascript-library-to-slugify-strings-into-valid-css-class-names
+	Answer By: sqykly
+*/
+function cleanName$1(dirty) {
+    var cleaned = dirty.replace(/^[^-_a-zA-Z]+/, '_').replace(/^-(?:[-0-9]+)/, '_');
+    var result = cleaned && cleaned.replace(/[^-_a-zA-Z0-9]+/g, '_');
+    return result;
+}
+
+var _underscore = "_";
+
+function doesCleanNameSkipAnyDirtyCharacters() {
+    var totalUnicodeCharacterCount = 65580; // after this, unicode characters start repeating
+    var alphaCharacterStart = 65;
+    var alphaCharacterEnd = 122;
+    var numericCharacterStart = 48;
+    var numericCharacterEnd = 57;
+    var underscoreCharacter = 95;
+    var hyphenCharacter = 45;
+
+    for (var i = 1; i <= totalUnicodeCharacterCount; i++) {
+        var isDirtyCharacter = i != underscoreCharacter && i != hyphenCharacter && (i < alphaCharacterStart || i > alphaCharacterEnd) && (i < numericCharacterStart || i > numericCharacterEnd);
+
+        if (isDirtyCharacter && cleanName$1(String.fromCharCode(i)) != _underscore) {
+            return true;
+        }
+    }
+}
+
+describe("Framework/Utilities/Functions/cleanName", function () {
+    it("should return all clean characters", function () {
+        var cleanAlpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var cleanNumeric = "0123456789";
+        var cleanSymbols = "-_-";
+        var cleanString = cleanAlpha + cleanNumeric + cleanSymbols;
+        expect(cleanName$1(cleanString)).toBe(cleanString);
+    });
+
+    it("should return one underscore in place of multiple dirty characters", function () {
+        var dirtyString = "!@#$%^&*()=+[]{(╯°□°)╯︵ ┻━┻};:'/?>🐙 <,.|`~";
+        expect(cleanName$1(dirtyString)).toBe(_underscore);
+    });
+
+    it("should convert to underscore for every dirty character", function () {
+        expect(doesCleanNameSkipAnyDirtyCharacters()).toBeFalsy();
     });
 });
 
