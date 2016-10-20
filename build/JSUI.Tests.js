@@ -587,7 +587,7 @@ var defaults$1 = {
 };
 
 function isObject(u) {
-	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object';
+	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object' && u !== null;
 }
 
 function isString(u) {
@@ -3094,6 +3094,9 @@ describe("Framework/TypeChecks/isObject", function () {
 	});
 	it("should return false if argument is undefined", function () {
 		expect(isObject(undefined)).toBe(false);
+	});
+	it("should return false if argument is null", function () {
+		expect(isObject(null)).toBe(false);
 	});
 	it("should return false if argument is boolean = false", function () {
 		expect(isObject(false)).toBe(false);

@@ -42,6 +42,9 @@ export default describe("Framework/TypeChecks/isObject", function() {
 	it("should return false if argument is undefined", function() {
 		expect(isObject(undefined)).toBe(false);
 	});
+	it("should return false if argument is null", function() {
+		expect(isObject(null)).toBe(false);
+	});
 	it("should return false if argument is boolean = false", function() {
 		expect(isObject(false)).toBe(false);
 	});
