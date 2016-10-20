@@ -160,7 +160,20 @@ var createClass = function () {
 
 
 
+var defineProperty = function (obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
 
+  return obj;
+};
 
 var get$1 = function get$1(object, property, receiver) {
   if (object === null) object = Function.prototype;
@@ -2244,7 +2257,7 @@ function _string$6(command, args) {
 }
 
 function getter(obj, prop) {
-	if (!isObject(obj)) {
+	if (!obj || !isObject(obj)) {
 		return;
 	}
 	return obj[prop];
@@ -4184,6 +4197,114 @@ describe("Framework/Utilities/Functions/cleanName", function () {
     });
 });
 
+describe("Framework/Utilities/Paths/getter", function () {
+    var testProperty = "prop";
+    var testValue = "value";
+
+    it("should get prop from object", function () {
+        var testObject = defineProperty({}, testProperty, testValue);
+
+        expect(getter(testObject, testProperty)).toBe(testValue);
+    });
+
+    it("should return undefined for bool", function () {
+        var testBool = true;
+
+        expect(getter(testBool, testProperty)).toBe(undefined);
+    });
+
+    it("should return undefined for array", function () {
+        var testArray = [];
+
+        expect(getter(testArray, testProperty)).toBe(undefined);
+    });
+
+    it("should return undefined for number", function () {
+        var testNumber = 0;
+
+        expect(getter(testNumber, testProperty)).toBe(undefined);
+    });
+
+    it("should return undefined for string", function () {
+        var testString = "test";
+
+        expect(getter(testString, testProperty)).toBe(undefined);
+    });
+
+    it("should return undefined for null", function () {
+        var testNull = null;
+
+        expect(getter(testNull, testProperty)).toBe(undefined);
+    });
+
+    it("should return undefined for undefined", function () {
+        var testUndefined = undefined;
+
+        expect(getter(testUndefined, testProperty)).toBe(undefined);
+    });
+
+    it("should return undefined for NaN", function () {
+        var testNaN = NaN;
+
+        expect(getter(testNaN, testProperty)).toBe(undefined);
+    });
+
+    it("should return undefined for date", function () {
+        var testDate = new Date();
+
+        expect(getter(testDate, testProperty)).toBe(undefined);
+    });
+
+    it("should return undefined for symbol", function () {
+        var testSymbol = Symbol("test");
+
+        expect(getter(testSymbol, testProperty)).toBe(undefined);
+    });
+
+    it("should return undefined for prop not on object", function () {
+        var propertyNotInObject = "nonExistentProperty";
+        var testObject = defineProperty({}, testProperty, testValue);
+
+        expect(getter(testObject, propertyNotInObject)).toBe(undefined);
+    });
+
+    it("should return undefined for prop equal to null", function () {
+        var testObject = defineProperty({}, testProperty, testValue);
+
+        expect(getter(testObject, null)).toBe(undefined);
+    });
+
+    it("should return undefined for prop equal to bool", function () {
+        var testObject = defineProperty({}, testProperty, testValue);
+
+        expect(getter(testObject, true)).toBe(undefined);
+    });
+
+    it("should return undefined for prop equal to undefined", function () {
+        var testObject = defineProperty({}, testProperty, testValue);
+
+        expect(getter(testObject, undefined)).toBe(undefined);
+    });
+
+    it("should return undefined for prop equal to object", function () {
+        var testObject = defineProperty({}, testProperty, testValue);
+
+        expect(getter(testObject, {})).toBe(undefined);
+    });
+
+    it("should return undefined for prop equal to function", function () {
+        var testObject = defineProperty({}, testProperty, testValue);
+
+        expect(getter(testObject, Function.prototype)).toBe(undefined);
+    });
+
+    it("should return undefined for prop equal to symbol", function () {
+        var testObject = defineProperty({}, testProperty, testValue);
+
+        expect(getter(testObject, Symbol("test"))).toBe(undefined);
+    });
+});
+
 function capitalize$1(text) {
 	return text.charAt(0).toUpperCase() + text.slice(1);
 }
@@ -4208,7 +4329,6 @@ describe("Framework/Utilities/Strings/uncapitalize", function () {
 
 // //Paths
 // import get from 'Tests/Utilities/Paths/get';
-// import getter from 'Tests/Utilities/Paths/getter';
 // import set from 'Tests/Utilities/Paths/set';
 // import setter from 'Tests/Utilities/Paths/setter';
 // import getWithContext from 'Tests/Utilities/Paths/getWithContext';

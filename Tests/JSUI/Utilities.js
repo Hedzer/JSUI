@@ -21,7 +21,7 @@ import cleanName from 'Tests/Utilities/Functions/cleanName';
 
 // //Paths
 // import get from 'Tests/Utilities/Paths/get';
-// import getter from 'Tests/Utilities/Paths/getter';
+import getter from 'Tests/Utilities/Paths/getter';
 // import set from 'Tests/Utilities/Paths/set';
 // import setter from 'Tests/Utilities/Paths/setter';
 // import getWithContext from 'Tests/Utilities/Paths/getWithContext';
@@ -57,13 +57,13 @@ var Utilities = {
 	// General: {
 	// 	uid: uid
 	// },
-	// Paths: {
+	Paths: {
 	// 	get: get,
-	// 	getter: getter,
+	 	getter: getter,
 	// 	set: set,
 	// 	setter: setter,
 	// 	getWithContext: getWithContext
-	// },
+	},
 	// Properties: {
 	// 	add: add,
 	// 	doOrSet: doOrSet,
