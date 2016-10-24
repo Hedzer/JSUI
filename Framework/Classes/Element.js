@@ -94,10 +94,10 @@ export default class Element extends Styleable {
 		let action = Find[type];
 		return (action || unhandled([])).call(this, what);
 	}
-	with(method) {
+	with(method, args) {
 		let type = getHandledType(method);
 		let action = With[type];
-		return (action || unhandled).call(this, method);
+		return (action || unhandled).call(this, method, args);
 	}
 	do(method, args) {
 		let type = getHandledType(method);
@@ -131,14 +131,16 @@ export default class Element extends Styleable {
 		let action = Class[type];
 		return (action || unhandled).call(this, name);
 	}
-	children(callback) {
+	children(callback = () => { return true; }) {
 		let results = [];
-		if (isFunction(callback) && self.private && self.private.children){
-			let children = self.private.children;
+		if (this.private && this.private.children){
+			let children = this.private.children;
 			Object.keys(children).forEach((id) => {
 				let child = children[id];
 				if (child){
-					results.push(callback(child, id));
+					if(callback(child, id)) {
+						results.push(child);
+					}
 				}
 			});
 		}

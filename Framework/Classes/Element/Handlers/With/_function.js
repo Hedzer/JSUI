@@ -1,4 +1,4 @@
-export default function _function(method) {
-	method.call(this);
-	return this;	
+export default function _function(method, args) {
+	method.call(this, args);
+	return this;
 }

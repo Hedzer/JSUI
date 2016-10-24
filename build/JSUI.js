@@ -1906,18 +1906,18 @@ var Find = {
 	undefined: _undefined$1
 };
 
-function _array$6(collection) {
+function _array$6(collection, args) {
 	var _this = this;
 
 	var results = [];
 	collection.forEach(function (item) {
-		results.push(_this.with(item));
+		results.push(_this.with(item, args));
 	});
 	return results;
 }
 
-function _function$2(method) {
-	method.call(this);
+function _function$2(method, args) {
+	method.call(this, args);
 	return this;
 }
 
@@ -1956,7 +1956,7 @@ function _string$6(command, args) {
 }
 
 function getter(obj, prop) {
-	if (!isObject(obj)) {
+	if (!obj || !isObject(obj)) {
 		return;
 	}
 	return obj[prop];
@@ -2019,7 +2019,13 @@ function _array$8(collection) {
 
 	var results = [];
 	collection.forEach(function (item) {
-		results.push(_this.get(item));
+
+		var result = _this.get(item);
+		results.push(result);
+
+		if (isString(item)) {
+			results[item] = result;
+		}
 	});
 	return results;
 }
@@ -2041,7 +2047,17 @@ var Get = {
 	path: _path$5
 };
 
-function _object$3(assignments) {
+function _object$3(properties, value) {
+	var _this = this;
+
+	var results = {};
+	properties.forEach(function (command) {
+		results[command] = _this.set(command, value);
+	});
+	return results;
+}
+
+function _object$4(assignments) {
 	var _this = this;
 
 	var results = {};
@@ -2086,7 +2102,8 @@ function _path$6(path, value) {
 }
 
 var Set = {
-	object: _object$3,
+	array: _object$3,
+	object: _object$4,
 	string: _string$8,
 	path: _path$6
 };
@@ -2162,7 +2179,7 @@ function _get_array(collection) {
 	return results;
 }
 
-function _object$4(macro, value) {
+function _object$5(macro, value) {
 	var _this = this;
 
 	var result = isObject(value) ? value : {};
@@ -2173,7 +2190,7 @@ function _object$4(macro, value) {
 }
 
 function _get_object(macro) {
-	return _object$4.call(this, macro);
+	return _object$5.call(this, macro);
 }
 
 function isUndefined(u) {
@@ -2217,7 +2234,7 @@ var Attribute = {
 		string: _set_string,
 		path: _set_path,
 		array: _array$9,
-		object: _object$4
+		object: _object$5
 	}
 };
 
@@ -2231,7 +2248,7 @@ function _array$10(collection) {
 	return results;
 }
 
-function _object$5(classes) {
+function _object$6(classes) {
 	var className = '';
 	Object.keys(classes).forEach(function (name) {
 		if (classes[name]) {
@@ -2361,7 +2378,7 @@ function _undefined$3() {
 
 var Class = {
 	array: _array$10,
-	object: _object$5,
+	object: _object$6,
 	string: _string$10,
 	path: _path$8,
 	undefined: _undefined$3
@@ -2442,10 +2459,10 @@ var Element$1 = function (_Styleable) {
 		}
 	}, {
 		key: 'with',
-		value: function _with(method) {
+		value: function _with(method, args) {
 			var type = getHandledType$1(method);
 			var action = With[type];
-			return (action || unhandled).call(this, method);
+			return (action || unhandled).call(this, method, args);
 		}
 	}, {
 		key: 'do',
@@ -2495,15 +2512,21 @@ var Element$1 = function (_Styleable) {
 		}
 	}, {
 		key: 'children',
-		value: function children(callback) {
+		value: function children() {
+			var _this2 = this;
+
+			var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
+
 			var results = [];
-			if (isFunction$1(callback) && self.private && self.private.children) {
+			if (this.private && this.private.children) {
 				(function () {
-					var children = self.private.children;
+					var children = _this2.private.children;
 					Object.keys(children).forEach(function (id) {
 						var child = children[id];
 						if (child) {
-							results.push(callback(child, id));
+							if (!callback(child, id)) {
+								results.push(child);
+							}
 						}
 					});
 				})();
@@ -2630,6 +2653,21 @@ $define('$on', function $on(name, method) {
 	}
 });
 $define('$trigger', function $trigger(event, args) {
+	var _this2 = this;
+
+	if (isArray(event)) {
+		var _ret2 = function () {
+			var results = [];
+			event.forEach(function (e) {
+				results.push(_this2.$trigger(e, args));
+			});
+			return {
+				v: results
+			};
+		}();
+
+		if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
+	}
 	var hooks = this.$private.hooks;
 	var hook = hooks[event];
 	if (isFunction$1(hook)) {
@@ -3134,7 +3172,7 @@ function create$1(name, json, namespace) {
 	name = cleanName(name);
 	namespace = namespace || name;
 	var Subclasses = {};
-	var src = '\n\t\treturn (function(name, namespace, structure, Data, Subclasses, constructor, subconstructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this);\n\t\t\t\tsubconstructor.call(this, name, namespace, Subclasses);\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(Data.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\t' + name + '.prototype.toJSON = function toJSON() {\n\t\t\t\tlet self = this;\n\t\t\t\tlet copy = {};\n\t\t\t\tObject.keys(structure).forEach(function(key) {\n\t\t\t\t\tconsole.log(key)\n\t\t\t\t\tcopy[key] = self[key];\n\t\t\t\t});\n\t\t\t\tconsole.log(copy);\n\t\t\t\treturn copy;\n\t\t\t};\n\t\t\treturn ' + name + ';\n\t\t})\n\t';
+	var src = '\n\t\treturn (function(name, namespace, structure, Data, Subclasses, constructor, subconstructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this);\n\t\t\t\tsubconstructor.call(this, name, namespace, Subclasses);\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(Data.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\t' + name + '.prototype.toJSON = function toJSON() {\n\t\t\t\tlet self = this;\n\t\t\t\tlet copy = {};\n\t\t\t\tObject.keys(structure).forEach(function(key) {\n\t\t\t\t\tcopy[key] = self[key];\n\t\t\t\t});\n\t\t\t\treturn copy;\n\t\t\t};\n\t\t\treturn ' + name + ';\n\t\t})\n\t';
 	var DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor$4, subconstructor);
 	Object.keys(json).forEach(function (key) {
 		var value = json[key];
@@ -3171,8 +3209,7 @@ function create$1(name, json, namespace) {
 						}
 
 						if (trigger) {
-							trigger(key + 'Changed', data);
-							trigger('Changed', data);
+							trigger([key + 'Changed', 'Changed'], data);
 						}
 					}
 					return;
