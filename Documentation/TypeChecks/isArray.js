@@ -5,7 +5,7 @@ var isArray = {
 		self: '/Documentation/TypeChecks/isArray'
 	},
 	name: 'isArray',
-	argument: {
+	arguments: {
 		names: ['u'],
 		details: {
 			u: {

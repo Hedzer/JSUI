@@ -23,9 +23,6 @@ class ElementCollection extends Collection {
 	find() {
 		return this.doToEach('find', arguments);
 	}
-	with() {
-		return this.doToEach('with', arguments);
-	}
 	do() {
 		return this.doToEach('do', arguments);
 	}

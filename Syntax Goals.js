@@ -131,7 +131,7 @@ let isLazy = list.get('isLazyLoaded');
 let isSecondLazy = list.get('@SecondItem.isLazyLoaded');
 
 //getting multiple properties
-ley keys = ['isLazyLoaded', 'isInfinite'];
+let keys = ['isLazyLoaded', 'isInfinite'];
 let values = list.get(keys);
 
 for (var i = 0; i < 2; i++) {
@@ -182,7 +182,9 @@ let task = function() {
 	this.text('I am a list item');
 };
 
-list.with(task);
+list.do(task); //is equivalent to task.call(list);
+//list will now have the themed class, and 'I am a list item' as text.
+
 
 //executing methods with modified context and arguments
 let task = function(args) {
@@ -195,12 +197,12 @@ let task = function(args) {
 	}
 };
 
-list.with(task, {isThemed: true, tooltip: "Ceci n'est pas une tooltip."});
+list.do(task, {isThemed: true, tooltip: "Ceci n'est pas une tooltip."});
 
 
-//finding an element by query
-let listItems = list.find('li'); //returns elements
-let secondItem = list.find('#secondItem');
+//finding an element by using css selectors
+let listItems = list.find('li'); //returns li elements
+let secondItem = list.find('#secondItem'); //returns element with id = "secondItem"
 
 //finding elements that contain text matching a regex
 let results = list.find(/searchstring/);

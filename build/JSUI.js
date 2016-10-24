@@ -1906,27 +1906,7 @@ var Find = {
 	undefined: _undefined$1
 };
 
-function _array$6(collection, args) {
-	var _this = this;
-
-	var results = [];
-	collection.forEach(function (item) {
-		results.push(_this.with(item, args));
-	});
-	return results;
-}
-
-function _function$2(method, args) {
-	method.call(this, args);
-	return this;
-}
-
-var With = {
-	array: _array$6,
-	function: _function$2
-};
-
-function _array$7(collection) {
+function _array$6(collection) {
 	var _this = this;
 
 	var results = [];
@@ -2007,14 +1987,20 @@ function _path$4(command, args) {
 	}
 }
 
+function _function$2(method, args) {
+	method.call(this, args);
+	return this;
+}
+
 var Do = {
-	array: _array$7,
+	array: _array$6,
 	object: _object$2,
 	string: _string$6,
-	path: _path$4
+	path: _path$4,
+	function: _function$2
 };
 
-function _array$8(collection) {
+function _array$7(collection) {
 	var _this = this;
 
 	var results = [];
@@ -2042,7 +2028,7 @@ function _path$5(path) {
 }
 
 var Get = {
-	array: _array$8,
+	array: _array$7,
 	string: _string$7,
 	path: _path$5
 };
@@ -2210,7 +2196,7 @@ function _set_path() {
 	return _set_string.apply(this, arguments);
 }
 
-function _array$9(collection, value) {
+function _array$8(collection, value) {
 	var _this = this;
 
 	var results = [];
@@ -2233,12 +2219,12 @@ var Attribute = {
 	Set: {
 		string: _set_string,
 		path: _set_path,
-		array: _array$9,
+		array: _array$8,
 		object: _object$5
 	}
 };
 
-function _array$10(collection) {
+function _array$9(collection) {
 	var _this = this;
 
 	var results = [];
@@ -2377,7 +2363,7 @@ function _undefined$3() {
 }
 
 var Class = {
-	array: _array$10,
+	array: _array$9,
 	object: _object$6,
 	string: _string$10,
 	path: _path$8,
@@ -2458,13 +2444,6 @@ var Element$1 = function (_Styleable) {
 			return (action || unhandled([])).call(this, what);
 		}
 	}, {
-		key: 'with',
-		value: function _with(method, args) {
-			var type = getHandledType$1(method);
-			var action = With[type];
-			return (action || unhandled).call(this, method, args);
-		}
-	}, {
 		key: 'do',
 		value: function _do(method, args) {
 			var type = getHandledType$1(method);
@@ -2515,7 +2494,9 @@ var Element$1 = function (_Styleable) {
 		value: function children() {
 			var _this2 = this;
 
-			var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
+			var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {
+				return true;
+			};
 
 			var results = [];
 			if (this.private && this.private.children) {
@@ -2524,7 +2505,7 @@ var Element$1 = function (_Styleable) {
 					Object.keys(children).forEach(function (id) {
 						var child = children[id];
 						if (child) {
-							if (!callback(child, id)) {
+							if (callback(child, id)) {
 								results.push(child);
 							}
 						}
@@ -2802,11 +2783,6 @@ var ElementCollection = function (_Collection) {
 		key: 'find',
 		value: function find() {
 			return this.doToEach('find', arguments);
-		}
-	}, {
-		key: 'with',
-		value: function _with() {
-			return this.doToEach('with', arguments);
 		}
 	}, {
 		key: 'do',

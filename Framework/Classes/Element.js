@@ -17,7 +17,6 @@ import Remove from 'Framework/Classes/Element/Handlers/Remove';
 import On from 'Framework/Classes/Element/Handlers/On';
 import Trigger from 'Framework/Classes/Element/Handlers/Trigger';
 import Find from 'Framework/Classes/Element/Handlers/Find';
-import With from 'Framework/Classes/Element/Handlers/With';
 import Do from 'Framework/Classes/Element/Handlers/Do';
 import Get from 'Framework/Classes/Element/Handlers/Get';
 import Set from 'Framework/Classes/Element/Handlers/Set';
@@ -93,11 +92,6 @@ export default class Element extends Styleable {
 		let type = getHandledType(what);
 		let action = Find[type];
 		return (action || unhandled([])).call(this, what);
-	}
-	with(method, args) {
-		let type = getHandledType(method);
-		let action = With[type];
-		return (action || unhandled).call(this, method, args);
 	}
 	do(method, args) {
 		let type = getHandledType(method);
