@@ -12,8 +12,9 @@ import StyleRules from 'Framework/Classes/StyleRules';
 import StyleSheet from 'Framework/Classes/StyleSheet';
 import StyleSheetRule from 'Framework/Classes/StyleSheetRule';
 import StyleVariables from 'Framework/Classes/StyleVariables';
-import ElementAction from 'Framework/Classes/ElementAction';
-import ElementClassAction from 'Framework/Classes/ElementClassAction';
+import Receipt from 'Framework/Classes/Receipt';
+import ElementReceipt from 'Framework/Classes/ElementReceipt';
+import ElementClassReceipt from 'Framework/Classes/ElementClassReceipt';
 import Data from 'Framework/Classes/Data';
 import Identity from 'Framework/Classes/Identity';
 
@@ -21,8 +22,9 @@ let Classes = {
 	Behavior: Behavior,
 	Collection: Collection,
 	Distinct: Distinct,
-	ElementAction: ElementAction,
-	ElementClassAction: ElementClassAction,
+	Receipt: Receipt,
+	ElementReceipt: ElementReceipt,
+	ElementClassReceipt: ElementClassReceipt,
 	Element: Element,
 	ElementCollection: ElementCollection,
 	Extensible: Extensible,

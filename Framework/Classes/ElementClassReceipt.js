@@ -1,8 +1,8 @@
-import { default as ElementAction } from 'Framework/Classes/ElementAction';
+import { default as ElementReceipt } from 'Framework/Classes/ElementReceipt';
 import { default as isElement } from 'Framework/TypeChecks/isElement';
 import { default as getClasses } from 'Framework/Utilities/Elements/getClasses';
 
-export default class ElementClassAction extends ElementAction {
+export default class ElementClassReceipt extends ElementReceipt {
 	constructor(element, className) {
 		super(element);
 		this.element = element;

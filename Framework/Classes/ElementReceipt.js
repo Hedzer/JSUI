@@ -1,5 +1,8 @@
-export default class ElementAction {
+import { default as Receipt } from 'Framework/Classes/Receipt';
+
+export default class ElementReceipt extends Receipt {
 	constructor(element) {
+		super();
 		this.private = {
 			element: (element || false)
 		};

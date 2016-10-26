@@ -2245,17 +2245,26 @@ function _object$6(classes) {
 	return className;
 }
 
-var ElementAction = function () {
-	function ElementAction(element) {
-		classCallCheck(this, ElementAction);
+var Receipt = function Receipt() {
+  classCallCheck(this, Receipt);
+};
 
-		this.private = {
+var ElementReceipt = function (_Receipt) {
+	inherits(ElementReceipt, _Receipt);
+
+	function ElementReceipt(element) {
+		classCallCheck(this, ElementReceipt);
+
+		var _this = possibleConstructorReturn(this, (ElementReceipt.__proto__ || Object.getPrototypeOf(ElementReceipt)).call(this));
+
+		_this.private = {
 			element: element || false
 		};
+		return _this;
 	}
 
-	createClass(ElementAction, [{
-		key: "element",
+	createClass(ElementReceipt, [{
+		key: 'element',
 		get: function get() {
 			return this.private.element;
 		},
@@ -2263,8 +2272,8 @@ var ElementAction = function () {
 			this.private.element = element;
 		}
 	}]);
-	return ElementAction;
-}();
+	return ElementReceipt;
+}(Receipt);
 
 function getClasses(el) {
 	if (!isElement(el)) {
@@ -2282,20 +2291,20 @@ function getClasses(el) {
 	return classes;
 }
 
-var ElementClassAction = function (_ElementAction) {
-	inherits(ElementClassAction, _ElementAction);
+var ElementClassReceipt = function (_ElementReceipt) {
+	inherits(ElementClassReceipt, _ElementReceipt);
 
-	function ElementClassAction(element, className) {
-		classCallCheck(this, ElementClassAction);
+	function ElementClassReceipt(element, className) {
+		classCallCheck(this, ElementClassReceipt);
 
-		var _this = possibleConstructorReturn(this, (ElementClassAction.__proto__ || Object.getPrototypeOf(ElementClassAction)).call(this, element));
+		var _this = possibleConstructorReturn(this, (ElementClassReceipt.__proto__ || Object.getPrototypeOf(ElementClassReceipt)).call(this, element));
 
 		_this.element = element;
 		_this.private.classes = className.split(' ');
 		return _this;
 	}
 
-	createClass(ElementClassAction, [{
+	createClass(ElementClassReceipt, [{
 		key: 'add',
 		value: function add() {
 			var existing = getClasses(this.element) || {};
@@ -2344,14 +2353,14 @@ var ElementClassAction = function (_ElementAction) {
 			return true;
 		}
 	}]);
-	return ElementClassAction;
-}(ElementAction);
+	return ElementClassReceipt;
+}(ElementReceipt);
 
 function _string$10(name) {
 	if (isEmptyString(name)) {
 		return;
 	}
-	return new ElementClassAction(this.element, name);
+	return new ElementClassReceipt(this.element, name);
 }
 
 function _path$8() {
@@ -2940,8 +2949,9 @@ var Classes = {
 	Behavior: Behavior,
 	Collection: Collection,
 	Distinct: Distinct,
-	ElementAction: ElementAction,
-	ElementClassAction: ElementClassAction,
+	Receipt: Receipt,
+	ElementReceipt: ElementReceipt,
+	ElementClassReceipt: ElementClassReceipt,
 	Element: Element$1,
 	ElementCollection: ElementCollection,
 	Extensible: Extensible,
