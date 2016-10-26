@@ -18,6 +18,7 @@ import isUndefined from 'Framework/TypeChecks/isUndefined';
 import isUStyleSheetRule from 'Framework/TypeChecks/isUStyleSheetRule';
 import isData from 'Framework/TypeChecks/isData';
 import isUData from 'Framework/TypeChecks/isUData';
+import isBoolean from 'Framework/TypeChecks/isBoolean';
 
 let TypeChecks = {
 	isArray: isArray,
@@ -39,7 +40,8 @@ let TypeChecks = {
 	isUndefined: isUndefined,
 	isUStyleSheetRule: isUStyleSheetRule,
 	isData: isData,
-	isUData: isUData
+	isUData: isUData,
+	isBoolean: isBoolean
 };
 
 export default TypeChecks;

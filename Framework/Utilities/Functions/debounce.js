@@ -5,7 +5,7 @@ export default function debounce(fn, time) {
 		let dbcTimer;
 		return function() {
 			clearTimeout(dbcTimer);
-			dbcTimer = setTimeout(fn, time);
+			dbcTimer = setTimeout(() => {fn.apply(null, arguments)}, time);
 		};
 	}
 }

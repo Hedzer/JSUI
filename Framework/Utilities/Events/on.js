@@ -1,21 +1,20 @@
 import isFunction from 'Framework/TypeChecks/isFunction';
 import isElement from 'Framework/TypeChecks/isElement';
-import uid from 'Framework/Utilities/General/uid';
-import remove from 'Framework/Utilities/Events/remove';
-import removeAll from 'Framework/Utilities/Events/removeAll';
+import { default as OnEventBoundReceipt } from 'Framework/Classes/OnEventBoundReceipt';
+import { default as RobustFunction } from 'Framework/Classes/RobustFunction';
 
 export default function on(name, method) {
 	if (!isFunction(method)) { return; }
+	method = new RobustFunction(method);
 	let events = this.private.events;
 	let pool = events[name];
-	let self = this;
 	if (!pool){
 		events[name] = {};
 		pool = events[name];
 		function dispatcher() {
 			let args = arguments;
-			Object.keys(pool).forEach((id) => {
-				let method = pool[id];
+			Object.keys(pool).forEach((uid) => {
+				let method = pool[uid];
 				method.apply(this, args);
 			});
 		};
@@ -24,15 +23,8 @@ export default function on(name, method) {
 			element.addEventListener(name, dispatcher, false);
 		}
 	}
-	let eid = uid();
-	if (isFunction(method)){
-		pool[eid] = method;
-	}
-	let handle = {
-		id: eid,
-		pool: pool,
-		remove: remove,
-		removeAll: removeAll
-	};
-	return handle;
+	let receipt = new OnEventBoundReceipt(pool);
+	receipt.uid = method.uid;
+	pool[method.uid] = method;
+	return receipt;
 }

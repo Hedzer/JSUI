@@ -14,6 +14,7 @@ import on from 'Framework/Utilities/Events/on';
 
 //Functions
 import debounce from 'Framework/Utilities/Functions/debounce';
+import throttle from 'Framework/Utilities/Functions/throttle';
 
 //General
 import uid from 'Framework/Utilities/General/uid';
@@ -50,7 +51,8 @@ let Utilities = {
 		removeAll: removeAll
 	},
 	Functions: {
-		debounce: debounce
+		debounce: debounce,
+		throttle: throttle
 	},
 	General: {
 		uid: uid

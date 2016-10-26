@@ -286,7 +286,7 @@ var set$1 = function set$1(object, property, value, receiver) {
 };
 
 function isObject(u) {
-	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object';
+	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object' && u !== null;
 }
 
 function isString(u) {
@@ -429,7 +429,7 @@ function remove$1() {
 	delete this.pool[this.id];
 }
 
-function removeAll() {
+function removeAll$1() {
 	var _this = this;
 
 	Object.keys(this.pool).forEach(function (eid) {
@@ -554,7 +554,7 @@ var Extensible = function () {
 						id: eid,
 						pool: pool,
 						remove: remove$1,
-						removeAll: removeAll
+						removeAll: removeAll$1
 					};
 					return {
 						v: handle
@@ -1446,7 +1446,7 @@ function unhandled(args) {
   return args;
 }
 
-function addClass(el, name) {
+function addClass$1(el, name) {
 	if (!isString(name) || !isElement(el)) {
 		return;
 	}
@@ -1569,6 +1569,69 @@ function _element$1(element) {
 	}
 }
 
+var Receipt = function Receipt() {
+  classCallCheck(this, Receipt);
+};
+
+var ElementReceipt = function (_Receipt) {
+	inherits(ElementReceipt, _Receipt);
+
+	function ElementReceipt(element) {
+		classCallCheck(this, ElementReceipt);
+
+		var _this = possibleConstructorReturn(this, (ElementReceipt.__proto__ || Object.getPrototypeOf(ElementReceipt)).call(this));
+
+		_this.private = {
+			element: element || false
+		};
+		return _this;
+	}
+
+	createClass(ElementReceipt, [{
+		key: 'element',
+		get: function get() {
+			return this.private.element;
+		},
+		set: function set(element) {
+			this.private.element = element;
+		}
+	}]);
+	return ElementReceipt;
+}(Receipt);
+
+var ElementAddedReceipt = function (_ElementReceipt) {
+	inherits(ElementAddedReceipt, _ElementReceipt);
+
+	function ElementAddedReceipt(element, addition) {
+		classCallCheck(this, ElementAddedReceipt);
+
+		var _this = possibleConstructorReturn(this, (ElementAddedReceipt.__proto__ || Object.getPrototypeOf(ElementAddedReceipt)).call(this, element));
+
+		_this.private.addition = addition;
+		return _this;
+	}
+
+	createClass(ElementAddedReceipt, [{
+		key: 'as',
+		value: function as(name) {
+			var element = this.private.element;
+			var addition = this.private.addition;
+			var uid = uid;
+			if (name) {
+				element[name] = addition;
+				addition.private.mapped = addition.private.mapped || {};
+				var map = addition.private.mapped;
+				map[uid] = map[uid] || [];
+				map[uid].push(name);
+				addition.attribute('as', name);
+				addClass(addition.element, 'as-' + name);
+			}
+			return addition;
+		}
+	}]);
+	return ElementAddedReceipt;
+}(ElementReceipt);
+
 function _jsui(instance) {
 	if (this.element && instance.element) {
 		this.element.appendChild(instance.element);
@@ -1579,21 +1642,8 @@ function _jsui(instance) {
 		var Style = instance.Style;
 		Style.context = Style.context === 'default' ? this.Style.context : Style.context;
 	}
-	var options = {
-		as: function (name) {
-			if (name) {
-				this[name] = instance;
-				instance.private.mapped = instance.private.mapped || {};
-				var map = instance.private.mapped;
-				map[this.uid] = map[this.uid] || [];
-				map[this.uid].push(name);
-				instance.attribute('as', name);
-				addClass(instance.element, 'as-' + name);
-			}
-			return instance;
-		}.bind(this)
-	};
-	return options;
+	var receipt = new ElementAddedReceipt(this, instance);
+	return receipt;
 }
 
 function _array(collection) {
@@ -1732,20 +1782,215 @@ function _object(assignments) {
 	return results;
 }
 
+var OnEventBoundReceipt = function (_Receipt) {
+	inherits(OnEventBoundReceipt, _Receipt);
+
+	function OnEventBoundReceipt(pool) {
+		classCallCheck(this, OnEventBoundReceipt);
+
+		var _this = possibleConstructorReturn(this, (OnEventBoundReceipt.__proto__ || Object.getPrototypeOf(OnEventBoundReceipt)).call(this));
+
+		_this.private = {
+			pool: pool,
+			uid: uid()
+		};
+		return _this;
+	}
+
+	createClass(OnEventBoundReceipt, [{
+		key: 'remove',
+		value: function remove() {
+			return remove$1.call(this);
+		}
+	}, {
+		key: 'removeAll',
+		value: function removeAll() {
+			return removeAll$1.call(this);
+		}
+	}, {
+		key: 'debounce',
+		value: function debounce(time) {
+			var method = this.pool[this.uid];
+			method.debounce(time);
+			return this;
+		}
+	}, {
+		key: 'throttle',
+		value: function throttle(time) {
+			var method = this.pool[this.uid];
+			method.throttle(time);
+			return this;
+		}
+	}, {
+		key: 'once',
+		value: function once() {
+			return this;
+		}
+	}, {
+		key: 'uid',
+		get: function get() {
+			return this.private.uid;
+		},
+		set: function set(v) {
+			this.private.uid = v;
+		}
+	}, {
+		key: 'pool',
+		get: function get() {
+			return this.private.pool;
+		},
+		set: function set(v) {
+			this.private.pool = v;
+		}
+	}]);
+	return OnEventBoundReceipt;
+}(Receipt);
+
+function isUndefined(u) {
+	return typeof u === 'undefined';
+}
+
+function isBoolean(u) {
+	return typeof u === 'boolean';
+}
+
+function debounce$1(fn, time) {
+	if (isFunction$1(fn)) {
+		var _ret = function () {
+			var dbcTimer = void 0;
+			return {
+				v: function v() {
+					var _arguments = arguments;
+
+					clearTimeout(dbcTimer);
+					dbcTimer = setTimeout(function () {
+						fn.apply(null, _arguments);
+					}, time);
+				}
+			};
+		}();
+
+		if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	}
+}
+
+function throttle$1(fn, time) {
+	var nextCall = 0;
+	if (isFunction$1(fn)) {
+		return function () {
+			var now = new Date().getTime();
+			if (nextCall <= now) {
+				nextCall = now + time;
+				fn.apply(null, arguments);
+			}
+		};
+	}
+}
+
+var RobustFunction = function () {
+	function RobustFunction(original) {
+		classCallCheck(this, RobustFunction);
+
+		original = isFunction$1(original) ? original : function () {};
+		this.private = {
+			uid: uid(),
+			original: original,
+			debounce: false,
+			throttle: false,
+			modified: original,
+			context: undefined
+		};
+	}
+
+	createClass(RobustFunction, [{
+		key: 'execute',
+		value: function execute() {
+			return this.modified.apply(null, arguments);
+		}
+	}, {
+		key: 'call',
+		value: function call() {
+			Function.prototype.call.apply(this.modified, arguments);
+		}
+	}, {
+		key: 'apply',
+		value: function apply() {
+			Function.prototype.apply.apply(this.modified, arguments);
+		}
+	}, {
+		key: 'debounce',
+		value: function debounce$1(time) {
+			time = isNumber(time) ? time : false;
+			this.private.debounce = time;
+			this.modify();
+			return this;
+		}
+	}, {
+		key: 'throttle',
+		value: function throttle$1(time) {
+			time = isNumber(time) ? time : false;
+			this.private.throttle = time;
+			this.modify();
+			return this;
+		}
+	}, {
+		key: 'modify',
+		value: function modify() {
+			var modified = this.original;
+			var dbcTime = this.private.debounce;
+			var trlTime = this.private.throttle;
+			modified = isBoolean(dbcTime) ? modified : debounce$1(modified, dbcTime);
+			modified = isBoolean(trlTime) ? modified : throttle$1(modified, trlTime);
+			modified = isUndefined(this.context) ? modified : modified.bind(this.context);
+			this.private.modified = modified;
+			return modified;
+		}
+	}, {
+		key: 'uid',
+		get: function get() {
+			return this.private.uid;
+		}
+	}, {
+		key: 'original',
+		get: function get() {
+			return this.private.original;
+		},
+		set: function set(v) {
+			this.private.original = v;
+			this.modify();
+		}
+	}, {
+		key: 'modified',
+		get: function get() {
+			return this.private.modified;
+		}
+	}, {
+		key: 'context',
+		get: function get() {
+			return this.private.context;
+		},
+		set: function set(v) {
+			this.private.context = v;
+			this.modify();
+		}
+	}]);
+	return RobustFunction;
+}();
+
 function on$1(name, method) {
 	if (!isFunction$1(method)) {
 		return;
 	}
+	method = new RobustFunction(method);
 	var events = this.private.events;
 	var pool = events[name];
-	var self = this;
 	if (!pool) {
 		var dispatcher = function dispatcher() {
 			var _this = this;
 
 			var args = arguments;
-			Object.keys(pool).forEach(function (id) {
-				var method = pool[id];
+			Object.keys(pool).forEach(function (uid) {
+				var method = pool[uid];
 				method.apply(_this, args);
 			});
 		};
@@ -1758,17 +2003,10 @@ function on$1(name, method) {
 			element.addEventListener(name, dispatcher, false);
 		}
 	}
-	var eid = uid();
-	if (isFunction$1(method)) {
-		pool[eid] = method;
-	}
-	var handle = {
-		id: eid,
-		pool: pool,
-		remove: remove$1,
-		removeAll: removeAll
-	};
-	return handle;
+	var receipt = new OnEventBoundReceipt(pool);
+	receipt.uid = method.uid;
+	pool[method.uid] = method;
+	return receipt;
 }
 
 function _string$3(name, method) {
@@ -2179,10 +2417,6 @@ function _get_object(macro) {
 	return _object$5.call(this, macro);
 }
 
-function isUndefined(u) {
-	return typeof u === 'undefined';
-}
-
 function _set_string(name, value) {
 	if (isUndefined(value) || isNull(value)) {
 		this.element.removeAttribute(name);
@@ -2244,36 +2478,6 @@ function _object$6(classes) {
 	this.element.className = className;
 	return className;
 }
-
-var Receipt = function Receipt() {
-  classCallCheck(this, Receipt);
-};
-
-var ElementReceipt = function (_Receipt) {
-	inherits(ElementReceipt, _Receipt);
-
-	function ElementReceipt(element) {
-		classCallCheck(this, ElementReceipt);
-
-		var _this = possibleConstructorReturn(this, (ElementReceipt.__proto__ || Object.getPrototypeOf(ElementReceipt)).call(this));
-
-		_this.private = {
-			element: element || false
-		};
-		return _this;
-	}
-
-	createClass(ElementReceipt, [{
-		key: 'element',
-		get: function get() {
-			return this.private.element;
-		},
-		set: function set(element) {
-			this.private.element = element;
-		}
-	}]);
-	return ElementReceipt;
-}(Receipt);
 
 function getClasses(el) {
 	if (!isElement(el)) {
@@ -2536,11 +2740,11 @@ var Element$1 = function (_Styleable) {
 		set: function set(identity) {
 			set$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'identity', identity, this);
 			if (identity.namespace) {
-				addClass(this.element, identity.namespace);
+				addClass$1(this.element, identity.namespace);
 			}
 			// else {} throw error here later
 			if (identity.class) {
-				addClass(this.element, identity.class);
+				addClass$1(this.element, identity.class);
 			}
 			// else {} also throw one here later
 		}
@@ -2632,7 +2836,7 @@ $define('$on', function $on(name, method) {
 				id: eid,
 				pool: pool,
 				remove: remove$1,
-				removeAll: removeAll
+				removeAll: removeAll$1
 			};
 			return {
 				v: handle
@@ -2699,7 +2903,8 @@ var TypeChecks = {
 	isUndefined: isUndefined,
 	isUStyleSheetRule: isUStyleSheetRule,
 	isData: isData,
-	isUData: isUData
+	isUData: isUData,
+	isBoolean: isBoolean
 };
 
 function _string$11(command, args) {
@@ -3029,22 +3234,6 @@ function getTextNodes(el, stopAtFirst) {
 	return nodes;
 }
 
-function debounce(fn, time) {
-	if (isFunction$1(fn)) {
-		var _ret = function () {
-			var dbcTimer = void 0;
-			return {
-				v: function v() {
-					clearTimeout(dbcTimer);
-					dbcTimer = setTimeout(fn, time);
-				}
-			};
-		}();
-
-		if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-	}
-}
-
 function doOrSet(obj, prop, value) {
 	if (obj.hasOwnProperty(prop)) {
 		if (isFunction$1(obj[prop])) {
@@ -3080,7 +3269,7 @@ function getAll(obj) {
 //Strings
 var Utilities = {
 	Elements: {
-		addClass: addClass,
+		addClass: addClass$1,
 		getClasses: getClasses,
 		childNodes: childNodes,
 		getFirstNonTextChild: getFirstNonTextChild,
@@ -3091,10 +3280,11 @@ var Utilities = {
 	Events: {
 		on: on$1,
 		remove: remove$1,
-		removeAll: removeAll
+		removeAll: removeAll$1
 	},
 	Functions: {
-		debounce: debounce
+		debounce: debounce$1,
+		throttle: throttle$1
 	},
 	General: {
 		uid: uid
