@@ -1,4 +1,4 @@
-import addClass from 'Framework/Utilities/Elements/addClass';
+import { default as ElementAddedReceipt } from 'Framework/Classes/ElementAddedReceipt';
 
 export default function _jsui(instance){
 	if (this.element && instance.element){
@@ -10,19 +10,6 @@ export default function _jsui(instance){
 		let Style = instance.Style;
 		Style.context = (Style.context === 'default' ? this.Style.context : Style.context);
 	}
-	let options = {
-		as:(function(name){
-			if (name){
-				this[name] = instance;
-				instance.private.mapped = (instance.private.mapped || {});
-				let map = instance.private.mapped;
-				map[this.uid] = (map[this.uid] || []);
-				map[this.uid].push(name);
-				instance.attribute('as', name);
-				addClass(instance.element, `as-${name}`);
-			}
-			return instance;
-		}).bind(this)
-	};
-	return options;
+	let receipt = new ElementAddedReceipt(this, instance);
+	return receipt;
 }
