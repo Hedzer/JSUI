@@ -15,7 +15,9 @@ export default class RobustFunction {
 			debounce: false,
 			throttle: false,
 			modified: original,
-			context: undefined
+			context: undefined,
+			count: 0,
+			limit: Infinity
 		};
 	}
 	get uid() {
@@ -39,13 +41,19 @@ export default class RobustFunction {
 		this.modify();
 	}
 	execute() {
+		if (this.isAtLimit) { return; }
+		this.private.count++;
 		return this.modified.apply(null, arguments);
 	}
 	call() {
-		Function.prototype.call.apply(this.modified, arguments);
+		if (this.isAtLimit) { return; }
+		this.private.count++;
+		return Function.prototype.call.apply(this.modified, arguments);
 	}
 	apply() {
-		Function.prototype.apply.apply(this.modified, arguments);
+		if (this.isAtLimit) { return; }
+		this.private.count++;
+		return Function.prototype.apply.apply(this.modified, arguments);
 	}
 	debounce(time) {
 		time = (isNumber(time) ? time : false);
@@ -68,5 +76,21 @@ export default class RobustFunction {
 		modified = (isUndefined(this.context) ? modified : modified.bind(this.context));
 		this.private.modified = modified;
 		return modified;
+	}
+	get count() {
+		return this.private.count;
+	}
+	get limit() {
+		return this.private.limit;
+	}
+	set limit(v) {
+		v = (isNumber(v) ? v : Infinity);
+		this.private.limit = v;
+	}
+	get isAtLimit() {
+		return (this.private.count >= this.private.limit);
+	}
+	set isAtLimit(v) {
+		this.private.count = 0;
 	}
 }

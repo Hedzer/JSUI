@@ -47,6 +47,30 @@ list.on({
 	touchstart: function(ev) { /* do things */ }
 });
 
+//setting a debounced event
+list.on('scroll', function(ev) {
+	//do things
+}).debounce(150); //ms
+
+//setting a throttled event
+list.on('scroll', function(ev) {
+	//do things
+}).throttle(150); //ms
+
+//removing an event
+let receipt = list.on('click', (ev) => { /* do things */ });
+receipt.remove();
+
+//removing all events of a type (e.g. 'click')
+let receipt = list.on('click', (ev) => { /* do things */ });
+receipt.removeAll();
+
+//limit the number of times an event will trigger
+let receipt = list.on('click', (ev) => { /* do things */ }).limit(5);
+
+//limit the number of times an event will trigger to one
+let receipt = list.on('click', (ev) => { /* do things */ }).once();
+
 //triggering events
 list.trigger('click', {x: 10, y: 20});
 

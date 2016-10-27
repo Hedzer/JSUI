@@ -39,7 +39,12 @@ export default class OnEventBoundReceipt extends Receipt {
 		method.throttle(time);
 		return this;
 	}
-	once() {
+	limit(count) {
+		let method = this.pool[this.uid];
+		method.limit = count;
 		return this;
+	}
+	once() {
+		return this.limit(1);
 	}
 }

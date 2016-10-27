@@ -1822,9 +1822,16 @@ var OnEventBoundReceipt = function (_Receipt) {
 			return this;
 		}
 	}, {
+		key: 'limit',
+		value: function limit(count) {
+			var method = this.pool[this.uid];
+			method.limit = count;
+			return this;
+		}
+	}, {
 		key: 'once',
 		value: function once() {
-			return this;
+			return this.limit(1);
 		}
 	}, {
 		key: 'uid',
@@ -1898,24 +1905,38 @@ var RobustFunction = function () {
 			debounce: false,
 			throttle: false,
 			modified: original,
-			context: undefined
+			context: undefined,
+			count: 0,
+			limit: Infinity
 		};
 	}
 
 	createClass(RobustFunction, [{
 		key: 'execute',
 		value: function execute() {
+			if (this.isAtLimit) {
+				return;
+			}
+			this.private.count++;
 			return this.modified.apply(null, arguments);
 		}
 	}, {
 		key: 'call',
 		value: function call() {
-			Function.prototype.call.apply(this.modified, arguments);
+			if (this.isAtLimit) {
+				return;
+			}
+			this.private.count++;
+			return Function.prototype.call.apply(this.modified, arguments);
 		}
 	}, {
 		key: 'apply',
 		value: function apply() {
-			Function.prototype.apply.apply(this.modified, arguments);
+			if (this.isAtLimit) {
+				return;
+			}
+			this.private.count++;
+			return Function.prototype.apply.apply(this.modified, arguments);
 		}
 	}, {
 		key: 'debounce',
@@ -1972,6 +1993,28 @@ var RobustFunction = function () {
 		set: function set(v) {
 			this.private.context = v;
 			this.modify();
+		}
+	}, {
+		key: 'count',
+		get: function get() {
+			return this.private.count;
+		}
+	}, {
+		key: 'limit',
+		get: function get() {
+			return this.private.limit;
+		},
+		set: function set(v) {
+			v = isNumber(v) ? v : Infinity;
+			this.private.limit = v;
+		}
+	}, {
+		key: 'isAtLimit',
+		get: function get() {
+			return this.private.count >= this.private.limit;
+		},
+		set: function set(v) {
+			this.private.count = 0;
 		}
 	}]);
 	return RobustFunction;
