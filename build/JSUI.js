@@ -1446,7 +1446,7 @@ function unhandled(args) {
   return args;
 }
 
-function addClass$1(el, name) {
+function addClass(el, name) {
 	if (!isString(name) || !isElement(el)) {
 		return;
 	}
@@ -1505,7 +1505,7 @@ function constructor$3(tag) {
 	return this;
 }
 
-var _destructor = (function destructor() {
+function destructor$1() {
 	var _this = this;
 
 	var _element = this.element;
@@ -1514,25 +1514,19 @@ var _destructor = (function destructor() {
 		var parent = _element.parentNode;
 		if (isFunction$1(_element.remove)) {
 			_element.remove();
-			return;
-		}
-		if (parent && isFunction$1(parent.removeChild)) {
+		} else if (parent && isFunction$1(parent.removeChild)) {
 			parent.removeChild(_element);
-			return;
 		}
 	}
 	var _style = this.style;
 	if (_style && _style.Host) {
 		delete _style.Host;
 	}
-	Object.keys(this).forEach(function (key) {
-		delete _this[key];
-	});
 	var _parent = _private.parent;
 	if (_parent) {
 		if (_private && _private.mapped) {
 			var map = _private.mapped[_parent.uid];
-			if (map && isArray(map)) {
+			if (isArray(map)) {
 				map.forEach(function (name) {
 					delete _parent[name];
 				});
@@ -1555,13 +1549,18 @@ var _destructor = (function destructor() {
 			delete _children[key];
 		});
 	}
+
+	Object.keys(this).forEach(function (key) {
+		delete _this[key];
+	});
+
 	//ensure GC picks em' up
 	_element = null;
 	_private = null;
 	_parent = null;
 	_children = null;
 	return true;
-});
+}
 
 function _element$1(element) {
 	if (this.element) {
@@ -1616,7 +1615,7 @@ var ElementAddedReceipt = function (_ElementReceipt) {
 		value: function as(name) {
 			var element = this.private.element;
 			var addition = this.private.addition;
-			var uid = uid;
+			var uid = element.uid;
 			if (name) {
 				element[name] = addition;
 				addition.private.mapped = addition.private.mapped || {};
@@ -2773,7 +2772,7 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'destructor',
 		value: function destructor() {
-			_destructor.call(this);
+			destructor$1.call(this);
 		}
 	}, {
 		key: 'identity',
@@ -2783,11 +2782,11 @@ var Element$1 = function (_Styleable) {
 		set: function set(identity) {
 			set$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'identity', identity, this);
 			if (identity.namespace) {
-				addClass$1(this.element, identity.namespace);
+				addClass(this.element, identity.namespace);
 			}
 			// else {} throw error here later
 			if (identity.class) {
-				addClass$1(this.element, identity.class);
+				addClass(this.element, identity.class);
 			}
 			// else {} also throw one here later
 		}
@@ -3313,7 +3312,7 @@ function getAll(obj) {
 //Strings
 var Utilities = {
 	Elements: {
-		addClass: addClass$1,
+		addClass: addClass,
 		getClasses: getClasses,
 		childNodes: childNodes,
 		getFirstNonTextChild: getFirstNonTextChild,

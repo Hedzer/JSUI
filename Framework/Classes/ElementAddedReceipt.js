@@ -1,4 +1,5 @@
 import { default as ElementReceipt } from 'Framework/Classes/ElementReceipt';
+import addClass from 'Framework/Utilities/Elements/addClass';
 
 export default class ElementAddedReceipt extends ElementReceipt {
 	constructor(element, addition) {
@@ -8,7 +9,7 @@ export default class ElementAddedReceipt extends ElementReceipt {
 	as(name) {
 		let element = this.private.element;
 		let addition = this.private.addition;
-		let uid = uid;
+		let uid = element.uid;
 		if (name){
 			element[name] = addition;
 			addition.private.mapped = (addition.private.mapped || {});
