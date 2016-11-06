@@ -3211,7 +3211,8 @@ var Classes = {
 	StyleSheetRule: StyleSheetRule,
 	StyleVariables: StyleVariables,
 	Data: Data,
-	Identity: Identity
+	Identity: Identity,
+	Function: RobustFunction
 };
 
 var Constants = {

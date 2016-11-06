@@ -33,7 +33,7 @@ export default (function destructor() {
 			}
 		}
 		if (_parent.children){
-			delete _parent.children[this.uid];
+			delete _parent.children[this.uid]; 
 		}
 	}
 	let _children = _private.children;

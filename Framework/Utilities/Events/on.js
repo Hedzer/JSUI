@@ -1,11 +1,11 @@
 import isFunction from 'Framework/TypeChecks/isFunction';
 import isElement from 'Framework/TypeChecks/isElement';
 import { default as OnEventBoundReceipt } from 'Framework/Classes/OnEventBoundReceipt';
-import { default as RobustFunction } from 'Framework/Classes/RobustFunction';
+import { default as JSUIFunction } from 'Framework/Classes/JSUIFunction';
 
 export default function on(name, method) {
 	if (!isFunction(method)) { return; }
-	method = new RobustFunction(method);
+	method = new JSUIFunction(method);
 	let events = this.private.events;
 	let pool = events[name];
 	if (!pool){

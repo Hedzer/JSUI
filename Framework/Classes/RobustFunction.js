@@ -6,7 +6,7 @@ import uid from 'Framework/Utilities/General/uid';
 import debounce from 'Framework/Utilities/Functions/debounce';
 import throttle from 'Framework/Utilities/Functions/throttle';
 
-export default class RobustFunction {
+export default class JSUIFunction {
 	constructor(original) {
 		original = (isFunction(original) ? original : () => {});
 		this.private = {

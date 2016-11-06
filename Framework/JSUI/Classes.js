@@ -17,6 +17,7 @@ import ElementReceipt from 'Framework/Classes/ElementReceipt';
 import ElementClassReceipt from 'Framework/Classes/ElementClassReceipt';
 import Data from 'Framework/Classes/Data';
 import Identity from 'Framework/Classes/Identity';
+import JSUIFunction from 'Framework/Classes/JSUIFunction';
 
 let Classes = {
 	Behavior: Behavior,
@@ -36,7 +37,8 @@ let Classes = {
 	StyleSheetRule: StyleSheetRule,
 	StyleVariables: StyleVariables,
 	Data: Data,
-	Identity: Identity
+	Identity: Identity,
+	Function: JSUIFunction,
 };
 
 export default Classes;
