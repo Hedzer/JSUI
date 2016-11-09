@@ -448,7 +448,7 @@ function uid() {
 	return prefix + current++;
 }
 
-function constructor() {
+function constructor$1() {
 	this.private = {
 		state: {},
 		events: {},
@@ -456,11 +456,23 @@ function constructor() {
 	};
 }
 
+var hasSymbol = typeof Symbol == 'function';
+
+function symbolOrString(name) {
+	var id = uid();
+	return !hasSymbol ? Symbol(name) : 'Symbol(' + name + ')@' + id;
+}
+
+var symbol = symbolOrString('Extensible.on');
+
+var symbol$1 = symbolOrString('Extensible.trigger');
+
+//symbols
 var Extensible = function () {
 	function Extensible() {
 		classCallCheck(this, Extensible);
 
-		constructor.call(this);
+		constructor$1.call(this);
 	}
 
 	createClass(Extensible, [{
@@ -516,14 +528,14 @@ var Extensible = function () {
 					old: old,
 					new: value
 				};
-				this.trigger([property + 'Changed', 'Changed'], data);
+				this[symbol$1]([property + 'Changed', 'Changed'], data);
 			}
 
 			return hasChanged;
 		}
 	}, {
-		key: 'on',
-		value: function on(name, method) {
+		key: symbol,
+		value: function value(name, method) {
 			var _this3 = this;
 
 			if (isString(name) && isFunction$1(method)) {
@@ -565,15 +577,20 @@ var Extensible = function () {
 			}
 		}
 	}, {
-		key: 'trigger',
-		value: function trigger(event, args) {
+		key: 'on',
+		value: function on() {
+			return this[symbol].apply(this, arguments);
+		}
+	}, {
+		key: symbol$1,
+		value: function value(event, args) {
 			var _this4 = this;
 
 			if (isArray(event)) {
 				var _ret2 = function () {
 					var results = [];
 					event.forEach(function (e) {
-						results.push(_this4.trigger(e, args));
+						results.push(_this4[symbol$1](e, args));
 					});
 					return {
 						v: results
@@ -590,6 +607,11 @@ var Extensible = function () {
 			}
 		}
 	}, {
+		key: 'trigger',
+		value: function trigger() {
+			return this[symbol$1].apply(this, arguments);
+		}
+	}, {
 		key: 'destructor',
 		value: function destructor() {
 			for (var key in this) {
@@ -600,7 +622,7 @@ var Extensible = function () {
 	return Extensible;
 }();
 
-function constructor$1() {
+function constructor$2() {
 	this.private.uid = uid();
 	this.private.Is = {};
 }
@@ -618,7 +640,7 @@ var Distinct = function (_Extensible) {
 
 		var _this = possibleConstructorReturn(this, (Distinct.__proto__ || Object.getPrototypeOf(Distinct)).call(this));
 
-		constructor$1.call(_this);
+		constructor$2.call(_this);
 
 		//basics
 		_this.identity = identity$5;
@@ -1255,7 +1277,7 @@ var StyleableHost = function (_Distinct) {
 	return StyleableHost;
 }(Distinct);
 
-function constructor$2() {
+function constructor$3() {
 	this.private.context = 'default';
 	this.private.style = {
 		rules: {}
@@ -1275,7 +1297,7 @@ var Styleable = function (_Distinct) {
 
 		var _this = possibleConstructorReturn(this, (Styleable.__proto__ || Object.getPrototypeOf(Styleable)).call(this));
 
-		constructor$2.call(_this);
+		constructor$3.call(_this);
 		_this.identity = identity$2;
 		return _this;
 	}
@@ -1485,7 +1507,7 @@ var Constructor = {
 	string: _string$1
 };
 
-function constructor$3(tag) {
+function constructor$4(tag) {
 	//select the proper constructor action
 	var type = getHandledType$1(tag);
 	var action = Constructor[type];
@@ -2625,9 +2647,14 @@ var Class = {
 	undefined: _undefined$3
 };
 
+var symbol$2 = symbolOrString('on');
+
+var symbol$3 = symbolOrString('trigger');
+
 //constructor & destructor
 //handlers
 //classes
+//symbols
 var identity = new Identity({
 	class: 'Element',
 	major: 1, minor: 0, patch: 0
@@ -2641,7 +2668,7 @@ var Element$1 = function (_Styleable) {
 
 		var _this = possibleConstructorReturn(this, (Element.__proto__ || Object.getPrototypeOf(Element)).call(this, tag));
 
-		constructor$3.call(_this, tag);
+		constructor$4.call(_this, tag);
 		_this.identity = identity;
 		_this.on('Style.contextChanged', function () {
 			//if not default, change the context of the child elements
@@ -2677,19 +2704,29 @@ var Element$1 = function (_Styleable) {
 			return (action || unhandled).call(this, item);
 		}
 	}, {
-		key: 'on',
-		value: function on(event, method) {
+		key: symbol$2,
+		value: function value(event, method) {
 			var type = getHandledType$1(event);
 			var action = On[type];
 			return (action || unhandled).call(this, event, method);
 		}
 	}, {
-		key: 'trigger',
-		value: function trigger(event, args) {
+		key: 'on',
+		value: function on() {
+			return this[symbol$2].apply(this, arguments);
+		}
+	}, {
+		key: symbol$3,
+		value: function value(event, args) {
 			var type = getHandledType$1(event);
 			var action = Trigger[type];
 			get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'trigger', this).call(this, event, args);
 			return (action || unhandled).call(this, event, args);
+		}
+	}, {
+		key: 'trigger',
+		value: function trigger() {
+			return this[symbol$3].apply(this, arguments);
 		}
 	}, {
 		key: 'find',
@@ -2813,109 +2850,47 @@ function isTextNode(u) {
 	return !!(u && u.nodeName === "#text");
 }
 
-function constructor$4() {
-	Object.defineProperty(this, '$private', {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: {
-			events: {},
-			hooks: {},
-			state: {}
+var symbol$4 = symbolOrString('private');
+
+var Data = function () {
+	function Data(values) {
+		classCallCheck(this, Data);
+
+		constructor.call(this, values);
+	}
+
+	createClass(Data, [{
+		key: symbol$2,
+		value: function value(event, method) {
+			var type = getHandledType$1(event);
+			var action = On[type];
+			return (action || unhandled).call(this, event, method);
 		}
-	});
-	Object.defineProperty(this, '$uid', {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: uid()
-	});
-}
-
-var Data = function Data() {
-	classCallCheck(this, Data);
-
-	constructor$4.call(this);
-};
-
-function $define(name, value) {
-	Object.defineProperty(Data.prototype, name, {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: value
-	});
-}
-
-$define('$on', function $on(name, method) {
-	var _this = this;
-
-	if (isString(name) && isFunction$1(method)) {
-		var _ret = function () {
-			var events = _this.$private.events;
-			var hooks = _this.$private.hooks;
-			var pool = events[name];
-			var self = _this;
-			if (!pool) {
-				var hook = function hook() {
-					var args = arguments;
-					Object.keys(pool).forEach(function (id) {
-						var method = pool[id];
-						method.apply(self, args);
-					});
-				};
-
-				events[name] = {};
-				pool = events[name];
-				
-				hooks[name] = hook;
-			}
-			if (isFunction$1(method)) {
-				var _eid = uid();
-				pool[_eid] = method;
-			}
-			var handle = {
-				id: eid,
-				pool: pool,
-				remove: remove$1,
-				removeAll: removeAll$1
-			};
-			return {
-				v: handle
-			};
-		}();
-
-		if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-	}
-});
-$define('$trigger', function $trigger(event, args) {
-	var _this2 = this;
-
-	if (isArray(event)) {
-		var _ret2 = function () {
-			var results = [];
-			event.forEach(function (e) {
-				results.push(_this2.$trigger(e, args));
-			});
-			return {
-				v: results
-			};
-		}();
-
-		if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
-	}
-	var hooks = this.$private.hooks;
-	var hook = hooks[event];
-	if (isFunction$1(hook)) {
-		hook(args);
-	}
-});
-$define('$destructor', function $destructor() {
-	for (var key in this) {
-		delete this[key];
-	}
-});
-$define('$bind', function $bind(event) {});
+	}, {
+		key: 'on',
+		value: function on() {
+			return this[symbol$2].apply(this, arguments);
+		}
+	}, {
+		key: symbol$3,
+		value: function value(event, args) {
+			var type = getHandledType$1(event);
+			var action = Trigger[type];
+			return (action || unhandled).call(this, event, args);
+		}
+	}, {
+		key: 'trigger',
+		value: function trigger() {
+			return this[symbol$3].apply(this, arguments);
+		}
+	}, {
+		key: 'toJSON',
+		value: function toJSON() {
+			return this[symbol$4].state;
+		}
+	}]);
+	return Data;
+}();
 
 function isData(u) {
 	return u instanceof Data;
@@ -3085,10 +3060,10 @@ var ElementCollection = function (_Collection) {
 }(Collection);
 
 function constructor$5() {
-	constructor.apply(this, arguments);
 	constructor$1.apply(this, arguments);
 	constructor$2.apply(this, arguments);
 	constructor$3.apply(this, arguments);
+	constructor$4.apply(this, arguments);
 }
 
 /*
@@ -3356,6 +3331,26 @@ var Sorts = {
 	}
 };
 
+var symbol$5 = symbolOrString('uid');
+
+function addHiddenValue(obj, prop, value) {
+	Object.defineProperty(obj, prop, {
+		configurable: true,
+		enumerable: false,
+		writable: true,
+		value: value
+	});
+}
+
+function constructor$6(values) {
+	addHiddenValue(this, symbol$4, {
+		events: {},
+		hooks: {},
+		state: values
+	});
+	addHiddenValue(this, symbol$5, uid());
+}
+
 function subconstructor(name, namespace, Subclasses) {
 	var self = this;
 	Object.defineProperty(this, '$name', {
@@ -3392,7 +3387,7 @@ function create$1(name, json, namespace) {
 	namespace = namespace || name;
 	var Subclasses = {};
 	var src = '\n\t\treturn (function(name, namespace, structure, Data, Subclasses, constructor, subconstructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this);\n\t\t\t\tsubconstructor.call(this, name, namespace, Subclasses);\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(Data.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\t' + name + '.prototype.toJSON = function toJSON() {\n\t\t\t\tlet self = this;\n\t\t\t\tlet copy = {};\n\t\t\t\tObject.keys(structure).forEach(function(key) {\n\t\t\t\t\tcopy[key] = self[key];\n\t\t\t\t});\n\t\t\t\treturn copy;\n\t\t\t};\n\t\t\treturn ' + name + ';\n\t\t})\n\t';
-	var DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor$4, subconstructor);
+	var DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor$6, subconstructor);
 	Object.keys(json).forEach(function (key) {
 		var value = json[key];
 		if (isObject(value)) {
@@ -3617,7 +3612,7 @@ function _class$1(node, classes, container) {
 		textNodes.push('\t' + name + '.nodeValue = texts.' + name + ';');
 	});
 	var built = '\n return (function compile(element, constructor, classes, texts, inherits) {\n' + header.join('\n') + ('\n\tfunction ' + name + '() { \n') + '\tconstructor = (inherits === element ? constructor : inherits.constructor);\n' + ('\tconstructor.call(this, \'' + asTag + '\'); \n') + ('\tthis.type = \'' + name + '\'; \n\n') + '\t// Generated \n' + instruction.code + '\n\n' + '\t// Assign Text Values \n' + textNodes.join('\n') + '\n}\n' + ('\n\t' + name + '.prototype = Object.create(inherits.prototype);\n') + ('\n\t' + name + '.constructor = ' + name + ';\n') + ('\t return ' + name + ';\n') + '});';
-	var compiled = feval.call(window, built)(Element$1, constructor$3, instruction.state.aliases, texts, parent);
+	var compiled = feval.call(window, built)(Element$1, constructor$4, instruction.state.aliases, texts, parent);
 	return compiled;
 }
 

@@ -28,6 +28,10 @@ import Class from 'Framework/Classes/Element/Handlers/Class';
 import Identity from 'Framework/Classes/Identity';
 import Styleable from 'Framework/Classes/Styleable';
 
+//symbols
+import on from 'Framework/Constants/Symbols/on';
+import trigger from 'Framework/Constants/Symbols/trigger';
+
 const identity = new Identity({
 	class: 'Element',
 	major: 1, minor: 0, patch: 0
@@ -77,16 +81,22 @@ export default class Element extends Styleable {
 		let action = Remove[type];
 		return (action || unhandled).call(this, item);
 	}
-	on(event, method) {
+	[on](event, method) {
 		let type = getHandledType(event);
 		let action = On[type];
 		return (action || unhandled).call(this, event, method);
 	}
-	trigger(event, args) {
+	on() {
+		return this[on].apply(this, arguments);
+	}
+	[trigger](event, args) {
 		let type = getHandledType(event);
 		let action = Trigger[type];
 		super.trigger(event, args);
 		return (action || unhandled).call(this, event, args);
+	}
+	trigger() {
+		return this[trigger].apply(this, arguments);
 	}
 	find(what) {
 		let type = getHandledType(what);

@@ -1,5 +1,7 @@
+import uid from 'Framework/Utilities/General/uid';
 let hasSymbol = (typeof Symbol == 'function');
 
 export default function symbolOrString(name) {
-	return (hasSymbol ? Symbol('private') : 'Symbol(private)');
+	let id = uid();
+	return (hasSymbol ? Symbol(name) : `Symbol(${name})@${id}`);
 }

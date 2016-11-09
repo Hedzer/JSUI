@@ -8,6 +8,10 @@ import { default as removeAllEvents } from 'Framework/Utilities/Events/removeAll
 import uid from 'Framework/Utilities/General/uid';
 import constructor from 'Framework/Classes/Extensible/constructor';
 
+//symbols
+import on from 'Framework/Constants/Symbols/Extensible/on';
+import trigger from 'Framework/Constants/Symbols/Extensible/trigger';
+
 export default class Extensible {
 	constructor() {
 		constructor.call(this);
@@ -55,12 +59,12 @@ export default class Extensible {
 				old: old,
 				new: value
 			};
-			this.trigger([`${property}Changed`, 'Changed'], data);
+			this[trigger]([`${property}Changed`, 'Changed'], data);
 		}
 
 		return hasChanged;	
 	}
-	on(name, method) {
+	[on](name, method) {
 		if (isString(name) && isFunction(method)) {
 			let events = this.private.events;
 			let hooks = this.private.hooks;
@@ -91,12 +95,15 @@ export default class Extensible {
 			return handle;
 		}
 	}
-	trigger(event, args) {
+	on() {
+		return this[on].apply(this, arguments);
+	}
+	[trigger](event, args) {
 
 		if (isArray(event)) {
 			let results = [];
 			event.forEach((e) => {
-				results.push(this.trigger(e, args));
+				results.push(this[trigger](e, args));
 			});
 			return results;
 		}
@@ -106,6 +113,9 @@ export default class Extensible {
 		if (isFunction(hook)) {
 			hook(args);
 		}
+	}
+	trigger() {
+		return this[trigger].apply(this, arguments);
 	}
 	destructor() {
 		for (let key in this) {
