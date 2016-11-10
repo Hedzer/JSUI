@@ -7,6 +7,7 @@ import trigger from 'Framework/Constants/Symbols/trigger';
 
 import On from 'Framework/Classes/Element/Handlers/On';
 import Trigger from 'Framework/Classes/Element/Handlers/Trigger';
+import constructor from 'Framework/Classes/Data/constructor';
 
 class Data {
 	constructor(values) {
@@ -17,16 +18,10 @@ class Data {
 		let action = On[type];
 		return (action || unhandled).call(this, event, method);
 	}
-	on() {
-		return this[on].apply(this, arguments);
-	}
 	[trigger](event, args) {
 		let type = getHandledType(event);
 		let action = Trigger[type];
 		return (action || unhandled).call(this, event, args);
-	}
-	trigger() {
-		return this[trigger].apply(this, arguments);
 	}
 	toJSON() {
 		return this[$private].state;

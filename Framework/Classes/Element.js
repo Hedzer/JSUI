@@ -52,6 +52,17 @@ export default class Element extends Styleable {
 			});			
 		});
 	}
+	[on](event, method) {
+		let type = getHandledType(event);
+		let action = On[type];
+		return (action || unhandled).call(this, event, method);
+	}
+	[trigger](event, args) {
+		let type = getHandledType(event);
+		let action = Trigger[type];
+		super.trigger(event, args);
+		return (action || unhandled).call(this, event, args);
+	}
 	get identity() {
 		return super.identity;
 	}
@@ -81,19 +92,8 @@ export default class Element extends Styleable {
 		let action = Remove[type];
 		return (action || unhandled).call(this, item);
 	}
-	[on](event, method) {
-		let type = getHandledType(event);
-		let action = On[type];
-		return (action || unhandled).call(this, event, method);
-	}
 	on() {
 		return this[on].apply(this, arguments);
-	}
-	[trigger](event, args) {
-		let type = getHandledType(event);
-		let action = Trigger[type];
-		super.trigger(event, args);
-		return (action || unhandled).call(this, event, args);
 	}
 	trigger() {
 		return this[trigger].apply(this, arguments);

@@ -11,40 +11,13 @@ import constructor from 'Framework/Classes/Extensible/constructor';
 //symbols
 import on from 'Framework/Constants/Symbols/Extensible/on';
 import trigger from 'Framework/Constants/Symbols/Extensible/trigger';
+import state from 'Framework/Constants/Symbols/state';
 
 export default class Extensible {
 	constructor() {
 		constructor.call(this);
 	}
-	add(item, value) {
-		if (isString(item)) {
-			addProperty(this, item);
-			return;
-		}
-		if (isArray(item)) {
-			item.forEach((key) => {
-				this.add(key, value);
-			});
-			return;
-		}
-		if (isObject(item)) {
-			Object.keys(item).forEach((key) => {
-				this.add(key, item[key]);
-			});
-		}
-	}
-	remove(item) {
-		if (isString(item)) {
-			delete this[item];
-			return;
-		}
-		if (isArray(item)) {
-			item.forEach((value) => {
-				this.remove(value);
-			});
-		}
-	}
-	state(property, value) {
+	[state](property, value) {
 		let old = this.private.state[property];
 		if (arguments.length === 1) {
 			return old;
@@ -95,9 +68,6 @@ export default class Extensible {
 			return handle;
 		}
 	}
-	on() {
-		return this[on].apply(this, arguments);
-	}
 	[trigger](event, args) {
 
 		if (isArray(event)) {
@@ -113,6 +83,40 @@ export default class Extensible {
 		if (isFunction(hook)) {
 			hook(args);
 		}
+	}
+	add(item, value) {
+		if (isString(item)) {
+			addProperty(this, item);
+			return;
+		}
+		if (isArray(item)) {
+			item.forEach((key) => {
+				this.add(key, value);
+			});
+			return;
+		}
+		if (isObject(item)) {
+			Object.keys(item).forEach((key) => {
+				this.add(key, item[key]);
+			});
+		}
+	}
+	remove(item) {
+		if (isString(item)) {
+			delete this[item];
+			return;
+		}
+		if (isArray(item)) {
+			item.forEach((value) => {
+				this.remove(value);
+			});
+		}
+	}
+	state() {
+		return this[state].apply(this, arguments);
+	}
+	on() {
+		return this[on].apply(this, arguments);
 	}
 	trigger() {
 		return this[trigger].apply(this, arguments);

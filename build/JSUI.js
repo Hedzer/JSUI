@@ -448,7 +448,7 @@ function uid() {
 	return prefix + current++;
 }
 
-function constructor$1() {
+function constructor() {
 	this.private = {
 		state: {},
 		events: {},
@@ -460,7 +460,7 @@ var hasSymbol = typeof Symbol == 'function';
 
 function symbolOrString(name) {
 	var id = uid();
-	return !hasSymbol ? Symbol(name) : 'Symbol(' + name + ')@' + id;
+	return hasSymbol ? Symbol(name) : 'Symbol(' + name + ')@' + id;
 }
 
 var symbol = symbolOrString('Extensible.on');
@@ -472,7 +472,7 @@ var Extensible = function () {
 	function Extensible() {
 		classCallCheck(this, Extensible);
 
-		constructor$1.call(this);
+		constructor.call(this);
 	}
 
 	createClass(Extensible, [{
@@ -622,7 +622,7 @@ var Extensible = function () {
 	return Extensible;
 }();
 
-function constructor$2() {
+function constructor$1() {
 	this.private.uid = uid();
 	this.private.Is = {};
 }
@@ -640,7 +640,7 @@ var Distinct = function (_Extensible) {
 
 		var _this = possibleConstructorReturn(this, (Distinct.__proto__ || Object.getPrototypeOf(Distinct)).call(this));
 
-		constructor$2.call(_this);
+		constructor$1.call(_this);
 
 		//basics
 		_this.identity = identity$5;
@@ -1277,7 +1277,7 @@ var StyleableHost = function (_Distinct) {
 	return StyleableHost;
 }(Distinct);
 
-function constructor$3() {
+function constructor$2() {
 	this.private.context = 'default';
 	this.private.style = {
 		rules: {}
@@ -1297,7 +1297,7 @@ var Styleable = function (_Distinct) {
 
 		var _this = possibleConstructorReturn(this, (Styleable.__proto__ || Object.getPrototypeOf(Styleable)).call(this));
 
-		constructor$3.call(_this);
+		constructor$2.call(_this);
 		_this.identity = identity$2;
 		return _this;
 	}
@@ -1507,7 +1507,7 @@ var Constructor = {
 	string: _string$1
 };
 
-function constructor$4(tag) {
+function constructor$3(tag) {
 	//select the proper constructor action
 	var type = getHandledType$1(tag);
 	var action = Constructor[type];
@@ -2668,7 +2668,7 @@ var Element$1 = function (_Styleable) {
 
 		var _this = possibleConstructorReturn(this, (Element.__proto__ || Object.getPrototypeOf(Element)).call(this, tag));
 
-		constructor$4.call(_this, tag);
+		constructor$3.call(_this, tag);
 		_this.identity = identity;
 		_this.on('Style.contextChanged', function () {
 			//if not default, change the context of the child elements
@@ -2852,11 +2852,33 @@ function isTextNode(u) {
 
 var symbol$4 = symbolOrString('private');
 
+var symbol$5 = symbolOrString('uid');
+
+function addHiddenValue(obj, prop, value) {
+	Object.defineProperty(obj, prop, {
+		configurable: true,
+		enumerable: false,
+		writable: true,
+		value: value
+	});
+}
+
+function constructor$4() {
+	var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+	addHiddenValue(this, symbol$4, {
+		events: {},
+		hooks: {},
+		state: values
+	});
+	addHiddenValue(this, symbol$5, uid());
+}
+
 var Data = function () {
 	function Data(values) {
 		classCallCheck(this, Data);
 
-		constructor.call(this, values);
+		constructor$4.call(this, values);
 	}
 
 	createClass(Data, [{
@@ -3060,10 +3082,10 @@ var ElementCollection = function (_Collection) {
 }(Collection);
 
 function constructor$5() {
+	constructor.apply(this, arguments);
 	constructor$1.apply(this, arguments);
 	constructor$2.apply(this, arguments);
 	constructor$3.apply(this, arguments);
-	constructor$4.apply(this, arguments);
 }
 
 /*
@@ -3331,26 +3353,6 @@ var Sorts = {
 	}
 };
 
-var symbol$5 = symbolOrString('uid');
-
-function addHiddenValue(obj, prop, value) {
-	Object.defineProperty(obj, prop, {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: value
-	});
-}
-
-function constructor$6(values) {
-	addHiddenValue(this, symbol$4, {
-		events: {},
-		hooks: {},
-		state: values
-	});
-	addHiddenValue(this, symbol$5, uid());
-}
-
 function subconstructor(name, namespace, Subclasses) {
 	var self = this;
 	Object.defineProperty(this, '$name', {
@@ -3387,7 +3389,7 @@ function create$1(name, json, namespace) {
 	namespace = namespace || name;
 	var Subclasses = {};
 	var src = '\n\t\treturn (function(name, namespace, structure, Data, Subclasses, constructor, subconstructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this);\n\t\t\t\tsubconstructor.call(this, name, namespace, Subclasses);\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(Data.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\t' + name + '.prototype.toJSON = function toJSON() {\n\t\t\t\tlet self = this;\n\t\t\t\tlet copy = {};\n\t\t\t\tObject.keys(structure).forEach(function(key) {\n\t\t\t\t\tcopy[key] = self[key];\n\t\t\t\t});\n\t\t\t\treturn copy;\n\t\t\t};\n\t\t\treturn ' + name + ';\n\t\t})\n\t';
-	var DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor$6, subconstructor);
+	var DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor$4, subconstructor);
 	Object.keys(json).forEach(function (key) {
 		var value = json[key];
 		if (isObject(value)) {
@@ -3612,7 +3614,7 @@ function _class$1(node, classes, container) {
 		textNodes.push('\t' + name + '.nodeValue = texts.' + name + ';');
 	});
 	var built = '\n return (function compile(element, constructor, classes, texts, inherits) {\n' + header.join('\n') + ('\n\tfunction ' + name + '() { \n') + '\tconstructor = (inherits === element ? constructor : inherits.constructor);\n' + ('\tconstructor.call(this, \'' + asTag + '\'); \n') + ('\tthis.type = \'' + name + '\'; \n\n') + '\t// Generated \n' + instruction.code + '\n\n' + '\t// Assign Text Values \n' + textNodes.join('\n') + '\n}\n' + ('\n\t' + name + '.prototype = Object.create(inherits.prototype);\n') + ('\n\t' + name + '.constructor = ' + name + ';\n') + ('\t return ' + name + ';\n') + '});';
-	var compiled = feval.call(window, built)(Element$1, constructor$4, instruction.state.aliases, texts, parent);
+	var compiled = feval.call(window, built)(Element$1, constructor$3, instruction.state.aliases, texts, parent);
 	return compiled;
 }
 
