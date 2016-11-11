@@ -1,6 +1,6 @@
 import { default as uid } from 'Framework/Utilities/General/uid';
-import { default as $private } from 'Framework/Constants/Symbols/private';
-import { default as $uid } from 'Framework/Constants/Symbols/uid';
+import { default as $private } from 'Framework/Constants/Symbols/General/private';
+import { default as $uid } from 'Framework/Constants/Symbols/General/uid';
 import { default as define } from 'Framework/Utilities/Properties/addHiddenValue';
 
 export default function constructor(values = {}) {

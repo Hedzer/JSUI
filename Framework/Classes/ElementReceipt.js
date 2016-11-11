@@ -1,16 +1,17 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import { default as Receipt } from 'Framework/Classes/Receipt';
 
 export default class ElementReceipt extends Receipt {
 	constructor(element) {
 		super();
-		this.private = {
+		this[$private] = {
 			element: (element || false)
 		};
 	}
 	get element() {
-		return this.private.element;
+		return this[$private].element;
 	}
 	set element(element) {
-		this.private.element = element;
+		this[$private].element = element;
 	}
 }

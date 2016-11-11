@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import Identity from 'Framework/Classes/Identity';
 import isStyleSheetRule from 'Framework/TypeChecks/isStyleSheetRule';
 import Sheets from 'Framework/Singletons/Style/Sheets';
@@ -17,14 +18,14 @@ export default class Styleable extends Distinct {
 		this.identity = identity;
 	}
 	get Style() {
-		if (!this.private.Style) {
-			this.private.Style = new StyleableHost(this);
+		if (!this[$private].Style) {
+			this[$private].Style = new StyleableHost(this);
 		}
-		return this.private.Style;
+		return this[$private].Style;
 	}
 	add(style) {
 		if (isStyleSheetRule(style)) {
-			let rules = this.private.style.rules;
+			let rules = this[$private].style.rules;
 			let entry = rules[style.uid];
 			let Style = this.Style;
 			if (!entry) {

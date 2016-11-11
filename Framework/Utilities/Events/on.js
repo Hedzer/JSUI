@@ -3,10 +3,12 @@ import isElement from 'Framework/TypeChecks/isElement';
 import { default as OnEventBoundReceipt } from 'Framework/Classes/OnEventBoundReceipt';
 import { default as JSUIFunction } from 'Framework/Classes/JSUIFunction';
 
+import $private from 'Framework/Constants/Symbols/General/private';
+
 export default function on(name, method) {
 	if (!isFunction(method)) { return; }
 	method = new JSUIFunction(method);
-	let events = this.private.events;
+	let events = this[$private].events;
 	let pool = events[name];
 	if (!pool){
 		events[name] = {};

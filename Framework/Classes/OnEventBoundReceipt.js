@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import uid from 'Framework/Utilities/General/uid';
 import remove from 'Framework/Utilities/Events/remove';
 import removeAll from 'Framework/Utilities/Events/removeAll';
@@ -6,22 +7,22 @@ import { default as Receipt } from 'Framework/Classes/Receipt';
 export default class OnEventBoundReceipt extends Receipt {
 	constructor(pool) {
 		super();
-		this.private = {
+		this[$private] = {
 			pool: pool,
 			uid: uid()
 		};
 	}
 	get uid() {
-		return this.private.uid;
+		return this[$private].uid;
 	}
 	set uid(v) {
-		this.private.uid = v;
+		this[$private].uid = v;
 	}
 	get pool() {
-		return this.private.pool;
+		return this[$private].pool;
 	}
 	set pool(v) {
-		this.private.pool = v;
+		this[$private].pool = v;
 	}
 	remove() {
 		return remove.call(this);

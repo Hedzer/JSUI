@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import { default as ElementReceipt } from 'Framework/Classes/ElementReceipt';
 import { default as isElement } from 'Framework/TypeChecks/isElement';
 import { default as getClasses } from 'Framework/Utilities/Elements/getClasses';
@@ -6,11 +7,11 @@ export default class ElementClassReceipt extends ElementReceipt {
 	constructor(element, className) {
 		super(element);
 		this.element = element;
-		this.private.classes = className.split(' ');
+		this[$private].classes = className.split(' ');
 	}
 	add() {
 		let existing = (getClasses(this.element) || {});
-		this.private.classes.forEach((name) => {
+		this[$private].classes.forEach((name) => {
 			existing[name] = true;
 		});
 		this.element.className = Object.keys(existing).join(' ');
@@ -18,7 +19,7 @@ export default class ElementClassReceipt extends ElementReceipt {
 	}
 	remove() {
 		let existing = (getClasses(this.element) || {});
-		this.private.classes.forEach((name) => {
+		this[$private].classes.forEach((name) => {
 			delete existing[name];
 		});
 		this.element.className = Object.keys(existing).join(' ');
@@ -26,7 +27,7 @@ export default class ElementClassReceipt extends ElementReceipt {
 	}
 	toggle() {
 		let existing = (getClasses(this.element) || {});
-		this.private.classes.forEach((name) => {
+		this[$private].classes.forEach((name) => {
 			if (existing[name]) {
 				delete existing[name];
 				return;
@@ -38,7 +39,7 @@ export default class ElementClassReceipt extends ElementReceipt {
 	}
 	exists() {
 		let existing = (getClasses(this.element) || {});
-		let classes = this.private.classes;
+		let classes = this[$private].classes;
 		let count = classes.length;
 		for (let i = 0; i < count; i++) {
 			let name = classes[i];

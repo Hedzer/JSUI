@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import Identity from 'Framework/Classes/Identity';
 import Extensible from 'Framework/Classes/Extensible';
 import uid from 'Framework/Utilities/General/uid';
@@ -17,18 +18,18 @@ export default class Distinct extends Extensible {
 		this.identity = identity;
 	}
 	get uid() {
-		return this.private.uid;
+		return this[$private].uid;
 	}
 	get identity() {
 		return this.state('identity');
 	}
 	set identity(identity) {
 		this.state('identity', identity);
-		if (!this.private.Is[identity]) {
-			this.private.Is[identity.class] = identity;
+		if (!this[$private].Is[identity]) {
+			this[$private].Is[identity.class] = identity;
 		}
 	}
 	get Is() {
-		return this.private.Is;
+		return this[$private].Is;
 	}
 }

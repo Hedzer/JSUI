@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import Identity from 'Framework/Classes/Identity';
 import isString from 'Framework/TypeChecks/isString';
 import isFunction from 'Framework/TypeChecks/isFunction';
@@ -18,14 +19,14 @@ export default class StyleSheet extends Distinct {
 		super();
 		context = (context || 'default');
 
-		this.private.rules = {};
-		this.private.timer = false;
-		this.private.element = false;
-		this.private.context = context;
+		this[$private].rules = {};
+		this[$private].timer = false;
+		this[$private].element = false;
+		this[$private].context = context;
 
 		let contextSheet = Sheets[context];
 		if (contextSheet) {
-			this.private = contextSheet.private;
+			this[$private] = contextSheet[$private];
 			return this;
 		}
 
@@ -33,14 +34,14 @@ export default class StyleSheet extends Distinct {
 		element.appendChild(document.createTextNode(""));
 		element.setAttribute('id', `style-${context}`);
 		document.head.appendChild(element);
-		this.private.element = element;
+		this[$private].element = element;
 		Sheets[context] = this;
 
 		this.identity = identity;
 	}
 	add(rule) {
 		if (isStyleSheetRule(rule)) {
-			let rules = this.private.rules;
+			let rules = this[$private].rules;
 			if (!rules[rule.uid]) {
 				rules[rule.uid] = {
 					references: 1,
@@ -56,7 +57,7 @@ export default class StyleSheet extends Distinct {
 		}
 	}
 	remove(rule) {
-		let rules = this.private.rules;
+		let rules = this[$private].rules;
 		if (isString(rule)) {
 			let entry = rules[rule];
 			if (entry) {
@@ -73,33 +74,33 @@ export default class StyleSheet extends Distinct {
 		}
 	}
 	get context() {
-		return this.private.context;
+		return this[$private].context;
 	}
 	get variables() {}
 	set variables(vars) {}
 	get sorter() {
-		if (this.private.sorter) {
-			return this.private.sorter;
+		if (this[$private].sorter) {
+			return this[$private].sorter;
 		}
 		return sort;
 	}
 	set sorter(method) {
 		if (isFunction(method)) {
-			this.private.sorter = method;
+			this[$private].sorter = method;
 		}
 	}
 	render(timeout) {
-		let entries = this.private.rules;
-		clearTimeout(this.private.timer);
+		let entries = this[$private].rules;
+		clearTimeout(this[$private].timer);
 		if (isNumber(timeout)) {
-			this.private.timer = setTimeout(this.render.bind(this), timeout);
+			this[$private].timer = setTimeout(this.render.bind(this), timeout);
 			return;
 		}
 
 		let entryList = Object.keys(entries);
 		//check to see if there are any entries
 		if (!entryList.length) {
-			document.head.removeChild(this.private.element);
+			document.head.removeChild(this[$private].element);
 			return;
 		}
 
@@ -126,8 +127,8 @@ export default class StyleSheet extends Distinct {
 		
 		//enable the new stylesheet and remove the old one
 		element.sheet.disabled = false;
-		document.head.removeChild(this.private.element);
-		this.private.element = element;
+		document.head.removeChild(this[$private].element);
+		this[$private].element = element;
 		this.trigger('rendered');
 	}
 }

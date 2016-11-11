@@ -1,9 +1,9 @@
 import getHandledType from 'Framework/Classes/Element/getHandledType';
 import unhandled from 'Framework/Classes/General/Handlers/unhandled';
 
-import $private from 'Framework/Constants/Symbols/private';
-import on from 'Framework/Constants/Symbols/on';
-import trigger from 'Framework/Constants/Symbols/trigger';
+import $private from 'Framework/Constants/Symbols/General/private';
+import on from 'Framework/Constants/Symbols/General/on';
+import trigger from 'Framework/Constants/Symbols/General/trigger';
 
 import On from 'Framework/Classes/Element/Handlers/On';
 import Trigger from 'Framework/Classes/Element/Handlers/Trigger';

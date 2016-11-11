@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import Identity from 'Framework/Classes/Identity';
 import Styleable from 'Framework/Classes/Styleable';
 import isJSUI from 'Framework/TypeChecks/isJSUI';
@@ -13,7 +14,7 @@ export default class Behavior extends Styleable {
 		super();
 
 		//create hosts container
-		this.private.hosts = {};
+		this[$private].hosts = {};
 		if (host) {
 			this.attach(host);
 		}
@@ -26,8 +27,8 @@ export default class Behavior extends Styleable {
 		if (isJSUI(host)) {
 			let id = host.uid;
 			let addAs = this.identity.class;
-			if (this.private.hosts[id]) { return; }
-			this.private.hosts[id] = host;
+			if (this[$private].hosts[id]) { return; }
+			this[$private].hosts[id] = host;
 			host[addAs] = this;
 			this.trigger('attach', host);
 			return {
@@ -43,14 +44,14 @@ export default class Behavior extends Styleable {
 		if (isJSUI(host)) {
 			id = host.uid;
 		}
-		host = this.private.hosts[id];
-		delete this.private.hosts[id];
+		host = this[$private].hosts[id];
+		delete this[$private].hosts[id];
 		this.trigger('detach', host);
 	}
 	hosts(each) {
 		let results = [];
 		let hasTask = isFunction(each);
-		let hosts = this.private.hosts;
+		let hosts = this[$private].hosts;
 		Object.keys(hosts).forEach((id) => {
 			let host = hosts[id]
 			if (hasTask) {

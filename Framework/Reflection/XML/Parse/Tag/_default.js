@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import getTagName from 'Framework/Utilities/Elements/getTagName';
 import childNodes from 'Framework/Utilities/Elements/childNodes';
 import doOrSet from 'Framework/Utilities/Properties/doOrSet';
@@ -35,7 +36,7 @@ export default function _default(node, classes, container) {
 		if (isTextNode(child)) {
 			let node = document.createTextNode("");
 			instance.element.appendChild(node);
-			instance.private.text = node;
+			instance[$private].text = node;
 			textNodes.push({node:node, value:child.nodeValue});
 			return;
 		}

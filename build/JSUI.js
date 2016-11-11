@@ -34,6 +34,26 @@ function isPath(u) {
 	return typeof u === 'string' && u.length > 0 && u[0] === '@';
 }
 
+var prefix = '';
+var current = 0;
+var max = Number.MAX_SAFE_INTEGER - 1;
+function uid() {
+	if (current > max) {
+		prefix += current;
+		current = 0;
+	}
+	return prefix + current++;
+}
+
+var hasSymbol = typeof Symbol == 'function';
+
+function symbolOrString(name) {
+	var id = uid();
+	return hasSymbol ? Symbol(name) : 'Symbol(' + name + ')@' + id;
+}
+
+var symbol = symbolOrString('private');
+
 var defaults = {
 	namespace: 'JSUI',
 	Development: {
@@ -318,38 +338,38 @@ var Identity = function () {
 			defaults$$1.class = identity;
 		}
 
-		Object.defineProperty(this, 'private', {
+		Object.defineProperty(this, symbol, {
 			value: defaults$$1,
 			enumerable: false
 		});
 
-		Object.freeze(this.private);
+		Object.freeze(this[symbol]);
 	}
 
 	createClass(Identity, [{
 		key: 'namespace',
 		get: function get() {
-			return this.private.namespace;
+			return this[symbol].namespace;
 		}
 	}, {
 		key: 'class',
 		get: function get() {
-			return this.private.class;
+			return this[symbol].class;
 		}
 	}, {
 		key: 'major',
 		get: function get() {
-			return this.private.major;
+			return this[symbol].major;
 		}
 	}, {
 		key: 'minor',
 		get: function get() {
-			return this.private.minor;
+			return this[symbol].minor;
 		}
 	}, {
 		key: 'patch',
 		get: function get() {
-			return this.private.patch;
+			return this[symbol].patch;
 		}
 	}]);
 	return Identity;
@@ -395,35 +415,17 @@ for (var key in example.style) {
 	_loop(key);
 }
 
-function add$1(host, name, defaultValue) {
-	Object.defineProperty(host, name, {
-		get: function get() {
-			var value = this.private.state.hasOwnProperty(name) ? this.private.state[name] : defaultValue;
-			return value;
-		},
-		set: function set(v) {
-			var value = this.private.state.hasOwnProperty(name) ? this.private.state[name] : defaultValue;
-			var old = value;
-			value = v;
-			if (old !== v) {
-				this.private.state[name] = value;
-				var data = {
-					owner: this,
-					property: name,
-					old: old,
-					new: value
-				};
-				var trigger = (this.trigger || this.$trigger).bind(this);
-				if (trigger) {
-					trigger(name + 'Changed', data);
-					trigger('Changed', data);
-				}
-			}
-		},
-		configurable: true,
-		enumerable: true
-	});
-}
+var symbol$1 = symbolOrString('Extensible.state');
+
+var symbol$2 = symbolOrString('destructor');
+
+var symbol$3 = symbolOrString('Extensible.on');
+
+var symbol$4 = symbolOrString('Extensible.trigger');
+
+var symbol$5 = symbolOrString('Extensible.add');
+
+var symbol$6 = symbolOrString('Extensible.remove');
 
 function remove$1() {
 	delete this.pool[this.id];
@@ -437,194 +439,456 @@ function removeAll$1() {
 	});
 }
 
-var prefix = '';
-var current = 0;
-var max = Number.MAX_SAFE_INTEGER - 1;
-function uid() {
-	if (current > max) {
-		prefix += current;
-		current = 0;
+var Receipt = function Receipt() {
+  classCallCheck(this, Receipt);
+};
+
+var OnEventBoundReceipt = function (_Receipt) {
+	inherits(OnEventBoundReceipt, _Receipt);
+
+	function OnEventBoundReceipt(pool) {
+		classCallCheck(this, OnEventBoundReceipt);
+
+		var _this = possibleConstructorReturn(this, (OnEventBoundReceipt.__proto__ || Object.getPrototypeOf(OnEventBoundReceipt)).call(this));
+
+		_this[symbol] = {
+			pool: pool,
+			uid: uid()
+		};
+		return _this;
 	}
-	return prefix + current++;
+
+	createClass(OnEventBoundReceipt, [{
+		key: 'remove',
+		value: function remove() {
+			return remove$1.call(this);
+		}
+	}, {
+		key: 'removeAll',
+		value: function removeAll() {
+			return removeAll$1.call(this);
+		}
+	}, {
+		key: 'debounce',
+		value: function debounce(time) {
+			var method = this.pool[this.uid];
+			method.debounce(time);
+			return this;
+		}
+	}, {
+		key: 'throttle',
+		value: function throttle(time) {
+			var method = this.pool[this.uid];
+			method.throttle(time);
+			return this;
+		}
+	}, {
+		key: 'limit',
+		value: function limit(count) {
+			var method = this.pool[this.uid];
+			method.limit = count;
+			return this;
+		}
+	}, {
+		key: 'once',
+		value: function once() {
+			return this.limit(1);
+		}
+	}, {
+		key: 'uid',
+		get: function get() {
+			return this[symbol].uid;
+		},
+		set: function set(v) {
+			this[symbol].uid = v;
+		}
+	}, {
+		key: 'pool',
+		get: function get() {
+			return this[symbol].pool;
+		},
+		set: function set(v) {
+			this[symbol].pool = v;
+		}
+	}]);
+	return OnEventBoundReceipt;
+}(Receipt);
+
+function isUndefined(u) {
+	return typeof u === 'undefined';
+}
+
+function isBoolean(u) {
+	return typeof u === 'boolean';
+}
+
+function debounce$1(fn, time) {
+	if (isFunction$1(fn)) {
+		var _ret = function () {
+			var dbcTimer = void 0;
+			return {
+				v: function v() {
+					var _arguments = arguments;
+
+					clearTimeout(dbcTimer);
+					dbcTimer = setTimeout(function () {
+						fn.apply(null, _arguments);
+					}, time);
+				}
+			};
+		}();
+
+		if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	}
+}
+
+function throttle$1(fn, time) {
+	var nextCall = 0;
+	if (isFunction$1(fn)) {
+		return function () {
+			var now = new Date().getTime();
+			if (nextCall <= now) {
+				nextCall = now + time;
+				fn.apply(null, arguments);
+			}
+		};
+	}
+}
+
+var RobustFunction = function () {
+	function RobustFunction(original) {
+		classCallCheck(this, RobustFunction);
+
+		original = isFunction$1(original) ? original : function () {};
+		this[symbol] = {
+			uid: uid(),
+			original: original,
+			debounce: false,
+			throttle: false,
+			modified: original,
+			context: undefined,
+			count: 0,
+			limit: Infinity
+		};
+	}
+
+	createClass(RobustFunction, [{
+		key: 'execute',
+		value: function execute() {
+			if (this.isAtLimit) {
+				return;
+			}
+			this[symbol].count++;
+			return this.modified.apply(null, arguments);
+		}
+	}, {
+		key: 'call',
+		value: function call() {
+			if (this.isAtLimit) {
+				return;
+			}
+			this[symbol].count++;
+			return Function.prototype.call.apply(this.modified, arguments);
+		}
+	}, {
+		key: 'apply',
+		value: function apply() {
+			if (this.isAtLimit) {
+				return;
+			}
+			this[symbol].count++;
+			return Function.prototype.apply.apply(this.modified, arguments);
+		}
+	}, {
+		key: 'debounce',
+		value: function debounce$1(time) {
+			time = isNumber(time) ? time : false;
+			this[symbol].debounce = time;
+			this.modify();
+			return this;
+		}
+	}, {
+		key: 'throttle',
+		value: function throttle$1(time) {
+			time = isNumber(time) ? time : false;
+			this[symbol].throttle = time;
+			this.modify();
+			return this;
+		}
+	}, {
+		key: 'modify',
+		value: function modify() {
+			var modified = this.original;
+			var dbcTime = this[symbol].debounce;
+			var trlTime = this[symbol].throttle;
+			modified = isBoolean(dbcTime) ? modified : debounce$1(modified, dbcTime);
+			modified = isBoolean(trlTime) ? modified : throttle$1(modified, trlTime);
+			modified = isUndefined(this.context) ? modified : modified.bind(this.context);
+			this[symbol].modified = modified;
+			return modified;
+		}
+	}, {
+		key: 'uid',
+		get: function get() {
+			return this[symbol].uid;
+		}
+	}, {
+		key: 'original',
+		get: function get() {
+			return this[symbol].original;
+		},
+		set: function set(v) {
+			this[symbol].original = v;
+			this.modify();
+		}
+	}, {
+		key: 'modified',
+		get: function get() {
+			return this[symbol].modified;
+		}
+	}, {
+		key: 'context',
+		get: function get() {
+			return this[symbol].context;
+		},
+		set: function set(v) {
+			this[symbol].context = v;
+			this.modify();
+		}
+	}, {
+		key: 'count',
+		get: function get() {
+			return this[symbol].count;
+		}
+	}, {
+		key: 'limit',
+		get: function get() {
+			return this[symbol].limit;
+		},
+		set: function set(v) {
+			v = isNumber(v) ? v : Infinity;
+			this[symbol].limit = v;
+		}
+	}, {
+		key: 'isAtLimit',
+		get: function get() {
+			return this[symbol].count >= this[symbol].limit;
+		},
+		set: function set(v) {
+			this[symbol].count = 0;
+		}
+	}]);
+	return RobustFunction;
+}();
+
+function on$1(name, method) {
+	if (!isFunction$1(method)) {
+		return;
+	}
+	method = new RobustFunction(method);
+	var events = this[symbol].events;
+	var pool = events[name];
+	if (!pool) {
+		var dispatcher = function dispatcher() {
+			var _this = this;
+
+			var args = arguments;
+			Object.keys(pool).forEach(function (uid) {
+				var method = pool[uid];
+				method.apply(_this, args);
+			});
+		};
+
+		events[name] = {};
+		pool = events[name];
+		
+		var element = this.element;
+		if (isElement(element)) {
+			element.addEventListener(name, dispatcher, false);
+		}
+	}
+	var receipt = new OnEventBoundReceipt(pool);
+	receipt.uid = method.uid;
+	pool[method.uid] = method;
+	return receipt;
 }
 
 function constructor() {
-	this.private = {
+	this[symbol] = {
 		state: {},
 		events: {},
 		hooks: {}
 	};
 }
 
-var hasSymbol = typeof Symbol == 'function';
+//symbols
+var Extensible$2 = function Extensible$2(descendant) {
+	return function (_descendant) {
+		inherits(_class, _descendant);
 
-function symbolOrString(name) {
-	var id = uid();
-	return hasSymbol ? Symbol(name) : 'Symbol(' + name + ')@' + id;
-}
+		function _class() {
+			classCallCheck(this, _class);
 
-var symbol = symbolOrString('Extensible.on');
+			var _this = possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this));
 
-var symbol$1 = symbolOrString('Extensible.trigger');
+			constructor.call(_this);
+			return _this;
+		}
+
+		createClass(_class, [{
+			key: symbol$1,
+			value: function value(property, _value) {
+				var old = this[symbol].state[property];
+				if (arguments.length === 1) {
+					return old;
+				}
+
+				var hasChanged = old !== _value;
+
+				if (hasChanged) {
+					this[symbol].state[property] = _value;
+					var data = {
+						owner: this,
+						property: property,
+						old: old,
+						new: _value
+					};
+					this[symbol$4]([property + 'Changed', 'Changed'], data);
+				}
+
+				return hasChanged;
+			}
+		}, {
+			key: symbol$3,
+			value: function value(name, method) {
+				if (isString(name) && isFunction$1(method)) {
+					return on$1.call(this, name, method);
+				}
+			}
+		}, {
+			key: symbol$4,
+			value: function value(event, args) {
+				var _this2 = this;
+
+				if (isArray(event)) {
+					var _ret = function () {
+						var results = [];
+						event.forEach(function (e) {
+							results.push(_this2[symbol$4](e, args));
+						});
+						return {
+							v: results
+						};
+					}();
+
+					if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+				}
+
+				var hooks = this[symbol].hooks;
+				var hook = hooks[event];
+				if (isFunction$1(hook)) {
+					hook(args);
+				}
+			}
+		}, {
+			key: symbol$5,
+			value: function value(item, _value2) {
+				var _this3 = this;
+
+				if (isString(item)) {
+					addProperty(this, item);
+					return;
+				}
+				if (isArray(item)) {
+					item.forEach(function (key) {
+						_this3.add(key, _value2);
+					});
+					return;
+				}
+				if (isObject(item)) {
+					Object.keys(item).forEach(function (key) {
+						_this3.add(key, item[key]);
+					});
+				}
+			}
+		}, {
+			key: symbol$6,
+			value: function value(item) {
+				var _this4 = this;
+
+				if (isString(item)) {
+					delete this[item];
+					return;
+				}
+				if (isArray(item)) {
+					item.forEach(function (value) {
+						_this4.remove(value);
+					});
+				}
+			}
+		}, {
+			key: symbol$2,
+			value: function value() {
+				var _this5 = this;
+
+				Object.keys(this).forEach(function (key) {
+					delete _this5[key];
+				});
+			}
+		}]);
+		return _class;
+	}(descendant);
+};
 
 //symbols
-var Extensible = function () {
+//mixins
+var Extensible$1 = Extensible$2(function () {
 	function Extensible() {
 		classCallCheck(this, Extensible);
-
-		constructor.call(this);
 	}
 
 	createClass(Extensible, [{
-		key: 'add',
-		value: function add(item, value) {
-			var _this = this;
-
-			if (isString(item)) {
-				add$1(this, item);
-				return;
-			}
-			if (isArray(item)) {
-				item.forEach(function (key) {
-					_this.add(key, value);
-				});
-				return;
-			}
-			if (isObject(item)) {
-				Object.keys(item).forEach(function (key) {
-					_this.add(key, item[key]);
-				});
-			}
-		}
-	}, {
-		key: 'remove',
-		value: function remove(item) {
-			var _this2 = this;
-
-			if (isString(item)) {
-				delete this[item];
-				return;
-			}
-			if (isArray(item)) {
-				item.forEach(function (value) {
-					_this2.remove(value);
-				});
-			}
-		}
-	}, {
 		key: 'state',
-		value: function state(property, value) {
-			var old = this.private.state[property];
-			if (arguments.length === 1) {
-				return old;
-			}
-
-			var hasChanged = old !== value;
-
-			if (hasChanged) {
-				this.private.state[property] = value;
-				var data = {
-					property: property,
-					old: old,
-					new: value
-				};
-				this[symbol$1]([property + 'Changed', 'Changed'], data);
-			}
-
-			return hasChanged;
-		}
-	}, {
-		key: symbol,
-		value: function value(name, method) {
-			var _this3 = this;
-
-			if (isString(name) && isFunction$1(method)) {
-				var _ret = function () {
-					var events = _this3.private.events;
-					var hooks = _this3.private.hooks;
-					var pool = events[name];
-					var self = _this3;
-					if (!pool) {
-						var hook = function hook() {
-							var args = arguments;
-							Object.keys(pool).forEach(function (id) {
-								var method = pool[id];
-								method.apply(self, args);
-							});
-						};
-
-						events[name] = {};
-						pool = events[name];
-						
-						hooks[name] = hook;
-					}
-					var eid = uid();
-					if (typeof method === 'function') {
-						pool[eid] = method;
-					}
-					var handle = {
-						id: eid,
-						pool: pool,
-						remove: remove$1,
-						removeAll: removeAll$1
-					};
-					return {
-						v: handle
-					};
-				}();
-
-				if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-			}
+		value: function state() {
+			return this[symbol$1].apply(this, arguments);
 		}
 	}, {
 		key: 'on',
 		value: function on() {
-			return this[symbol].apply(this, arguments);
-		}
-	}, {
-		key: symbol$1,
-		value: function value(event, args) {
-			var _this4 = this;
-
-			if (isArray(event)) {
-				var _ret2 = function () {
-					var results = [];
-					event.forEach(function (e) {
-						results.push(_this4[symbol$1](e, args));
-					});
-					return {
-						v: results
-					};
-				}();
-
-				if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
-			}
-
-			var hooks = this.private.hooks;
-			var hook = hooks[event];
-			if (isFunction$1(hook)) {
-				hook(args);
-			}
+			return this[symbol$3].apply(this, arguments);
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger() {
-			return this[symbol$1].apply(this, arguments);
+			return this[symbol$4].apply(this, arguments);
+		}
+	}, {
+		key: 'add',
+		value: function add() {
+			return this[symbol$5].apply(this, arguments);
+		}
+	}, {
+		key: 'remove',
+		value: function remove() {
+			return this[symbol$6].apply(this, arguments);
 		}
 	}, {
 		key: 'destructor',
 		value: function destructor() {
-			for (var key in this) {
-				delete this[key];
-			}
+			return this[symbol$2].apply(this, arguments);
+		}
+	}, {
+		key: 'private',
+		get: function get() {
+			return this[symbol];
 		}
 	}]);
 	return Extensible;
-}();
+}());
 
 function constructor$1() {
-	this.private.uid = uid();
-	this.private.Is = {};
+	this[symbol].uid = uid();
+	this[symbol].Is = {};
 }
 
 var identity$5 = new Identity({
@@ -650,7 +914,7 @@ var Distinct = function (_Extensible) {
 	createClass(Distinct, [{
 		key: 'uid',
 		get: function get() {
-			return this.private.uid;
+			return this[symbol].uid;
 		}
 	}, {
 		key: 'identity',
@@ -659,18 +923,18 @@ var Distinct = function (_Extensible) {
 		},
 		set: function set(identity) {
 			this.state('identity', identity);
-			if (!this.private.Is[identity]) {
-				this.private.Is[identity.class] = identity;
+			if (!this[symbol].Is[identity]) {
+				this[symbol].Is[identity.class] = identity;
 			}
 		}
 	}, {
 		key: 'Is',
 		get: function get() {
-			return this.private.Is;
+			return this[symbol].Is;
 		}
 	}]);
 	return Distinct;
-}(Extensible);
+}(Extensible$1);
 
 var identity$4 = new Identity({
 	class: 'StyleRules',
@@ -685,7 +949,7 @@ var StyleRules = function (_Distinct) {
 
 		var _this = possibleConstructorReturn(this, (StyleRules.__proto__ || Object.getPrototypeOf(StyleRules)).call(this));
 
-		_this.private.styles = {};
+		_this[symbol].styles = {};
 		_this.identity = identity$4;
 		return _this;
 	}
@@ -699,13 +963,13 @@ var StyleRules = function (_Distinct) {
 Object.keys(equivalents).forEach(function (key) {
 	Object.defineProperty(StyleRules.prototype, key, {
 		get: function get() {
-			return this.private.styles[key];
+			return this[symbol].styles[key];
 		},
 		set: function set(value) {
-			var old = this.private.styles[key];
-			this.private.styles[key] = value;
+			var old = this[symbol].styles[key];
+			this[symbol].styles[key] = value;
 			if (isNull(value)) {
-				delete this.private.styles[key];
+				delete this[symbol].styles[key];
 			}
 			if (old !== value) {
 				var data = {
@@ -750,7 +1014,7 @@ function isUStyleSheetRule(u) {
 
 function rules(a, b) {
 	var importance = b.importance - a.importance;
-	var created = b.private.created - a.private.created;
+	var created = b[symbol].created - a[symbol].created;
 	if (!importance) {
 		return created;
 	}
@@ -772,16 +1036,16 @@ var StyleSheet = function (_Distinct) {
 
 		context = context || 'default';
 
-		_this.private.rules = {};
-		_this.private.timer = false;
-		_this.private.element = false;
-		_this.private.context = context;
+		_this[symbol].rules = {};
+		_this[symbol].timer = false;
+		_this[symbol].element = false;
+		_this[symbol].context = context;
 
 		var contextSheet = Sheets$1[context];
 		if (contextSheet) {
 			var _ret;
 
-			_this.private = contextSheet.private;
+			_this[symbol] = contextSheet[symbol];
 			return _ret = _this, possibleConstructorReturn(_this, _ret);
 		}
 
@@ -789,7 +1053,7 @@ var StyleSheet = function (_Distinct) {
 		element.appendChild(document.createTextNode(""));
 		element.setAttribute('id', 'style-' + context);
 		document.head.appendChild(element);
-		_this.private.element = element;
+		_this[symbol].element = element;
 		Sheets$1[context] = _this;
 
 		_this.identity = identity$6;
@@ -800,7 +1064,7 @@ var StyleSheet = function (_Distinct) {
 		key: 'add',
 		value: function add(rule) {
 			if (isStyleSheetRule(rule)) {
-				var rules$$1 = this.private.rules;
+				var rules$$1 = this[symbol].rules;
 				if (!rules$$1[rule.uid]) {
 					rules$$1[rule.uid] = {
 						references: 1,
@@ -818,7 +1082,7 @@ var StyleSheet = function (_Distinct) {
 	}, {
 		key: 'remove',
 		value: function remove(rule) {
-			var rules$$1 = this.private.rules;
+			var rules$$1 = this[symbol].rules;
 			if (isString(rule)) {
 				var entry = rules$$1[rule];
 				if (entry) {
@@ -839,17 +1103,17 @@ var StyleSheet = function (_Distinct) {
 		value: function render(timeout) {
 			var _this2 = this;
 
-			var entries = this.private.rules;
-			clearTimeout(this.private.timer);
+			var entries = this[symbol].rules;
+			clearTimeout(this[symbol].timer);
 			if (isNumber(timeout)) {
-				this.private.timer = setTimeout(this.render.bind(this), timeout);
+				this[symbol].timer = setTimeout(this.render.bind(this), timeout);
 				return;
 			}
 
 			var entryList = Object.keys(entries);
 			//check to see if there are any entries
 			if (!entryList.length) {
-				document.head.removeChild(this.private.element);
+				document.head.removeChild(this[symbol].element);
 				return;
 			}
 
@@ -876,14 +1140,14 @@ var StyleSheet = function (_Distinct) {
 
 			//enable the new stylesheet and remove the old one
 			element.sheet.disabled = false;
-			document.head.removeChild(this.private.element);
-			this.private.element = element;
+			document.head.removeChild(this[symbol].element);
+			this[symbol].element = element;
 			this.trigger('rendered');
 		}
 	}, {
 		key: 'context',
 		get: function get() {
-			return this.private.context;
+			return this[symbol].context;
 		}
 	}, {
 		key: 'variables',
@@ -892,14 +1156,14 @@ var StyleSheet = function (_Distinct) {
 	}, {
 		key: 'sorter',
 		get: function get() {
-			if (this.private.sorter) {
-				return this.private.sorter;
+			if (this[symbol].sorter) {
+				return this[symbol].sorter;
 			}
 			return rules;
 		},
 		set: function set(method) {
 			if (isFunction$1(method)) {
-				this.private.sorter = method;
+				this[symbol].sorter = method;
 			}
 		}
 	}]);
@@ -920,10 +1184,10 @@ var StyleSheetRule = function (_StyleRules) {
 		var _this = possibleConstructorReturn(this, (StyleSheetRule.__proto__ || Object.getPrototypeOf(StyleSheetRule)).call(this));
 
 		_this.identity = identity$3;
-		_this.private.importance = 0;
-		_this.private.created = new Date().valueOf();
-		_this.private.isSwitchable = false;
-		_this.private.isOnByDefault = true;
+		_this[symbol].importance = 0;
+		_this[symbol].created = new Date().valueOf();
+		_this[symbol].isSwitchable = false;
+		_this[symbol].isOnByDefault = true;
 		if (selector) {
 			_this.selector = selector;
 		}
@@ -959,9 +1223,9 @@ var StyleSheetRule = function (_StyleRules) {
 		value: function render(context) {
 			var _this3 = this;
 
-			context = context || this.private.context || 'default';
+			context = context || this[symbol].context || 'default';
 			var sheet = Sheets$1[context] || new StyleSheet(context);
-			if (!sheet.private.rules[this.uid]) {
+			if (!sheet[symbol].rules[this.uid]) {
 				sheet.add(this);
 				return;
 			}
@@ -972,9 +1236,9 @@ var StyleSheetRule = function (_StyleRules) {
 			}
 			var styles = [];
 			var rendered = '';
-			Object.keys(this.private.styles).forEach(function (key) {
+			Object.keys(this[symbol].styles).forEach(function (key) {
 				var name = equivalents[key];
-				var value = _this3.private.styles[key];
+				var value = _this3[symbol].styles[key];
 				//needs handlers for values
 				styles.push(name + ': ' + value + ';');
 			});
@@ -1012,14 +1276,14 @@ var StyleSheetRule = function (_StyleRules) {
 	}, {
 		key: 'selector',
 		get: function get() {
-			return this.private.selector;
+			return this[symbol].selector;
 		},
 		set: function set(selector) {
 			var _this4 = this;
 
 			var self = this;
 			var changed = function changed() {
-				var old = _this4.private.selector;
+				var old = _this4[symbol].selector;
 				_this4.trigger('selectorChanged', {
 					owner: self,
 					old: old,
@@ -1028,7 +1292,7 @@ var StyleSheetRule = function (_StyleRules) {
 			};
 
 			if (isString(selector)) {
-				this.private.selector = selector;
+				this[symbol].selector = selector;
 				changed();
 				return;
 			}
@@ -1037,14 +1301,14 @@ var StyleSheetRule = function (_StyleRules) {
 	}, {
 		key: 'media',
 		get: function get() {
-			return this.private.media;
+			return this[symbol].media;
 		},
 		set: function set(media) {
 			var _this5 = this;
 
 			var self = this;
 			var changed = function changed() {
-				var old = _this5.private.media;
+				var old = _this5[symbol].media;
 				_this5.trigger('mediaChanged', {
 					owner: self,
 					old: old,
@@ -1053,7 +1317,7 @@ var StyleSheetRule = function (_StyleRules) {
 			};
 
 			if (isString(media)) {
-				this.private.media = media;
+				this[symbol].media = media;
 				changed();
 				return;
 			}
@@ -1062,68 +1326,68 @@ var StyleSheetRule = function (_StyleRules) {
 	}, {
 		key: 'importance',
 		get: function get() {
-			return this.private.importance || 0;
+			return this[symbol].importance || 0;
 		},
 		set: function set(zindex) {
-			var old = this.private.importance;
+			var old = this[symbol].importance;
 			if (isNumber(zindex)) {
 				if (old === zindex) {
 					return;
 				}
-				this.private.importance = zindex;
+				this[symbol].importance = zindex;
 			}
 			this.trigger('importanceChanged', { old: old, new: zindex });
 		}
 	}, {
 		key: 'context',
 		get: function get() {
-			return this.private.context || 'default';
+			return this[symbol].context || 'default';
 		},
 		set: function set(context) {
-			var old = this.private.context;
+			var old = this[symbol].context;
 			if (old === context) {
 				return;
 			}
-			this.private.context = context;
+			this[symbol].context = context;
 			this.trigger('contextChanged', { old: old, new: context });
 		}
 	}, {
 		key: 'isSwitchable',
 		get: function get() {
-			return this.private.isSwitchable;
+			return this[symbol].isSwitchable;
 		},
 		set: function set(bool) {
-			var old = this.private.isSwitchable;
+			var old = this[symbol].isSwitchable;
 			if (old === bool) {
 				return;
 			}
-			this.private.isSwitchable = bool;
+			this[symbol].isSwitchable = bool;
 			this.trigger('isSwitchableChanged', { old: old, new: bool });
 		}
 	}, {
 		key: 'isOnByDefault',
 		get: function get() {
-			return this.private.isOnByDefault;
+			return this[symbol].isOnByDefault;
 		},
 		set: function set(bool) {
-			var old = this.private.isOnByDefault;
+			var old = this[symbol].isOnByDefault;
 			if (old === bool) {
 				return;
 			}
-			this.private.isOnByDefault = bool;
+			this[symbol].isOnByDefault = bool;
 			this.trigger('isOnByDefaultChanged', { old: old, new: bool });
 		}
 	}, {
 		key: 'class',
 		get: function get() {
-			return this.private.class;
+			return this[symbol].class;
 		},
 		set: function set(className) {
-			var old = this.private.class;
+			var old = this[symbol].class;
 			if (old === className) {
 				return;
 			}
-			this.private.class = className;
+			this[symbol].class = className;
 			this.trigger('classChanged', { old: old, new: className });
 		}
 	}]);
@@ -1147,13 +1411,14 @@ var StyleInline = function (_StyleRules) {
 
 		var _this = possibleConstructorReturn(this, (StyleInline.__proto__ || Object.getPrototypeOf(StyleInline)).call(this));
 
-		_this.private.host = host || false;
+		_this[symbol].host = host || false;
 
 		var handler = function handler() {};
 		if (isJSUI(host)) {
 			handler = function handler(ev) {
-				if (_this.private.host && ev.property) {
-					_this.private.host.element.style[ev.property] = ev.new;
+				console.log(ev);
+				if (_this[symbol].host && ev.property) {
+					_this[symbol].host.element.style[ev.property] = ev.new;
 				}
 			};
 		}
@@ -1194,11 +1459,11 @@ var StyleInline = function (_StyleRules) {
 	}, {
 		key: 'host',
 		get: function get() {
-			return this.private.host;
+			return this[symbol].host;
 		},
 		set: function set(element) {
 			if (isJSUI(element)) {
-				this.private.host = element.element;
+				this[symbol].host = element.element;
 			}
 		}
 	}]);
@@ -1218,7 +1483,7 @@ var StyleableHost = function (_Distinct) {
 
 		var _this = possibleConstructorReturn(this, (StyleableHost.__proto__ || Object.getPrototypeOf(StyleableHost)).call(this));
 
-		_this.private.host = host;
+		_this[symbol].host = host;
 		_this.identity = identity$7;
 		return _this;
 	}
@@ -1227,8 +1492,8 @@ var StyleableHost = function (_Distinct) {
 		key: 'switch',
 		value: function _switch(style) {
 			if (isStyleSheetRule(style)) {
-				var styleActions = this.private.styleActions = this.private.styleActions || {};
-				var host = this.private.host;
+				var styleActions = this[symbol].styleActions = this[symbol].styleActions || {};
+				var host = this[symbol].host;
 
 				var action = styleActions[style.uid] || {
 					on: style._on.bind(style, host),
@@ -1241,31 +1506,31 @@ var StyleableHost = function (_Distinct) {
 	}, {
 		key: 'Inline',
 		get: function get() {
-			if (!this.private.Inline) {
-				this.private.Inline = new StyleInline(this.private.host);
+			if (!this[symbol].Inline) {
+				this[symbol].Inline = new StyleInline(this[symbol].host);
 			}
-			return this.private.Inline;
+			return this[symbol].Inline;
 		}
 	}, {
 		key: 'context',
 		get: function get() {
-			return this.private.context;
+			return this[symbol].context;
 		},
 		set: function set(context) {
 			var _this2 = this;
 
-			var host = this.private.host;
-			var old = this.private.context;
+			var host = this[symbol].host;
+			var old = this[symbol].context;
 
 			if (old === context) {
 				return;
 			}
 
-			this.private.context = context;
-			Object.keys(host.private.style.rules).forEach(function (uid) {
-				var entry = host.private.style.rules[uid];
+			this[symbol].context = context;
+			Object.keys(host[symbol].style.rules).forEach(function (uid) {
+				var entry = host[symbol].style.rules[uid];
 				Sheets[old].remove(entry.rule);
-				entry.rule.render(_this2.private.context);
+				entry.rule.render(_this2[symbol].context);
 			});
 
 			host.trigger('Style.contextChanged', {
@@ -1278,8 +1543,8 @@ var StyleableHost = function (_Distinct) {
 }(Distinct);
 
 function constructor$2() {
-	this.private.context = 'default';
-	this.private.style = {
+	this[symbol].context = 'default';
+	this[symbol].style = {
 		rules: {}
 	};
 }
@@ -1306,7 +1571,7 @@ var Styleable = function (_Distinct) {
 		key: 'add',
 		value: function add(style) {
 			if (isStyleSheetRule(style)) {
-				var rules = this.private.style.rules;
+				var rules = this[symbol].style.rules;
 				var entry = rules[style.uid];
 				var Style = this.Style;
 				if (!entry) {
@@ -1331,10 +1596,10 @@ var Styleable = function (_Distinct) {
 	}, {
 		key: 'Style',
 		get: function get() {
-			if (!this.private.Style) {
-				this.private.Style = new StyleableHost(this);
+			if (!this[symbol].Style) {
+				this[symbol].Style = new StyleableHost(this);
 			}
-			return this.private.Style;
+			return this[symbol].Style;
 		}
 	}]);
 	return Styleable;
@@ -1354,7 +1619,7 @@ var Behavior = function (_Styleable) {
 		//create hosts container
 		var _this = possibleConstructorReturn(this, (Behavior.__proto__ || Object.getPrototypeOf(Behavior)).call(this));
 
-		_this.private.hosts = {};
+		_this[symbol].hosts = {};
 		if (host) {
 			_this.attach(host);
 		}
@@ -1374,12 +1639,12 @@ var Behavior = function (_Styleable) {
 				var _ret = function () {
 					var id = host.uid;
 					var addAs = _this2.identity.class;
-					if (_this2.private.hosts[id]) {
+					if (_this2[symbol].hosts[id]) {
 						return {
 							v: void 0
 						};
 					}
-					_this2.private.hosts[id] = host;
+					_this2[symbol].hosts[id] = host;
 					host[addAs] = _this2;
 					_this2.trigger('attach', host);
 					return {
@@ -1402,8 +1667,8 @@ var Behavior = function (_Styleable) {
 			if (isJSUI(host)) {
 				id = host.uid;
 			}
-			host = this.private.hosts[id];
-			delete this.private.hosts[id];
+			host = this[symbol].hosts[id];
+			delete this[symbol].hosts[id];
 			this.trigger('detach', host);
 		}
 	}, {
@@ -1411,7 +1676,7 @@ var Behavior = function (_Styleable) {
 		value: function hosts(each) {
 			var results = [];
 			var hasTask = isFunction$1(each);
-			var hosts = this.private.hosts;
+			var hosts = this[symbol].hosts;
 			Object.keys(hosts).forEach(function (id) {
 				var host = hosts[id];
 				if (hasTask) {
@@ -1484,6 +1749,36 @@ function addClass(el, name) {
 	el.className = classes.join(' ');
 }
 
+function add$1(host, name, defaultValue) {
+	Object.defineProperty(host, name, {
+		get: function get() {
+			var value = this[symbol].state.hasOwnProperty(name) ? this[symbol].state[name] : defaultValue;
+			return value;
+		},
+		set: function set(v) {
+			var value = this[symbol].state.hasOwnProperty(name) ? this[symbol].state[name] : defaultValue;
+			var old = value;
+			value = v;
+			if (old !== v) {
+				this[symbol].state[name] = value;
+				var data = {
+					owner: this,
+					property: name,
+					old: old,
+					new: value
+				};
+				var trigger = (this.trigger || this.$trigger).bind(this);
+				if (trigger) {
+					trigger(name + 'Changed', data);
+					trigger('Changed', data);
+				}
+			}
+		},
+		configurable: true,
+		enumerable: true
+	});
+}
+
 function getTagName(el) {
 	if (isElement(el)) {
 		return el.tagName.toLowerCase();
@@ -1527,11 +1822,11 @@ function constructor$3(tag) {
 	return this;
 }
 
-function destructor$1() {
+function destructor$2() {
 	var _this = this;
 
 	var _element = this.element;
-	var _private = this.private;
+	var _private = this[symbol];
 	if (_element) {
 		var parent = _element.parentNode;
 		if (isFunction$1(_element.remove)) {
@@ -1590,10 +1885,6 @@ function _element$1(element) {
 	}
 }
 
-var Receipt = function Receipt() {
-  classCallCheck(this, Receipt);
-};
-
 var ElementReceipt = function (_Receipt) {
 	inherits(ElementReceipt, _Receipt);
 
@@ -1602,7 +1893,7 @@ var ElementReceipt = function (_Receipt) {
 
 		var _this = possibleConstructorReturn(this, (ElementReceipt.__proto__ || Object.getPrototypeOf(ElementReceipt)).call(this));
 
-		_this.private = {
+		_this[symbol] = {
 			element: element || false
 		};
 		return _this;
@@ -1611,10 +1902,10 @@ var ElementReceipt = function (_Receipt) {
 	createClass(ElementReceipt, [{
 		key: 'element',
 		get: function get() {
-			return this.private.element;
+			return this[symbol].element;
 		},
 		set: function set(element) {
-			this.private.element = element;
+			this[symbol].element = element;
 		}
 	}]);
 	return ElementReceipt;
@@ -1628,20 +1919,20 @@ var ElementAddedReceipt = function (_ElementReceipt) {
 
 		var _this = possibleConstructorReturn(this, (ElementAddedReceipt.__proto__ || Object.getPrototypeOf(ElementAddedReceipt)).call(this, element));
 
-		_this.private.addition = addition;
+		_this[symbol].addition = addition;
 		return _this;
 	}
 
 	createClass(ElementAddedReceipt, [{
 		key: 'as',
 		value: function as(name) {
-			var element = this.private.element;
-			var addition = this.private.addition;
+			var element = this[symbol].element;
+			var addition = this[symbol].addition;
 			var uid = element.uid;
 			if (name) {
 				element[name] = addition;
-				addition.private.mapped = addition.private.mapped || {};
-				var map = addition.private.mapped;
+				addition[symbol].mapped = addition[symbol].mapped || {};
+				var map = addition[symbol].mapped;
 				map[uid] = map[uid] || [];
 				map[uid].push(name);
 				addition.attribute('as', name);
@@ -1656,9 +1947,9 @@ var ElementAddedReceipt = function (_ElementReceipt) {
 function _jsui(instance) {
 	if (this.element && instance.element) {
 		this.element.appendChild(instance.element);
-		this.private.children = this.private.children || {};
-		this.private.children[instance.uid] = instance;
-		instance.private.parent = this;
+		this[symbol].children = this[symbol].children || {};
+		this[symbol].children[instance.uid] = instance;
+		instance[symbol].parent = this;
 
 		var Style = instance.Style;
 		Style.context = Style.context === 'default' ? this.Style.context : Style.context;
@@ -1801,276 +2092,6 @@ function _object(assignments) {
 		results[name] = _this.on(name, method);
 	});
 	return results;
-}
-
-var OnEventBoundReceipt = function (_Receipt) {
-	inherits(OnEventBoundReceipt, _Receipt);
-
-	function OnEventBoundReceipt(pool) {
-		classCallCheck(this, OnEventBoundReceipt);
-
-		var _this = possibleConstructorReturn(this, (OnEventBoundReceipt.__proto__ || Object.getPrototypeOf(OnEventBoundReceipt)).call(this));
-
-		_this.private = {
-			pool: pool,
-			uid: uid()
-		};
-		return _this;
-	}
-
-	createClass(OnEventBoundReceipt, [{
-		key: 'remove',
-		value: function remove() {
-			return remove$1.call(this);
-		}
-	}, {
-		key: 'removeAll',
-		value: function removeAll() {
-			return removeAll$1.call(this);
-		}
-	}, {
-		key: 'debounce',
-		value: function debounce(time) {
-			var method = this.pool[this.uid];
-			method.debounce(time);
-			return this;
-		}
-	}, {
-		key: 'throttle',
-		value: function throttle(time) {
-			var method = this.pool[this.uid];
-			method.throttle(time);
-			return this;
-		}
-	}, {
-		key: 'limit',
-		value: function limit(count) {
-			var method = this.pool[this.uid];
-			method.limit = count;
-			return this;
-		}
-	}, {
-		key: 'once',
-		value: function once() {
-			return this.limit(1);
-		}
-	}, {
-		key: 'uid',
-		get: function get() {
-			return this.private.uid;
-		},
-		set: function set(v) {
-			this.private.uid = v;
-		}
-	}, {
-		key: 'pool',
-		get: function get() {
-			return this.private.pool;
-		},
-		set: function set(v) {
-			this.private.pool = v;
-		}
-	}]);
-	return OnEventBoundReceipt;
-}(Receipt);
-
-function isUndefined(u) {
-	return typeof u === 'undefined';
-}
-
-function isBoolean(u) {
-	return typeof u === 'boolean';
-}
-
-function debounce$1(fn, time) {
-	if (isFunction$1(fn)) {
-		var _ret = function () {
-			var dbcTimer = void 0;
-			return {
-				v: function v() {
-					var _arguments = arguments;
-
-					clearTimeout(dbcTimer);
-					dbcTimer = setTimeout(function () {
-						fn.apply(null, _arguments);
-					}, time);
-				}
-			};
-		}();
-
-		if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-	}
-}
-
-function throttle$1(fn, time) {
-	var nextCall = 0;
-	if (isFunction$1(fn)) {
-		return function () {
-			var now = new Date().getTime();
-			if (nextCall <= now) {
-				nextCall = now + time;
-				fn.apply(null, arguments);
-			}
-		};
-	}
-}
-
-var RobustFunction = function () {
-	function RobustFunction(original) {
-		classCallCheck(this, RobustFunction);
-
-		original = isFunction$1(original) ? original : function () {};
-		this.private = {
-			uid: uid(),
-			original: original,
-			debounce: false,
-			throttle: false,
-			modified: original,
-			context: undefined,
-			count: 0,
-			limit: Infinity
-		};
-	}
-
-	createClass(RobustFunction, [{
-		key: 'execute',
-		value: function execute() {
-			if (this.isAtLimit) {
-				return;
-			}
-			this.private.count++;
-			return this.modified.apply(null, arguments);
-		}
-	}, {
-		key: 'call',
-		value: function call() {
-			if (this.isAtLimit) {
-				return;
-			}
-			this.private.count++;
-			return Function.prototype.call.apply(this.modified, arguments);
-		}
-	}, {
-		key: 'apply',
-		value: function apply() {
-			if (this.isAtLimit) {
-				return;
-			}
-			this.private.count++;
-			return Function.prototype.apply.apply(this.modified, arguments);
-		}
-	}, {
-		key: 'debounce',
-		value: function debounce$1(time) {
-			time = isNumber(time) ? time : false;
-			this.private.debounce = time;
-			this.modify();
-			return this;
-		}
-	}, {
-		key: 'throttle',
-		value: function throttle$1(time) {
-			time = isNumber(time) ? time : false;
-			this.private.throttle = time;
-			this.modify();
-			return this;
-		}
-	}, {
-		key: 'modify',
-		value: function modify() {
-			var modified = this.original;
-			var dbcTime = this.private.debounce;
-			var trlTime = this.private.throttle;
-			modified = isBoolean(dbcTime) ? modified : debounce$1(modified, dbcTime);
-			modified = isBoolean(trlTime) ? modified : throttle$1(modified, trlTime);
-			modified = isUndefined(this.context) ? modified : modified.bind(this.context);
-			this.private.modified = modified;
-			return modified;
-		}
-	}, {
-		key: 'uid',
-		get: function get() {
-			return this.private.uid;
-		}
-	}, {
-		key: 'original',
-		get: function get() {
-			return this.private.original;
-		},
-		set: function set(v) {
-			this.private.original = v;
-			this.modify();
-		}
-	}, {
-		key: 'modified',
-		get: function get() {
-			return this.private.modified;
-		}
-	}, {
-		key: 'context',
-		get: function get() {
-			return this.private.context;
-		},
-		set: function set(v) {
-			this.private.context = v;
-			this.modify();
-		}
-	}, {
-		key: 'count',
-		get: function get() {
-			return this.private.count;
-		}
-	}, {
-		key: 'limit',
-		get: function get() {
-			return this.private.limit;
-		},
-		set: function set(v) {
-			v = isNumber(v) ? v : Infinity;
-			this.private.limit = v;
-		}
-	}, {
-		key: 'isAtLimit',
-		get: function get() {
-			return this.private.count >= this.private.limit;
-		},
-		set: function set(v) {
-			this.private.count = 0;
-		}
-	}]);
-	return RobustFunction;
-}();
-
-function on$1(name, method) {
-	if (!isFunction$1(method)) {
-		return;
-	}
-	method = new RobustFunction(method);
-	var events = this.private.events;
-	var pool = events[name];
-	if (!pool) {
-		var dispatcher = function dispatcher() {
-			var _this = this;
-
-			var args = arguments;
-			Object.keys(pool).forEach(function (uid) {
-				var method = pool[uid];
-				method.apply(_this, args);
-			});
-		};
-
-		events[name] = {};
-		pool = events[name];
-		
-		var element = this.element;
-		if (isElement(element)) {
-			element.addEventListener(name, dispatcher, false);
-		}
-	}
-	var receipt = new OnEventBoundReceipt(pool);
-	receipt.uid = method.uid;
-	pool[method.uid] = method;
-	return receipt;
 }
 
 function _string$3(name, method) {
@@ -2397,14 +2418,14 @@ var Set = {
 };
 
 function _string$9(text) {
-	if (this.private && this.element) {
-		if (!this.private.text) {
+	if (this[symbol] && this.element) {
+		if (!this[symbol].text) {
 			var textNode = document.createTextNode(text);
-			this.private.text = textNode;
+			this[symbol].text = textNode;
 			this.element.appendChild(textNode);
 			return true;
 		}
-		this.private.text.nodeValue = text;
+		this[symbol].text.nodeValue = text;
 		return true;
 	}
 	return false;
@@ -2568,7 +2589,7 @@ var ElementClassReceipt = function (_ElementReceipt) {
 		var _this = possibleConstructorReturn(this, (ElementClassReceipt.__proto__ || Object.getPrototypeOf(ElementClassReceipt)).call(this, element));
 
 		_this.element = element;
-		_this.private.classes = className.split(' ');
+		_this[symbol].classes = className.split(' ');
 		return _this;
 	}
 
@@ -2576,7 +2597,7 @@ var ElementClassReceipt = function (_ElementReceipt) {
 		key: 'add',
 		value: function add() {
 			var existing = getClasses(this.element) || {};
-			this.private.classes.forEach(function (name) {
+			this[symbol].classes.forEach(function (name) {
 				existing[name] = true;
 			});
 			this.element.className = Object.keys(existing).join(' ');
@@ -2586,7 +2607,7 @@ var ElementClassReceipt = function (_ElementReceipt) {
 		key: 'remove',
 		value: function remove() {
 			var existing = getClasses(this.element) || {};
-			this.private.classes.forEach(function (name) {
+			this[symbol].classes.forEach(function (name) {
 				delete existing[name];
 			});
 			this.element.className = Object.keys(existing).join(' ');
@@ -2596,7 +2617,7 @@ var ElementClassReceipt = function (_ElementReceipt) {
 		key: 'toggle',
 		value: function toggle() {
 			var existing = getClasses(this.element) || {};
-			this.private.classes.forEach(function (name) {
+			this[symbol].classes.forEach(function (name) {
 				if (existing[name]) {
 					delete existing[name];
 					return;
@@ -2610,7 +2631,7 @@ var ElementClassReceipt = function (_ElementReceipt) {
 		key: 'exists',
 		value: function exists() {
 			var existing = getClasses(this.element) || {};
-			var classes = this.private.classes;
+			var classes = this[symbol].classes;
 			var count = classes.length;
 			for (var i = 0; i < count; i++) {
 				var name = classes[i];
@@ -2647,9 +2668,9 @@ var Class = {
 	undefined: _undefined$3
 };
 
-var symbol$2 = symbolOrString('on');
+var symbol$7 = symbolOrString('on');
 
-var symbol$3 = symbolOrString('trigger');
+var symbol$8 = symbolOrString('trigger');
 
 //constructor & destructor
 //handlers
@@ -2683,6 +2704,21 @@ var Element$1 = function (_Styleable) {
 	}
 
 	createClass(Element, [{
+		key: symbol$7,
+		value: function value(event, method) {
+			var type = getHandledType$1(event);
+			var action = On[type];
+			return (action || unhandled).call(this, event, method);
+		}
+	}, {
+		key: symbol$8,
+		value: function value(event, args) {
+			var type = getHandledType$1(event);
+			var action = Trigger[type];
+			get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'trigger', this).call(this, event, args);
+			return (action || unhandled).call(this, event, args);
+		}
+	}, {
 		key: 'add',
 		value: function add(item) {
 			var type = getHandledType$1(item);
@@ -2704,29 +2740,14 @@ var Element$1 = function (_Styleable) {
 			return (action || unhandled).call(this, item);
 		}
 	}, {
-		key: symbol$2,
-		value: function value(event, method) {
-			var type = getHandledType$1(event);
-			var action = On[type];
-			return (action || unhandled).call(this, event, method);
-		}
-	}, {
 		key: 'on',
 		value: function on() {
-			return this[symbol$2].apply(this, arguments);
-		}
-	}, {
-		key: symbol$3,
-		value: function value(event, args) {
-			var type = getHandledType$1(event);
-			var action = Trigger[type];
-			get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'trigger', this).call(this, event, args);
-			return (action || unhandled).call(this, event, args);
+			return this[symbol$7].apply(this, arguments);
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger() {
-			return this[symbol$3].apply(this, arguments);
+			return this[symbol$8].apply(this, arguments);
 		}
 	}, {
 		key: 'find',
@@ -2791,9 +2812,9 @@ var Element$1 = function (_Styleable) {
 			};
 
 			var results = [];
-			if (this.private && this.private.children) {
+			if (this[symbol] && this[symbol].children) {
 				(function () {
-					var children = _this2.private.children;
+					var children = _this2[symbol].children;
 					Object.keys(children).forEach(function (id) {
 						var child = children[id];
 						if (child) {
@@ -2809,7 +2830,7 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'destructor',
 		value: function destructor() {
-			destructor$1.call(this);
+			destructor$2.call(this);
 		}
 	}, {
 		key: 'identity',
@@ -2850,9 +2871,7 @@ function isTextNode(u) {
 	return !!(u && u.nodeName === "#text");
 }
 
-var symbol$4 = symbolOrString('private');
-
-var symbol$5 = symbolOrString('uid');
+var symbol$9 = symbolOrString('uid');
 
 function addHiddenValue(obj, prop, value) {
 	Object.defineProperty(obj, prop, {
@@ -2866,12 +2885,12 @@ function addHiddenValue(obj, prop, value) {
 function constructor$4() {
 	var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-	addHiddenValue(this, symbol$4, {
+	addHiddenValue(this, symbol, {
 		events: {},
 		hooks: {},
 		state: values
 	});
-	addHiddenValue(this, symbol$5, uid());
+	addHiddenValue(this, symbol$9, uid());
 }
 
 var Data = function () {
@@ -2882,33 +2901,23 @@ var Data = function () {
 	}
 
 	createClass(Data, [{
-		key: symbol$2,
+		key: symbol$7,
 		value: function value(event, method) {
 			var type = getHandledType$1(event);
 			var action = On[type];
 			return (action || unhandled).call(this, event, method);
 		}
 	}, {
-		key: 'on',
-		value: function on() {
-			return this[symbol$2].apply(this, arguments);
-		}
-	}, {
-		key: symbol$3,
+		key: symbol$8,
 		value: function value(event, args) {
 			var type = getHandledType$1(event);
 			var action = Trigger[type];
 			return (action || unhandled).call(this, event, args);
 		}
 	}, {
-		key: 'trigger',
-		value: function trigger() {
-			return this[symbol$3].apply(this, arguments);
-		}
-	}, {
 		key: 'toJSON',
 		value: function toJSON() {
-			return this[symbol$4].state;
+			return this[symbol].state;
 		}
 	}]);
 	return Data;
@@ -3198,7 +3207,7 @@ var Classes = {
 	ElementClassReceipt: ElementClassReceipt,
 	Element: Element$1,
 	ElementCollection: ElementCollection,
-	Extensible: Extensible,
+	Extensible: Extensible$1,
 	JSUIError: JSUIError,
 	Styleable: Styleable,
 	StyleInline: StyleInline,
@@ -3211,6 +3220,7 @@ var Classes = {
 	Function: RobustFunction
 };
 
+//symbols
 var Constants = {
 	CSS: {
 		equivalents: equivalents,
@@ -3218,6 +3228,20 @@ var Constants = {
 	},
 	HTML: {
 		tags: tags
+	},
+	Symbols: {
+		Extensible: {
+			on: symbol$3,
+			trigger: symbol$4,
+			add: symbol$5,
+			remove: symbol$6
+		},
+		on: symbol$7,
+		private: symbol,
+		state: symbol$1,
+		trigger: symbol$8,
+		uid: symbol$9,
+		destructor: symbol$2
 	}
 };
 
@@ -3478,7 +3502,7 @@ function _default(node, classes, container) {
 		if (isTextNode(child)) {
 			var _node = document.createTextNode("");
 			instance.element.appendChild(_node);
-			instance.private.text = _node;
+			instance[symbol].text = _node;
 			textNodes.push({ node: _node, value: child.nodeValue });
 			return;
 		}

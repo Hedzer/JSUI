@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import Identity from 'Framework/Classes/Identity';
 import isNull from 'Framework/TypeChecks/isNull';
 import vendors from 'Framework/Constants/CSS/vendors';
@@ -12,7 +13,7 @@ const identity = new Identity({
 class StyleRules extends Distinct {
 	constructor() {
 		super();
-		this.private.styles = {};
+		this[$private].styles = {};
 		this.identity = identity;
 	}
 }
@@ -21,13 +22,13 @@ class StyleRules extends Distinct {
 Object.keys(equivalents).forEach((key) => {
 	Object.defineProperty(StyleRules.prototype, key, {
 		get:function(){
-			return this.private.styles[key];
+			return this[$private].styles[key];
 		},
 		set:function(value){
-			let old = this.private.styles[key];
-			this.private.styles[key] = value;
+			let old = this[$private].styles[key];
+			this[$private].styles[key] = value;
 			if (isNull(value)) {
-				delete this.private.styles[key];
+				delete this[$private].styles[key];
 			}
 			if (old !== value){
 				let data = {

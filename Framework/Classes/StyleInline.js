@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import Identity from 'Framework/Classes/Identity';
 import isJSUI from 'Framework/TypeChecks/isJSUI';
 import isBehavior from 'Framework/TypeChecks/isBehavior';
@@ -14,13 +15,14 @@ export default class StyleInline extends StyleRules {
 	constructor(host) {
 		super();
 
-		this.private.host = (host || false);
+		this[$private].host = (host || false);
 
 		let handler = (() => {});
 		if (isJSUI(host)) {
 			handler = (ev) => {
-				if (this.private.host && ev.property) {
-					this.private.host.element.style[ev.property] = ev.new;
+				console.log(ev);
+				if (this[$private].host && ev.property) {
+					this[$private].host.element.style[ev.property] = ev.new;
 				}				
 			};
 		}
@@ -36,11 +38,11 @@ export default class StyleInline extends StyleRules {
 		this.identity = identity;
 	}
 	get host() {
-		return this.private.host;
+		return this[$private].host;
 	}
 	set host(element) {
 		if (isJSUI(element)) {
-			this.private.host = element.element;
+			this[$private].host = element.element;
 		}
 	}
 	set(name, value) {

@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import { default as settings } from 'Framework/Constants/JSUI/settings';
 import isObject from 'Framework/TypeChecks/isObject';
 import isString from 'Framework/TypeChecks/isString';
@@ -25,26 +26,26 @@ export default class Identity {
 			defaults.class = identity;
 		}
 
-		Object.defineProperty(this, 'private', {
+		Object.defineProperty(this, $private, {
 			value: defaults,
 			enumerable: false
 		});
 
-		Object.freeze(this.private);
+		Object.freeze(this[$private]);
 	}
 	get namespace() {
-		return this.private.namespace;
+		return this[$private].namespace;
 	}
 	get class() {
-		return this.private.class;
+		return this[$private].class;
 	}
 	get major() {
-		return this.private.major;
+		return this[$private].major;
 	}
 	get minor() {
-		return this.private.minor;
+		return this[$private].minor;
 	}
 	get patch() {
-		return this.private.patch;
+		return this[$private].patch;
 	}
 }

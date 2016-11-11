@@ -1,15 +1,17 @@
+import $private from 'Framework/Constants/Symbols/General/private';
+
 export default function add(host, name, defaultValue){
 	Object.defineProperty(host, name, {
 		get:function(){
-			let value = (this.private.state.hasOwnProperty(name) ? this.private.state[name] : defaultValue);
+			let value = (this[$private].state.hasOwnProperty(name) ? this[$private].state[name] : defaultValue);
 			return value;
 		},
 		set:function(v){
-			let value = (this.private.state.hasOwnProperty(name) ? this.private.state[name] : defaultValue);
+			let value = (this[$private].state.hasOwnProperty(name) ? this[$private].state[name] : defaultValue);
 			let old = value;
 			value = v;
 			if (old !== v){
-				this.private.state[name] = value;
+				this[$private].state[name] = value;
 				let data = {
 					owner: this,
 					property: name,

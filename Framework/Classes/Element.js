@@ -29,8 +29,9 @@ import Identity from 'Framework/Classes/Identity';
 import Styleable from 'Framework/Classes/Styleable';
 
 //symbols
-import on from 'Framework/Constants/Symbols/on';
-import trigger from 'Framework/Constants/Symbols/trigger';
+import $private from 'Framework/Constants/Symbols/General/private';
+import on from 'Framework/Constants/Symbols/General/on';
+import trigger from 'Framework/Constants/Symbols/General/trigger';
 
 const identity = new Identity({
 	class: 'Element',
@@ -137,8 +138,8 @@ export default class Element extends Styleable {
 	}
 	children(callback = () => { return true; }) {
 		let results = [];
-		if (this.private && this.private.children){
-			let children = this.private.children;
+		if (this[$private] && this[$private].children){
+			let children = this[$private].children;
 			Object.keys(children).forEach((id) => {
 				let child = children[id];
 				if (child){

@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import Identity from 'Framework/Classes/Identity';
 import isString from 'Framework/TypeChecks/isString';
 import isNumber from 'Framework/TypeChecks/isNumber';
@@ -18,10 +19,10 @@ export default class StyleSheetRule extends StyleRules {
 	constructor(selector, properties) {
 		super();
 		this.identity = identity;
-		this.private.importance = 0;
-		this.private.created = new Date().valueOf();
-		this.private.isSwitchable = false;
-		this.private.isOnByDefault = true;
+		this[$private].importance = 0;
+		this[$private].created = new Date().valueOf();
+		this[$private].isSwitchable = false;
+		this[$private].isOnByDefault = true;
 		if (selector) {
 			this.selector = selector;
 		}
@@ -30,12 +31,12 @@ export default class StyleSheetRule extends StyleRules {
 		}
 	}
 	get selector() {
-		return this.private.selector;
+		return this[$private].selector;
 	}
 	set selector(selector) {
 		let self = this;
 		let changed = () => {
-			let old = this.private.selector;
+			let old = this[$private].selector;
 			this.trigger('selectorChanged', {
 				owner: self,
 				old: old,
@@ -44,19 +45,19 @@ export default class StyleSheetRule extends StyleRules {
 		};
 
 		if (isString(selector)) {
-			this.private.selector = selector;
+			this[$private].selector = selector;
 			changed();
 			return;
 		}
 		//will need array and object
 	}
 	get media() {
-		return this.private.media;
+		return this[$private].media;
 	}
 	set media(media) {
 		let self = this;
 		let changed = () => {
-			let old = this.private.media;
+			let old = this[$private].media;
 			this.trigger('mediaChanged', {
 				owner: self,
 				old: old,
@@ -65,30 +66,30 @@ export default class StyleSheetRule extends StyleRules {
 		};
 
 		if (isString(media)) {
-			this.private.media = media;
+			this[$private].media = media;
 			changed();
 			return;
 		}
 		//will need array and object
 	}
 	get importance() {
-		return (this.private.importance || 0);
+		return (this[$private].importance || 0);
 	}
 	set importance(zindex) {
-		let old = this.private.importance;
+		let old = this[$private].importance;
 		if (isNumber(zindex)) {
 			if (old === zindex) { return; }
-			this.private.importance = zindex;
+			this[$private].importance = zindex;
 		}
 		this.trigger('importanceChanged', {old: old, new: zindex});
 	}
 	get context() {
-		return (this.private.context || 'default');
+		return (this[$private].context || 'default');
 	}
 	set context(context) {
-		let old = this.private.context;
+		let old = this[$private].context;
 		if (old === context) { return; }
-		this.private.context = context;
+		this[$private].context = context;
 		this.trigger('contextChanged', {old: old, new: context});
 	}
 	set(name, value) {
@@ -109,9 +110,9 @@ export default class StyleSheetRule extends StyleRules {
 		}
 	}
 	render(context) {
-		context = (context || this.private.context || 'default');
+		context = (context || this[$private].context || 'default');
 		let sheet = Sheets[context] || new StyleSheet(context);
-		if (!sheet.private.rules[this.uid]) {
+		if (!sheet[$private].rules[this.uid]) {
 			sheet.add(this);
 			return;
 		}
@@ -122,9 +123,9 @@ export default class StyleSheetRule extends StyleRules {
 		}
 		let styles = [];
 		let rendered = '';
-		Object.keys(this.private.styles).forEach((key) => {
+		Object.keys(this[$private].styles).forEach((key) => {
 			let name = equivalents[key];
-			let value = this.private.styles[key];
+			let value = this[$private].styles[key];
 			//needs handlers for values
 			styles.push(`${name}: ${value};`);
 		});
@@ -140,30 +141,30 @@ export default class StyleSheetRule extends StyleRules {
 		return rendered;
 	}
 	get isSwitchable() {
-		return this.private.isSwitchable;
+		return this[$private].isSwitchable;
 	}
 	set isSwitchable(bool) {
-		let old = this.private.isSwitchable;
+		let old = this[$private].isSwitchable;
 		if (old === bool) { return; }
-		this.private.isSwitchable = bool;
+		this[$private].isSwitchable = bool;
 		this.trigger('isSwitchableChanged', {old: old, new: bool});
 	}
 	get isOnByDefault() {
-		return this.private.isOnByDefault;
+		return this[$private].isOnByDefault;
 	}
 	set isOnByDefault(bool) {
-		let old = this.private.isOnByDefault;
+		let old = this[$private].isOnByDefault;
 		if (old === bool) { return; }
-		this.private.isOnByDefault = bool;
+		this[$private].isOnByDefault = bool;
 		this.trigger('isOnByDefaultChanged', {old: old, new: bool});
 	}
 	get class() {
-		return this.private.class;
+		return this[$private].class;
 	}
 	set class(className) {
-		let old = this.private.class;
+		let old = this[$private].class;
 		if (old === className) { return; }
-		this.private.class = className;
+		this[$private].class = className;
 		this.trigger('classChanged', {old: old, new: className});
 	}
 	_on(JSUIElement) {

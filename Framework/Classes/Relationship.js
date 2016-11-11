@@ -1,3 +1,4 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import Identity from 'Framework/Classes/Identity';
 import { default as uid } from 'Framework/Utilities/General/uid';
 import { default as Binding } from 'Framework/Classes/Relationship/Bind';
@@ -9,7 +10,7 @@ const identity = new Identity({
 
 export default class Relationship {
 	constructor() {
-		this.private = {
+		this[$private] = {
 			bindings: {}
 		};
 		this.uid = uid();

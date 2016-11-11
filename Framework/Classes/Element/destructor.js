@@ -1,9 +1,10 @@
+import $private from 'Framework/Constants/Symbols/General/private';
 import isFunction from 'Framework/TypeChecks/isFunction';
 import isArray from 'Framework/TypeChecks/isArray';
 
 export default function destructor() {
 	let _element = this.element;
-	let _private = this.private;
+	let _private = this[$private];
 	if (_element){
 		let parent = _element.parentNode;
 		if (isFunction(_element.remove)){
