@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import { default as ElementAddedReceipt } from 'Framework/Classes/ElementAddedReceipt';
 
 export default function _jsui(instance){

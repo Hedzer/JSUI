@@ -1,12 +1,12 @@
-//symbols
-import $private from 'Framework/Constants/Symbols/General/private';
-import state from 'Framework/Constants/Symbols/General/state';
-import destructor from 'Framework/Constants/Symbols/General/destructor';
+//Keys
+import $private from 'Framework/Constants/Keys/General/private';
+import state from 'Framework/Constants/Keys/General/state';
+import destructor from 'Framework/Constants/Keys/General/destructor';
 
-import on from 'Framework/Constants/Symbols/Extensible/on';
-import trigger from 'Framework/Constants/Symbols/Extensible/trigger';
-import add from 'Framework/Constants/Symbols/Extensible/add';
-import remove from 'Framework/Constants/Symbols/Extensible/remove';
+import on from 'Framework/Constants/Keys/Extensible/on';
+import trigger from 'Framework/Constants/Keys/Extensible/trigger';
+import add from 'Framework/Constants/Keys/Extensible/add';
+import remove from 'Framework/Constants/Keys/Extensible/remove';
 
 //classes
 import Base from 'Framework/Classes/Base';

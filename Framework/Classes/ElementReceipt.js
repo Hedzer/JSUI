@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import { default as Receipt } from 'Framework/Classes/Receipt';
 
 export default class ElementReceipt extends Receipt {

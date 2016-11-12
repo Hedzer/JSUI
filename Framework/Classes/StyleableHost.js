@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import isStyleSheetRule from 'Framework/TypeChecks/isStyleSheetRule';
 import Identity from 'Framework/Classes/Identity';
 import Distinct from 'Framework/Classes/Distinct';

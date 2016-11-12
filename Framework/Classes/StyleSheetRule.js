@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import Identity from 'Framework/Classes/Identity';
 import isString from 'Framework/TypeChecks/isString';
 import isNumber from 'Framework/TypeChecks/isNumber';

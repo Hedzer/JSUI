@@ -28,10 +28,10 @@ import Class from 'Framework/Classes/Element/Handlers/Class';
 import Identity from 'Framework/Classes/Identity';
 import Styleable from 'Framework/Classes/Styleable';
 
-//symbols
-import $private from 'Framework/Constants/Symbols/General/private';
-import on from 'Framework/Constants/Symbols/General/on';
-import trigger from 'Framework/Constants/Symbols/General/trigger';
+//Keys
+import $private from 'Framework/Constants/Keys/General/private';
+import on from 'Framework/Constants/Keys/General/on';
+import trigger from 'Framework/Constants/Keys/General/trigger';
 
 const identity = new Identity({
 	class: 'Element',
@@ -61,7 +61,6 @@ export default class Element extends Styleable {
 	[trigger](event, args) {
 		let type = getHandledType(event);
 		let action = Trigger[type];
-		super.trigger(event, args);
 		return (action || unhandled).call(this, event, args);
 	}
 	get identity() {

@@ -431,93 +431,6 @@ var Base = function Base() {
   classCallCheck(this, Base);
 };
 
-function remove$1() {
-	delete this.pool[this.id];
-}
-
-function removeAll$1() {
-	var _this = this;
-
-	Object.keys(this.pool).forEach(function (eid) {
-		delete _this.pool[eid];
-	});
-}
-
-var Receipt = function Receipt() {
-  classCallCheck(this, Receipt);
-};
-
-var OnEventBoundReceipt = function (_Receipt) {
-	inherits(OnEventBoundReceipt, _Receipt);
-
-	function OnEventBoundReceipt(pool) {
-		classCallCheck(this, OnEventBoundReceipt);
-
-		var _this = possibleConstructorReturn(this, (OnEventBoundReceipt.__proto__ || Object.getPrototypeOf(OnEventBoundReceipt)).call(this));
-
-		_this[symbol] = {
-			pool: pool,
-			uid: uid()
-		};
-		return _this;
-	}
-
-	createClass(OnEventBoundReceipt, [{
-		key: 'remove',
-		value: function remove() {
-			return remove$1.call(this);
-		}
-	}, {
-		key: 'removeAll',
-		value: function removeAll() {
-			return removeAll$1.call(this);
-		}
-	}, {
-		key: 'debounce',
-		value: function debounce(time) {
-			var method = this.pool[this.uid];
-			method.debounce(time);
-			return this;
-		}
-	}, {
-		key: 'throttle',
-		value: function throttle(time) {
-			var method = this.pool[this.uid];
-			method.throttle(time);
-			return this;
-		}
-	}, {
-		key: 'limit',
-		value: function limit(count) {
-			var method = this.pool[this.uid];
-			method.limit = count;
-			return this;
-		}
-	}, {
-		key: 'once',
-		value: function once() {
-			return this.limit(1);
-		}
-	}, {
-		key: 'uid',
-		get: function get() {
-			return this[symbol].uid;
-		},
-		set: function set(v) {
-			this[symbol].uid = v;
-		}
-	}, {
-		key: 'pool',
-		get: function get() {
-			return this[symbol].pool;
-		},
-		set: function set(v) {
-			this[symbol].pool = v;
-		}
-	}]);
-	return OnEventBoundReceipt;
-}(Receipt);
-
 function isUndefined(u) {
 	return typeof u === 'undefined';
 }
@@ -685,29 +598,120 @@ var JSUIFunction = function () {
 	return JSUIFunction;
 }();
 
+function isJSUI$1(u) {
+	return u instanceof JSUIFunction;
+}
+
+function dispatch(context, pool) {
+	var _arguments = arguments;
+
+	Array.prototype.splice.call(arguments, 0, 2);
+	Object.keys(pool).forEach(function (uid) {
+		var method = pool[uid];
+		method.apply(context, _arguments);
+	});
+}
+
+function remove$1() {
+	delete this.pool[this.id];
+}
+
+function removeAll$1() {
+	var _this = this;
+
+	Object.keys(this.pool).forEach(function (eid) {
+		delete _this.pool[eid];
+	});
+}
+
+var Receipt = function Receipt() {
+  classCallCheck(this, Receipt);
+};
+
+var OnEventBoundReceipt = function (_Receipt) {
+	inherits(OnEventBoundReceipt, _Receipt);
+
+	function OnEventBoundReceipt(pool) {
+		classCallCheck(this, OnEventBoundReceipt);
+
+		var _this = possibleConstructorReturn(this, (OnEventBoundReceipt.__proto__ || Object.getPrototypeOf(OnEventBoundReceipt)).call(this));
+
+		_this[symbol] = {
+			pool: pool,
+			uid: uid()
+		};
+		return _this;
+	}
+
+	createClass(OnEventBoundReceipt, [{
+		key: 'remove',
+		value: function remove() {
+			return remove$1.call(this);
+		}
+	}, {
+		key: 'removeAll',
+		value: function removeAll() {
+			return removeAll$1.call(this);
+		}
+	}, {
+		key: 'debounce',
+		value: function debounce(time) {
+			var method = this.pool[this.uid];
+			method.debounce(time);
+			return this;
+		}
+	}, {
+		key: 'throttle',
+		value: function throttle(time) {
+			var method = this.pool[this.uid];
+			method.throttle(time);
+			return this;
+		}
+	}, {
+		key: 'limit',
+		value: function limit(count) {
+			var method = this.pool[this.uid];
+			method.limit = count;
+			return this;
+		}
+	}, {
+		key: 'once',
+		value: function once() {
+			return this.limit(1);
+		}
+	}, {
+		key: 'uid',
+		get: function get() {
+			return this[symbol].uid;
+		},
+		set: function set(v) {
+			this[symbol].uid = v;
+		}
+	}, {
+		key: 'pool',
+		get: function get() {
+			return this[symbol].pool;
+		},
+		set: function set(v) {
+			this[symbol].pool = v;
+		}
+	}]);
+	return OnEventBoundReceipt;
+}(Receipt);
+
 function on$1(name, method) {
 	if (!isFunction$1(method)) {
 		return;
 	}
 	method = new JSUIFunction(method);
 	var events = this[symbol].events;
-	var hooks = this[symbol].hooks;
+	var dispatchers = this[symbol].dispatchers;
 	var pool = events[name];
 	if (!pool) {
-		var dispatcher = function dispatcher() {
-			var _this = this;
-
-			var args = arguments;
-			Object.keys(pool).forEach(function (uid) {
-				var method = pool[uid];
-				method.apply(_this, args);
-			});
-		};
-
 		events[name] = {};
 		pool = events[name];
-		
-		hooks[name] = dispatcher;
+		var dispatcher = dispatch.bind(this, this, pool);
+		dispatchers[name] = new JSUIFunction(dispatcher);
 		var element = this.element;
 		if (isElement(element)) {
 			element.addEventListener(name, dispatcher, false);
@@ -719,16 +723,25 @@ function on$1(name, method) {
 	return receipt;
 }
 
-function constructor() {
-	this[symbol] = {
-		state: {},
-		events: {},
-		hooks: {}
-	};
+function addHiddenValue(obj, prop, value) {
+	Object.defineProperty(obj, prop, {
+		configurable: true,
+		enumerable: false,
+		writable: true,
+		value: value
+	});
 }
 
-//symbols
-var Extensible$2 = function Extensible$2(descendant) {
+function constructor() {
+	addHiddenValue(this, symbol, {
+		events: {},
+		dispatchers: {},
+		state: {}
+	});
+}
+
+//Keys
+var Extensible$3 = function Extensible$3(descendant) {
 	return function (_descendant) {
 		inherits(ExtensibleMixin, _descendant);
 
@@ -790,10 +803,13 @@ var Extensible$2 = function Extensible$2(descendant) {
 					if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 				}
 
-				var hooks = this[symbol].hooks;
-				var hook = hooks[event];
-				if (isFunction$1(hook)) {
-					return hook(args);
+				var dispatchers = this[symbol].dispatchers;
+				var dispatcher = dispatchers[event];
+				if (isJSUI$1(dispatcher)) {
+					return dispatcher.execute(args);
+				}
+				if (isFunction$1(dispatcher)) {
+					return dispatcher.call(this, args);
 				}
 			}
 		}, {
@@ -846,10 +862,10 @@ var Extensible$2 = function Extensible$2(descendant) {
 	}(descendant);
 };
 
-//symbols
+//Keys
 //classes
 //mixins
-var Extensible = function (_ExtensibleMixin) {
+var Extensible$1 = function (_ExtensibleMixin) {
 	inherits(Extensible, _ExtensibleMixin);
 
 	function Extensible() {
@@ -894,7 +910,7 @@ var Extensible = function (_ExtensibleMixin) {
 		}
 	}]);
 	return Extensible;
-}(Extensible$2(Base));
+}(Extensible$3(Base));
 
 function constructor$1() {
 	this[symbol].uid = uid();
@@ -944,7 +960,7 @@ var Distinct = function (_Extensible) {
 		}
 	}]);
 	return Distinct;
-}(Extensible);
+}(Extensible$1);
 
 var identity$4 = new Identity({
 	class: 'StyleRules',
@@ -1018,8 +1034,12 @@ var JSUIError = function (_Error) {
 	return JSUIError;
 }(Error);
 
+function isUStyleSheetRule$1(u, t) {
+	return !!(u && u.prototype && (u.prototype instanceof t || u === t));
+}
+
 function isUStyleSheetRule(u) {
-	return !!(u && u.prototype && (u.prototype instanceof StyleSheetRule || u === StyleSheetRule));
+	return isUStyleSheetRule$1(u, StyleSheetRule);
 }
 
 function rules(a, b) {
@@ -1998,11 +2018,11 @@ function _path(prop) {
 }
 
 function isUJSUI(u) {
-	return !!(u && u.prototype && (u.prototype instanceof Element$1 || u === Element$1));
+	return isUStyleSheetRule$1(u, Element$1);
 }
 
 function isUBehavior(u) {
-	return !!(u && u.prototype && (u.prototype instanceof Behavior || u === Behavior));
+	return isUStyleSheetRule$1(u, Behavior);
 }
 
 function _function(method) {
@@ -2684,7 +2704,7 @@ var symbol$8 = symbolOrString('trigger');
 //constructor & destructor
 //handlers
 //classes
-//symbols
+//Keys
 var identity = new Identity({
 	class: 'Element',
 	major: 1, minor: 0, patch: 0
@@ -2724,7 +2744,6 @@ var Element$1 = function (_Styleable) {
 		value: function value(event, args) {
 			var type = getHandledType$1(event);
 			var action = Trigger[type];
-			get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'trigger', this).call(this, event, args);
 			return (action || unhandled).call(this, event, args);
 		}
 	}, {
@@ -2882,62 +2901,46 @@ function isTextNode(u) {
 
 var symbol$9 = symbolOrString('uid');
 
-function addHiddenValue(obj, prop, value) {
-	Object.defineProperty(obj, prop, {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: value
-	});
-}
-
 function constructor$4() {
 	var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 	addHiddenValue(this, symbol, {
 		events: {},
-		hooks: {},
+		dispatchers: {},
 		state: values
 	});
 	addHiddenValue(this, symbol$9, uid());
 }
 
-var Data = function () {
+//classes
+//mixins
+var Data = function (_ExtensibleMixin) {
+	inherits(Data, _ExtensibleMixin);
+
 	function Data(values) {
 		classCallCheck(this, Data);
 
-		constructor$4.call(this, values);
+		var _this = possibleConstructorReturn(this, (Data.__proto__ || Object.getPrototypeOf(Data)).call(this));
+
+		constructor$4.call(_this, values);
+		return _this;
 	}
 
 	createClass(Data, [{
-		key: symbol$7,
-		value: function value(event, method) {
-			var type = getHandledType$1(event);
-			var action = On[type];
-			return (action || unhandled).call(this, event, method);
-		}
-	}, {
-		key: symbol$8,
-		value: function value(event, args) {
-			var type = getHandledType$1(event);
-			var action = Trigger[type];
-			return (action || unhandled).call(this, event, args);
-		}
-	}, {
 		key: 'toJSON',
 		value: function toJSON() {
 			return this[symbol].state;
 		}
 	}]);
 	return Data;
-}();
+}(Extensible$3(Base));
 
 function isData(u) {
 	return u instanceof Data;
 }
 
 function isUData(u) {
-	return !!(u && u.prototype && (u.prototype instanceof Data || u === Data));
+	return isUStyleSheetRule$1(u, Data);
 }
 
 var TypeChecks = {
@@ -3216,7 +3219,7 @@ var Classes = {
 	ElementClassReceipt: ElementClassReceipt,
 	Element: Element$1,
 	ElementCollection: ElementCollection,
-	Extensible: Extensible,
+	Extensible: Extensible$1,
 	JSUIError: JSUIError,
 	Styleable: Styleable,
 	StyleInline: StyleInline,
@@ -3229,7 +3232,7 @@ var Classes = {
 	Function: JSUIFunction
 };
 
-//symbols
+//Keys
 var Constants = {
 	CSS: {
 		equivalents: equivalents,
@@ -3238,7 +3241,7 @@ var Constants = {
 	HTML: {
 		tags: tags
 	},
-	Symbols: {
+	Keys: {
 		Extensible: {
 			on: symbol$3,
 			trigger: symbol$4,

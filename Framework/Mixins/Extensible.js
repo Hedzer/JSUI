@@ -1,20 +1,21 @@
 import isString from 'Framework/TypeChecks/isString';
 import isArray from 'Framework/TypeChecks/isArray';
 import isFunction from 'Framework/TypeChecks/isFunction';
+import isJSUIFunction from 'Framework/TypeChecks/isJSUIFunction';
 import isObject from 'Framework/TypeChecks/isObject';
 import uid from 'Framework/Utilities/General/uid';
 import onEvent from 'Framework/Utilities/Events/on';
 import constructor from 'Framework/Classes/Extensible/constructor';
 
-//symbols
-import $private from 'Framework/Constants/Symbols/General/private';
-import state from 'Framework/Constants/Symbols/General/state';
-import destructor from 'Framework/Constants/Symbols/General/destructor';
+//Keys
+import $private from 'Framework/Constants/Keys/General/private';
+import state from 'Framework/Constants/Keys/General/state';
+import destructor from 'Framework/Constants/Keys/General/destructor';
 
-import on from 'Framework/Constants/Symbols/Extensible/on';
-import trigger from 'Framework/Constants/Symbols/Extensible/trigger';
-import add from 'Framework/Constants/Symbols/Extensible/add';
-import remove from 'Framework/Constants/Symbols/Extensible/remove';
+import on from 'Framework/Constants/Keys/Extensible/on';
+import trigger from 'Framework/Constants/Keys/Extensible/trigger';
+import add from 'Framework/Constants/Keys/Extensible/add';
+import remove from 'Framework/Constants/Keys/Extensible/remove';
 
 let Extensible = (descendant) => class ExtensibleMixin extends descendant {  
 	constructor() {
@@ -56,10 +57,13 @@ let Extensible = (descendant) => class ExtensibleMixin extends descendant {
 			return results;
 		}
 
-		let hooks = this[$private].hooks;
-		let hook = hooks[event];
-		if (isFunction(hook)) {
-			return hook(args);
+		let dispatchers = this[$private].dispatchers;
+		let dispatcher = dispatchers[event];
+		if (isJSUIFunction(dispatcher)) {
+			return dispatcher.execute(args);
+		}
+		if (isFunction(dispatcher)) {
+			return dispatcher.call(this, args);
 		}
 	}
 	[add](item, value) {

@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 
 export default function rules(a, b) {
 	let importance = b.importance - a.importance;

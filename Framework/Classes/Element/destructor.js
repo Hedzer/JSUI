@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import isFunction from 'Framework/TypeChecks/isFunction';
 import isArray from 'Framework/TypeChecks/isArray';
 

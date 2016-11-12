@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 export default function constructor() {
 	this[$private].context = 'default';
 	this[$private].style = {

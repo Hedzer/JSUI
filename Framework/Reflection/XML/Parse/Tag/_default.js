@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import getTagName from 'Framework/Utilities/Elements/getTagName';
 import childNodes from 'Framework/Utilities/Elements/childNodes';
 import doOrSet from 'Framework/Utilities/Properties/doOrSet';

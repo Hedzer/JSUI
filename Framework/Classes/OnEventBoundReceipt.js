@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import uid from 'Framework/Utilities/General/uid';
 import remove from 'Framework/Utilities/Events/remove';
 import removeAll from 'Framework/Utilities/Events/removeAll';

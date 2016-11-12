@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import Identity from 'Framework/Classes/Identity';
 import isNull from 'Framework/TypeChecks/isNull';
 import vendors from 'Framework/Constants/CSS/vendors';

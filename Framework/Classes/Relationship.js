@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import Identity from 'Framework/Classes/Identity';
 import { default as uid } from 'Framework/Utilities/General/uid';
 import { default as Binding } from 'Framework/Classes/Relationship/Bind';

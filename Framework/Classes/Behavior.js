@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import Identity from 'Framework/Classes/Identity';
 import Styleable from 'Framework/Classes/Styleable';
 import isJSUI from 'Framework/TypeChecks/isJSUI';

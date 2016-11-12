@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import { default as ElementReceipt } from 'Framework/Classes/ElementReceipt';
 import addClass from 'Framework/Utilities/Elements/addClass';
 

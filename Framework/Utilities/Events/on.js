@@ -1,27 +1,22 @@
 import isFunction from 'Framework/TypeChecks/isFunction';
 import isElement from 'Framework/TypeChecks/isElement';
+import dispatch from 'Framework/Utilities/Events/dispatch';
 import { default as OnEventBoundReceipt } from 'Framework/Classes/OnEventBoundReceipt';
 import { default as JSUIFunction } from 'Framework/Classes/JSUIFunction';
 
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 
 export default function on(name, method) {
 	if (!isFunction(method)) { return; }
 	method = new JSUIFunction(method);
 	let events = this[$private].events;
-	let hooks = this[$private].hooks;
+	let dispatchers = this[$private].dispatchers;
 	let pool = events[name];
 	if (!pool){
 		events[name] = {};
 		pool = events[name];
-		function dispatcher() {
-			let args = arguments;
-			Object.keys(pool).forEach((uid) => {
-				let method = pool[uid];
-				method.apply(this, args);
-			});
-		};
-		hooks[name] = dispatcher;
+		let dispatcher = dispatch.bind(this, this, pool);
+		dispatchers[name] = new JSUIFunction(dispatcher);
 		let element = this.element;
 		if (isElement(element)) {
 			element.addEventListener(name, dispatcher, false);

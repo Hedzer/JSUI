@@ -2,18 +2,18 @@ import equivalents from 'Framework/Constants/CSS/equivalents';
 import vendors from 'Framework/Constants/CSS/vendors';
 import tags from 'Framework/Constants/HTML/tags';
 
-//symbols
-import $private from 'Framework/Constants/Symbols/General/private';
-import on from 'Framework/Constants/Symbols/General/on';
-import trigger from 'Framework/Constants/Symbols/General/trigger';
-import state from 'Framework/Constants/Symbols/General/state';
-import uid from 'Framework/Constants/Symbols/General/uid';
-import destructor from 'Framework/Constants/Symbols/General/destructor';
+//Keys
+import $private from 'Framework/Constants/Keys/General/private';
+import on from 'Framework/Constants/Keys/General/on';
+import trigger from 'Framework/Constants/Keys/General/trigger';
+import state from 'Framework/Constants/Keys/General/state';
+import uid from 'Framework/Constants/Keys/General/uid';
+import destructor from 'Framework/Constants/Keys/General/destructor';
 
-import extensibleOn from 'Framework/Constants/Symbols/Extensible/on';
-import extensibleTrigger from 'Framework/Constants/Symbols/Extensible/trigger';
-import extensibleAdd from 'Framework/Constants/Symbols/Extensible/add';
-import extensibleRemove from 'Framework/Constants/Symbols/Extensible/remove';
+import extensibleOn from 'Framework/Constants/Keys/Extensible/on';
+import extensibleTrigger from 'Framework/Constants/Keys/Extensible/trigger';
+import extensibleAdd from 'Framework/Constants/Keys/Extensible/add';
+import extensibleRemove from 'Framework/Constants/Keys/Extensible/remove';
 
 let Constants = {
 	CSS: {
@@ -23,7 +23,7 @@ let Constants = {
 	HTML: {
 		tags: tags
 	},
-	Symbols: {
+	Keys: {
 		Extensible: {
 			on: extensibleOn,
 			trigger: extensibleTrigger,

@@ -1,9 +1,10 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
+import { default as define } from 'Framework/Utilities/Properties/addHiddenValue';
 
 export default function constructor() {
-	this[$private] = {
-		state: {},
+	define(this, $private, {
 		events: {},
-		hooks: {}
-	};
+		dispatchers: {},
+		state: {}
+	});
 }

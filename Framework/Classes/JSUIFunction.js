@@ -5,7 +5,7 @@ import isBoolean from 'Framework/TypeChecks/isBoolean';
 import uid from 'Framework/Utilities/General/uid';
 import debounce from 'Framework/Utilities/Functions/debounce';
 import throttle from 'Framework/Utilities/Functions/throttle';
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 
 export default class JSUIFunction {
 	constructor(original) {

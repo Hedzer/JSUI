@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 import { default as settings } from 'Framework/Constants/JSUI/settings';
 import isObject from 'Framework/TypeChecks/isObject';
 import isString from 'Framework/TypeChecks/isString';

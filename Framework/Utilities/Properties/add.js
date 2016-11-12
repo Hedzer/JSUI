@@ -1,4 +1,4 @@
-import $private from 'Framework/Constants/Symbols/General/private';
+import $private from 'Framework/Constants/Keys/General/private';
 
 export default function add(host, name, defaultValue){
 	Object.defineProperty(host, name, {
