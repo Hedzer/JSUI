@@ -7,7 +7,7 @@ import debounce from 'Framework/Utilities/Functions/debounce';
 import throttle from 'Framework/Utilities/Functions/throttle';
 import $private from 'Framework/Constants/Symbols/General/private';
 
-export default class RobustFunction {
+export default class JSUIFunction {
 	constructor(original) {
 		original = (isFunction(original) ? original : () => {});
 		this[$private] = {
@@ -92,6 +92,6 @@ export default class RobustFunction {
 		return (this[$private].count >= this[$private].limit);
 	}
 	set isAtLimit(v) {
-		this[$private].count = 0;
+		this[$private].count = (v ? this[$private].limit : 0);
 	}
 }

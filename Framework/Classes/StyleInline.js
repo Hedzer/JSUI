@@ -20,7 +20,6 @@ export default class StyleInline extends StyleRules {
 		let handler = (() => {});
 		if (isJSUI(host)) {
 			handler = (ev) => {
-				console.log(ev);
 				if (this[$private].host && ev.property) {
 					this[$private].host.element.style[ev.property] = ev.new;
 				}				

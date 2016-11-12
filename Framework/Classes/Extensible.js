@@ -8,10 +8,13 @@ import trigger from 'Framework/Constants/Symbols/Extensible/trigger';
 import add from 'Framework/Constants/Symbols/Extensible/add';
 import remove from 'Framework/Constants/Symbols/Extensible/remove';
 
+//classes
+import Base from 'Framework/Classes/Base';
+
 //mixins
 import ExtensibleMixin from 'Framework/Mixins/Extensible';
 
-export default ExtensibleMixin(class Extensible {
+export default class Extensible extends ExtensibleMixin(Base) {
 	get private() {
 		return this[$private];
 	}
@@ -33,4 +36,4 @@ export default ExtensibleMixin(class Extensible {
 	destructor() {
 		return this[destructor].apply(this, arguments);
 	}
-})
+}

@@ -9,6 +9,7 @@ export default function on(name, method) {
 	if (!isFunction(method)) { return; }
 	method = new JSUIFunction(method);
 	let events = this[$private].events;
+	let hooks = this[$private].hooks;
 	let pool = events[name];
 	if (!pool){
 		events[name] = {};
@@ -20,6 +21,7 @@ export default function on(name, method) {
 				method.apply(this, args);
 			});
 		};
+		hooks[name] = dispatcher;
 		let element = this.element;
 		if (isElement(element)) {
 			element.addEventListener(name, dispatcher, false);

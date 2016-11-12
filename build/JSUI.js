@@ -427,6 +427,10 @@ var symbol$5 = symbolOrString('Extensible.add');
 
 var symbol$6 = symbolOrString('Extensible.remove');
 
+var Base = function Base() {
+  classCallCheck(this, Base);
+};
+
 function remove$1() {
 	delete this.pool[this.id];
 }
@@ -555,9 +559,9 @@ function throttle$1(fn, time) {
 	}
 }
 
-var RobustFunction = function () {
-	function RobustFunction(original) {
-		classCallCheck(this, RobustFunction);
+var JSUIFunction = function () {
+	function JSUIFunction(original) {
+		classCallCheck(this, JSUIFunction);
 
 		original = isFunction$1(original) ? original : function () {};
 		this[symbol] = {
@@ -572,7 +576,7 @@ var RobustFunction = function () {
 		};
 	}
 
-	createClass(RobustFunction, [{
+	createClass(JSUIFunction, [{
 		key: 'execute',
 		value: function execute() {
 			if (this.isAtLimit) {
@@ -675,18 +679,19 @@ var RobustFunction = function () {
 			return this[symbol].count >= this[symbol].limit;
 		},
 		set: function set(v) {
-			this[symbol].count = 0;
+			this[symbol].count = v ? this[symbol].limit : 0;
 		}
 	}]);
-	return RobustFunction;
+	return JSUIFunction;
 }();
 
 function on$1(name, method) {
 	if (!isFunction$1(method)) {
 		return;
 	}
-	method = new RobustFunction(method);
+	method = new JSUIFunction(method);
 	var events = this[symbol].events;
+	var hooks = this[symbol].hooks;
 	var pool = events[name];
 	if (!pool) {
 		var dispatcher = function dispatcher() {
@@ -702,6 +707,7 @@ function on$1(name, method) {
 		events[name] = {};
 		pool = events[name];
 		
+		hooks[name] = dispatcher;
 		var element = this.element;
 		if (isElement(element)) {
 			element.addEventListener(name, dispatcher, false);
@@ -724,18 +730,18 @@ function constructor() {
 //symbols
 var Extensible$2 = function Extensible$2(descendant) {
 	return function (_descendant) {
-		inherits(_class, _descendant);
+		inherits(ExtensibleMixin, _descendant);
 
-		function _class() {
-			classCallCheck(this, _class);
+		function ExtensibleMixin() {
+			classCallCheck(this, ExtensibleMixin);
 
-			var _this = possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this));
+			var _this = possibleConstructorReturn(this, (ExtensibleMixin.__proto__ || Object.getPrototypeOf(ExtensibleMixin)).call(this));
 
 			constructor.call(_this);
 			return _this;
 		}
 
-		createClass(_class, [{
+		createClass(ExtensibleMixin, [{
 			key: symbol$1,
 			value: function value(property, _value) {
 				var old = this[symbol].state[property];
@@ -787,7 +793,7 @@ var Extensible$2 = function Extensible$2(descendant) {
 				var hooks = this[symbol].hooks;
 				var hook = hooks[event];
 				if (isFunction$1(hook)) {
-					hook(args);
+					return hook(args);
 				}
 			}
 		}, {
@@ -836,15 +842,19 @@ var Extensible$2 = function Extensible$2(descendant) {
 				});
 			}
 		}]);
-		return _class;
+		return ExtensibleMixin;
 	}(descendant);
 };
 
 //symbols
+//classes
 //mixins
-var Extensible$1 = Extensible$2(function () {
+var Extensible = function (_ExtensibleMixin) {
+	inherits(Extensible, _ExtensibleMixin);
+
 	function Extensible() {
 		classCallCheck(this, Extensible);
+		return possibleConstructorReturn(this, (Extensible.__proto__ || Object.getPrototypeOf(Extensible)).apply(this, arguments));
 	}
 
 	createClass(Extensible, [{
@@ -884,7 +894,7 @@ var Extensible$1 = Extensible$2(function () {
 		}
 	}]);
 	return Extensible;
-}());
+}(Extensible$2(Base));
 
 function constructor$1() {
 	this[symbol].uid = uid();
@@ -934,7 +944,7 @@ var Distinct = function (_Extensible) {
 		}
 	}]);
 	return Distinct;
-}(Extensible$1);
+}(Extensible);
 
 var identity$4 = new Identity({
 	class: 'StyleRules',
@@ -1416,7 +1426,6 @@ var StyleInline = function (_StyleRules) {
 		var handler = function handler() {};
 		if (isJSUI(host)) {
 			handler = function handler(ev) {
-				console.log(ev);
 				if (_this[symbol].host && ev.property) {
 					_this[symbol].host.element.style[ev.property] = ev.new;
 				}
@@ -3207,7 +3216,7 @@ var Classes = {
 	ElementClassReceipt: ElementClassReceipt,
 	Element: Element$1,
 	ElementCollection: ElementCollection,
-	Extensible: Extensible$1,
+	Extensible: Extensible,
 	JSUIError: JSUIError,
 	Styleable: Styleable,
 	StyleInline: StyleInline,
@@ -3217,7 +3226,7 @@ var Classes = {
 	StyleVariables: StyleVariables,
 	Data: Data,
 	Identity: Identity,
-	Function: RobustFunction
+	Function: JSUIFunction
 };
 
 //symbols

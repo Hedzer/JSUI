@@ -16,7 +16,7 @@ import trigger from 'Framework/Constants/Symbols/Extensible/trigger';
 import add from 'Framework/Constants/Symbols/Extensible/add';
 import remove from 'Framework/Constants/Symbols/Extensible/remove';
 
-let Extensible = (descendant) => class extends descendant {  
+let Extensible = (descendant) => class ExtensibleMixin extends descendant {  
 	constructor() {
 		super();
 		constructor.call(this);
@@ -48,7 +48,6 @@ let Extensible = (descendant) => class extends descendant {
 		}
 	}
 	[trigger](event, args) {
-
 		if (isArray(event)) {
 			let results = [];
 			event.forEach((e) => {
@@ -60,7 +59,7 @@ let Extensible = (descendant) => class extends descendant {
 		let hooks = this[$private].hooks;
 		let hook = hooks[event];
 		if (isFunction(hook)) {
-			hook(args);
+			return hook(args);
 		}
 	}
 	[add](item, value) {
