@@ -1,25 +1,33 @@
 import $private from 'Framework/Constants/Keys/General/private';
 import Identity from 'Framework/Classes/Identity';
-import { default as uid } from 'Framework/Utilities/General/uid';
-import { default as Binding } from 'Framework/Classes/Relationship/Bind';
+import uid from 'Framework/Utilities/General/uid';
+import { default as BindReceipt } from 'Framework/Classes/BindReceipt';
+import define from 'Framework/Utilities/Properties/addHiddenValue';
+
+import Base from 'Framework/Classes/Base';
+import Enableable from 'Framework/Mixins/Enableable';
 
 const identity = new Identity({
 	class: 'Relationship',
 	major: 1, minor: 0, patch: 0
 });
 
-export default class Relationship {
+export default class Relationship extends Enableable(Base) {
 	constructor() {
-		this[$private] = {
-			bindings: {}
-		};
-		this.uid = uid();
+		define(this, $private, {
+			bindings: {},
+			uid: uid()
+		});
+	}
+	get uid() {
+		return this[$private].uid;
 	}
 	bind(subject) {
-		let state = {};
-		return Binding.bind.call(this, state, subject);
+		let binding = new BindReceipt(this, subject);
+		this[$private].bindings[binding.uid] = binding;
+		return binding;
 	}
-	release(subject) {
+	release(binding) {
 
 	}
 	releaseAll() {

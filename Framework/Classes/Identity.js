@@ -2,6 +2,7 @@ import $private from 'Framework/Constants/Keys/General/private';
 import { default as settings } from 'Framework/Constants/JSUI/settings';
 import isObject from 'Framework/TypeChecks/isObject';
 import isString from 'Framework/TypeChecks/isString';
+import define from 'Framework/Utilities/Properties/addHiddenValue';
 
 let namespace = settings.namespace;
 
@@ -26,10 +27,7 @@ export default class Identity {
 			defaults.class = identity;
 		}
 
-		Object.defineProperty(this, $private, {
-			value: defaults,
-			enumerable: false
-		});
+		define(this, $private, defaults);
 
 		Object.freeze(this[$private]);
 	}

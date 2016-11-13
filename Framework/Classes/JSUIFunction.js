@@ -6,11 +6,19 @@ import uid from 'Framework/Utilities/General/uid';
 import debounce from 'Framework/Utilities/Functions/debounce';
 import throttle from 'Framework/Utilities/Functions/throttle';
 import $private from 'Framework/Constants/Keys/General/private';
+import define from 'Framework/Utilities/Properties/addHiddenValue';
 
-export default class JSUIFunction {
+import Base from 'Framework/Classes/Base';
+import Enableable from 'Framework/Mixins/Enableable';
+import Privateful from 'Framework/Mixins/Privateful';
+
+export default class JSUIFunction extends Enableable(Privateful(Base)) {
 	constructor(original) {
+		super();
 		original = (isFunction(original) ? original : () => {});
-		this[$private] = {
+		
+		let enabled = this[$private].enabled;
+		define(this, $private, {
 			uid: uid(),
 			original: original,
 			debounce: false,
@@ -18,8 +26,9 @@ export default class JSUIFunction {
 			modified: original,
 			context: undefined,
 			count: 0,
-			limit: Infinity
-		};
+			limit: Infinity,
+			enabled: enabled
+		});
 	}
 	get uid() {
 		return this[$private].uid;
@@ -42,17 +51,17 @@ export default class JSUIFunction {
 		this.modify();
 	}
 	execute() {
-		if (this.isAtLimit) { return; }
+		if (!this.executable) { return; }
 		this[$private].count++;
 		return this.modified.apply(null, arguments);
 	}
 	call() {
-		if (this.isAtLimit) { return; }
+		if (!this.executable) { return; }
 		this[$private].count++;
 		return Function.prototype.call.apply(this.modified, arguments);
 	}
 	apply() {
-		if (this.isAtLimit) { return; }
+		if (!this.executable) { return; }
 		this[$private].count++;
 		return Function.prototype.apply.apply(this.modified, arguments);
 	}
@@ -93,5 +102,8 @@ export default class JSUIFunction {
 	}
 	set isAtLimit(v) {
 		this[$private].count = (v ? this[$private].limit : 0);
+	}
+	get executable() {
+		return (!this.isAtLimit && this.enabled);
 	}
 }

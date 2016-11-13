@@ -13,8 +13,6 @@ export default class Distinct extends Extensible {
 	constructor() {
 		super();
 		constructor.call(this);
-
-		//basics
 		this.identity = identity;
 	}
 	get uid() {

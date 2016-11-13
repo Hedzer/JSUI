@@ -313,6 +313,15 @@ function isString(u) {
 	return typeof u === 'string';
 }
 
+function addHiddenValue(obj, prop, value) {
+	Object.defineProperty(obj, prop, {
+		configurable: true,
+		enumerable: false,
+		writable: true,
+		value: value
+	});
+}
+
 var namespace = defaults.namespace;
 
 var Identity = function () {
@@ -338,10 +347,7 @@ var Identity = function () {
 			defaults$$1.class = identity;
 		}
 
-		Object.defineProperty(this, symbol, {
-			value: defaults$$1,
-			enumerable: false
-		});
+		addHiddenValue(this, symbol, defaults$$1);
 
 		Object.freeze(this[symbol]);
 	}
@@ -472,12 +478,65 @@ function throttle$1(fn, time) {
 	}
 }
 
-var JSUIFunction = function () {
+//Keys
+var Enableable = function Enableable(descendant) {
+	return function (_descendant) {
+		inherits(EnableableMixin, _descendant);
+
+		function EnableableMixin() {
+			classCallCheck(this, EnableableMixin);
+
+			var _this = possibleConstructorReturn(this, (EnableableMixin.__proto__ || Object.getPrototypeOf(EnableableMixin)).call(this));
+
+			_this[symbol].enabled = true;
+			return _this;
+		}
+
+		createClass(EnableableMixin, [{
+			key: 'enabled',
+			get: function get() {
+				return this[symbol].enabled;
+			},
+			set: function set(v) {
+				this[symbol].enabled = !!v;
+			}
+		}]);
+		return EnableableMixin;
+	}(descendant);
+};
+
+//Keys
+var Privateful = function Privateful(descendant) {
+	return function (_descendant) {
+		inherits(PrivatefulMixin, _descendant);
+
+		function PrivatefulMixin() {
+			classCallCheck(this, PrivatefulMixin);
+
+			var _this = possibleConstructorReturn(this, (PrivatefulMixin.__proto__ || Object.getPrototypeOf(PrivatefulMixin)).call(this));
+
+			if (!_this.hasOwnProperty(symbol)) {
+				addHiddenValue(_this, symbol, {});
+			}
+			return _this;
+		}
+
+		return PrivatefulMixin;
+	}(descendant);
+};
+
+var JSUIFunction = function (_Enableable) {
+	inherits(JSUIFunction, _Enableable);
+
 	function JSUIFunction(original) {
 		classCallCheck(this, JSUIFunction);
 
+		var _this = possibleConstructorReturn(this, (JSUIFunction.__proto__ || Object.getPrototypeOf(JSUIFunction)).call(this));
+
 		original = isFunction$1(original) ? original : function () {};
-		this[symbol] = {
+
+		var enabled = _this[symbol].enabled;
+		addHiddenValue(_this, symbol, {
 			uid: uid(),
 			original: original,
 			debounce: false,
@@ -485,14 +544,16 @@ var JSUIFunction = function () {
 			modified: original,
 			context: undefined,
 			count: 0,
-			limit: Infinity
-		};
+			limit: Infinity,
+			enabled: enabled
+		});
+		return _this;
 	}
 
 	createClass(JSUIFunction, [{
 		key: 'execute',
 		value: function execute() {
-			if (this.isAtLimit) {
+			if (!this.executable) {
 				return;
 			}
 			this[symbol].count++;
@@ -501,7 +562,7 @@ var JSUIFunction = function () {
 	}, {
 		key: 'call',
 		value: function call() {
-			if (this.isAtLimit) {
+			if (!this.executable) {
 				return;
 			}
 			this[symbol].count++;
@@ -510,7 +571,7 @@ var JSUIFunction = function () {
 	}, {
 		key: 'apply',
 		value: function apply() {
-			if (this.isAtLimit) {
+			if (!this.executable) {
 				return;
 			}
 			this[symbol].count++;
@@ -594,9 +655,14 @@ var JSUIFunction = function () {
 		set: function set(v) {
 			this[symbol].count = v ? this[symbol].limit : 0;
 		}
+	}, {
+		key: 'executable',
+		get: function get() {
+			return !this.isAtLimit && this.enabled;
+		}
 	}]);
 	return JSUIFunction;
-}();
+}(Enableable(Privateful(Base)));
 
 function isJSUI$1(u) {
 	return u instanceof JSUIFunction;
@@ -636,10 +702,10 @@ var OnEventBoundReceipt = function (_Receipt) {
 
 		var _this = possibleConstructorReturn(this, (OnEventBoundReceipt.__proto__ || Object.getPrototypeOf(OnEventBoundReceipt)).call(this));
 
-		_this[symbol] = {
+		addHiddenValue(_this, symbol, {
 			pool: pool,
 			uid: uid()
-		};
+		});
 		return _this;
 	}
 
@@ -683,9 +749,6 @@ var OnEventBoundReceipt = function (_Receipt) {
 		key: 'uid',
 		get: function get() {
 			return this[symbol].uid;
-		},
-		set: function set(v) {
-			this[symbol].uid = v;
 		}
 	}, {
 		key: 'pool',
@@ -694,6 +757,16 @@ var OnEventBoundReceipt = function (_Receipt) {
 		},
 		set: function set(v) {
 			this[symbol].pool = v;
+		}
+	}, {
+		key: 'enabled',
+		get: function get() {
+			var method = this.pool[this.uid];
+			return method.enabled;
+		},
+		set: function set(v) {
+			var method = this.pool[this.uid];
+			method.enabled = !!v;
 		}
 	}]);
 	return OnEventBoundReceipt;
@@ -721,15 +794,6 @@ function on$1(name, method) {
 	receipt.uid = method.uid;
 	pool[method.uid] = method;
 	return receipt;
-}
-
-function addHiddenValue(obj, prop, value) {
-	Object.defineProperty(obj, prop, {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: value
-	});
 }
 
 function constructor() {
@@ -931,8 +995,6 @@ var Distinct = function (_Extensible) {
 		var _this = possibleConstructorReturn(this, (Distinct.__proto__ || Object.getPrototypeOf(Distinct)).call(this));
 
 		constructor$1.call(_this);
-
-		//basics
 		_this.identity = identity$5;
 		return _this;
 	}
@@ -1922,9 +1984,7 @@ var ElementReceipt = function (_Receipt) {
 
 		var _this = possibleConstructorReturn(this, (ElementReceipt.__proto__ || Object.getPrototypeOf(ElementReceipt)).call(this));
 
-		_this[symbol] = {
-			element: element || false
-		};
+		addHiddenValue(_this, symbol, { element: element });
 		return _this;
 	}
 

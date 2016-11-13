@@ -3,20 +3,19 @@ import uid from 'Framework/Utilities/General/uid';
 import remove from 'Framework/Utilities/Events/remove';
 import removeAll from 'Framework/Utilities/Events/removeAll';
 import { default as Receipt } from 'Framework/Classes/Receipt';
+import define from 'Framework/Utilities/Properties/addHiddenValue';
 
 export default class OnEventBoundReceipt extends Receipt {
 	constructor(pool) {
 		super();
-		this[$private] = {
+
+		define(this, $private, {
 			pool: pool,
 			uid: uid()
-		};
+		});
 	}
 	get uid() {
 		return this[$private].uid;
-	}
-	set uid(v) {
-		this[$private].uid = v;
 	}
 	get pool() {
 		return this[$private].pool;
@@ -47,5 +46,13 @@ export default class OnEventBoundReceipt extends Receipt {
 	}
 	once() {
 		return this.limit(1);
+	}
+	get enabled() {
+		let method = this.pool[this.uid];
+		return method.enabled;
+	}
+	set enabled(v) {
+		let method = this.pool[this.uid];
+		method.enabled = !!v;
 	}
 }
