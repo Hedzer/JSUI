@@ -1,15 +1,15 @@
 1. DONE: Data class from json
-1.1 Add behavior attach/detach
-2. One way binding (Bond class)
-3. Two way binding
-4. Unit tests
-5. Thorough browser testing
-6. Documentation
+2. DONE Add behavior attach/detach
+3. One way binding
+4. Two way binding
+5. Unit tests
+6. Thorough browser testing
+7. Documentation
  FIRST RELEASE
-7. Element template
-8. Behavior template
-9. Plugin template
-10. Components
+8. Element template
+9. Behavior template
+10. Plugin template
+11. Components
 	1. Application
 	2. Feature
 	3. Page
