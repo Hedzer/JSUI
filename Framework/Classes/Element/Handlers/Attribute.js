@@ -1,15 +1,15 @@
 //Get
-import { default as _get_undefined } from 'Framework/Classes/Element/Handlers/Attribute/Get/_undefined';
-import { default as _get_string } from 'Framework/Classes/Element/Handlers/Attribute/Get/_string';
-import { default as _get_path } from 'Framework/Classes/Element/Handlers/Attribute/Get/_path';
-import { default as _get_array } from 'Framework/Classes/Element/Handlers/Attribute/Get/_array';
-import { default as _get_object } from 'Framework/Classes/Element/Handlers/Attribute/Get/_object';
+import _get_undefined from 'Framework/Classes/Element/Handlers/Attribute/Get/_undefined';
+import _get_string from 'Framework/Classes/Element/Handlers/Attribute/Get/_string';
+import _get_path from 'Framework/Classes/Element/Handlers/Attribute/Get/_path';
+import _get_array from 'Framework/Classes/Element/Handlers/Attribute/Get/_array';
+import _get_object from 'Framework/Classes/Element/Handlers/Attribute/Get/_object';
 
 //Set
-import { default as _set_string } from 'Framework/Classes/Element/Handlers/Attribute/Set/_string';
-import { default as _set_path } from 'Framework/Classes/Element/Handlers/Attribute/Set/_path';
-import { default as _set_array } from 'Framework/Classes/Element/Handlers/Attribute/Set/_array';
-import { default as _set_object } from 'Framework/Classes/Element/Handlers/Attribute/Set/_object';
+import _set_string from 'Framework/Classes/Element/Handlers/Attribute/Set/_string';
+import _set_path from 'Framework/Classes/Element/Handlers/Attribute/Set/_path';
+import _set_array from 'Framework/Classes/Element/Handlers/Attribute/Set/_array';
+import _set_object from 'Framework/Classes/Element/Handlers/Attribute/Set/_object';
 
 let Attribute = {
 	Get:{

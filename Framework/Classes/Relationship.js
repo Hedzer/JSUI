@@ -1,7 +1,7 @@
 import $private from 'Framework/Constants/Keys/General/private';
 import Identity from 'Framework/Classes/Identity';
 import uid from 'Framework/Utilities/General/uid';
-import { default as BindReceipt } from 'Framework/Classes/BindReceipt';
+import BindReceipt from 'Framework/Classes/BindReceipt';
 import define from 'Framework/Utilities/Properties/addHiddenValue';
 
 import Base from 'Framework/Classes/Base';

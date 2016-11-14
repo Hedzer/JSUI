@@ -2,7 +2,7 @@ import Identity from 'Framework/Classes/Identity';
 import isString from 'Framework/TypeChecks/isString';
 import isObject from 'Framework/TypeChecks/isObject';
 import isArray from 'Framework/TypeChecks/isArray';
-import { default as addProperty } from 'Framework/Utilities/Properties/add';
+import addProperty from 'Framework/Utilities/Properties/add';
 import Distinct from 'Framework/Classes/Distinct';
 
 const identity = new Identity({

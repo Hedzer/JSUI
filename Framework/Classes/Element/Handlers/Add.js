@@ -1,11 +1,11 @@
-import { default as _element } from 'Framework/Classes/Element/Handlers/Add/_element';
-import { default as _jsui } from 'Framework/Classes/Element/Handlers/Add/_jsui';
-import { default as _array } from 'Framework/Classes/Element/Handlers/Add/_array';
-import { default as _string } from 'Framework/Classes/Element/Handlers/Add/_string';
-import { default as _html } from 'Framework/Classes/Element/Handlers/Add/_html';
-import { default as _path } from 'Framework/Classes/Element/Handlers/Add/_path';
-import { default as _function } from 'Framework/Classes/Element/Handlers/Add/_function';
-import { default as _behavior } from 'Framework/Classes/Element/Handlers/Add/_behavior';
+import _element from 'Framework/Classes/Element/Handlers/Add/_element';
+import _jsui from 'Framework/Classes/Element/Handlers/Add/_jsui';
+import _array from 'Framework/Classes/Element/Handlers/Add/_array';
+import _string from 'Framework/Classes/Element/Handlers/Add/_string';
+import _html from 'Framework/Classes/Element/Handlers/Add/_html';
+import _path from 'Framework/Classes/Element/Handlers/Add/_path';
+import _function from 'Framework/Classes/Element/Handlers/Add/_function';
+import _behavior from 'Framework/Classes/Element/Handlers/Add/_behavior';
 
 let Add = {
 	element: _element,

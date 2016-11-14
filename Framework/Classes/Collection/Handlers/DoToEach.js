@@ -1,5 +1,5 @@
-import { default as _string } from 'Framework/Classes/Collection/Handlers/DoToEach/_string';
-import { default as _path } from 'Framework/Classes/Collection/Handlers/DoToEach/_path';
+import _string from 'Framework/Classes/Collection/Handlers/DoToEach/_string';
+import _path from 'Framework/Classes/Collection/Handlers/DoToEach/_path';
 
 let DoToEach = {
 	string: _string,

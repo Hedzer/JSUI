@@ -1,6 +1,6 @@
 import feval from 'Framework/Reflection/feval';
-import { default as classCreate } from 'Framework/Reflection/Class/create';
-import { default as dataCreate } from 'Framework/Reflection/Data/create';
+import classCreate from 'Framework/Reflection/Class/create';
+import dataCreate from 'Framework/Reflection/Data/create';
 import parse from 'Framework/Reflection/XML/parse';
 
 let Reflection = {

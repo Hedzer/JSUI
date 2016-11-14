@@ -1,4 +1,4 @@
-import { default as addProperty } from 'Framework/Utilities/Properties/add';
+import addProperty from 'Framework/Utilities/Properties/add';
 import getHandledType from 'Framework/Classes/Element/getHandledType';
 import settings from 'Framework/Constants/JSUI/settings';
 import handler from 'Framework/Classes/Element/Handlers/Constructor';

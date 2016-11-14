@@ -1,5 +1,5 @@
 import $private from 'Framework/Constants/Keys/General/private';
-import { default as Receipt } from 'Framework/Classes/Receipt';
+import Receipt from 'Framework/Classes/Receipt';
 import uid from 'Framework/Utilities/General/uid';
 import define from 'Framework/Utilities/Properties/addHiddenValue';
 import Enableable from 'Framework/Mixins/Enableable';
@@ -14,6 +14,9 @@ export default class BindReceipt extends Enableable(Receipt) {
 	}
 	get uid() {
 		return this[$private].uid;
+	}
+	set uid(id) {
+		this[$private].uid = id;
 	}
 	to(subject) {
 		let to = this[$private].to;

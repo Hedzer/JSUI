@@ -1,5 +1,5 @@
 import $private from 'Framework/Constants/Keys/General/private';
-import { default as ElementAddedReceipt } from 'Framework/Classes/ElementAddedReceipt';
+import ElementAddedReceipt from 'Framework/Classes/ElementAddedReceipt';
 
 export default function _jsui(instance){
 	if (this.element && instance.element){

@@ -1,5 +1,5 @@
 import $private from 'Framework/Constants/Keys/General/private';
-import { default as ElementReceipt } from 'Framework/Classes/ElementReceipt';
+import ElementReceipt from 'Framework/Classes/ElementReceipt';
 import addClass from 'Framework/Utilities/Elements/addClass';
 
 export default class ElementAddedReceipt extends ElementReceipt {

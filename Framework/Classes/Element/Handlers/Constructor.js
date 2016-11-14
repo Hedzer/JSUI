@@ -1,5 +1,5 @@
-import { default as _element } from 'Framework/Classes/Element/Handlers/Constructor/_element';
-import { default as _string } from 'Framework/Classes/Element/Handlers/Constructor/_string';
+import _element from 'Framework/Classes/Element/Handlers/Constructor/_element';
+import _string from 'Framework/Classes/Element/Handlers/Constructor/_string';
 
 let Constructor = {
 	element: _element,

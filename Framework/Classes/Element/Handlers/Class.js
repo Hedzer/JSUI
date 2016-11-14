@@ -1,8 +1,8 @@
-import { default as _array } from 'Framework/Classes/Element/Handlers/Class/_array';
-import { default as _object } from 'Framework/Classes/Element/Handlers/Class/_object';
-import { default as _string } from 'Framework/Classes/Element/Handlers/Class/_string';
-import { default as _path } from 'Framework/Classes/Element/Handlers/Class/_path';
-import { default as _undefined } from 'Framework/Classes/Element/Handlers/Class/_undefined';
+import _array from 'Framework/Classes/Element/Handlers/Class/_array';
+import _object from 'Framework/Classes/Element/Handlers/Class/_object';
+import _string from 'Framework/Classes/Element/Handlers/Class/_string';
+import _path from 'Framework/Classes/Element/Handlers/Class/_path';
+import _undefined from 'Framework/Classes/Element/Handlers/Class/_undefined';
 
 let Class = {
 	array: _array,

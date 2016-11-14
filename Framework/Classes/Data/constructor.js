@@ -1,7 +1,7 @@
-import { default as uid } from 'Framework/Utilities/General/uid';
-import { default as $private } from 'Framework/Constants/Keys/General/private';
-import { default as $uid } from 'Framework/Constants/Keys/General/uid';
-import { default as define } from 'Framework/Utilities/Properties/addHiddenValue';
+import uid from 'Framework/Utilities/General/uid';
+import $private from 'Framework/Constants/Keys/General/private';
+import $uid from 'Framework/Constants/Keys/General/uid';
+import define from 'Framework/Utilities/Properties/addHiddenValue';
 
 export default function constructor(values = {}) {
 	define(this, $private, {

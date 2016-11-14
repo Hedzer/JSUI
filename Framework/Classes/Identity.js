@@ -1,5 +1,5 @@
 import $private from 'Framework/Constants/Keys/General/private';
-import { default as settings } from 'Framework/Constants/JSUI/settings';
+import settings from 'Framework/Constants/JSUI/settings';
 import isObject from 'Framework/TypeChecks/isObject';
 import isString from 'Framework/TypeChecks/isString';
 import define from 'Framework/Utilities/Properties/addHiddenValue';

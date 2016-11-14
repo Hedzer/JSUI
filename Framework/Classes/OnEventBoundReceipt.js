@@ -2,10 +2,11 @@ import $private from 'Framework/Constants/Keys/General/private';
 import uid from 'Framework/Utilities/General/uid';
 import remove from 'Framework/Utilities/Events/remove';
 import removeAll from 'Framework/Utilities/Events/removeAll';
-import { default as Receipt } from 'Framework/Classes/Receipt';
+import Receipt from 'Framework/Classes/Receipt';
 import define from 'Framework/Utilities/Properties/addHiddenValue';
+import Enableable from 'Framework/Mixins/Enableable';
 
-export default class OnEventBoundReceipt extends Receipt {
+export default class OnEventBoundReceipt extends Enableable(Receipt) {
 	constructor(pool) {
 		super();
 
@@ -16,6 +17,9 @@ export default class OnEventBoundReceipt extends Receipt {
 	}
 	get uid() {
 		return this[$private].uid;
+	}
+	set uid(id) {
+		this[$private].uid = id;
 	}
 	get pool() {
 		return this[$private].pool;

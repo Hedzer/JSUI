@@ -1,7 +1,7 @@
 import $private from 'Framework/Constants/Keys/General/private';
-import { default as ElementReceipt } from 'Framework/Classes/ElementReceipt';
-import { default as isElement } from 'Framework/TypeChecks/isElement';
-import { default as getClasses } from 'Framework/Utilities/Elements/getClasses';
+import ElementReceipt from 'Framework/Classes/ElementReceipt';
+import isElement from 'Framework/TypeChecks/isElement';
+import getClasses from 'Framework/Utilities/Elements/getClasses';
 
 export default class ElementClassReceipt extends ElementReceipt {
 	constructor(element, className) {

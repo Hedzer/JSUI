@@ -1,7 +1,7 @@
-import { default as extensible_constructor } from 'Framework/Classes/Extensible/constructor';
-import {default as distinct_constructor } from 'Framework/Classes/Distinct/constructor';
-import {default as styleable_constructor } from 'Framework/Classes/Styleable/constructor';
-import {default as element_constructor } from 'Framework/Classes/Element/constructor';
+import extensible_constructor from 'Framework/Classes/Extensible/constructor';
+import distinct_constructor from 'Framework/Classes/Distinct/constructor';
+import styleable_constructor from 'Framework/Classes/Styleable/constructor';
+import element_constructor from 'Framework/Classes/Element/constructor';
 export default function constructor() {
 	extensible_constructor.apply(this, arguments);
 	distinct_constructor.apply(this, arguments);

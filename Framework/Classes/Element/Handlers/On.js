@@ -1,7 +1,7 @@
-import { default as _array } from 'Framework/Classes/Element/Handlers/On/_array';
-import { default as _object } from 'Framework/Classes/Element/Handlers/On/_object';
-import { default as _string } from 'Framework/Classes/Element/Handlers/On/_string';
-import { default as _path } from 'Framework/Classes/Element/Handlers/On/_path';
+import _array from 'Framework/Classes/Element/Handlers/On/_array';
+import _object from 'Framework/Classes/Element/Handlers/On/_object';
+import _string from 'Framework/Classes/Element/Handlers/On/_string';
+import _path from 'Framework/Classes/Element/Handlers/On/_path';
 
 let On = {
 	array: _array,

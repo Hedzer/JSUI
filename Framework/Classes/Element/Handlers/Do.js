@@ -1,8 +1,8 @@
-import { default as _array } from 'Framework/Classes/Element/Handlers/Do/_array';
-import { default as _object } from 'Framework/Classes/Element/Handlers/Do/_object';
-import { default as _string } from 'Framework/Classes/Element/Handlers/Do/_string';
-import { default as _path } from 'Framework/Classes/Element/Handlers/Do/_path';
-import { default as _function } from 'Framework/Classes/Element/Handlers/Do/_function';
+import _array from 'Framework/Classes/Element/Handlers/Do/_array';
+import _object from 'Framework/Classes/Element/Handlers/Do/_object';
+import _string from 'Framework/Classes/Element/Handlers/Do/_string';
+import _path from 'Framework/Classes/Element/Handlers/Do/_path';
+import _function from 'Framework/Classes/Element/Handlers/Do/_function';
 
 let Do = {
 	array: _array,

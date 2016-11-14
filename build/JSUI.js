@@ -485,43 +485,22 @@ var Enableable = function Enableable(descendant) {
 
 		function EnableableMixin() {
 			classCallCheck(this, EnableableMixin);
-
-			var _this = possibleConstructorReturn(this, (EnableableMixin.__proto__ || Object.getPrototypeOf(EnableableMixin)).call(this));
-
-			_this[symbol].enabled = true;
-			return _this;
+			return possibleConstructorReturn(this, (EnableableMixin.__proto__ || Object.getPrototypeOf(EnableableMixin)).apply(this, arguments));
 		}
 
 		createClass(EnableableMixin, [{
 			key: 'enabled',
 			get: function get() {
-				return this[symbol].enabled;
+				if (this[symbol].hasOwnProperty('enabled')) {
+					return this[symbol].enabled;
+				}
+				return true;
 			},
 			set: function set(v) {
 				this[symbol].enabled = !!v;
 			}
 		}]);
 		return EnableableMixin;
-	}(descendant);
-};
-
-//Keys
-var Privateful = function Privateful(descendant) {
-	return function (_descendant) {
-		inherits(PrivatefulMixin, _descendant);
-
-		function PrivatefulMixin() {
-			classCallCheck(this, PrivatefulMixin);
-
-			var _this = possibleConstructorReturn(this, (PrivatefulMixin.__proto__ || Object.getPrototypeOf(PrivatefulMixin)).call(this));
-
-			if (!_this.hasOwnProperty(symbol)) {
-				addHiddenValue(_this, symbol, {});
-			}
-			return _this;
-		}
-
-		return PrivatefulMixin;
 	}(descendant);
 };
 
@@ -535,7 +514,6 @@ var JSUIFunction = function (_Enableable) {
 
 		original = isFunction$1(original) ? original : function () {};
 
-		var enabled = _this[symbol].enabled;
 		addHiddenValue(_this, symbol, {
 			uid: uid(),
 			original: original,
@@ -544,8 +522,7 @@ var JSUIFunction = function (_Enableable) {
 			modified: original,
 			context: undefined,
 			count: 0,
-			limit: Infinity,
-			enabled: enabled
+			limit: Infinity
 		});
 		return _this;
 	}
@@ -609,6 +586,9 @@ var JSUIFunction = function (_Enableable) {
 		key: 'uid',
 		get: function get() {
 			return this[symbol].uid;
+		},
+		set: function set(id) {
+			this[symbol].uid = id;
 		}
 	}, {
 		key: 'original',
@@ -662,7 +642,7 @@ var JSUIFunction = function (_Enableable) {
 		}
 	}]);
 	return JSUIFunction;
-}(Enableable(Privateful(Base)));
+}(Enableable(Base));
 
 function isJSUI$1(u) {
 	return u instanceof JSUIFunction;
@@ -694,8 +674,8 @@ var Receipt = function Receipt() {
   classCallCheck(this, Receipt);
 };
 
-var OnEventBoundReceipt = function (_Receipt) {
-	inherits(OnEventBoundReceipt, _Receipt);
+var OnEventBoundReceipt = function (_Enableable) {
+	inherits(OnEventBoundReceipt, _Enableable);
 
 	function OnEventBoundReceipt(pool) {
 		classCallCheck(this, OnEventBoundReceipt);
@@ -749,6 +729,9 @@ var OnEventBoundReceipt = function (_Receipt) {
 		key: 'uid',
 		get: function get() {
 			return this[symbol].uid;
+		},
+		set: function set(id) {
+			this[symbol].uid = id;
 		}
 	}, {
 		key: 'pool',
@@ -770,7 +753,7 @@ var OnEventBoundReceipt = function (_Receipt) {
 		}
 	}]);
 	return OnEventBoundReceipt;
-}(Receipt);
+}(Enableable(Receipt));
 
 function on$1(name, method) {
 	if (!isFunction$1(method)) {
@@ -1003,6 +986,9 @@ var Distinct = function (_Extensible) {
 		key: 'uid',
 		get: function get() {
 			return this[symbol].uid;
+		},
+		set: function set(id) {
+			this[symbol].uid = id;
 		}
 	}, {
 		key: 'identity',

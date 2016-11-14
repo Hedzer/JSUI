@@ -18,6 +18,9 @@ export default class Distinct extends Extensible {
 	get uid() {
 		return this[$private].uid;
 	}
+	set uid(id) {
+		this[$private].uid = id;
+	}
 	get identity() {
 		return this.state('identity');
 	}

@@ -10,14 +10,12 @@ import define from 'Framework/Utilities/Properties/addHiddenValue';
 
 import Base from 'Framework/Classes/Base';
 import Enableable from 'Framework/Mixins/Enableable';
-import Privateful from 'Framework/Mixins/Privateful';
 
-export default class JSUIFunction extends Enableable(Privateful(Base)) {
+export default class JSUIFunction extends Enableable(Base) {
 	constructor(original) {
 		super();
 		original = (isFunction(original) ? original : () => {});
-		
-		let enabled = this[$private].enabled;
+
 		define(this, $private, {
 			uid: uid(),
 			original: original,
@@ -26,12 +24,14 @@ export default class JSUIFunction extends Enableable(Privateful(Base)) {
 			modified: original,
 			context: undefined,
 			count: 0,
-			limit: Infinity,
-			enabled: enabled
+			limit: Infinity
 		});
 	}
 	get uid() {
 		return this[$private].uid;
+	}
+	set uid(id) {
+		this[$private].uid = id;
 	}
 	get original() {
 		return this[$private].original;

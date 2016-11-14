@@ -5,7 +5,7 @@ import isFunction from 'Framework/TypeChecks/isFunction';
 import isNumber from 'Framework/TypeChecks/isNumber';
 import isStyleSheetRule from 'Framework/TypeChecks/isStyleSheetRule';
 import isUStyleSheetRule from 'Framework/TypeChecks/isUStyleSheetRule';
-import { default as sort } from 'Framework/Sorts/StyleSheet/rules';
+import sort from 'Framework/Sorts/StyleSheet/rules';
 import Sheets from 'Framework/Singletons/Style/Sheets';
 import Distinct from 'Framework/Classes/Distinct';
 
