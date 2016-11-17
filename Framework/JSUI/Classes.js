@@ -18,6 +18,7 @@ import ElementClassReceipt from 'Framework/Classes/ElementClassReceipt';
 import Data from 'Framework/Classes/Data';
 import Identity from 'Framework/Classes/Identity';
 import JSUIFunction from 'Framework/Classes/JSUIFunction';
+import BindReceipt from 'Framework/Classes/BindReceipt';
 
 let Classes = {
 	Behavior: Behavior,
@@ -39,6 +40,7 @@ let Classes = {
 	Data: Data,
 	Identity: Identity,
 	Function: JSUIFunction,
+	BindReceipt: BindReceipt
 };
 
 export default Classes;

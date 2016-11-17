@@ -1,3 +1,5 @@
+import isObject from 'Framework/TypeChecks/isObject';
+
 import $private from 'Framework/Constants/Keys/General/private';
 import Receipt from 'Framework/Classes/Receipt';
 import uid from 'Framework/Utilities/General/uid';
@@ -20,7 +22,9 @@ export default class BindReceipt extends Enableable(Receipt) {
 			subject: subject
 		});
 
-		this.to = this[to];
+		if (subject) {
+			this.to = this[to];
+		}
 	}
 	get uid() {
 		return this[$private].uid;
@@ -43,12 +47,26 @@ export default class BindReceipt extends Enableable(Receipt) {
 		return this;
 	}
 	[on](events) {
+		
+		if (isObject(events)) {
+			Object.keys(events).forEach((event) => {
+				let relationship = events[event];
+				Object.keys(relationship).forEach((bind) => {
+					let direction = relationship[bind];
+					Object.keys(direction).forEach((arrow) => {
+						let to = direction[arrow];
+						//do binding logic here, cram normalizer in the middle
+					});
+				});
+			});
+		}
+
 		delete this.on;
 		delete this.oneWay;
 		delete this.twoWay;
 
 		//do the things
-		
+
 		return this;
 	}
 	[oneWay]() {
@@ -57,7 +75,7 @@ export default class BindReceipt extends Enableable(Receipt) {
 		delete this.twoWay;
 
 		//do the things
-		
+
 		return this;
 	}
 	[twoWay]() {
@@ -66,7 +84,7 @@ export default class BindReceipt extends Enableable(Receipt) {
 		delete this.twoWay;
 
 		//do the things
-		
+
 		return this;
 	}
 	[normalize](rules) {
