@@ -22,49 +22,6 @@ function isHTML(u) {
 	return htmlRegex.test(u);
 }
 
-function isNull(u) {
-	return u === null;
-}
-
-function isRegex(u) {
-	return u instanceof RegExp;
-}
-
-function isPath(u) {
-	return typeof u === 'string' && u.length > 0 && u[0] === '@';
-}
-
-var prefix = '';
-var current = 0;
-var max = Number.MAX_SAFE_INTEGER - 1;
-function uid() {
-	if (current > max) {
-		prefix += current;
-		current = 0;
-	}
-	return prefix + current++;
-}
-
-var hasSymbol = typeof Symbol == 'function';
-
-function symbolOrString(name) {
-	var id = uid();
-	return hasSymbol ? Symbol(name) : 'Symbol(' + name + ')@' + id;
-}
-
-var symbol = symbolOrString('private');
-
-var defaults = {
-	namespace: 'JSUI',
-	Development: {
-		enabled: false,
-		traceErrors: true,
-		haltOnErrors: true,
-		references: true
-	},
-	Production: {}
-};
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -305,6 +262,64 @@ var set$1 = function set$1(object, property, value, receiver) {
   return value;
 };
 
+function getHandledType$1(types, u) {
+	var type = typeof u === "undefined" ? "undefined" : _typeof(u);
+	var subtypes = types[type];
+	if (!subtypes) {
+		return type;
+	}
+	for (var name in subtypes) {
+		var subtype = subtypes[name];
+		if (subtype(u)) {
+			return name;
+		}
+	}
+	return type;
+}
+
+function isNull(u) {
+	return u === null;
+}
+
+function isRegex(u) {
+	return u instanceof RegExp;
+}
+
+function isPath(u) {
+	return typeof u === 'string' && u.length > 0 && u[0] === '@';
+}
+
+var prefix = '';
+var current = 0;
+var max = Number.MAX_SAFE_INTEGER - 1;
+function uid() {
+	if (current > max) {
+		prefix += current;
+		current = 0;
+	}
+	return prefix + current++;
+}
+
+var hasSymbol = typeof Symbol == 'function';
+
+function symbolOrString(name) {
+	var id = uid();
+	return hasSymbol ? Symbol(name) : 'Symbol(' + name + ')@' + id;
+}
+
+var symbol = symbolOrString('private');
+
+var defaults$1 = {
+	namespace: 'JSUI',
+	Development: {
+		enabled: false,
+		traceErrors: true,
+		haltOnErrors: true,
+		references: true
+	},
+	Production: {}
+};
+
 function isObject(u) {
 	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object' && u !== null;
 }
@@ -322,7 +337,7 @@ function addHiddenValue(obj, prop, value) {
 	});
 }
 
-var namespace = defaults.namespace;
+var namespace = defaults$1.namespace;
 
 var Identity = function () {
 	function Identity(identity) {
@@ -1776,7 +1791,7 @@ function isBehavior(u) {
 	return u instanceof Behavior;
 }
 
-var Types = {
+var types = {
 	object: {
 		null: isNull,
 		array: isArray,
@@ -1791,20 +1806,7 @@ var Types = {
 	}
 };
 
-var getHandledType$1 = (function getHandledType(u) {
-	var type = typeof u === 'undefined' ? 'undefined' : _typeof(u);
-	var subtypes = Types[type];
-	if (!subtypes) {
-		return type;
-	}
-	for (var name in subtypes) {
-		var subtype = subtypes[name];
-		if (subtype(u)) {
-			return name;
-		}
-	}
-	return type;
-});
+var getHandledType = getHandledType$1.bind(null, types);
 
 function unhandled(args) {
   return args;
@@ -1881,7 +1883,7 @@ var Constructor = {
 
 function constructor$3(tag) {
 	//select the proper constructor action
-	var type = getHandledType$1(tag);
+	var type = getHandledType(tag);
 	var action = Constructor[type];
 	tag = (action || function () {
 		return Constructor.string.call(this, 'div');
@@ -1891,7 +1893,7 @@ function constructor$3(tag) {
 	this.element.uid = this.uid;
 
 	//add references 
-	var development = defaults.Development;
+	var development = defaults$1.Development;
 	if (development.enabled && development.references) {
 		this.element.JSUI = this;
 	}
@@ -2781,35 +2783,35 @@ var Element$1 = function (_Styleable) {
 	createClass(Element, [{
 		key: symbol$7,
 		value: function value(event, method) {
-			var type = getHandledType$1(event);
+			var type = getHandledType(event);
 			var action = On[type];
 			return (action || unhandled).call(this, event, method);
 		}
 	}, {
 		key: symbol$8,
 		value: function value(event, args) {
-			var type = getHandledType$1(event);
+			var type = getHandledType(event);
 			var action = Trigger[type];
 			return (action || unhandled).call(this, event, args);
 		}
 	}, {
 		key: 'add',
 		value: function add(item) {
-			var type = getHandledType$1(item);
+			var type = getHandledType(item);
 			var action = Add[type];
 			return (action || get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'add', this) || unhandled).call(this, item);
 		}
 	}, {
 		key: 'addTo',
 		value: function addTo(item) {
-			var type = getHandledType$1(item);
+			var type = getHandledType(item);
 			var action = AddTo[type];
 			return (action || unhandled).call(this, item);
 		}
 	}, {
 		key: 'remove',
 		value: function remove(item) {
-			var type = getHandledType$1(item);
+			var type = getHandledType(item);
 			var action = Remove[type];
 			return (action || unhandled).call(this, item);
 		}
@@ -2826,35 +2828,35 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'find',
 		value: function find(what) {
-			var type = getHandledType$1(what);
+			var type = getHandledType(what);
 			var action = Find[type];
 			return (action || unhandled([])).call(this, what);
 		}
 	}, {
 		key: 'do',
 		value: function _do(method, args) {
-			var type = getHandledType$1(method);
+			var type = getHandledType(method);
 			var action = Do[type];
 			return (action || unhandled).call(this, method, args);
 		}
 	}, {
 		key: 'get',
 		value: function get(property) {
-			var type = getHandledType$1(property);
+			var type = getHandledType(property);
 			var action = Get[type];
 			return (action || unhandled).call(this, property);
 		}
 	}, {
 		key: 'set',
 		value: function set(property, value) {
-			var type = getHandledType$1(property);
+			var type = getHandledType(property);
 			var action = Set[type];
 			return (action || unhandled).call(this, property, value);
 		}
 	}, {
 		key: 'text',
 		value: function text(_text) {
-			var type = getHandledType$1(_text);
+			var type = getHandledType(_text);
 			var action = Text[type];
 			return (action || unhandled).call(this, _text);
 		}
@@ -2864,7 +2866,7 @@ var Element$1 = function (_Styleable) {
 			if (!isElement(this.element) || isEmptyString(name)) {
 				return;
 			}
-			var type = getHandledType$1(name);
+			var type = getHandledType(name);
 			var isSet = arguments.length > 1;
 			var action = Attribute[isSet ? 'Set' : 'Get'][type];
 			return (action || unhandled).apply(this, [name, value]);
@@ -2872,7 +2874,7 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'class',
 		value: function _class(name) {
-			var type = getHandledType$1(name);
+			var type = getHandledType(name);
 			var action = Class[type];
 			return (action || unhandled).call(this, name);
 		}
@@ -3053,7 +3055,7 @@ var Collection = function (_Array) {
 	createClass(Collection, [{
 		key: 'doToEach',
 		value: function doToEach(method, args) {
-			var type = getHandledType$1(method);
+			var type = getHandledType(method);
 			var action = DoToEach[type];
 			return (action || unhandled).call(this, method, args);
 		}
@@ -3256,6 +3258,152 @@ var StyleVariables = function (_Distinct) {
 	return StyleVariables;
 }(Distinct);
 
+var symbol$10 = symbolOrString('BindReceipt.on');
+
+var symbol$11 = symbolOrString('BindReceipt.on');
+
+var symbol$12 = symbolOrString('BindReceipt.oneWay');
+
+var symbol$13 = symbolOrString('BindReceipt.twoWay');
+
+var symbol$14 = symbolOrString('BindReceipt.normalize');
+
+function dataToElement(binding) {}
+
+function elementToData(binding) {}
+
+var relationships = {
+	data: {
+		element: dataToElement
+	},
+	element: {
+		data: elementToData
+	}
+};
+
+var types$2 = {
+	object: {
+		null: isNull,
+		array: isArray,
+		element: isElement,
+		jsui: isJSUI,
+		regex: isRegex,
+		behavior: isBehavior
+	},
+	string: {
+		html: isHTML,
+		path: isPath
+	}
+};
+
+var getHandledType$2 = getHandledType$1.bind(null, types$2);
+
+//keys
+var BindReceipt = function (_Enableable) {
+	inherits(BindReceipt, _Enableable);
+
+	function BindReceipt(relationship, subject) {
+		classCallCheck(this, BindReceipt);
+
+		var _this = possibleConstructorReturn(this, (BindReceipt.__proto__ || Object.getPrototypeOf(BindReceipt)).call(this));
+
+		addHiddenValue(_this, symbol, {
+			uid: uid(),
+			relationship: relationship,
+			subject: subject
+		});
+
+		if (subject) {
+			_this.to = _this[symbol$10];
+		}
+		return _this;
+	}
+
+	createClass(BindReceipt, [{
+		key: symbol$10,
+		value: function value(subject) {
+			var to = this[symbol].to;
+			if (!to) {
+				this[symbol].to = subject;
+				delete this.to;
+
+				//allow on, oneWay, twoWay, normalize
+				this.on = this[symbol$11];
+				this.oneWay = this[symbol$12];
+				this.twoWay = this[symbol$13];
+				this.normalize = this[symbol$14];
+			}
+			return this;
+		}
+	}, {
+		key: symbol$11,
+		value: function value(events) {
+			var _this2 = this;
+
+			if (isObject(events)) {
+				Object.keys(events).forEach(function (event) {
+					var tie = events[event];
+					Object.keys(tie).forEach(function (bind) {
+						var direction = tie[bind];
+						Object.keys(direction).forEach(function (arrow) {
+							var priv = _this2[symbol];
+							var to = direction[arrow];
+							var subjectType = getHandledType$2(priv.subject);
+							var toType = getHandledType$2(priv.to);
+							var relationshipTo = relationships[subjectType];
+							relationshipTo[toType](priv, _this2);
+						});
+					});
+				});
+			}
+
+			delete this.on;
+			delete this.oneWay;
+			delete this.twoWay;
+
+			//do the things
+
+			return this;
+		}
+	}, {
+		key: symbol$12,
+		value: function value() {
+			delete this.on;
+			delete this.oneWay;
+			delete this.twoWay;
+
+			//do the things
+
+			return this;
+		}
+	}, {
+		key: symbol$13,
+		value: function value() {
+			delete this.on;
+			delete this.oneWay;
+			delete this.twoWay;
+
+			//do the things
+
+			return this;
+		}
+	}, {
+		key: symbol$14,
+		value: function value(rules) {
+			return this;
+		}
+	}, {
+		key: 'uid',
+		get: function get() {
+			return this[symbol].uid;
+		},
+		set: function set(id) {
+			this[symbol].uid = id;
+		}
+	}]);
+	return BindReceipt;
+}(Enableable(Receipt));
+
 var Classes = {
 	Behavior: Behavior,
 	Collection: Collection,
@@ -3275,7 +3423,8 @@ var Classes = {
 	StyleVariables: StyleVariables,
 	Data: Data,
 	Identity: Identity,
-	Function: JSUIFunction
+	Function: JSUIFunction,
+	BindReceipt: BindReceipt
 };
 
 //Keys
@@ -3741,7 +3890,7 @@ var Data$2 = {
 };
 
 var JSUI = {
-	Settings: defaults,
+	Settings: defaults$1,
 	Behavior: Classes.Behavior,
 	Element: Classes.Element,
 	Identity: Classes.Identity,

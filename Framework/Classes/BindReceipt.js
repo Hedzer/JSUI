@@ -13,9 +13,12 @@ import oneWay from 'Framework/Constants/Keys/BindReceipt/oneWay';
 import twoWay from 'Framework/Constants/Keys/BindReceipt/twoWay';
 import normalize from 'Framework/Constants/Keys/BindReceipt/normalize';
 
+import relationships from 'Framework/Classes/BindReceipt/relationships';
+import getHandledType from 'Framework/Classes/BindReceipt/getHandledType';
+
 export default class BindReceipt extends Enableable(Receipt) {
 	constructor(relationship, subject) {
-		
+		super();
 		define(this, $private, {
 			uid: uid(),
 			relationship: relationship,
@@ -50,12 +53,16 @@ export default class BindReceipt extends Enableable(Receipt) {
 		
 		if (isObject(events)) {
 			Object.keys(events).forEach((event) => {
-				let relationship = events[event];
-				Object.keys(relationship).forEach((bind) => {
-					let direction = relationship[bind];
+				let tie = events[event];
+				Object.keys(tie).forEach((bind) => {
+					let direction = tie[bind];
 					Object.keys(direction).forEach((arrow) => {
+						let priv = this[$private];
 						let to = direction[arrow];
-						//do binding logic here, cram normalizer in the middle
+						let subjectType = getHandledType(priv.subject);
+						let toType = getHandledType(priv.to);
+						let relationshipTo = relationships[subjectType];
+						relationshipTo[toType](priv, this);
 					});
 				});
 			});
