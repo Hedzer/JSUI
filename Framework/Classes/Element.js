@@ -152,5 +152,6 @@ export default class Element extends Styleable {
 	}
 	destructor() {
 		destructor.call(this);
+		return super.destructor();
 	}
 }

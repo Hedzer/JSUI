@@ -59,9 +59,11 @@ let Extensible = (descendant) => class ExtensibleMixin extends descendant {
 
 		let dispatchers = this[$private].dispatchers;
 		let dispatcher = dispatchers[event];
+		
 		if (isJSUIFunction(dispatcher)) {
 			return dispatcher.execute(args);
 		}
+
 		if (isFunction(dispatcher)) {
 			return dispatcher.call(this, args);
 		}
@@ -71,12 +73,14 @@ let Extensible = (descendant) => class ExtensibleMixin extends descendant {
 			addProperty(this, item);
 			return;
 		}
+
 		if (isArray(item)) {
 			item.forEach((key) => {
 				this.add(key, value);
 			});
 			return;
 		}
+
 		if (isObject(item)) {
 			Object.keys(item).forEach((key) => {
 				this.add(key, item[key]);
@@ -88,6 +92,7 @@ let Extensible = (descendant) => class ExtensibleMixin extends descendant {
 			delete this[item];
 			return;
 		}
+
 		if (isArray(item)) {
 			item.forEach((value) => {
 				this.remove(value);
@@ -95,9 +100,21 @@ let Extensible = (descendant) => class ExtensibleMixin extends descendant {
 		}
 	}
 	[destructor]() {
-		Object.keys(this).forEach((key) => {
-			delete this[key];
-		});
+
+		let handle = setTimeout(() => {
+			//destory these keys
+			Object.keys(this).forEach((key) => {
+				delete this[key];
+			});
+
+			//destroy private data
+			let $private = this[$private];
+			Object.keys($private).forEach((key) => {
+				delete $private[key];
+			});
+		}, 0);
+		this[trigger]('destructed');
+		return handle;
 	}
 };
 

@@ -43,10 +43,6 @@ export default function destructor() {
 		});
 	}
 
-	Object.keys(this).forEach((key) => {
-		delete this[key];
-	});
-
 	//ensure GC picks em' up
 	_element = null;
 	_private = null;

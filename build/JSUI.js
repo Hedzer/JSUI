@@ -867,9 +867,11 @@ var Extensible$3 = function Extensible$3(descendant) {
 
 				var dispatchers = this[symbol].dispatchers;
 				var dispatcher = dispatchers[event];
+
 				if (isJSUI$1(dispatcher)) {
 					return dispatcher.execute(args);
 				}
+
 				if (isFunction$1(dispatcher)) {
 					return dispatcher.call(this, args);
 				}
@@ -883,12 +885,14 @@ var Extensible$3 = function Extensible$3(descendant) {
 					addProperty(this, item);
 					return;
 				}
+
 				if (isArray(item)) {
 					item.forEach(function (key) {
 						_this3.add(key, _value2);
 					});
 					return;
 				}
+
 				if (isObject(item)) {
 					Object.keys(item).forEach(function (key) {
 						_this3.add(key, item[key]);
@@ -904,6 +908,7 @@ var Extensible$3 = function Extensible$3(descendant) {
 					delete this[item];
 					return;
 				}
+
 				if (isArray(item)) {
 					item.forEach(function (value) {
 						_this4.remove(value);
@@ -915,9 +920,20 @@ var Extensible$3 = function Extensible$3(descendant) {
 			value: function value() {
 				var _this5 = this;
 
-				Object.keys(this).forEach(function (key) {
-					delete _this5[key];
-				});
+				var handle = setTimeout(function () {
+					//destory these keys
+					Object.keys(_this5).forEach(function (key) {
+						delete _this5[key];
+					});
+
+					//destroy private data
+					var $private = _this5[$private];
+					Object.keys($private).forEach(function (key) {
+						delete $private[key];
+					});
+				}, 0);
+				this[symbol$4]('destructed');
+				return handle;
 			}
 		}]);
 		return ExtensibleMixin;
@@ -1791,7 +1807,7 @@ function isBehavior(u) {
 	return u instanceof Behavior;
 }
 
-var types = {
+var types$1 = {
 	object: {
 		null: isNull,
 		array: isArray,
@@ -1806,7 +1822,9 @@ var types = {
 	}
 };
 
-var getHandledType = getHandledType$1.bind(null, types);
+var Types = Object.create(types$1);
+
+var getHandledType = getHandledType$1.bind(null, Types);
 
 function unhandled(args) {
   return args;
@@ -1902,8 +1920,6 @@ function constructor$3(tag) {
 }
 
 function destructor$2() {
-	var _this = this;
-
 	var _element = this.element;
 	var _private = this[symbol];
 	if (_element) {
@@ -1945,10 +1961,6 @@ function destructor$2() {
 			delete _children[key];
 		});
 	}
-
-	Object.keys(this).forEach(function (key) {
-		delete _this[key];
-	});
 
 	//ensure GC picks em' up
 	_element = null;
@@ -2907,6 +2919,7 @@ var Element$1 = function (_Styleable) {
 		key: 'destructor',
 		value: function destructor() {
 			destructor$2.call(this);
+			return get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'destructor', this).call(this);
 		}
 	}, {
 		key: 'identity',
@@ -3281,22 +3294,9 @@ var relationships = {
 	}
 };
 
-var types$2 = {
-	object: {
-		null: isNull,
-		array: isArray,
-		element: isElement,
-		jsui: isJSUI,
-		regex: isRegex,
-		behavior: isBehavior
-	},
-	string: {
-		html: isHTML,
-		path: isPath
-	}
-};
+var Types$1 = Object.create(types$1);
 
-var getHandledType$2 = getHandledType$1.bind(null, types$2);
+var getHandledType$2 = getHandledType$1.bind(null, Types$1);
 
 //keys
 var BindReceipt = function (_Enableable) {

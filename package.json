@@ -39,6 +39,7 @@
     "gulp-util": "^3.0.7",
     "rollup-import-alias": "^1.0.1",
     "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-eslint": "^3.0.0",
     "rollup-plugin-root-import": "^0.2.0",
     "rollup-stream": "^1.11.0",
     "run-sequence": "^1.2.2",
