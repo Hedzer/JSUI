@@ -27,7 +27,7 @@ gulp.task('compress', function(callback) {
 		.pipe(sourcemaps.init())
 		.pipe(uglify({
 			inSourceMap: './build/JSUI.js.map',
-			outSourceMap: '../JSUI.min.js.map',
+			outSourceMap: 'JSUI.min.js.map',
 			mangle: {
 				toplevel: true,
 				screw_ie8: true
@@ -59,7 +59,7 @@ gulp.task('compress', function(callback) {
 		.pipe(sourcemaps.write('./', {
 			addComment: false
 		}))
-		.pipe(gulp.dest('./'));
+		.pipe(gulp.dest('./build/'));
 });
 gulp.task('bundle', function(callback) {
 	console.log('-> Building...');
@@ -70,10 +70,7 @@ gulp.task('bundle', function(callback) {
 			sourceMap: true,
 			plugins: [
 				rollup_alias({
-					Paths: {
-						Framework:path.join(__dirname, '/Framework'),
-						Tests:path.join(__dirname, '/Tests')						
-					},
+					Paths: paths,
 					Extensions: ['js']
 				}),
 				rollup_babel({})
