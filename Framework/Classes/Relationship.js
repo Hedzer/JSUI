@@ -14,6 +14,7 @@ const identity = new Identity({
 
 export default class Relationship extends Enableable(Base) {
 	constructor() {
+		super();
 		define(this, $private, {
 			bindings: {},
 			uid: uid()
@@ -27,10 +28,10 @@ export default class Relationship extends Enableable(Base) {
 		this[$private].bindings[binding.uid] = binding;
 		return binding;
 	}
-	release(binding) {
+	remove(binding) {
 
 	}
-	releaseAll() {
+	removeAll() {
 
 	}
 }
@@ -42,14 +43,14 @@ export default class Relationship extends Enableable(Base) {
 	}).change();
 */
 
-(new Relationship()).bind(data).to(element).on({
-	textChanged: {
-		text: {'->': 'label'}
-	}
-}).normalize({
-	textChanged: {
-		'text -> label': (value) => {return value.toUpperCase(); }
-	}
-});
-(new Relationship()).bind(data).to(element).oneWay();
-(new Relationship()).bind(data).to(element).twoWay();
+// (new Relationship()).bind(data).to(element).on({
+// 	textChanged: {
+// 		text: {'->': 'label'}
+// 	}
+// }).normalize({
+// 	textChanged: {
+// 		'text -> label': (value) => {return value.toUpperCase(); }
+// 	}
+// });
+// (new Relationship()).bind(data).to(element).oneWay();
+// (new Relationship()).bind(data).to(element).twoWay();

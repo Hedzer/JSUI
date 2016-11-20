@@ -794,6 +794,55 @@ function on$1(name, method) {
 	return receipt;
 }
 
+var StateChangeReceipt = function (_Receipt) {
+	inherits(StateChangeReceipt, _Receipt);
+
+	function StateChangeReceipt() {
+		var changes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+		classCallCheck(this, StateChangeReceipt);
+
+		var _this = possibleConstructorReturn(this, (StateChangeReceipt.__proto__ || Object.getPrototypeOf(StateChangeReceipt)).call(this));
+
+		addHiddenValue(_this, symbol, changes);
+		return _this;
+	}
+
+	createClass(StateChangeReceipt, [{
+		key: 'owner',
+		get: function get() {
+			return this[symbol].owner;
+		},
+		set: function set(v) {
+			this[symbol].owner = v;
+		}
+	}, {
+		key: 'property',
+		get: function get() {
+			return this[symbol].property;
+		},
+		set: function set(v) {
+			this[symbol].property = v;
+		}
+	}, {
+		key: 'old',
+		get: function get() {
+			return this[symbol].old;
+		},
+		set: function set(v) {
+			this[symbol].old = v;
+		}
+	}, {
+		key: 'new',
+		get: function get() {
+			return this[symbol].new;
+		},
+		set: function set(v) {
+			this[symbol].new = v;
+		}
+	}]);
+	return StateChangeReceipt;
+}(Receipt);
+
 function constructor() {
 	addHiddenValue(this, symbol, {
 		events: {},
@@ -828,12 +877,12 @@ var Extensible$3 = function Extensible$3(descendant) {
 
 				if (hasChanged) {
 					this[symbol].state[property] = _value;
-					var data = {
+					var data = new StateChangeReceipt({
 						owner: this,
 						property: property,
 						old: old,
 						new: _value
-					};
+					});
 					this[symbol$4]([property + 'Changed', 'Changed'], data);
 				}
 
@@ -934,6 +983,11 @@ var Extensible$3 = function Extensible$3(descendant) {
 				}, 0);
 				this[symbol$4]('destructed');
 				return handle;
+			}
+		}, {
+			key: 'toJSON',
+			value: function toJSON() {
+				return this[symbol].state;
 			}
 		}]);
 		return ExtensibleMixin;
@@ -1077,12 +1131,12 @@ Object.keys(equivalents).forEach(function (key) {
 				delete this[symbol].styles[key];
 			}
 			if (old !== value) {
-				var data = {
+				var data = new StateChangeReceipt({
 					owner: this,
 					property: key,
 					old: old,
 					new: value
-				};
+				});
 				if (this.trigger) {
 					this.trigger(key + 'Changed', data);
 					this.trigger('styleChanged', data);
@@ -1393,11 +1447,12 @@ var StyleSheetRule = function (_StyleRules) {
 			var self = this;
 			var changed = function changed() {
 				var old = _this4[symbol].selector;
-				_this4.trigger('selectorChanged', {
+				var data = new StateChangeReceipt({
 					owner: self,
 					old: old,
 					new: selector
 				});
+				_this4.trigger('selectorChanged', data);
 			};
 
 			if (isString(selector)) {
@@ -1418,11 +1473,12 @@ var StyleSheetRule = function (_StyleRules) {
 			var self = this;
 			var changed = function changed() {
 				var old = _this5[symbol].media;
-				_this5.trigger('mediaChanged', {
+				var data = new StateChangeReceipt({
 					owner: self,
 					old: old,
 					new: media
 				});
+				_this5.trigger('mediaChanged', data);
 			};
 
 			if (isString(media)) {
@@ -1445,7 +1501,8 @@ var StyleSheetRule = function (_StyleRules) {
 				}
 				this[symbol].importance = zindex;
 			}
-			this.trigger('importanceChanged', { old: old, new: zindex });
+			var data = new StateChangeReceipt({ old: old, new: zindex });
+			this.trigger('importanceChanged', data);
 		}
 	}, {
 		key: 'context',
@@ -1458,7 +1515,8 @@ var StyleSheetRule = function (_StyleRules) {
 				return;
 			}
 			this[symbol].context = context;
-			this.trigger('contextChanged', { old: old, new: context });
+			var data = new StateChangeReceipt({ old: old, new: context });
+			this.trigger('contextChanged', data);
 		}
 	}, {
 		key: 'isSwitchable',
@@ -1471,7 +1529,8 @@ var StyleSheetRule = function (_StyleRules) {
 				return;
 			}
 			this[symbol].isSwitchable = bool;
-			this.trigger('isSwitchableChanged', { old: old, new: bool });
+			var data = new StateChangeReceipt({ old: old, new: bool });
+			this.trigger('isSwitchableChanged', data);
 		}
 	}, {
 		key: 'isOnByDefault',
@@ -1484,7 +1543,8 @@ var StyleSheetRule = function (_StyleRules) {
 				return;
 			}
 			this[symbol].isOnByDefault = bool;
-			this.trigger('isOnByDefaultChanged', { old: old, new: bool });
+			var data = new StateChangeReceipt({ old: old, new: bool });
+			this.trigger('isOnByDefaultChanged', data);
 		}
 	}, {
 		key: 'class',
@@ -1497,7 +1557,8 @@ var StyleSheetRule = function (_StyleRules) {
 				return;
 			}
 			this[symbol].class = className;
-			this.trigger('classChanged', { old: old, new: className });
+			var data = new StateChangeReceipt({ old: old, new: className });
+			this.trigger('classChanged', data);
 		}
 	}]);
 	return StyleSheetRule;
@@ -1858,12 +1919,12 @@ function add$1(host, name, defaultValue) {
 			value = v;
 			if (old !== v) {
 				this[symbol].state[name] = value;
-				var data = {
+				var data = new StateChangeReceipt({
 					owner: this,
 					property: name,
 					old: old,
 					new: value
-				};
+				});
 				var trigger = (this.trigger || this.$trigger).bind(this);
 				if (trigger) {
 					trigger(name + 'Changed', data);
@@ -2524,9 +2585,16 @@ function _path$7(text) {
 	return _string.call(this, text);
 }
 
+function _undefined$2() {
+	if (this[symbol].text) {
+		return this[symbol].text.nodeValue;
+	}
+}
+
 var Text = {
 	string: _string$9,
-	path: _path$7
+	path: _path$7,
+	undefined: _undefined$2
 };
 
 function placeholder() {}
@@ -2551,7 +2619,7 @@ function nodeAttributes(node, callback) {
 	return attributes;
 }
 
-function _undefined$2() {
+function _undefined$3() {
 	var results = {};
 	nodeAttributes(this.element, function (attribute, value, ref) {
 		results[attribute] = value;
@@ -2618,7 +2686,7 @@ function _array$8(collection, value) {
 //Set
 var Attribute = {
 	Get: {
-		undefined: _undefined$2,
+		undefined: _undefined$3,
 		string: _get_string,
 		path: _get_path,
 		array: _get_array,
@@ -2745,7 +2813,7 @@ function _path$8() {
 	return _string$10.apply(this, arguments);
 }
 
-function _undefined$3() {
+function _undefined$4() {
 	return getClasses(this.element);
 }
 
@@ -2754,7 +2822,7 @@ var Class = {
 	object: _object$6,
 	string: _string$10,
 	path: _path$8,
-	undefined: _undefined$3
+	undefined: _undefined$4
 };
 
 var symbol$7 = symbolOrString('on');
@@ -2987,12 +3055,6 @@ var Data = function (_ExtensibleMixin) {
 		return _this;
 	}
 
-	createClass(Data, [{
-		key: 'toJSON',
-		value: function toJSON() {
-			return this[symbol].state;
-		}
-	}]);
 	return Data;
 }(Extensible$3(Base));
 
@@ -3281,20 +3343,181 @@ var symbol$13 = symbolOrString('BindReceipt.twoWay');
 
 var symbol$14 = symbolOrString('BindReceipt.normalize');
 
-function dataToElement(binding) {}
+function dataToElement(receipt, event, bind, arrow, to) {
+	console.log(arguments);
+}
 
-function elementToData(binding) {}
+function isStateChangeReceipt(u) {
+	return u instanceof StateChangeReceipt;
+}
+
+var actions = {
+	'->': function _(objA, propA, objB, propB, data, normalizer) {
+		objB[propB] = normalizer(objA[propA]);
+	},
+	'<-': function _(objA, propA, objB, propB, data, normalizer) {
+		objA[propA] = normalizer(objB[propB]);
+	},
+	'(->)': function _(objA, propA, objB, propB, data, normalizer) {
+		objB[propB] = normalizer(objA[propA]());
+	},
+	'(<-)': function _(objA, propA, objB, propB, data, normalizer) {
+		objA[propA] = normalizer(objB[propB]());
+	}
+};
+
+var RelationshipBindingReceipt = function (_Receipt) {
+	inherits(RelationshipBindingReceipt, _Receipt);
+
+	function RelationshipBindingReceipt() {
+		var bindings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+		classCallCheck(this, RelationshipBindingReceipt);
+
+		var _this = possibleConstructorReturn(this, (RelationshipBindingReceipt.__proto__ || Object.getPrototypeOf(RelationshipBindingReceipt)).call(this));
+
+		addHiddenValue(_this, symbol, bindings);
+		bindings.uid = uid();
+		return _this;
+	}
+
+	createClass(RelationshipBindingReceipt, [{
+		key: 'uid',
+		get: function get() {
+			return this[symbol].uid;
+		},
+		set: function set(v) {
+			this[symbol].uid = v;
+		}
+	}, {
+		key: 'subjectHandler',
+		get: function get() {
+			return this[symbol].subjectHandler;
+		},
+		set: function set(v) {
+			this[symbol].subjectHandler = v;
+		}
+	}, {
+		key: 'toHandler',
+		get: function get() {
+			return this[symbol].toHandler;
+		},
+		set: function set(v) {
+			this[symbol].toHandler = v;
+		}
+	}, {
+		key: 'subjectDestroyer',
+		get: function get() {
+			return this[symbol].subjectDestroyer;
+		},
+		set: function set(v) {
+			this[symbol].subjectDestroyer = v;
+		}
+	}, {
+		key: 'toDestroyer',
+		get: function get() {
+			return this[symbol].toDestroyer;
+		},
+		set: function set(v) {
+			this[symbol].toDestroyer = v;
+		}
+	}, {
+		key: 'name',
+		get: function get() {
+			return this[symbol].name;
+		},
+		set: function set(v) {
+			this[symbol].name = v;
+		}
+	}, {
+		key: 'normalizer',
+		get: function get() {
+			return this[symbol].normalizer;
+		},
+		set: function set(v) {
+			this[symbol].normalizer = v;
+		}
+	}]);
+	return RelationshipBindingReceipt;
+}(Receipt);
+
+var none = function none(v) {
+	return v;
+};
+
+function elementToData(receipt, event, bind, arrow, to) {
+	var _private = receipt[symbol];
+	var action = isFunction$1(actions[arrow]) ? actions[arrow] : false;
+	if (!action) {
+		return false;
+	}
+
+	//create the relationship
+	var elementHandle = _private.subject[symbol$7](event, function (e) {
+		var normalizer = binding.normalizer;
+		var data = e && isStateChangeReceipt(e.detail) ? e.detail.new : e;
+		action(_private.subject, bind, _private.to, to, data, normalizer);
+	});
+
+	//destroy the relationship if either one dies
+	var elementHandleDestroyer = _private.subject[symbol$7]('destructed', function (e) {
+		elementHandle.remove();
+	});
+
+	var dataHandleDestroyer = _private.to[symbol$3]('destructed', function (e) {
+		elementHandle.remove();
+	});
+
+	var binding = new RelationshipBindingReceipt({
+		name: event + ': ' + bind + ' ' + arrow + ' ' + to,
+		subjectHandler: elementHandle,
+		toHandler: false,
+		subjectDestroyer: elementHandleDestroyer,
+		toDestroyer: dataHandleDestroyer,
+		normalizer: none
+	});
+
+	return binding;
+}
 
 var relationships = {
 	data: {
-		element: dataToElement
+		jsui: dataToElement
 	},
-	element: {
+	jsui: {
 		data: elementToData
 	}
 };
 
+function extend(a) {
+	if (!isObject(a)) {
+		return a;
+	}
+	return {
+		with: function _with(b) {
+			if (!isObject(b)) {
+				return a;
+			}
+			Object.keys(b).forEach(function (key) {
+				if (isObject(b[key])) {
+					if (!isObject(a[key])) {
+						a[key] = {};
+					}
+					a[key] = extend(a[key]).with(b[key]);
+					return;
+				}
+				a[key] = b[key];
+			});
+			return a;
+		}
+	};
+}
+
 var Types$1 = Object.create(types$1);
+extend(Types$1).with({
+	object: {
+		data: isData
+	}
+});
 
 var getHandledType$2 = getHandledType$1.bind(null, Types$1);
 
@@ -3310,7 +3533,8 @@ var BindReceipt = function (_Enableable) {
 		addHiddenValue(_this, symbol, {
 			uid: uid(),
 			relationship: relationship,
-			subject: subject
+			subject: subject,
+			handles: {}
 		});
 
 		if (subject) {
@@ -3346,12 +3570,14 @@ var BindReceipt = function (_Enableable) {
 					Object.keys(tie).forEach(function (bind) {
 						var direction = tie[bind];
 						Object.keys(direction).forEach(function (arrow) {
-							var priv = _this2[symbol];
+							var _private = _this2[symbol];
 							var to = direction[arrow];
-							var subjectType = getHandledType$2(priv.subject);
-							var toType = getHandledType$2(priv.to);
+							var subjectType = getHandledType$2(_private.subject);
+							var toType = getHandledType$2(_private.to);
+							console.log(subjectType, to, toType);
 							var relationshipTo = relationships[subjectType];
-							relationshipTo[toType](priv, _this2);
+							var handle = relationshipTo[toType](_this2, event, bind, arrow, to);
+							_private.handles[handle.uid] = handle;
 						});
 					});
 				});
@@ -3404,6 +3630,48 @@ var BindReceipt = function (_Enableable) {
 	return BindReceipt;
 }(Enableable(Receipt));
 
+var identity$10 = new Identity({
+	class: 'Relationship',
+	major: 1, minor: 0, patch: 0
+});
+
+var Relationship = function (_Enableable) {
+	inherits(Relationship, _Enableable);
+
+	function Relationship() {
+		classCallCheck(this, Relationship);
+
+		var _this = possibleConstructorReturn(this, (Relationship.__proto__ || Object.getPrototypeOf(Relationship)).call(this));
+
+		addHiddenValue(_this, symbol, {
+			bindings: {},
+			uid: uid()
+		});
+		return _this;
+	}
+
+	createClass(Relationship, [{
+		key: 'bind',
+		value: function bind(subject) {
+			var binding = new BindReceipt(this, subject);
+			this[symbol].bindings[binding.uid] = binding;
+			return binding;
+		}
+	}, {
+		key: 'remove',
+		value: function remove(binding) {}
+	}, {
+		key: 'removeAll',
+		value: function removeAll() {}
+	}, {
+		key: 'uid',
+		get: function get() {
+			return this[symbol].uid;
+		}
+	}]);
+	return Relationship;
+}(Enableable(Base));
+
 var Classes = {
 	Behavior: Behavior,
 	Collection: Collection,
@@ -3424,6 +3692,7 @@ var Classes = {
 	Data: Data,
 	Identity: Identity,
 	Function: JSUIFunction,
+	Relationship: Relationship,
 	BindReceipt: BindReceipt
 };
 
@@ -3538,6 +3807,7 @@ function getAll(obj) {
 //Paths
 //Properties
 //Strings
+//Objects
 var Utilities = {
 	Elements: {
 		addClass: addClass,
@@ -3575,6 +3845,9 @@ var Utilities = {
 	Strings: {
 		capitalize: capitalize,
 		uncapitalize: uncapitalize
+	},
+	Objects: {
+		extend: extend
 	}
 };
 
@@ -3642,12 +3915,12 @@ function create$1(name, json, namespace) {
 					state[key] = v;
 					if (old !== v) {
 
-						var data = {
+						var data = new StateChangeReceipt({
 							owner: this,
 							property: key,
 							old: old,
 							new: v
-						};
+						});
 
 						var trigger = state.$trigger;
 						if (!trigger) {

@@ -18,6 +18,7 @@ import ElementClassReceipt from 'Framework/Classes/ElementClassReceipt';
 import Data from 'Framework/Classes/Data';
 import Identity from 'Framework/Classes/Identity';
 import JSUIFunction from 'Framework/Classes/JSUIFunction';
+import Relationship from 'Framework/Classes/Relationship';
 import BindReceipt from 'Framework/Classes/BindReceipt';
 
 let Classes = {
@@ -40,6 +41,7 @@ let Classes = {
 	Data: Data,
 	Identity: Identity,
 	Function: JSUIFunction,
+	Relationship: Relationship,
 	BindReceipt: BindReceipt
 };
 

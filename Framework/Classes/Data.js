@@ -20,9 +20,6 @@ class Data extends ExtensibleMixin(Base) {
 		super();
 		constructor.call(this, values);
 	}
-	toJSON() {
-		return this[$private].state;
-	}
 }
 
 export default Data;

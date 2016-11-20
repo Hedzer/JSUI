@@ -3,6 +3,7 @@ import constructor from 'Framework/Classes/Data/constructor';
 import subconstructor from 'Framework/Reflection/Data/constructor';
 import isObject from 'Framework/TypeChecks/isObject';
 import Data from 'Framework/Classes/Data';
+import StateChangeReceipt from 'Framework/Classes/StateChangeReceipt';
 import feval from 'Framework/Reflection/feval';
 
 export default function create(name, json, namespace) {
@@ -50,12 +51,12 @@ export default function create(name, json, namespace) {
 					state[key] = v;
 					if (old !== v){
 
-						let data = {
+						let data = new StateChangeReceipt({
 							owner: this,
 							property: key,
 							old: old,
 							new: v
-						};
+						});
 
 						let trigger = state.$trigger;
 						if (!trigger) {

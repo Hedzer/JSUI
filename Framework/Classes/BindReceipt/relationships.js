@@ -1,11 +1,11 @@
-import dataToElement from 'Framework/Classes/BindReceipt/Data/element';
-import elementToData from 'Framework/Classes/BindReceipt/Element/data';
+import dataToElement from 'Framework/Classes/BindReceipt/Data/jsui';
+import elementToData from 'Framework/Classes/BindReceipt/JSUI/data';
 
 let relationships = {
 	data: {
-		element: dataToElement
+		jsui: dataToElement
 	},
-	element: {
+	jsui: {
 		data: elementToData
 	}
 };

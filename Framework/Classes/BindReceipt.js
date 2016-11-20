@@ -22,7 +22,8 @@ export default class BindReceipt extends Enableable(Receipt) {
 		define(this, $private, {
 			uid: uid(),
 			relationship: relationship,
-			subject: subject
+			subject: subject,
+			handles: {}
 		});
 
 		if (subject) {
@@ -57,12 +58,14 @@ export default class BindReceipt extends Enableable(Receipt) {
 				Object.keys(tie).forEach((bind) => {
 					let direction = tie[bind];
 					Object.keys(direction).forEach((arrow) => {
-						let priv = this[$private];
+						let _private = this[$private];
 						let to = direction[arrow];
-						let subjectType = getHandledType(priv.subject);
-						let toType = getHandledType(priv.to);
+						let subjectType = getHandledType(_private.subject);
+						let toType = getHandledType(_private.to);
+						console.log(subjectType, to, toType)
 						let relationshipTo = relationships[subjectType];
-						relationshipTo[toType](priv, this);
+						let handle = relationshipTo[toType](this, event, bind, arrow, to);
+						_private.handles[handle.uid] = handle;
 					});
 				});
 			});

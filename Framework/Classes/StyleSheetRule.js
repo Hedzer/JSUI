@@ -9,6 +9,7 @@ import equivalents from 'Framework/Constants/CSS/equivalents';
 import StyleRules from 'Framework/Classes/StyleRules';
 import JSUIError from 'Framework/Classes/JSUIError';
 import StyleSheet from 'Framework/Classes/StyleSheet';
+import StateChangeReceipt from 'Framework/Classes/StateChangeReceipt';
 
 const identity = new Identity({
 	class: 'StyleSheetRule',
@@ -37,11 +38,12 @@ export default class StyleSheetRule extends StyleRules {
 		let self = this;
 		let changed = () => {
 			let old = this[$private].selector;
-			this.trigger('selectorChanged', {
+			let data = new StateChangeReceipt({
 				owner: self,
 				old: old,
 				new: selector
-			});					
+			});
+			this.trigger('selectorChanged', data);					
 		};
 
 		if (isString(selector)) {
@@ -58,11 +60,12 @@ export default class StyleSheetRule extends StyleRules {
 		let self = this;
 		let changed = () => {
 			let old = this[$private].media;
-			this.trigger('mediaChanged', {
+			let data = new StateChangeReceipt({
 				owner: self,
 				old: old,
 				new: media
-			});					
+			});
+			this.trigger('mediaChanged', data);					
 		};
 
 		if (isString(media)) {
@@ -81,7 +84,8 @@ export default class StyleSheetRule extends StyleRules {
 			if (old === zindex) { return; }
 			this[$private].importance = zindex;
 		}
-		this.trigger('importanceChanged', {old: old, new: zindex});
+		let data = new StateChangeReceipt({old: old, new: zindex});
+		this.trigger('importanceChanged', data);
 	}
 	get context() {
 		return (this[$private].context || 'default');
@@ -90,7 +94,8 @@ export default class StyleSheetRule extends StyleRules {
 		let old = this[$private].context;
 		if (old === context) { return; }
 		this[$private].context = context;
-		this.trigger('contextChanged', {old: old, new: context});
+		let data = new StateChangeReceipt({old: old, new: context});
+		this.trigger('contextChanged', data);
 	}
 	set(name, value) {
 		if (isObject(name)) {
@@ -147,7 +152,8 @@ export default class StyleSheetRule extends StyleRules {
 		let old = this[$private].isSwitchable;
 		if (old === bool) { return; }
 		this[$private].isSwitchable = bool;
-		this.trigger('isSwitchableChanged', {old: old, new: bool});
+		let data = new StateChangeReceipt({old: old, new: bool});
+		this.trigger('isSwitchableChanged', data);
 	}
 	get isOnByDefault() {
 		return this[$private].isOnByDefault;
@@ -156,7 +162,8 @@ export default class StyleSheetRule extends StyleRules {
 		let old = this[$private].isOnByDefault;
 		if (old === bool) { return; }
 		this[$private].isOnByDefault = bool;
-		this.trigger('isOnByDefaultChanged', {old: old, new: bool});
+		let data = new StateChangeReceipt({old: old, new: bool});
+		this.trigger('isOnByDefaultChanged', data);
 	}
 	get class() {
 		return this[$private].class;
@@ -165,7 +172,8 @@ export default class StyleSheetRule extends StyleRules {
 		let old = this[$private].class;
 		if (old === className) { return; }
 		this[$private].class = className;
-		this.trigger('classChanged', {old: old, new: className});
+		let data = new StateChangeReceipt({old: old, new: className});
+		this.trigger('classChanged', data);
 	}
 	_on(JSUIElement) {
 		if (!this.isSwitchable || !this.class) { return; }

@@ -35,6 +35,9 @@ import getAll from 'Framework/Utilities/Properties/getAll';
 import capitalize from 'Framework/Utilities/Strings/capitalize';
 import uncapitalize from 'Framework/Utilities/Strings/uncapitalize';
 
+//Objects
+import extend from 'Framework/Utilities/Objects/extend';
+
 let Utilities = {
 	Elements: {
 		addClass: addClass,
@@ -72,6 +75,9 @@ let Utilities = {
 	Strings: {
 		capitalize: capitalize,
 		uncapitalize: uncapitalize
+	},
+	Objects: {
+		extend: extend
 	}
 };
 

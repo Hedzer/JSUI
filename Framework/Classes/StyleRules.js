@@ -4,6 +4,7 @@ import isNull from 'Framework/TypeChecks/isNull';
 import vendors from 'Framework/Constants/CSS/vendors';
 import equivalents from 'Framework/Constants/CSS/equivalents';
 import Distinct from 'Framework/Classes/Distinct';
+import StateChangeReceipt from 'Framework/Classes/StateChangeReceipt';
 
 const identity = new Identity({
 	class: 'StyleRules',
@@ -31,12 +32,12 @@ Object.keys(equivalents).forEach((key) => {
 				delete this[$private].styles[key];
 			}
 			if (old !== value){
-				let data = {
+				let data = new StateChangeReceipt({
 					owner:this,
 					property:key,
 					old:old,
 					new:value
-				};
+				});
 				if (this.trigger){
 					this.trigger(`${key}Changed`, data);
 					this.trigger('styleChanged', data);
