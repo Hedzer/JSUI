@@ -5,6 +5,7 @@ import isJSUIFunction from 'Framework/TypeChecks/isJSUIFunction';
 import isObject from 'Framework/TypeChecks/isObject';
 import uid from 'Framework/Utilities/General/uid';
 import onEvent from 'Framework/Utilities/Events/on';
+import StateChangeReceipt from 'Framework/Classes/StateChangeReceipt';
 import constructor from 'Framework/Classes/Extensible/constructor';
 
 //Keys
@@ -32,12 +33,12 @@ let Extensible = (descendant) => class ExtensibleMixin extends descendant {
 
 		if (hasChanged) {
 			this[$private].state[property] = value;
-			let data = {
+			let data = new StateChangeReceipt({
 				owner: this,
 				property: property,
 				old: old,
 				new: value
-			};
+			});
 			this[trigger]([`${property}Changed`, 'Changed'], data);
 		}
 
@@ -115,6 +116,9 @@ let Extensible = (descendant) => class ExtensibleMixin extends descendant {
 		}, 0);
 		this[trigger]('destructed');
 		return handle;
+	}
+	toJSON() {
+		return this[$private].state;
 	}
 };
 
