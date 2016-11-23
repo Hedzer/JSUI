@@ -45,10 +45,9 @@ export default class BindReceipt extends Enableable(Receipt) {
 		let to = this[$private].to;
 		if (!to) {
 			this[$private].to = subject;
-			delete this.to;
-
 			this.on = this[on];
 			this.normalize = this[normalize];
+			delete this.to;
 		}
 		return this;
 	}
@@ -71,9 +70,8 @@ export default class BindReceipt extends Enableable(Receipt) {
 					});
 				});
 			});
+			delete this.on;
 		}
-
-		delete this.on;
 
 		return this;
 	}
