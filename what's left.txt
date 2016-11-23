@@ -1,7 +1,7 @@
 1. DONE: Data class from json
-2. DONE Add behavior attach/detach
-3. One way binding
-4. Two way binding
+2. DONE: Add behavior attach/detach
+3. DONE: One way binding
+4. DONE: Two way binding
 5. Unit tests
 6. Thorough browser testing
 7. Documentation
