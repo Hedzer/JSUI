@@ -7,7 +7,7 @@ import actions from 'Framework/Classes/BindReceipt/actions';
 import RelationshipBindingReceipt from 'Framework/Classes/RelationshipBindingReceipt';
 let none = function(v){ return v; };
 
-export default function elementToData(receipt, event, bind, arrow, to) {
+export default function extensibleToExtensible(receipt, event, bind, arrow, to) {
 	let _private = receipt[$private];
 	let action = (isFunction(actions[arrow]) ? actions[arrow] : false);
 	if (!action) { return false; }

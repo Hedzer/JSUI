@@ -1,12 +1,12 @@
 import isFunction from 'Framework/TypeChecks/isFunction';
 import $uid from 'Framework/Constants/Keys/General/uid';
-import $private from 'Framework/Constants/Keys/General/$private';
+import $private from 'Framework/Constants/Keys/General/private';
 import define from 'Framework/Utilities/Properties/addHiddenValue';
 import uid from 'Framework/Utilities/General/uid';
 
 let graph = {}; //prevent infinite loops
 
-function getUID() {
+function getUID(obj) {
 	let id = (obj.uid || obj[$uid] || (obj[$private] ? $obj[$private].uid : false) || (obj[$private] ? $obj[$private][$uid] : false));
 	if (!id) {
 		id = uid();
@@ -15,7 +15,7 @@ function getUID() {
 	return id;
 }
 
-function open() {
+function open(obj) {
 	for (var i = arguments.length - 1; i >= 0; i--) {
 		let obj = arguments[i];
 		let id = getUID(obj);
@@ -23,7 +23,7 @@ function open() {
 	}
 }
 
-function close() {
+function close(obj) {
 	for (var i = arguments.length - 1; i >= 0; i--) {
 		let obj = arguments[i];
 		let id = getUID(obj);
@@ -46,6 +46,7 @@ function isClosed(obj) {
 	let result = true;
 	for (var i = arguments.length - 1; i >= 0; i--) {
 		let obj = arguments[i];
+		let id = getUID(obj);
 		result = result && !(graph[id]);
 	}
 	return result;

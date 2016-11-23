@@ -1,4 +1,6 @@
 import isObject from 'Framework/TypeChecks/isObject';
+import isFunction from 'Framework/TypeChecks/isFunction';
+import isJSUIFunction from 'Framework/TypeChecks/isJSUIFunction';
 
 import $private from 'Framework/Constants/Keys/General/private';
 import Receipt from 'Framework/Classes/Receipt';
@@ -23,7 +25,10 @@ export default class BindReceipt extends Enableable(Receipt) {
 			uid: uid(),
 			relationship: relationship,
 			subject: subject,
-			handles: {}
+			Handles: {
+				byID: {},
+				byName: {}
+			}
 		});
 
 		if (subject) {
@@ -42,10 +47,7 @@ export default class BindReceipt extends Enableable(Receipt) {
 			this[$private].to = subject;
 			delete this.to;
 
-			//allow on, oneWay, twoWay, normalize
 			this.on = this[on];
-			this.oneWay = this[oneWay];
-			this.twoWay = this[twoWay];
 			this.normalize = this[normalize];
 		}
 		return this;
@@ -62,42 +64,35 @@ export default class BindReceipt extends Enableable(Receipt) {
 						let to = direction[arrow];
 						let subjectType = getHandledType(_private.subject);
 						let toType = getHandledType(_private.to);
-						console.log(subjectType, to, toType)
 						let relationshipTo = relationships[subjectType];
 						let handle = relationshipTo[toType](this, event, bind, arrow, to);
-						_private.handles[handle.uid] = handle;
+						_private.Handles.byID[handle.uid] = handle;
+						_private.Handles.byName[handle.name] = handle;
 					});
 				});
 			});
 		}
 
 		delete this.on;
-		delete this.oneWay;
-		delete this.twoWay;
-
-		//do the things
-
-		return this;
-	}
-	[oneWay]() {
-		delete this.on;
-		delete this.oneWay;
-		delete this.twoWay;
-
-		//do the things
-
-		return this;
-	}
-	[twoWay]() {
-		delete this.on;
-		delete this.oneWay;
-		delete this.twoWay;
-
-		//do the things
 
 		return this;
 	}
 	[normalize](rules) {
+		if (isObject(rules)) {
+			Object.keys(rules).forEach((event) => {
+				let relationships = rules[event];
+				Object.keys(relationships).forEach((relationship) => {
+					let normalizer = relationships[relationship];
+					let key = `${event}: ${relationship}`;
+					if (isFunction(normalizer) || isJSUIFunction(normalizer)) {
+						let handle = this[$private].Handles.byName[key];
+						if (handle) {
+							handle.normalizer = normalizer;
+						}
+					}
+				});
+			});
+		}
 		return this;
 	}
 }

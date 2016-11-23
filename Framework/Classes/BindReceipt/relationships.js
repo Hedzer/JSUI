@@ -1,13 +1,15 @@
-import dataToElement from 'Framework/Classes/BindReceipt/Data/jsui';
-import elementToData from 'Framework/Classes/BindReceipt/JSUI/data';
+import extensibleToExtensible from 'Framework/Classes/BindReceipt/Extensible/extensible';
+
+let defaultExtensible = {
+	jsui: extensibleToExtensible,
+	data: extensibleToExtensible,
+	extensible: extensibleToExtensible
+};
 
 let relationships = {
-	data: {
-		jsui: dataToElement
-	},
-	jsui: {
-		data: elementToData
-	}
+	data: Object.create(defaultExtensible),
+	jsui: Object.create(defaultExtensible),
+	extensible: Object.create(defaultExtensible)
 };
 
 export default relationships;
