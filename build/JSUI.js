@@ -3339,30 +3339,142 @@ var symbol$11 = symbolOrString('BindReceipt.on');
 
 var symbol$12 = symbolOrString('BindReceipt.oneWay');
 
-var symbol$13 = symbolOrString('BindReceipt.twoWay');
+var symbol$14 = symbolOrString('BindReceipt.twoWay');
 
-var symbol$14 = symbolOrString('BindReceipt.normalize');
-
-function dataToElement(receipt, event, bind, arrow, to) {
-	console.log(arguments);
-}
+var symbol$16 = symbolOrString('BindReceipt.normalize');
 
 function isStateChangeReceipt(u) {
 	return u instanceof StateChangeReceipt;
 }
 
+var graph = {}; //prevent infinite loops
+
+function getUID(obj) {
+	var id = obj.uid || obj[symbol$9] || (obj[symbol] ? $obj[symbol].uid : false) || (obj[symbol] ? $obj[symbol][symbol$9] : false);
+	if (!id) {
+		id = uid();
+		addHiddenValue(obj, symbol$9, id);
+	}
+	return id;
+}
+
+function open(obj) {
+	for (var i = arguments.length - 1; i >= 0; i--) {
+		var _obj = arguments[i];
+		var id = getUID(_obj);
+		graph[id] = true;
+	}
+}
+
+function close(obj) {
+	for (var i = arguments.length - 1; i >= 0; i--) {
+		var _obj2 = arguments[i];
+		var id = getUID(_obj2);
+		graph[id] = false;
+		delete graph[id];
+	}
+}
+
+function isClosed(obj) {
+	var result = true;
+	for (var i = arguments.length - 1; i >= 0; i--) {
+		var _obj4 = arguments[i];
+		var id = getUID(_obj4);
+		result = result && !graph[id];
+	}
+	return result;
+}
+
 var actions = {
 	'->': function _(objA, propA, objB, propB, data, normalizer) {
+		if (!isClosed(objA, objB)) {
+			return;
+		}
+
+		open(objA, objB);
 		objB[propB] = normalizer(objA[propA]);
+		close(objA, objB);
 	},
 	'<-': function _(objA, propA, objB, propB, data, normalizer) {
+		if (!isClosed(objA, objB)) {
+			return;
+		}
+
+		open(objA, objB);
 		objA[propA] = normalizer(objB[propB]);
+		close(objA, objB);
 	},
-	'(->)': function _(objA, propA, objB, propB, data, normalizer) {
+	'()->': function _(objA, propA, objB, propB, data, normalizer) {
+		if (!isClosed(objA, objB)) {
+			return;
+		}
+		if (!isFunction$1(objA[propA])) {
+			return;
+		}
+
+		open(objA, objB);
 		objB[propB] = normalizer(objA[propA]());
+		close(objA, objB);
 	},
-	'(<-)': function _(objA, propA, objB, propB, data, normalizer) {
+	'<-()': function _(objA, propA, objB, propB, data, normalizer) {
+		if (!isClosed(objA, objB)) {
+			return;
+		}
+		if (!isFunction$1(objB[propB])) {
+			return;
+		}
+
+		open(objA, objB);
 		objA[propA] = normalizer(objB[propB]());
+		close(objA, objB);
+	},
+	'->()': function _(objA, propA, objB, propB, data, normalizer) {
+		if (!isClosed(objA, objB)) {
+			return;
+		}
+		if (!isFunction$1(objB[propB])) {
+			return;
+		}
+
+		open(objA, objB);
+		objB[propB](normalizer(objA[propA]));
+		close(objA, objB);
+	},
+	'()<-': function _(objA, propA, objB, propB, data, normalizer) {
+		if (!isClosed(objA, objB)) {
+			return;
+		}
+		if (!isFunction$1(objA[propA])) {
+			return;
+		}
+
+		open(objA, objB);
+		objA[propA](normalizer(objB[propB]));
+		close(objA, objB);
+	},
+	'()->()': function _(objA, propA, objB, propB, data, normalizer) {
+		if (!isClosed(objA, objB)) {
+			return;
+		}
+		if (!isFunction$1(objA[propA]) || !isFunction$1(objB[propB])) {
+			return;
+		}
+
+		open(objA, objB);
+		objB[propB](normalizer(objA[propA]()));
+		close(objA, objB);
+	},
+	'()<-()': function _(objA, propA, objB, propB, data, normalizer) {
+		if (!isClosed(objA, objB)) {
+			return;
+		}
+		if (!isFunction$1(objA[propA]) || !isFunction$1(objB[propB])) {
+			return;
+		}
+
+		open(objA, objB);
+		objA[propA](normalizer(objB[propB]()));
+		close(objA, objB);
 	}
 };
 
@@ -3444,7 +3556,7 @@ var none = function none(v) {
 	return v;
 };
 
-function elementToData(receipt, event, bind, arrow, to) {
+function extensibleToExtensible(receipt, event, bind, arrow, to) {
 	var _private = receipt[symbol];
 	var action = isFunction$1(actions[arrow]) ? actions[arrow] : false;
 	if (!action) {
@@ -3479,13 +3591,16 @@ function elementToData(receipt, event, bind, arrow, to) {
 	return binding;
 }
 
+var defaultExtensible = {
+	jsui: extensibleToExtensible,
+	data: extensibleToExtensible,
+	extensible: extensibleToExtensible
+};
+
 var relationships = {
-	data: {
-		jsui: dataToElement
-	},
-	jsui: {
-		data: elementToData
-	}
+	data: Object.create(defaultExtensible),
+	jsui: Object.create(defaultExtensible),
+	extensible: Object.create(defaultExtensible)
 };
 
 function extend(a) {
@@ -3512,10 +3627,16 @@ function extend(a) {
 	};
 }
 
+function isExtensible(u) {
+	return u instanceof Extensible$3;
+}
+
 var Types$1 = Object.create(types$1);
 extend(Types$1).with({
 	object: {
-		data: isData
+		data: isData,
+		jsui: isJSUI,
+		extensible: isExtensible
 	}
 });
 
@@ -3534,7 +3655,10 @@ var BindReceipt = function (_Enableable) {
 			uid: uid(),
 			relationship: relationship,
 			subject: subject,
-			handles: {}
+			Handles: {
+				byID: {},
+				byName: {}
+			}
 		});
 
 		if (subject) {
@@ -3551,11 +3675,8 @@ var BindReceipt = function (_Enableable) {
 				this[symbol].to = subject;
 				delete this.to;
 
-				//allow on, oneWay, twoWay, normalize
 				this.on = this[symbol$11];
-				this.oneWay = this[symbol$12];
-				this.twoWay = this[symbol$13];
-				this.normalize = this[symbol$14];
+				this.normalize = this[symbol$16];
 			}
 			return this;
 		}
@@ -3574,48 +3695,39 @@ var BindReceipt = function (_Enableable) {
 							var to = direction[arrow];
 							var subjectType = getHandledType$2(_private.subject);
 							var toType = getHandledType$2(_private.to);
-							console.log(subjectType, to, toType);
 							var relationshipTo = relationships[subjectType];
 							var handle = relationshipTo[toType](_this2, event, bind, arrow, to);
-							_private.handles[handle.uid] = handle;
+							_private.Handles.byID[handle.uid] = handle;
+							_private.Handles.byName[handle.name] = handle;
 						});
 					});
 				});
 			}
 
 			delete this.on;
-			delete this.oneWay;
-			delete this.twoWay;
-
-			//do the things
 
 			return this;
 		}
 	}, {
-		key: symbol$12,
-		value: function value() {
-			delete this.on;
-			delete this.oneWay;
-			delete this.twoWay;
-
-			//do the things
-
-			return this;
-		}
-	}, {
-		key: symbol$13,
-		value: function value() {
-			delete this.on;
-			delete this.oneWay;
-			delete this.twoWay;
-
-			//do the things
-
-			return this;
-		}
-	}, {
-		key: symbol$14,
+		key: symbol$16,
 		value: function value(rules) {
+			var _this3 = this;
+
+			if (isObject(rules)) {
+				Object.keys(rules).forEach(function (event) {
+					var relationships$$1 = rules[event];
+					Object.keys(relationships$$1).forEach(function (relationship) {
+						var normalizer = relationships$$1[relationship];
+						var key = event + ': ' + relationship;
+						if (isFunction$1(normalizer) || isJSUI$1(normalizer)) {
+							var handle = _this3[symbol].Handles.byName[key];
+							if (handle) {
+								handle.normalizer = normalizer;
+							}
+						}
+					});
+				});
+			}
 			return this;
 		}
 	}, {
