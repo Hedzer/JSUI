@@ -56,19 +56,23 @@ export default class BindReceipt extends Enableable(Receipt) {
 		if (isObject(events)) {
 			Object.keys(events).forEach((event) => {
 				let tie = events[event];
-				Object.keys(tie).forEach((bind) => {
-					let direction = tie[bind];
-					Object.keys(direction).forEach((arrow) => {
-						let _private = this[$private];
-						let to = direction[arrow];
-						let subjectType = getHandledType(_private.subject);
-						let toType = getHandledType(_private.to);
-						let relationshipTo = relationships[subjectType];
-						let handle = relationshipTo[toType](this, event, bind, arrow, to);
-						_private.Handles.byID[handle.uid] = handle;
-						_private.Handles.byName[handle.name] = handle;
-					});
-				});
+				if (isObject(tie)) {
+					Object.keys(tie).forEach((bind) => {
+						let direction = tie[bind];
+						if (isObject(direction)) {
+							Object.keys(direction).forEach((arrow) => {
+								let _private = this[$private];
+								let to = direction[arrow];
+								let subjectType = getHandledType(_private.subject);
+								let toType = getHandledType(_private.to);
+								let relationshipTo = relationships[subjectType];
+								let handle = relationshipTo[toType](this, event, bind, arrow, to);
+								_private.Handles.byID[handle.uid] = handle;
+								_private.Handles.byName[handle.name] = handle;
+							});
+						}
+					});	
+				}
 			});
 			delete this.on;
 		}
@@ -76,21 +80,25 @@ export default class BindReceipt extends Enableable(Receipt) {
 		return this;
 	}
 	[normalize](rules) {
+
 		if (isObject(rules)) {
 			Object.keys(rules).forEach((event) => {
 				let relationships = rules[event];
-				Object.keys(relationships).forEach((relationship) => {
-					let normalizer = relationships[relationship];
-					let key = `${event}: ${relationship}`;
-					if (isFunction(normalizer) || isJSUIFunction(normalizer)) {
-						let handle = this[$private].Handles.byName[key];
-						if (handle) {
-							handle.normalizer = normalizer;
+				if (isObject(relationships)) {
+					Object.keys(relationships).forEach((relationship) => {
+						let normalizer = relationships[relationship];
+						let key = `${event}: ${relationship}`;
+						if (isFunction(normalizer) || isJSUIFunction(normalizer)) {
+							let handle = this[$private].Handles.byName[key];
+							if (handle) {
+								handle.normalizer = normalizer;
+							}
 						}
-					}
-				});
+					});
+				}
 			});
 		}
+		
 		return this;
 	}
 }
