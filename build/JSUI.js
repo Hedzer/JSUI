@@ -3337,11 +3337,7 @@ var symbol$10 = symbolOrString('BindReceipt.on');
 
 var symbol$11 = symbolOrString('BindReceipt.on');
 
-var symbol$12 = symbolOrString('BindReceipt.oneWay');
-
-var symbol$14 = symbolOrString('BindReceipt.twoWay');
-
-var symbol$16 = symbolOrString('BindReceipt.normalize');
+var symbol$12 = symbolOrString('BindReceipt.normalize');
 
 function isStateChangeReceipt(u) {
 	return u instanceof StateChangeReceipt;
@@ -3674,7 +3670,7 @@ var BindReceipt = function (_Enableable) {
 			if (!to) {
 				this[symbol].to = subject;
 				this.on = this[symbol$11];
-				this.normalize = this[symbol$16];
+				this.normalize = this[symbol$12];
 				delete this.to;
 			}
 			return this;
@@ -3711,7 +3707,7 @@ var BindReceipt = function (_Enableable) {
 			return this;
 		}
 	}, {
-		key: symbol$16,
+		key: symbol$12,
 		value: function value(rules) {
 			var _this3 = this;
 
@@ -3849,12 +3845,19 @@ var Constants = {
 			add: symbol$5,
 			remove: symbol$6
 		},
-		on: symbol$7,
-		private: symbol,
-		state: symbol$1,
-		trigger: symbol$8,
-		uid: symbol$9,
-		destructor: symbol$2
+		BindReceipt: {
+			normalize: symbol$12,
+			on: symbol$11,
+			to: symbol$10
+		},
+		General: {
+			on: symbol$7,
+			private: symbol,
+			state: symbol$1,
+			trigger: symbol$8,
+			uid: symbol$9,
+			destructor: symbol$2
+		}
 	}
 };
 
@@ -3937,6 +3940,13 @@ function getAll(obj) {
 	return props;
 }
 
+function handle(data) {
+	if (!isData(data)) {
+		return;
+	}
+	return new DataHandle(data);
+}
+
 //Elements
 //Events
 //Functions
@@ -3945,6 +3955,7 @@ function getAll(obj) {
 //Properties
 //Strings
 //Objects
+//Data
 var Utilities = {
 	Elements: {
 		addClass: addClass,
@@ -3985,6 +3996,9 @@ var Utilities = {
 	},
 	Objects: {
 		extend: extend
+	},
+	Data: {
+		handle: handle
 	}
 };
 

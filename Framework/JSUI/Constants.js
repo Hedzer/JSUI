@@ -15,6 +15,10 @@ import extensibleTrigger from 'Framework/Constants/Keys/Extensible/trigger';
 import extensibleAdd from 'Framework/Constants/Keys/Extensible/add';
 import extensibleRemove from 'Framework/Constants/Keys/Extensible/remove';
 
+import bindReceiptNormalize from 'Framework/Constants/Keys/BindReceipt/normalize';
+import bindReceiptOn from 'Framework/Constants/Keys/BindReceipt/on';
+import bindReceiptTo from 'Framework/Constants/Keys/BindReceipt/to';
+
 let Constants = {
 	CSS: {
 		equivalents: equivalents,
@@ -30,12 +34,19 @@ let Constants = {
 			add: extensibleAdd,
 			remove: extensibleRemove,
 		},
-		on: on,
-		private: $private,
-		state: state,
-		trigger: trigger,
-		uid: uid,
-		destructor: destructor
+		BindReceipt: {
+			normalize: bindReceiptNormalize,
+			on: bindReceiptOn,
+			to: bindReceiptTo
+		},
+		General: {
+			on: on,
+			private: $private,
+			state: state,
+			trigger: trigger,
+			uid: uid,
+			destructor: destructor
+		}
 	}
 };
 

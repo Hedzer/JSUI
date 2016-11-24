@@ -11,8 +11,6 @@ import Enableable from 'Framework/Mixins/Enableable';
 //keys
 import to from 'Framework/Constants/Keys/BindReceipt/to';
 import on from 'Framework/Constants/Keys/BindReceipt/on';
-import oneWay from 'Framework/Constants/Keys/BindReceipt/oneWay';
-import twoWay from 'Framework/Constants/Keys/BindReceipt/twoWay';
 import normalize from 'Framework/Constants/Keys/BindReceipt/normalize';
 
 import relationships from 'Framework/Classes/BindReceipt/relationships';
@@ -98,7 +96,7 @@ export default class BindReceipt extends Enableable(Receipt) {
 				}
 			});
 		}
-		
+
 		return this;
 	}
 }
