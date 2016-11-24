@@ -38,6 +38,9 @@ import uncapitalize from 'Framework/Utilities/Strings/uncapitalize';
 //Objects
 import extend from 'Framework/Utilities/Objects/extend';
 
+//Data
+import handle from 'Framework/Utilities/Data/handle';
+
 let Utilities = {
 	Elements: {
 		addClass: addClass,
@@ -78,6 +81,9 @@ let Utilities = {
 	},
 	Objects: {
 		extend: extend
+	},
+	Data: {
+		handle: handle
 	}
 };
 

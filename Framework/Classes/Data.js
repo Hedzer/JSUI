@@ -1,12 +1,3 @@
-import getHandledType from 'Framework/Classes/Element/getHandledType';
-import unhandled from 'Framework/Classes/General/Handlers/unhandled';
-
-import $private from 'Framework/Constants/Keys/General/private';
-import on from 'Framework/Constants/Keys/General/on';
-import trigger from 'Framework/Constants/Keys/General/trigger';
-
-import On from 'Framework/Classes/Element/Handlers/On';
-import Trigger from 'Framework/Classes/Element/Handlers/Trigger';
 import constructor from 'Framework/Classes/Data/constructor';
 
 //classes
