@@ -20,6 +20,7 @@ import Identity from 'Framework/Classes/Identity';
 import JSUIFunction from 'Framework/Classes/JSUIFunction';
 import Relationship from 'Framework/Classes/Relationship';
 import BindReceipt from 'Framework/Classes/BindReceipt';
+import DataHandle from 'Framework/Classes/DataHandle';
 
 let Classes = {
 	Behavior: Behavior,
@@ -42,7 +43,8 @@ let Classes = {
 	Identity: Identity,
 	Function: JSUIFunction,
 	Relationship: Relationship,
-	BindReceipt: BindReceipt
+	BindReceipt: BindReceipt,
+	DataHandle: DataHandle
 };
 
 export default Classes;

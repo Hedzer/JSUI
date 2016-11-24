@@ -3673,10 +3673,9 @@ var BindReceipt = function (_Enableable) {
 			var to = this[symbol].to;
 			if (!to) {
 				this[symbol].to = subject;
-				delete this.to;
-
 				this.on = this[symbol$11];
 				this.normalize = this[symbol$16];
+				delete this.to;
 			}
 			return this;
 		}
@@ -3688,23 +3687,26 @@ var BindReceipt = function (_Enableable) {
 			if (isObject(events)) {
 				Object.keys(events).forEach(function (event) {
 					var tie = events[event];
-					Object.keys(tie).forEach(function (bind) {
-						var direction = tie[bind];
-						Object.keys(direction).forEach(function (arrow) {
-							var _private = _this2[symbol];
-							var to = direction[arrow];
-							var subjectType = getHandledType$2(_private.subject);
-							var toType = getHandledType$2(_private.to);
-							var relationshipTo = relationships[subjectType];
-							var handle = relationshipTo[toType](_this2, event, bind, arrow, to);
-							_private.Handles.byID[handle.uid] = handle;
-							_private.Handles.byName[handle.name] = handle;
+					if (isObject(tie)) {
+						Object.keys(tie).forEach(function (bind) {
+							var direction = tie[bind];
+							if (isObject(direction)) {
+								Object.keys(direction).forEach(function (arrow) {
+									var _private = _this2[symbol];
+									var to = direction[arrow];
+									var subjectType = getHandledType$2(_private.subject);
+									var toType = getHandledType$2(_private.to);
+									var relationshipTo = relationships[subjectType];
+									var handle = relationshipTo[toType](_this2, event, bind, arrow, to);
+									_private.Handles.byID[handle.uid] = handle;
+									_private.Handles.byName[handle.name] = handle;
+								});
+							}
 						});
-					});
+					}
 				});
+				delete this.on;
 			}
-
-			delete this.on;
 
 			return this;
 		}
@@ -3716,18 +3718,21 @@ var BindReceipt = function (_Enableable) {
 			if (isObject(rules)) {
 				Object.keys(rules).forEach(function (event) {
 					var relationships$$1 = rules[event];
-					Object.keys(relationships$$1).forEach(function (relationship) {
-						var normalizer = relationships$$1[relationship];
-						var key = event + ': ' + relationship;
-						if (isFunction$1(normalizer) || isJSUI$1(normalizer)) {
-							var handle = _this3[symbol].Handles.byName[key];
-							if (handle) {
-								handle.normalizer = normalizer;
+					if (isObject(relationships$$1)) {
+						Object.keys(relationships$$1).forEach(function (relationship) {
+							var normalizer = relationships$$1[relationship];
+							var key = event + ': ' + relationship;
+							if (isFunction$1(normalizer) || isJSUI$1(normalizer)) {
+								var handle = _this3[symbol].Handles.byName[key];
+								if (handle) {
+									handle.normalizer = normalizer;
+								}
 							}
-						}
-					});
+						});
+					}
 				});
 			}
+
 			return this;
 		}
 	}, {
@@ -3784,6 +3789,25 @@ var Relationship = function (_Enableable) {
 	return Relationship;
 }(Enableable(Base));
 
+//Keys
+//mixins
+var DataHandle = function (_Extensible) {
+	inherits(DataHandle, _Extensible);
+
+	function DataHandle(data) {
+		classCallCheck(this, DataHandle);
+
+		var _this = possibleConstructorReturn(this, (DataHandle.__proto__ || Object.getPrototypeOf(DataHandle)).call(this));
+
+		if (isData(data)) {
+			_this[symbol] = data[symbol];
+		}
+		return _this;
+	}
+
+	return DataHandle;
+}(Extensible$1);
+
 var Classes = {
 	Behavior: Behavior,
 	Collection: Collection,
@@ -3805,7 +3829,8 @@ var Classes = {
 	Identity: Identity,
 	Function: JSUIFunction,
 	Relationship: Relationship,
-	BindReceipt: BindReceipt
+	BindReceipt: BindReceipt,
+	DataHandle: DataHandle
 };
 
 //Keys
