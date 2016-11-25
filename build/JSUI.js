@@ -2108,17 +2108,149 @@ function _jsui(instance) {
 	return receipt;
 }
 
+function _string$2(command, args) {
+	var results = new Collection$1();
+	this.forEach(function (item) {
+		var method = item[command];
+		if (isFunction$1(method) || isJSUI$1(method)) {
+			results.push({
+				item: item,
+				value: method.apply(item, args)
+			});
+			return;
+		}
+		results.push(undefined);
+	});
+	return results;
+}
+
+function getter(obj, prop) {
+	if (!obj || !isObject(obj)) {
+		return;
+	}
+	return obj[prop];
+}
+
+function get$2(obj, path) {
+	if (isString(path)) {
+		return path.substring(1).split('.').reduce(getter, obj);
+	}
+	if (isArray(path)) {
+		return path.reduce(getter, obj);
+	}
+}
+
+function getWithContext(obj, path) {
+	var parts = path.substring(1).split('.');
+	if (!parts.length) {
+		return;
+	}
+	if (parts.length === 1) {
+		return {
+			context: obj,
+			property: parts[0]
+		};
+	}
+	var tail = parts.splice(parts.length - 1, 1);
+	var reference = get$2(obj, parts);
+	if (reference) {
+		return {
+			context: reference,
+			property: tail[0]
+		};
+	}
+	return false;
+}
+
+function _path(command, args) {
+	var _this = this;
+
+	var results = new Collection();
+	this.forEach(function (item) {
+		var path = getWithContext(_this, command);
+		if (!path || !path.context || !path.property) {
+			return;
+		}
+		var method = path.context[path.property];
+		if (isFunction$1(method)) {
+			var value = isArray(args) ? method.apply(path.context, args) : method.call(path.context, args);
+			results.push({ item: item, value: value });
+		}
+	});
+}
+
+var Do = {
+	string: _string$2,
+	path: _path
+};
+
+var Collection$1 = function (_Array) {
+	inherits(Collection, _Array);
+
+	function Collection(target) {
+		classCallCheck(this, Collection);
+
+		var _this = possibleConstructorReturn(this, (Collection.__proto__ || Object.getPrototypeOf(Collection)).call(this));
+
+		if (isArray(target)) {
+			target.forEach(function (item) {
+				_this.push(item);
+			});
+		}
+		return _this;
+	}
+
+	createClass(Collection, [{
+		key: 'do',
+		value: function _do(method, args) {
+			var type = getHandledType(method);
+			var action = Do[type];
+			return (action || unhandled).call(this, method, args);
+		}
+	}, {
+		key: 'get',
+		value: function get(property) {
+			var type = getHandledType(property);
+			var action = Get[type];
+			return (action || unhandled).call(this, property);
+		}
+	}, {
+		key: 'set',
+		value: function set(property, value) {
+			var type = getHandledType(property);
+			var action = Set[type];
+			return (action || unhandled).call(this, property, value);
+		}
+	}, {
+		key: 'where',
+		value: function where(filter) {
+			var results = new Collection();
+			if (!isFunction$1(filter)) {
+				return results;
+			}
+			for (var i = this.length - 1; i >= 0; i--) {
+				var result = this[i];
+				if (filter(result)) {
+					results.push(result);
+				}
+			}
+			return results;
+		}
+	}]);
+	return Collection;
+}(Array);
+
 function _array(collection) {
 	var _this = this;
 
-	var results = [];
+	var results = new Collection$1();
 	collection.forEach(function (item) {
 		results.push(_this.add(item));
 	});
 	return results;
 }
 
-function _string$2(prop) {
+function _string$3(prop) {
 	add$1(this, prop);
 }
 
@@ -2134,8 +2266,8 @@ function _html(markup) {
 	}
 }
 
-function _path(prop) {
-	return _string$2.call(this, prop);
+function _path$1(prop) {
+	return _string$3.call(this, prop);
 }
 
 function isUJSUI(u) {
@@ -2163,9 +2295,9 @@ var Add = {
 	element: _element$1,
 	jsui: _jsui,
 	array: _array,
-	string: _string$2,
+	string: _string$3,
 	html: _html,
-	path: _path,
+	path: _path$1,
 	function: _function,
 	behavior: _behavior
 };
@@ -2183,7 +2315,7 @@ function _jsui$1(instance) {
 function _array$1(collection) {
 	var _this = this;
 
-	var results = [];
+	var results = new Collection$1();
 	collection.forEach(function (item) {
 		results.push(_this.addTo(item));
 	});
@@ -2199,7 +2331,7 @@ var AddTo = {
 function _array$2(collection) {
 	var _this = this;
 
-	var results = [];
+	var results = new Collection$1();
 	collection.forEach(function (item) {
 		results.push(_this.remove(item));
 	});
@@ -2226,7 +2358,7 @@ var Remove = {
 function _array$3(collection, method) {
 	var _this = this;
 
-	var results = [];
+	var results = new Collection$1();
 	collection.forEach(function (item) {
 		results.push(_this.on(item, method));
 	});
@@ -2244,25 +2376,25 @@ function _object(assignments) {
 	return results;
 }
 
-function _string$3(name, method) {
+function _string$4(name, method) {
 	return on$1.call(this, name, method);
 }
 
-function _path$1(name, method) {
-	return _string$3.call(this, name, method);
+function _path$2(name, method) {
+	return _string$4.call(this, name, method);
 }
 
 var On = {
 	array: _array$3,
 	object: _object,
-	string: _string$3,
-	path: _path$1
+	string: _string$4,
+	path: _path$2
 };
 
 function _array$4(collection, args) {
 	var _this = this;
 
-	var results = [];
+	var results = new Collection$1();
 	collection.forEach(function (item) {
 		results.push(_this.trigger(item, args));
 	});
@@ -2278,7 +2410,7 @@ function _object$1(assignments) {
 	});
 }
 
-function _string$4(name, args) {
+function _string$5(name, args) {
 	if (!this.element) {
 		return false;
 	}
@@ -2287,21 +2419,21 @@ function _string$4(name, args) {
 	return true;
 }
 
-function _path$2(name, args) {
-	return _string$4.call(this, name, args);
+function _path$3(name, args) {
+	return _string$5.call(this, name, args);
 }
 
 var Trigger = {
 	array: _array$4,
 	object: _object$1,
-	string: _string$4,
-	path: _path$2
+	string: _string$5,
+	path: _path$3
 };
 
 function _array$5(collection) {
 	var _this = this;
 
-	var results = [];
+	var results = new Collection$1();
 	collection.forEach(function (item) {
 		results.push(_this.find(item));
 	});
@@ -2350,15 +2482,15 @@ function _regex(expression) {
 	return results;
 }
 
-function _string$5(query) {
+function _string$6(query) {
 	var results = null;
 	results = this.element.querySelectorAll(query);
 	results = !results || results === null ? [] : results;
 	return results;
 }
 
-function _path$3(query) {
-	return _string$5.call(this, query);
+function _path$4(query) {
+	return _string$6.call(this, query);
 }
 
 function _undefined$1() {
@@ -2374,15 +2506,15 @@ var Find = {
 	function: _function$1,
 	jsui: _jsui$3,
 	regex: _regex,
-	string: _string$5,
-	path: _path$3,
+	string: _string$6,
+	path: _path$4,
 	undefined: _undefined$1
 };
 
 function _array$6(collection) {
 	var _this = this;
 
-	var results = [];
+	var results = new Collection$1();
 	collection.forEach(function (item) {
 		results.push(_this.do(item));
 	});
@@ -2399,7 +2531,7 @@ function _object$2(macro) {
 	return results;
 }
 
-function _string$6(command, args) {
+function _string$7(command, args) {
 	if (isFunction$1(this[command])) {
 		if (isArray(args)) {
 			return this[command].apply(this, args);
@@ -2408,45 +2540,7 @@ function _string$6(command, args) {
 	}
 }
 
-function getter(obj, prop) {
-	if (!obj || !isObject(obj)) {
-		return;
-	}
-	return obj[prop];
-}
-
-function get$2(obj, path) {
-	if (isString(path)) {
-		return path.substring(1).split('.').reduce(getter, obj);
-	}
-	if (isArray(path)) {
-		return path.reduce(getter, obj);
-	}
-}
-
-function getWithContext(obj, path) {
-	var parts = path.substring(1).split('.');
-	if (!parts.length) {
-		return;
-	}
-	if (parts.length === 1) {
-		return {
-			context: obj,
-			property: parts[0]
-		};
-	}
-	var tail = parts.splice(parts.length - 1, 1);
-	var reference = get$2(obj, parts);
-	if (reference) {
-		return {
-			context: reference,
-			property: tail[0]
-		};
-	}
-	return false;
-}
-
-function _path$4(command, args) {
+function _path$5(command, args) {
 	var path = getWithContext(this, command);
 	if (!path || !path.context || !path.property) {
 		return;
@@ -2465,18 +2559,18 @@ function _function$2(method, args) {
 	return this;
 }
 
-var Do = {
+var Do$2 = {
 	array: _array$6,
 	object: _object$2,
-	string: _string$6,
-	path: _path$4,
+	string: _string$7,
+	path: _path$5,
 	function: _function$2
 };
 
 function _array$7(collection) {
 	var _this = this;
 
-	var results = [];
+	var results = new Collection$1();
 	collection.forEach(function (item) {
 
 		var result = _this.get(item);
@@ -2489,21 +2583,21 @@ function _array$7(collection) {
 	return results;
 }
 
-function _string$7(property) {
+function _string$8(property) {
 	if (!property) {
 		return;
 	}
 	return this[property];
 }
 
-function _path$5(path) {
+function _path$6(path) {
 	return get$2(this, path);
 }
 
-var Get = {
+var Get$1 = {
 	array: _array$7,
-	string: _string$7,
-	path: _path$5
+	string: _string$8,
+	path: _path$6
 };
 
 function _object$3(properties, value) {
@@ -2526,7 +2620,7 @@ function _object$4(assignments) {
 	return results;
 }
 
-function _string$8(property, value) {
+function _string$9(property, value) {
 	if (!property) {
 		return;
 	}
@@ -2556,18 +2650,18 @@ function set$2(obj, path, value) {
 	return setter(obj, path, value);
 }
 
-function _path$6(path, value) {
+function _path$7(path, value) {
 	return set$2(this, path, value);
 }
 
-var Set = {
+var Set$1 = {
 	array: _object$3,
 	object: _object$4,
-	string: _string$8,
-	path: _path$6
+	string: _string$9,
+	path: _path$7
 };
 
-function _string$9(text) {
+function _string$10(text) {
 	if (this[symbol] && this.element) {
 		if (!this[symbol].text) {
 			var textNode = document.createTextNode(text);
@@ -2581,7 +2675,7 @@ function _string$9(text) {
 	return false;
 }
 
-function _path$7(text) {
+function _path$8(text) {
 	return _string.call(this, text);
 }
 
@@ -2592,8 +2686,8 @@ function _undefined$2() {
 }
 
 var Text = {
-	string: _string$9,
-	path: _path$7,
+	string: _string$10,
+	path: _path$8,
 	undefined: _undefined$2
 };
 
@@ -2675,7 +2769,7 @@ function _set_path() {
 function _array$8(collection, value) {
 	var _this = this;
 
-	var results = [];
+	var results = new Collection$1();
 	collection.forEach(function (attribute) {
 		results.push(_this.attribute(attribute, value));
 	});
@@ -2703,7 +2797,7 @@ var Attribute = {
 function _array$9(collection) {
 	var _this = this;
 
-	var results = [];
+	var results = new Collection$1();
 	collection.forEach(function (item) {
 		results.push(_this.class(item));
 	});
@@ -2802,15 +2896,15 @@ var ElementClassReceipt = function (_ElementReceipt) {
 	return ElementClassReceipt;
 }(ElementReceipt);
 
-function _string$10(name) {
+function _string$11(name) {
 	if (isEmptyString(name)) {
 		return;
 	}
 	return new ElementClassReceipt(this.element, name);
 }
 
-function _path$8() {
-	return _string$10.apply(this, arguments);
+function _path$9() {
+	return _string$11.apply(this, arguments);
 }
 
 function _undefined$4() {
@@ -2820,8 +2914,8 @@ function _undefined$4() {
 var Class = {
 	array: _array$9,
 	object: _object$6,
-	string: _string$10,
-	path: _path$8,
+	string: _string$11,
+	path: _path$9,
 	undefined: _undefined$4
 };
 
@@ -2916,21 +3010,21 @@ var Element$1 = function (_Styleable) {
 		key: 'do',
 		value: function _do(method, args) {
 			var type = getHandledType(method);
-			var action = Do[type];
+			var action = Do$2[type];
 			return (action || unhandled).call(this, method, args);
 		}
 	}, {
 		key: 'get',
 		value: function get(property) {
 			var type = getHandledType(property);
-			var action = Get[type];
+			var action = Get$1[type];
 			return (action || unhandled).call(this, property);
 		}
 	}, {
 		key: 'set',
 		value: function set(property, value) {
 			var type = getHandledType(property);
-			var action = Set[type];
+			var action = Set$1[type];
 			return (action || unhandled).call(this, property, value);
 		}
 	}, {
@@ -3090,140 +3184,87 @@ var TypeChecks = {
 	isBoolean: isBoolean
 };
 
-function _string$11(command, args) {
-	var results = [];
-	this.forEach(function (item) {
-		if (isFunction$1(item[command])) {
-			results.push(item[command].apply(item, args));
-			return;
-		}
-		results.push(undefined);
-	});
-	return results;
-}
-
-function _path$9(command, args) {
-	//WIP
-}
-
-var DoToEach = {
-	string: _string$11,
-	path: _path$9
-};
-
-var Collection = function (_Array) {
-	inherits(Collection, _Array);
-
-	function Collection(target) {
-		classCallCheck(this, Collection);
-
-		var _this = possibleConstructorReturn(this, (Collection.__proto__ || Object.getPrototypeOf(Collection)).call(this));
-
-		if (isArray(target)) {
-			target.forEach(function (item) {
-				_this.push(item);
-			});
-		}
-		return _this;
-	}
-
-	createClass(Collection, [{
-		key: 'doToEach',
-		value: function doToEach(method, args) {
-			var type = getHandledType(method);
-			var action = DoToEach[type];
-			return (action || unhandled).call(this, method, args);
-		}
-	}]);
-	return Collection;
-}(Array);
-
 var ElementCollection = function (_Collection) {
 	inherits(ElementCollection, _Collection);
 
 	function ElementCollection(target) {
-		var _ret;
-
 		classCallCheck(this, ElementCollection);
-
-		var _this = possibleConstructorReturn(this, (ElementCollection.__proto__ || Object.getPrototypeOf(ElementCollection)).call(this, target));
-
-		return _ret = _this.doToEach('constructor', arguments), possibleConstructorReturn(_this, _ret);
+		return possibleConstructorReturn(this, (ElementCollection.__proto__ || Object.getPrototypeOf(ElementCollection)).call(this, target));
 	}
 
 	createClass(ElementCollection, [{
 		key: 'add',
 		value: function add() {
-			return this.doToEach('add', arguments);
+			return this.do('add', arguments);
 		}
 	}, {
 		key: 'addTo',
 		value: function addTo() {
-			return this.doToEach('addTo', arguments);
+			return this.do('addTo', arguments);
 		}
 	}, {
 		key: 'remove',
 		value: function remove() {
-			return this.doToEach('remove', arguments);
+			return this.do('remove', arguments);
 		}
 	}, {
 		key: 'on',
 		value: function on() {
-			return this.doToEach('on', arguments);
+			return this.do('on', arguments);
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger() {
-			return this.doToEach('trigger', arguments);
+			return this.do('trigger', arguments);
 		}
 	}, {
 		key: 'find',
 		value: function find() {
-			return this.doToEach('find', arguments);
+			return this.do('find', arguments);
 		}
 	}, {
 		key: 'do',
 		value: function _do() {
-			return this.doToEach('do', arguments);
+			return this.do('do', arguments);
 		}
 	}, {
 		key: 'get',
 		value: function get() {
-			return this.doToEach('get', arguments);
+			return this.do('get', arguments);
 		}
 	}, {
 		key: 'set',
 		value: function set() {
-			return this.doToEach('set', arguments);
+			return this.do('set', arguments);
 		}
 	}, {
 		key: 'text',
 		value: function text() {
-			return this.doToEach('text', arguments);
+			return this.do('text', arguments);
 		}
 	}, {
 		key: 'attribute',
 		value: function attribute() {
-			return this.doToEach('attribute', arguments);
+			return this.do('attribute', arguments);
 		}
 	}, {
 		key: 'class',
 		value: function _class() {
-			return this.doToEach('class', arguments);
+			return this.do('class', arguments);
 		}
 	}, {
 		key: 'children',
 		value: function children() {
-			return this.doToEach('children', arguments);
+			return this.do('children', arguments);
 		}
 	}, {
 		key: 'destructor',
 		value: function destructor() {
-			return this.doToEach('destructor', arguments);
+			return this.do('destructor', arguments);
 		}
 	}]);
 	return ElementCollection;
-}(Collection);
+}(Collection$1);
 
 function constructor$5() {
 	constructor.apply(this, arguments);
@@ -3806,7 +3847,7 @@ var DataHandle = function (_Extensible) {
 
 var Classes = {
 	Behavior: Behavior,
-	Collection: Collection,
+	Collection: Collection$1,
 	Distinct: Distinct,
 	Receipt: Receipt,
 	ElementReceipt: ElementReceipt,
@@ -3875,7 +3916,7 @@ function childNodes(node, callback) {
 	if (!isElement(node)) {
 		return;
 	}
-	var children = [];
+	var children = new Collection$1();
 	var count = node.childNodes.length;
 	for (var i = 0; i < count; i++) {
 		var child = node.childNodes[i];
