@@ -1,18 +1,15 @@
 import isArray from 'Framework/TypeChecks/isArray';
 import isFunction from 'Framework/TypeChecks/isFunction';
 import Do from 'Framework/Classes/Collection/Handlers/Do';
+import Get from 'Framework/Classes/Collection/Handlers/Get';
+import Set from 'Framework/Classes/Collection/Handlers/Set';
+import $private from 'Framework/Constants/Keys/General/private';
 import unhandled from 'Framework/Classes/General/Handlers/unhandled';
 import getHandledType from 'Framework/Classes/Element/getHandledType';
+import CollectionWhereReceipt from 'Framework/Classes/CollectionWhereReceipt';
+import native from 'Framework/Utilities/Classes/native';
 
-export default class Collection extends Array {
-	constructor(target) {
-		super();
-		if (isArray(target)) {
-			target.forEach((item) => {
-				this.push(item);
-			});
-		}
-	}
+export default class Collection extends native(Array) {
 	do(method, args) {
 		let type = getHandledType(method);
 		let action = Do[type];
@@ -28,15 +25,14 @@ export default class Collection extends Array {
 		let action = Set[type];
 		return (action || unhandled).call(this, property, value);
 	}
-	where(filter) {
-		let results = new Collection();
-		if (!isFunction(filter)) { return results; }
+	where(selector) {
+		let receipt = new CollectionWhereReceipt();
+		if (!isFunction(selector)) { return receipt; }
 		for (let i = this.length - 1; i >= 0; i--) {
-			let result = this[i];
-			if (filter(result)) {
-				results.push(result);
-			}
+			let item = this[i];
+			let action = (selector(item) ? 'selected' : 'rejected');
+			receipt[action].push(item);
 		}
-		return results;
+		return receipt;
 	}
 }

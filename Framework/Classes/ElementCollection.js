@@ -1,6 +1,6 @@
 import Collection from 'Framework/Classes/Collection';
 
-class ElementCollection extends Collection {
+export default class ElementCollection extends Collection {
 	constructor(target) {
 		super(target);
 	}
@@ -47,5 +47,3 @@ class ElementCollection extends Collection {
 		return this.do('destructor', arguments);
 	}
 }
-
-export default ElementCollection;
