@@ -16,7 +16,7 @@ function getUID(obj) {
 }
 
 function open(obj) {
-	for (var i = arguments.length - 1; i >= 0; i--) {
+	for (let i = arguments.length - 1; i >= 0; i--) {
 		let obj = arguments[i];
 		let id = getUID(obj);
 		graph[id] = true;
@@ -24,7 +24,7 @@ function open(obj) {
 }
 
 function close(obj) {
-	for (var i = arguments.length - 1; i >= 0; i--) {
+	for (let i = arguments.length - 1; i >= 0; i--) {
 		let obj = arguments[i];
 		let id = getUID(obj);
 		graph[id] = false;
@@ -34,7 +34,7 @@ function close(obj) {
 
 function isOpen(obj) {
 	let result = true;
-	for (var i = arguments.length - 1; i >= 0; i--) {
+	for (let i = arguments.length - 1; i >= 0; i--) {
 		let obj = arguments[i];
 		let id = getUID(obj);
 		result = result && !!(graph[id]);
@@ -44,7 +44,7 @@ function isOpen(obj) {
 
 function isClosed(obj) {
 	let result = true;
-	for (var i = arguments.length - 1; i >= 0; i--) {
+	for (let i = arguments.length - 1; i >= 0; i--) {
 		let obj = arguments[i];
 		let id = getUID(obj);
 		result = result && !(graph[id]);

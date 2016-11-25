@@ -3,49 +3,48 @@ import Collection from 'Framework/Classes/Collection';
 class ElementCollection extends Collection {
 	constructor(target) {
 		super(target);
-		return this.doToEach('constructor', arguments);
 	}
 	add() {
-		return this.doToEach('add', arguments);
+		return this.do('add', arguments);
 	}
 	addTo() {
-		return this.doToEach('addTo', arguments);
+		return this.do('addTo', arguments);
 	}
 	remove() {
-		return this.doToEach('remove', arguments);
+		return this.do('remove', arguments);
 	}
 	on() {
-		return this.doToEach('on', arguments);
+		return this.do('on', arguments);
 	}
 	trigger() {
-		return this.doToEach('trigger', arguments);
+		return this.do('trigger', arguments);
 	}
 	find() {
-		return this.doToEach('find', arguments);
+		return this.do('find', arguments);
 	}
 	do() {
-		return this.doToEach('do', arguments);
+		return this.do('do', arguments);
 	}
 	get() {
-		return this.doToEach('get', arguments);
+		return this.do('get', arguments);
 	}
 	set() {
-		return this.doToEach('set', arguments);
+		return this.do('set', arguments);
 	}
 	text() {
-		return this.doToEach('text', arguments);
+		return this.do('text', arguments);
 	}
 	attribute() {
-		return this.doToEach('attribute', arguments);
+		return this.do('attribute', arguments);
 	}
 	class() {
-		return this.doToEach('class', arguments);
+		return this.do('class', arguments);
 	}
 	children() {
-		return this.doToEach('children', arguments);
+		return this.do('children', arguments);
 	}
 	destructor() {
-		return this.doToEach('destructor', arguments);
+		return this.do('destructor', arguments);
 	}
 }
 
