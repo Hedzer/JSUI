@@ -1,3 +1,6 @@
+import isString from 'Framework/TypeChecks/isString';
+import isArray from 'Framework/TypeChecks/isArray';
+import isFunction from 'Framework/TypeChecks/isFunction';
 import $private from 'Framework/Constants/Keys/General/private';
 import Identity from 'Framework/Classes/Identity';
 import uid from 'Framework/Utilities/General/uid';
@@ -29,10 +32,22 @@ export default class Relationship extends Enableable(Base) {
 		return binding;
 	}
 	remove(binding) {
-
+		if (isArray(binding)) {
+			return binding.forEach((b) => {
+				this.remove(b);
+			});
+		}
+		if (isString(binding)) {
+			binding = this[$private].bindings[binding];
+		}
+		if (binding && isFunction(binding.remove)) {
+			console.log(this[$private]);
+			delete this[$private].bindings[binding.uid];
+			binding.removeAll();
+		}
 	}
 	removeAll() {
-
+		this.remove(Object.values(this[$private].bindings));
 	}
 }
 

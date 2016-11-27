@@ -1,6 +1,9 @@
+import isString from 'Framework/TypeChecks/isString';
 import isObject from 'Framework/TypeChecks/isObject';
+import isArray from 'Framework/TypeChecks/isArray';
 import isFunction from 'Framework/TypeChecks/isFunction';
 import isJSUIFunction from 'Framework/TypeChecks/isJSUIFunction';
+import isRelationshipBindingReceipt from 'Framework/TypeChecks/isRelationshipBindingReceipt';
 
 import $private from 'Framework/Constants/Keys/General/private';
 import Receipt from 'Framework/Classes/Receipt';
@@ -12,6 +15,8 @@ import Enableable from 'Framework/Mixins/Enableable';
 import to from 'Framework/Constants/Keys/BindReceipt/to';
 import on from 'Framework/Constants/Keys/BindReceipt/on';
 import normalize from 'Framework/Constants/Keys/BindReceipt/normalize';
+import remove from 'Framework/Constants/Keys/BindReceipt/remove';
+import removeAll from 'Framework/Constants/Keys/BindReceipt/removeAll';
 
 import relationships from 'Framework/Classes/BindReceipt/relationships';
 import getHandledType from 'Framework/Classes/BindReceipt/getHandledType';
@@ -73,7 +78,10 @@ export default class BindReceipt extends Enableable(Receipt) {
 				}
 			});
 			delete this.on;
+			this.remove = this[remove];
+			this.removeAll = this[removeAll];
 		}
+
 
 		return this;
 	}
@@ -98,5 +106,44 @@ export default class BindReceipt extends Enableable(Receipt) {
 		}
 
 		return this;
+	}
+	[remove](handle) {
+
+		if (isArray(handle)) {
+			return handle.forEach((h) => { this[remove](h); });
+		}
+		let success = false;
+		let Handles = this[$private].Handles;
+		if (isString(handle)) {
+			handle = (Handles.byName[handle] || Handles.byID[handle]);
+		}
+		if (isRelationshipBindingReceipt(handle)) {
+			let name = handle.name;
+			let id = handle.id;
+			handle.remove();
+			delete Handles.byName[name];
+			delete Handles.byID[id];
+			success = true;
+		}
+		return success;
+
+	}
+	[removeAll]() {
+
+		let Handles = this[$private].Handles;
+		this[remove](Object.values(Handles.byID));
+
+	}
+	get handles() {
+		let Handles = this[$private].Handles;
+		return Object.values(Handles.byID);
+	}
+	get enabled() {
+		return super.enabled;
+	}
+	set enabled(v) {
+		let value = !!v;
+		this.handles.forEach((handle) => { handle.enabled = value; });
+		super.enabled = value;
 	}
 }

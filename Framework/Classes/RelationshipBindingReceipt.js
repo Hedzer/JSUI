@@ -1,9 +1,11 @@
+import isOnEventBoundReceipt from 'Framework/TypeChecks/isOnEventBoundReceipt';
 import $private from 'Framework/Constants/Keys/General/private';
 import Receipt from 'Framework/Classes/Receipt';
 import define from 'Framework/Utilities/Properties/addHiddenValue';
 import uid from 'Framework/Utilities/General/uid';
+import Enableable from 'Framework/Mixins/Enableable';
 
-export default class RelationshipBindingReceipt extends Receipt {
+export default class RelationshipBindingReceipt extends Enableable(Receipt) {
 	constructor(bindings = {}) {
 		super();
 		define(this, $private, bindings);
@@ -50,5 +52,31 @@ export default class RelationshipBindingReceipt extends Receipt {
 	}
 	set normalizer(v) {
 		this[$private].normalizer = v;
+	}
+	get handles() {
+		let handles = Object.values(this[$private]).filter(isOnEventBoundReceipt);
+		return handles;
+	}
+	remove() {
+		this.handles.forEach((handle) => { handle.remove(); });
+		[
+			'subjectHandler',
+			'toHandler',
+			'subjectDestroyer',
+			'toDestroyer',
+			'normalizer',
+			'name'
+		].forEach((key) => {
+			delete this[$private][key];
+		});
+		delete this[$private];
+	}
+	get enabled() {
+		return super.enabled;
+	}
+	set enabled(v) {
+		let value = !!v;
+		this.handles.forEach((handle) => { handle.enabled = value; });
+		super.enabled = value;
 	}
 }

@@ -3452,11 +3452,128 @@ var StyleVariables = function (_Distinct) {
 	return StyleVariables;
 }(Distinct);
 
+function isOnEventBoundReceipt(u) {
+	return u instanceof OnEventBoundReceipt;
+}
+
+var RelationshipBindingReceipt = function (_Enableable) {
+	inherits(RelationshipBindingReceipt, _Enableable);
+
+	function RelationshipBindingReceipt() {
+		var bindings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+		classCallCheck(this, RelationshipBindingReceipt);
+
+		var _this = possibleConstructorReturn(this, (RelationshipBindingReceipt.__proto__ || Object.getPrototypeOf(RelationshipBindingReceipt)).call(this));
+
+		addHiddenValue(_this, symbol, bindings);
+		bindings.uid = uid();
+		return _this;
+	}
+
+	createClass(RelationshipBindingReceipt, [{
+		key: 'remove',
+		value: function remove() {
+			var _this2 = this;
+
+			this.handles.forEach(function (handle) {
+				handle.remove();
+			});
+			['subjectHandler', 'toHandler', 'subjectDestroyer', 'toDestroyer', 'normalizer', 'name'].forEach(function (key) {
+				delete _this2[symbol][key];
+			});
+			delete this[symbol];
+		}
+	}, {
+		key: 'uid',
+		get: function get() {
+			return this[symbol].uid;
+		},
+		set: function set(v) {
+			this[symbol].uid = v;
+		}
+	}, {
+		key: 'subjectHandler',
+		get: function get() {
+			return this[symbol].subjectHandler;
+		},
+		set: function set(v) {
+			this[symbol].subjectHandler = v;
+		}
+	}, {
+		key: 'toHandler',
+		get: function get() {
+			return this[symbol].toHandler;
+		},
+		set: function set(v) {
+			this[symbol].toHandler = v;
+		}
+	}, {
+		key: 'subjectDestroyer',
+		get: function get() {
+			return this[symbol].subjectDestroyer;
+		},
+		set: function set(v) {
+			this[symbol].subjectDestroyer = v;
+		}
+	}, {
+		key: 'toDestroyer',
+		get: function get() {
+			return this[symbol].toDestroyer;
+		},
+		set: function set(v) {
+			this[symbol].toDestroyer = v;
+		}
+	}, {
+		key: 'name',
+		get: function get() {
+			return this[symbol].name;
+		},
+		set: function set(v) {
+			this[symbol].name = v;
+		}
+	}, {
+		key: 'normalizer',
+		get: function get() {
+			return this[symbol].normalizer;
+		},
+		set: function set(v) {
+			this[symbol].normalizer = v;
+		}
+	}, {
+		key: 'handles',
+		get: function get() {
+			var handles = Object.values(this[symbol]).filter(isOnEventBoundReceipt);
+			return handles;
+		}
+	}, {
+		key: 'enabled',
+		get: function get() {
+			return get$1(RelationshipBindingReceipt.prototype.__proto__ || Object.getPrototypeOf(RelationshipBindingReceipt.prototype), 'enabled', this);
+		},
+		set: function set(v) {
+			var value = !!v;
+			this.handles.forEach(function (handle) {
+				handle.enabled = value;
+			});
+			set$1(RelationshipBindingReceipt.prototype.__proto__ || Object.getPrototypeOf(RelationshipBindingReceipt.prototype), 'enabled', value, this);
+		}
+	}]);
+	return RelationshipBindingReceipt;
+}(Enableable(Receipt));
+
+function isRelationshipBindingReceipt(u) {
+	return u instanceof RelationshipBindingReceipt;
+}
+
 var symbol$10 = symbolOrString('BindReceipt.on');
 
 var symbol$11 = symbolOrString('BindReceipt.on');
 
 var symbol$12 = symbolOrString('BindReceipt.normalize');
+
+var symbol$13 = symbolOrString('BindReceipt.remove');
+
+var symbol$14 = symbolOrString('BindReceipt.removeAll');
 
 function isStateChangeReceipt(u) {
 	return u instanceof StateChangeReceipt;
@@ -3592,80 +3709,6 @@ var actions = {
 		close(objA, objB);
 	}
 };
-
-var RelationshipBindingReceipt = function (_Receipt) {
-	inherits(RelationshipBindingReceipt, _Receipt);
-
-	function RelationshipBindingReceipt() {
-		var bindings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-		classCallCheck(this, RelationshipBindingReceipt);
-
-		var _this = possibleConstructorReturn(this, (RelationshipBindingReceipt.__proto__ || Object.getPrototypeOf(RelationshipBindingReceipt)).call(this));
-
-		addHiddenValue(_this, symbol, bindings);
-		bindings.uid = uid();
-		return _this;
-	}
-
-	createClass(RelationshipBindingReceipt, [{
-		key: 'uid',
-		get: function get() {
-			return this[symbol].uid;
-		},
-		set: function set(v) {
-			this[symbol].uid = v;
-		}
-	}, {
-		key: 'subjectHandler',
-		get: function get() {
-			return this[symbol].subjectHandler;
-		},
-		set: function set(v) {
-			this[symbol].subjectHandler = v;
-		}
-	}, {
-		key: 'toHandler',
-		get: function get() {
-			return this[symbol].toHandler;
-		},
-		set: function set(v) {
-			this[symbol].toHandler = v;
-		}
-	}, {
-		key: 'subjectDestroyer',
-		get: function get() {
-			return this[symbol].subjectDestroyer;
-		},
-		set: function set(v) {
-			this[symbol].subjectDestroyer = v;
-		}
-	}, {
-		key: 'toDestroyer',
-		get: function get() {
-			return this[symbol].toDestroyer;
-		},
-		set: function set(v) {
-			this[symbol].toDestroyer = v;
-		}
-	}, {
-		key: 'name',
-		get: function get() {
-			return this[symbol].name;
-		},
-		set: function set(v) {
-			this[symbol].name = v;
-		}
-	}, {
-		key: 'normalizer',
-		get: function get() {
-			return this[symbol].normalizer;
-		},
-		set: function set(v) {
-			this[symbol].normalizer = v;
-		}
-	}]);
-	return RelationshipBindingReceipt;
-}(Receipt);
 
 var none = function none(v) {
 	return v;
@@ -3821,6 +3864,8 @@ var BindReceipt = function (_Enableable) {
 					}
 				});
 				delete this.on;
+				this.remove = this[symbol$13];
+				this.removeAll = this[symbol$14];
 			}
 
 			return this;
@@ -3851,12 +3896,64 @@ var BindReceipt = function (_Enableable) {
 			return this;
 		}
 	}, {
+		key: symbol$13,
+		value: function value(handle) {
+			var _this4 = this;
+
+			if (isArray(handle)) {
+				return handle.forEach(function (h) {
+					_this4[symbol$13](h);
+				});
+			}
+			var success = false;
+			var Handles = this[symbol].Handles;
+			if (isString(handle)) {
+				handle = Handles.byName[handle] || Handles.byID[handle];
+			}
+			console.log('remove X', handle);
+			if (isRelationshipBindingReceipt(handle)) {
+				console.log('removed', handle);
+				var name = handle.name;
+				var id = handle.id;
+				handle.remove();
+				delete Handles.byName[name];
+				delete Handles.byID[id];
+				success = true;
+			}
+			return success;
+		}
+	}, {
+		key: symbol$14,
+		value: function value() {
+
+			var Handles = this[symbol].Handles;
+			this[symbol$13](Object.values(Handles.byID));
+		}
+	}, {
 		key: 'uid',
 		get: function get() {
 			return this[symbol].uid;
 		},
 		set: function set(id) {
 			this[symbol].uid = id;
+		}
+	}, {
+		key: 'handles',
+		get: function get() {
+			var Handles = this[symbol].Handles;
+			return Object.values(Handles.byID);
+		}
+	}, {
+		key: 'enabled',
+		get: function get() {
+			return get$1(BindReceipt.prototype.__proto__ || Object.getPrototypeOf(BindReceipt.prototype), 'enabled', this);
+		},
+		set: function set(v) {
+			var value = !!v;
+			this.handles.forEach(function (handle) {
+				handle.enabled = value;
+			});
+			set$1(BindReceipt.prototype.__proto__ || Object.getPrototypeOf(BindReceipt.prototype), 'enabled', value, this);
 		}
 	}]);
 	return BindReceipt;
@@ -3891,10 +3988,28 @@ var Relationship = function (_Enableable) {
 		}
 	}, {
 		key: 'remove',
-		value: function remove(binding) {}
+		value: function remove(binding) {
+			var _this2 = this;
+
+			if (isArray(binding)) {
+				return binding.forEach(function (b) {
+					_this2.remove(b);
+				});
+			}
+			if (isString(binding)) {
+				binding = this[symbol].bindings[binding];
+			}
+			if (binding && isFunction$1(binding.remove)) {
+				console.log(this[symbol]);
+				delete this[symbol].bindings[binding.uid];
+				binding.removeAll();
+			}
+		}
 	}, {
 		key: 'removeAll',
-		value: function removeAll() {}
+		value: function removeAll() {
+			this.remove(Object.values(this[symbol].bindings));
+		}
 	}, {
 		key: 'uid',
 		get: function get() {
