@@ -1,6 +1,5 @@
-import isUOfType from 'Framework/Utilities/TypeChecks/isUOfType';
-import Extensible from 'Framework/Mixins/Extensible';
+import isPrototype from 'Framework/Constants/Keys/Mixins/Extensible/isPrototype';
 
 export default function isUExtensible(u) {
-	return isUOfType(u, Extensible);
+	return !!u[isPrototype];
 }

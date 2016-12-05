@@ -1,5 +1,5 @@
-import Extensible from 'Framework/Mixins/Extensible';
+import isInstance from 'Framework/Constants/Keys/Mixins/Extensible/isInstance';
 
 export default function isExtensible(u) {
-	return (u instanceof Extensible);
+	return !!u[isInstance];
 }
