@@ -18,6 +18,8 @@ import trigger from 'Framework/Constants/Keys/Extensible/trigger';
 import add from 'Framework/Constants/Keys/Extensible/add';
 import remove from 'Framework/Constants/Keys/Extensible/remove';
 
+import typeCheck from 'Framework/Constants/Keys/Mixins/Extensible/isInstance';
+
 let Extensible = (descendant) => class ExtensibleMixin extends descendant {  
 	constructor() {
 		super();
@@ -116,6 +118,9 @@ let Extensible = (descendant) => class ExtensibleMixin extends descendant {
 		}, 0);
 		this[trigger]('destructed');
 		return handle;
+	}
+	get [typeCheck]() {
+		return true;
 	}
 	toJSON() {
 		return this[$private].state;

@@ -1,12 +1,15 @@
 //Keys
 import $private from 'Framework/Constants/Keys/General/private';
 
-let Enableable = (descendant) => class EnableableMixin extends descendant {  
+let Enableable = (descendant) => class EnableableMixin extends descendant {
+	constructor() {
+		let _private = this[$private];
+		Object.assign(_private, {
+			enabled: (_private.hasOwnProperty('enabled') ? _private.enabled : true)
+		});
+	}
 	get enabled() {
-		if (this[$private].hasOwnProperty('enabled')) {
-			return this[$private].enabled;
-		}
-		return true;
+		return _private.enabled;
 	}
 	set enabled(v) {
 		this[$private].enabled = !!v;
