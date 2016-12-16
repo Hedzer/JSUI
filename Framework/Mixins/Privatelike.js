@@ -5,9 +5,11 @@ import $private from 'Framework/Constants/Keys/General/private';
 import $$private from 'Framework/Constants/Keys/Mixins/Privatelike/private';
 import typeCheck from 'Framework/Constants/Keys/Mixins/Privatelike/isInstance';
 import define from 'Framework/Utilities/Properties/addHiddenValue';
+import extend from 'Framework/Utilities/Objects/extend';
 
 let Privatelike = (descendant) => class PrivatelikeMixin extends descendant {
 	constructor() {
+		super();
 		define(this, $$private, {});
 	}
 	get [$private]() {
@@ -15,7 +17,8 @@ let Privatelike = (descendant) => class PrivatelikeMixin extends descendant {
 	}
 	set [$private](v) {
 		if (isObject(v)) {
-			Object.assign(this[$$private], v);
+			console.trace(this[$$private]);
+			extend(this[$$private]).with(v);
 			return;
 		}
 		if (isNull(v)) {

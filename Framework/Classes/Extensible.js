@@ -12,9 +12,10 @@ import remove from 'Framework/Constants/Keys/Extensible/remove';
 import Base from 'Framework/Classes/Base';
 
 //mixins
+import Privatelike from 'Framework/Mixins/Privatelike';
 import ExtensibleMixin from 'Framework/Mixins/Extensible';
 
-export default class Extensible extends ExtensibleMixin(Base) {
+export default class Extensible extends ExtensibleMixin(Privatelike(Base)) {
 	get private() {
 		return this[$private];
 	}

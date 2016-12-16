@@ -2,6 +2,14 @@
 2. DONE: Add behavior attach/detach
 3. DONE: One way binding
 4. DONE: Two way binding
+    - integrate privatelike mixin
+    - break commonality into mixins
+    - Application
+    - Roles
+    - Features
+    - Pages
+    - Server
+
 5. Unit tests
 6. Thorough browser testing
 7. Documentation

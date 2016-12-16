@@ -41,7 +41,6 @@ export default class Relationship extends Enableable(Base) {
 			binding = this[$private].bindings[binding];
 		}
 		if (binding && isFunction(binding.remove)) {
-			console.log(this[$private]);
 			delete this[$private].bindings[binding.uid];
 			binding.removeAll();
 		}

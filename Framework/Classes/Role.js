@@ -1,17 +1,14 @@
 import Identity from 'Framework/Classes/Identity';
-import Disinct from 'Framework/Classes/Disinct';
+import Distinct from 'Framework/Classes/Distinct';
 
 const identity = new Identity({
 	class: 'Role',
 	major: 1, minor: 0, patch: 0
 });
 
-export default class Role extends Disinct {
+export default class Role extends Distinct {
 	constructor(){
 		super();
 		this.identity = identity;
-	}
-	static get name() {
-		return 'RoleName';
 	}
 }

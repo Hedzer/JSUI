@@ -23,9 +23,14 @@ import typeCheck from 'Framework/Constants/Keys/Mixins/Extensible/isInstance';
 let Extensible = (descendant) => class ExtensibleMixin extends descendant {  
 	constructor() {
 		super();
-		constructor.call(this);
+		this[$private] = {
+			events: {},
+			dispatchers: {},
+			state: {}
+		};
 	}
 	[state](property, value) {
+		
 		let old = this[$private].state[property];
 		if (arguments.length === 1) {
 			return old;

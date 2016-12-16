@@ -452,6 +452,79 @@ var Base = function Base() {
   classCallCheck(this, Base);
 };
 
+var symbol$7 = symbolOrString('Mixins.Privatelike.private');
+
+var symbol$8 = symbolOrString('Mixins.Privatelike.isInstance');
+
+function extend(a) {
+	if (!isObject(a)) {
+		return a;
+	}
+	return {
+		with: function _with(b) {
+			if (!isObject(b)) {
+				return a;
+			}
+			Object.keys(b).forEach(function (key) {
+				if (isObject(b[key])) {
+					if (!isObject(a[key])) {
+						a[key] = {};
+					}
+					a[key] = extend(a[key]).with(b[key]);
+					return;
+				}
+				a[key] = b[key];
+			});
+			return a;
+		}
+	};
+}
+
+//Keys
+var Privatelike = function Privatelike(descendant) {
+	return function (_descendant) {
+		inherits(PrivatelikeMixin, _descendant);
+
+		function PrivatelikeMixin() {
+			classCallCheck(this, PrivatelikeMixin);
+
+			var _this = possibleConstructorReturn(this, (PrivatelikeMixin.__proto__ || Object.getPrototypeOf(PrivatelikeMixin)).call(this));
+
+			addHiddenValue(_this, symbol$7, {});
+			return _this;
+		}
+
+		createClass(PrivatelikeMixin, [{
+			key: symbol$8,
+			value: function value() {
+				return true;
+			}
+		}, {
+			key: 'destructor',
+			value: function destructor() {
+				delete this[symbol$7];
+			}
+		}, {
+			key: symbol,
+			get: function get() {
+				return this[symbol$7];
+			},
+			set: function set(v) {
+				if (isObject(v)) {
+					console.trace(this[symbol$7]);
+					extend(this[symbol$7]).with(v);
+					return;
+				}
+				if (isNull(v)) {
+					delete this[symbol$7];
+					return;
+				}
+			}
+		}]);
+		return PrivatelikeMixin;
+	}(descendant);
+};
+
 function isUndefined(u) {
 	return typeof u === 'undefined';
 }
@@ -500,16 +573,20 @@ var Enableable = function Enableable(descendant) {
 
 		function EnableableMixin() {
 			classCallCheck(this, EnableableMixin);
-			return possibleConstructorReturn(this, (EnableableMixin.__proto__ || Object.getPrototypeOf(EnableableMixin)).apply(this, arguments));
+
+			var _this = possibleConstructorReturn(this, (EnableableMixin.__proto__ || Object.getPrototypeOf(EnableableMixin)).call(this));
+
+			var _private = _this[symbol];
+			Object.assign(_private, {
+				enabled: _private.hasOwnProperty('enabled') ? _private.enabled : true
+			});
+			return _this;
 		}
 
 		createClass(EnableableMixin, [{
 			key: 'enabled',
 			get: function get() {
-				if (this[symbol].hasOwnProperty('enabled')) {
-					return this[symbol].enabled;
-				}
-				return true;
+				return _private.enabled;
 			},
 			set: function set(v) {
 				this[symbol].enabled = !!v;
@@ -844,12 +921,14 @@ var StateChangeReceipt = function (_Receipt) {
 }(Receipt);
 
 function constructor() {
-	addHiddenValue(this, symbol, {
+	this[symbol] = {
 		events: {},
 		dispatchers: {},
 		state: {}
-	});
+	};
 }
+
+var symbol$9 = symbolOrString('Mixins.Extensible.isInstance');
 
 //Keys
 var Extensible$3 = function Extensible$3(descendant) {
@@ -989,6 +1068,11 @@ var Extensible$3 = function Extensible$3(descendant) {
 			value: function toJSON() {
 				return this[symbol].state;
 			}
+		}, {
+			key: symbol$9,
+			get: function get() {
+				return true;
+			}
 		}]);
 		return ExtensibleMixin;
 	}(descendant);
@@ -1042,7 +1126,7 @@ var Extensible$1 = function (_ExtensibleMixin) {
 		}
 	}]);
 	return Extensible;
-}(Extensible$3(Base));
+}(Extensible$3(Privatelike(Base)));
 
 function constructor$1() {
 	this[symbol].uid = uid();
@@ -2997,9 +3081,9 @@ var Class = {
 	undefined: _undefined$4
 };
 
-var symbol$7 = symbolOrString('on');
+var symbol$10 = symbolOrString('on');
 
-var symbol$8 = symbolOrString('trigger');
+var symbol$11 = symbolOrString('trigger');
 
 //constructor & destructor
 //handlers
@@ -3033,14 +3117,14 @@ var Element$1 = function (_Styleable) {
 	}
 
 	createClass(Element, [{
-		key: symbol$7,
+		key: symbol$10,
 		value: function value(event, method) {
 			var type = getHandledType(event);
 			var action = On[type];
 			return (action || unhandled).call(this, event, method);
 		}
 	}, {
-		key: symbol$8,
+		key: symbol$11,
 		value: function value(event, args) {
 			var type = getHandledType(event);
 			var action = Trigger[type];
@@ -3070,12 +3154,12 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'on',
 		value: function on() {
-			return this[symbol$7].apply(this, arguments);
+			return this[symbol$10].apply(this, arguments);
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger() {
-			return this[symbol$8].apply(this, arguments);
+			return this[symbol$11].apply(this, arguments);
 		}
 	}, {
 		key: 'find',
@@ -3200,7 +3284,7 @@ function isTextNode(u) {
 	return !!(u && u.nodeName === "#text");
 }
 
-var symbol$9 = symbolOrString('uid');
+var symbol$12 = symbolOrString('uid');
 
 function constructor$4() {
 	var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -3210,7 +3294,7 @@ function constructor$4() {
 		dispatchers: {},
 		state: values
 	});
-	addHiddenValue(this, symbol$9, uid());
+	addHiddenValue(this, symbol$12, uid());
 }
 
 //classes
@@ -3238,6 +3322,10 @@ function isUData(u) {
 	return isUStyleSheetRule$1(u, Data);
 }
 
+function isExtensible(u) {
+	return !!u[symbol$9];
+}
+
 var TypeChecks = {
 	isArray: isArray,
 	isElement: isElement,
@@ -3259,7 +3347,8 @@ var TypeChecks = {
 	isUStyleSheetRule: isUStyleSheetRule,
 	isData: isData,
 	isUData: isUData,
-	isBoolean: isBoolean
+	isBoolean: isBoolean,
+	isExtensible: isExtensible
 };
 
 var ElementCollection = function (_Collection) {
@@ -3565,15 +3654,15 @@ function isRelationshipBindingReceipt(u) {
 	return u instanceof RelationshipBindingReceipt;
 }
 
-var symbol$10 = symbolOrString('BindReceipt.on');
+var symbol$13 = symbolOrString('BindReceipt.on');
 
-var symbol$11 = symbolOrString('BindReceipt.on');
+var symbol$14 = symbolOrString('BindReceipt.on');
 
-var symbol$12 = symbolOrString('BindReceipt.normalize');
+var symbol$15 = symbolOrString('BindReceipt.normalize');
 
-var symbol$13 = symbolOrString('BindReceipt.remove');
+var symbol$16 = symbolOrString('BindReceipt.remove');
 
-var symbol$14 = symbolOrString('BindReceipt.removeAll');
+var symbol$17 = symbolOrString('BindReceipt.removeAll');
 
 function isStateChangeReceipt(u) {
 	return u instanceof StateChangeReceipt;
@@ -3582,10 +3671,10 @@ function isStateChangeReceipt(u) {
 var graph = {}; //prevent infinite loops
 
 function getUID(obj) {
-	var id = obj.uid || obj[symbol$9] || (obj[symbol] ? $obj[symbol].uid : false) || (obj[symbol] ? $obj[symbol][symbol$9] : false);
+	var id = obj.uid || obj[symbol$12] || (obj[symbol] ? $obj[symbol].uid : false) || (obj[symbol] ? $obj[symbol][symbol$12] : false);
 	if (!id) {
 		id = uid();
-		addHiddenValue(obj, symbol$9, id);
+		addHiddenValue(obj, symbol$12, id);
 	}
 	return id;
 }
@@ -3722,14 +3811,14 @@ function extensibleToExtensible(receipt, event, bind, arrow, to) {
 	}
 
 	//create the relationship
-	var elementHandle = _private.subject[symbol$7](event, function (e) {
+	var elementHandle = _private.subject[symbol$10](event, function (e) {
 		var normalizer = binding.normalizer;
 		var data = e && isStateChangeReceipt(e.detail) ? e.detail.new : e;
 		action(_private.subject, bind, _private.to, to, data, normalizer);
 	});
 
 	//destroy the relationship if either one dies
-	var elementHandleDestroyer = _private.subject[symbol$7]('destructed', function (e) {
+	var elementHandleDestroyer = _private.subject[symbol$10]('destructed', function (e) {
 		elementHandle.remove();
 	});
 
@@ -3760,34 +3849,6 @@ var relationships = {
 	jsui: Object.create(defaultExtensible),
 	extensible: Object.create(defaultExtensible)
 };
-
-function extend(a) {
-	if (!isObject(a)) {
-		return a;
-	}
-	return {
-		with: function _with(b) {
-			if (!isObject(b)) {
-				return a;
-			}
-			Object.keys(b).forEach(function (key) {
-				if (isObject(b[key])) {
-					if (!isObject(a[key])) {
-						a[key] = {};
-					}
-					a[key] = extend(a[key]).with(b[key]);
-					return;
-				}
-				a[key] = b[key];
-			});
-			return a;
-		}
-	};
-}
-
-function isExtensible(u) {
-	return u instanceof Extensible$3;
-}
 
 var Types$1 = Object.create(types$1);
 extend(Types$1).with({
@@ -3820,25 +3881,25 @@ var BindReceipt = function (_Enableable) {
 		});
 
 		if (subject) {
-			_this.to = _this[symbol$10];
+			_this.to = _this[symbol$13];
 		}
 		return _this;
 	}
 
 	createClass(BindReceipt, [{
-		key: symbol$10,
+		key: symbol$13,
 		value: function value(subject) {
 			var to = this[symbol].to;
 			if (!to) {
 				this[symbol].to = subject;
-				this.on = this[symbol$11];
-				this.normalize = this[symbol$12];
+				this.on = this[symbol$14];
+				this.normalize = this[symbol$15];
 				delete this.to;
 			}
 			return this;
 		}
 	}, {
-		key: symbol$11,
+		key: symbol$14,
 		value: function value(events) {
 			var _this2 = this;
 
@@ -3864,14 +3925,14 @@ var BindReceipt = function (_Enableable) {
 					}
 				});
 				delete this.on;
-				this.remove = this[symbol$13];
-				this.removeAll = this[symbol$14];
+				this.remove = this[symbol$16];
+				this.removeAll = this[symbol$17];
 			}
 
 			return this;
 		}
 	}, {
-		key: symbol$12,
+		key: symbol$15,
 		value: function value(rules) {
 			var _this3 = this;
 
@@ -3896,13 +3957,13 @@ var BindReceipt = function (_Enableable) {
 			return this;
 		}
 	}, {
-		key: symbol$13,
+		key: symbol$16,
 		value: function value(handle) {
 			var _this4 = this;
 
 			if (isArray(handle)) {
 				return handle.forEach(function (h) {
-					_this4[symbol$13](h);
+					_this4[symbol$16](h);
 				});
 			}
 			var success = false;
@@ -3910,9 +3971,7 @@ var BindReceipt = function (_Enableable) {
 			if (isString(handle)) {
 				handle = Handles.byName[handle] || Handles.byID[handle];
 			}
-			console.log('remove X', handle);
 			if (isRelationshipBindingReceipt(handle)) {
-				console.log('removed', handle);
 				var name = handle.name;
 				var id = handle.id;
 				handle.remove();
@@ -3923,11 +3982,11 @@ var BindReceipt = function (_Enableable) {
 			return success;
 		}
 	}, {
-		key: symbol$14,
+		key: symbol$17,
 		value: function value() {
 
 			var Handles = this[symbol].Handles;
-			this[symbol$13](Object.values(Handles.byID));
+			this[symbol$16](Object.values(Handles.byID));
 		}
 	}, {
 		key: 'uid',
@@ -4000,7 +4059,6 @@ var Relationship = function (_Enableable) {
 				binding = this[symbol].bindings[binding];
 			}
 			if (binding && isFunction$1(binding.remove)) {
-				console.log(this[symbol]);
 				delete this[symbol].bindings[binding.uid];
 				binding.removeAll();
 			}
@@ -4038,6 +4096,156 @@ var DataHandle = function (_Extensible) {
 	return DataHandle;
 }(Extensible$1);
 
+var identity$12 = new Identity({
+	class: 'Role',
+	major: 1, minor: 0, patch: 0
+});
+
+var Role = function (_Distinct) {
+	inherits(Role, _Distinct);
+
+	function Role() {
+		classCallCheck(this, Role);
+
+		var _this = possibleConstructorReturn(this, (Role.__proto__ || Object.getPrototypeOf(Role)).call(this));
+
+		_this.identity = identity$12;
+		return _this;
+	}
+
+	return Role;
+}(Distinct);
+
+function isRole(u) {
+	return u instanceof Role;
+}
+
+function isURole(u) {
+	return isUStyleSheetRule$1(u, Role);
+}
+
+var symbol$18 = symbolOrString('Mixins.Routable.isInstance');
+
+var Router$1 = function (_Enableable) {
+	inherits(Router, _Enableable);
+
+	function Router() {
+		classCallCheck(this, Router);
+		return possibleConstructorReturn(this, (Router.__proto__ || Object.getPrototypeOf(Router)).apply(this, arguments));
+	}
+
+	createClass(Router, [{
+		key: 'add',
+		value: function add(route) {}
+	}, {
+		key: 'remove',
+		value: function remove(route) {}
+	}]);
+	return Router;
+}(Enableable(Privatelike(Base)));
+
+var router = new Router$1();
+
+//Keys
+var Routable = function Routable(descendant) {
+	return function (_descendant) {
+		inherits(RoutableMixin, _descendant);
+
+		function RoutableMixin() {
+			classCallCheck(this, RoutableMixin);
+
+			var _this = possibleConstructorReturn(this, (RoutableMixin.__proto__ || Object.getPrototypeOf(RoutableMixin)).call(this));
+
+			var _private = _this[symbol];
+			Object.assign(_private.state, {
+				route: null,
+				routes: {}
+			});
+			return _this;
+		}
+
+		createClass(RoutableMixin, [{
+			key: 'route',
+			get: function get() {
+				return this[symbol$1]('route');
+			},
+			set: function set(route) {
+				var old = this.route;
+				if (this[symbol$1]('route', route)) {
+					if (this.isRootRoute) {
+						router.remove(old);
+						router.add(route);
+					}
+				}
+			}
+		}, {
+			key: 'routes',
+			get: function get() {
+				return this[symbol$1]('routes');
+			}
+		}, {
+			key: 'isRootRoute',
+			get: function get() {
+				return this[symbol$1]('isRootRoute');
+			},
+			set: function set(bool) {
+				if (this[symbol$1]('isRootRoute', bool)) {
+					if (bool) {
+						router.add(this.route);
+						return;
+					}
+					router.remove(route);
+				}
+			}
+		}, {
+			key: symbol$18,
+			get: function get() {
+				return true;
+			}
+		}]);
+		return RoutableMixin;
+	}(descendant);
+};
+
+var identity$11 = new Identity({
+	class: 'Application',
+	major: 1, minor: 0, patch: 0
+});
+
+var Application = function (_Routable) {
+	inherits(Application, _Routable);
+
+	function Application() {
+		classCallCheck(this, Application);
+
+		var _this = possibleConstructorReturn(this, (Application.__proto__ || Object.getPrototypeOf(Application)).call(this, 'div'));
+
+		_this.identity = identity$11;
+		_this[symbol].roles = {};
+		return _this;
+	}
+
+	createClass(Application, [{
+		key: 'add',
+		value: function add(role) {
+			if (isURole(role)) {
+				role = new role();
+			}
+			if (isRole(role)) {
+				this[symbol].roles[role.uid] = role;
+				return;
+			}
+			return get$1(Application.prototype.__proto__ || Object.getPrototypeOf(Application.prototype), 'add', this).call(this, role);
+		}
+	}, {
+		key: 'route',
+		get: function get() {
+			return 'Application';
+		}
+	}]);
+	return Application;
+}(Routable(Distinct));
+
 var Classes = {
 	Behavior: Behavior,
 	Collection: Collection$1,
@@ -4060,7 +4268,8 @@ var Classes = {
 	Function: JSUIFunction,
 	Relationship: Relationship,
 	BindReceipt: BindReceipt,
-	DataHandle: DataHandle
+	DataHandle: DataHandle,
+	Application: Application
 };
 
 //Keys
@@ -4080,16 +4289,16 @@ var Constants = {
 			remove: symbol$6
 		},
 		BindReceipt: {
-			normalize: symbol$12,
-			on: symbol$11,
-			to: symbol$10
+			normalize: symbol$15,
+			on: symbol$14,
+			to: symbol$13
 		},
 		General: {
-			on: symbol$7,
+			on: symbol$10,
 			private: symbol,
 			state: symbol$1,
-			trigger: symbol$8,
-			uid: symbol$9,
+			trigger: symbol$11,
+			uid: symbol$12,
 			destructor: symbol$2
 		}
 	}

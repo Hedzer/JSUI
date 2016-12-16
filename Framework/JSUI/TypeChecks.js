@@ -19,6 +19,7 @@ import isUStyleSheetRule from 'Framework/TypeChecks/isUStyleSheetRule';
 import isData from 'Framework/TypeChecks/isData';
 import isUData from 'Framework/TypeChecks/isUData';
 import isBoolean from 'Framework/TypeChecks/isBoolean';
+import isExtensible from 'Framework/TypeChecks/isExtensible';
 
 let TypeChecks = {
 	isArray: isArray,
@@ -41,7 +42,8 @@ let TypeChecks = {
 	isUStyleSheetRule: isUStyleSheetRule,
 	isData: isData,
 	isUData: isUData,
-	isBoolean: isBoolean
+	isBoolean: isBoolean,
+	isExtensible: isExtensible
 };
 
 export default TypeChecks;
