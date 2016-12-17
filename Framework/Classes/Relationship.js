@@ -5,7 +5,6 @@ import $private from 'Framework/Constants/Keys/General/private';
 import Identity from 'Framework/Classes/Identity';
 import uid from 'Framework/Utilities/General/uid';
 import BindReceipt from 'Framework/Classes/BindReceipt';
-import define from 'Framework/Utilities/Properties/addHiddenValue';
 
 import Base from 'Framework/Classes/Base';
 import Enableable from 'Framework/Mixins/Enableable';
@@ -18,10 +17,10 @@ const identity = new Identity({
 export default class Relationship extends Enableable(Base) {
 	constructor() {
 		super();
-		define(this, $private, {
+		this[$private] = {
 			bindings: {},
 			uid: uid()
-		});
+		};
 	}
 	get uid() {
 		return this[$private].uid;

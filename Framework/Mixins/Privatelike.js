@@ -17,7 +17,6 @@ let Privatelike = (descendant) => class PrivatelikeMixin extends descendant {
 	}
 	set [$private](v) {
 		if (isObject(v)) {
-			console.trace(this[$$private]);
 			extend(this[$$private]).with(v);
 			return;
 		}

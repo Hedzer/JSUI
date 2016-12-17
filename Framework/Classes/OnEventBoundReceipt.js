@@ -3,17 +3,15 @@ import uid from 'Framework/Utilities/General/uid';
 import remove from 'Framework/Utilities/Events/remove';
 import removeAll from 'Framework/Utilities/Events/removeAll';
 import Receipt from 'Framework/Classes/Receipt';
-import define from 'Framework/Utilities/Properties/addHiddenValue';
 import Enableable from 'Framework/Mixins/Enableable';
 
 export default class OnEventBoundReceipt extends Enableable(Receipt) {
 	constructor(pool) {
 		super();
-
-		define(this, $private, {
-			pool: pool,
+		this[$private] = {
 			uid: uid()
-		});
+		};
+		this[$private].pool = pool;
 	}
 	get uid() {
 		return this[$private].uid;

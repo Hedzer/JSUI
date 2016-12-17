@@ -24,15 +24,15 @@ import getHandledType from 'Framework/Classes/BindReceipt/getHandledType';
 export default class BindReceipt extends Enableable(Receipt) {
 	constructor(relationship, subject) {
 		super();
-		define(this, $private, {
+		this[$private] = {
 			uid: uid(),
-			relationship: relationship,
-			subject: subject,
 			Handles: {
 				byID: {},
 				byName: {}
 			}
-		});
+		};
+		this[$private].relationship = relationship;
+		this[$private].subject = subject;
 
 		if (subject) {
 			this.to = this[to];

@@ -20,10 +20,14 @@ export default class StyleSheetRule extends StyleRules {
 	constructor(selector, properties) {
 		super();
 		this.identity = identity;
-		this[$private].importance = 0;
-		this[$private].created = new Date().valueOf();
-		this[$private].isSwitchable = false;
-		this[$private].isOnByDefault = true;
+		
+		this[$private] = {
+			importance: 0,
+			created: new Date().valueOf(),
+			isSwitchable: false,
+			isOnByDefault: true
+		};
+
 		if (selector) {
 			this.selector = selector;
 		}

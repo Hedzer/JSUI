@@ -6,10 +6,10 @@ import Collection from 'Framework/Classes/Collection';
 export default class CollectionWhereReceipt extends Receipt {
 	constructor() {
 		super();
-		define(this, $private, {
+		this[$private] = {
 			selected: new Collection(),
 			rejected: new Collection()
-		});
+		};
 	}
 	get selected() {
 		return this[$private].selected;

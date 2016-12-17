@@ -8,7 +8,7 @@ import Enableable from 'Framework/Mixins/Enableable';
 export default class RelationshipBindingReceipt extends Enableable(Receipt) {
 	constructor(bindings = {}) {
 		super();
-		define(this, $private, bindings);
+		this[$private] = bindings;
 		bindings.uid = uid();
 	}
 	get uid() {

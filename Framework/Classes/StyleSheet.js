@@ -19,10 +19,12 @@ export default class StyleSheet extends Distinct {
 		super();
 		context = (context || 'default');
 
-		this[$private].rules = {};
-		this[$private].timer = false;
-		this[$private].element = false;
-		this[$private].context = context;
+		this[$private] = {
+			rules: {},
+			timer: false,
+			element: false,
+			context: context
+		};
 
 		let contextSheet = Sheets[context];
 		if (contextSheet) {

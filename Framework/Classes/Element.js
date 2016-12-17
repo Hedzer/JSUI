@@ -6,10 +6,6 @@ import isElement from 'Framework/TypeChecks/isElement';
 import isEmptyString from 'Framework/TypeChecks/isEmptyString';
 import addClass from 'Framework/Utilities/Elements/addClass';
 
-//constructor & destructor
-import constructor from 'Framework/Classes/Element/constructor';
-import destructor from 'Framework/Classes/Element/destructor';
-
 //handlers
 import Add from 'Framework/Classes/Element/Handlers/Add';
 import AddTo from 'Framework/Classes/Element/Handlers/AddTo';
@@ -33,6 +29,9 @@ import $private from 'Framework/Constants/Keys/General/private';
 import on from 'Framework/Constants/Keys/General/on';
 import trigger from 'Framework/Constants/Keys/General/trigger';
 
+import settings from 'Framework/Constants/JSUI/settings';
+import conHandler from 'Framework/Classes/Element/Handlers/Constructor';
+
 const identity = new Identity({
 	class: 'Element',
 	major: 1, minor: 0, patch: 0
@@ -41,8 +40,22 @@ const identity = new Identity({
 export default class Element extends Styleable {
 	constructor(tag){
 		super(tag);
-		constructor.call(this, tag);
 		this.identity = identity;
+		//select the proper constructor action
+		let type = getHandledType(tag);
+		let action = conHandler[type];
+		tag = (action || function(){
+			return conHandler.string.call(this, 'div');
+		}).call(this, tag);
+
+		//set up ids
+		this.element.uid = this.uid;
+
+		//add references 
+		let development = settings.Development;
+		if (development.enabled && development.references) {
+			this.element.JSUI = this;
+		}
 		this.on('Style.contextChanged', () => {
 			//if not default, change the context of the child elements
 			let context = this.Style.context;
@@ -151,7 +164,51 @@ export default class Element extends Styleable {
 		return results;
 	}
 	destructor() {
-		destructor.call(this);
+		let _element = this.element;
+		let _private = this[$private];
+		if (_element){
+			let parent = _element.parentNode;
+			if (isFunction(_element.remove)){
+				_element.remove();
+			} else if (parent && isFunction(parent.removeChild)){
+				parent.removeChild(_element);
+			}
+		}
+		let _style = this.style;
+		if (_style && _style.Host){
+			delete _style.Host;
+		}
+		let _parent = _private.parent;
+		if (_parent){
+			if (_private && _private.mapped){
+				let map = _private.mapped[_parent.uid];
+				if (isArray(map)){
+					map.forEach((name) => {
+						delete _parent[name];
+					});
+				}
+			}
+			if (_parent.children){
+				delete _parent.children[this.uid];
+			}
+		}
+		let _children = _private.children;
+		if (_children){
+			Object.keys(_children).forEach((key) => {
+				let child = _children[key];
+				if (!child){return;}
+				if (isFunction(child.remove)){
+					child.remove();
+				}
+				delete _children[key];
+			});
+		}
+
+		//ensure GC picks em' up
+		_element = null;
+		_private = null;
+		_parent = null;
+		_children = null;
 		return super.destructor();
 	}
 }

@@ -6,7 +6,6 @@ import isObject from 'Framework/TypeChecks/isObject';
 import uid from 'Framework/Utilities/General/uid';
 import onEvent from 'Framework/Utilities/Events/on';
 import StateChangeReceipt from 'Framework/Classes/StateChangeReceipt';
-import constructor from 'Framework/Classes/Extensible/constructor';
 
 //Keys
 import $private from 'Framework/Constants/Keys/General/private';

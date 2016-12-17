@@ -6,17 +6,17 @@ import uid from 'Framework/Utilities/General/uid';
 import debounce from 'Framework/Utilities/Functions/debounce';
 import throttle from 'Framework/Utilities/Functions/throttle';
 import $private from 'Framework/Constants/Keys/General/private';
-import define from 'Framework/Utilities/Properties/addHiddenValue';
 
 import Base from 'Framework/Classes/Base';
+import Privatelike from 'Framework/Mixins/Privatelike';
 import Enableable from 'Framework/Mixins/Enableable';
 
-export default class JSUIFunction extends Enableable(Base) {
+export default class JSUIFunction extends Enableable(Privatelike(Base)) {
 	constructor(original) {
 		super();
 		original = (isFunction(original) ? original : () => {});
 
-		define(this, $private, {
+		this[$private] = {
 			uid: uid(),
 			original: original,
 			debounce: false,
@@ -25,7 +25,7 @@ export default class JSUIFunction extends Enableable(Base) {
 			context: undefined,
 			count: 0,
 			limit: Infinity
-		});
+		};
 	}
 	get uid() {
 		return this[$private].uid;

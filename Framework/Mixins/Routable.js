@@ -7,11 +7,12 @@ import Router from 'Framework/Singletons/Navigation/Router';
 let Routable = (descendant) => class RoutableMixin extends descendant {
 	constructor() {
 		super();
-		let _private = this[$private];
-		Object.assign(_private.state, {
-			route: null,
-			routes: {}
-		});
+		this[$private] = {
+			state: {
+				route: null,
+				routes: {}
+			}
+		};
 	}
 	get route() {
 		return this[state]('route');
