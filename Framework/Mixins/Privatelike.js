@@ -3,7 +3,8 @@ import isObject from 'Framework/TypeChecks/isObject';
 import isNull from 'Framework/TypeChecks/isNull';
 import $private from 'Framework/Constants/Keys/General/private';
 import $$private from 'Framework/Constants/Keys/Mixins/Privatelike/private';
-import typeCheck from 'Framework/Constants/Keys/Mixins/Privatelike/isInstance';
+import instanceTypeCheck from 'Framework/Constants/Keys/Mixins/Privatelike/isInstance';
+import staticTypeCheck from 'Framework/Constants/Keys/Mixins/Privatelike/isStatic';
 import define from 'Framework/Utilities/Properties/addHiddenValue';
 import extend from 'Framework/Utilities/Objects/extend';
 
@@ -25,7 +26,12 @@ let Privatelike = (descendant) => class PrivatelikeMixin extends descendant {
 			return;
 		}
 	}
-	[typeCheck]() { return true; }
+	get [instanceTypeCheck]() {
+		return true;
+	}
+	static get [staticTypeCheck]() {
+		return true;
+	}
 	destructor() {
 		delete this[$$private];
 	}

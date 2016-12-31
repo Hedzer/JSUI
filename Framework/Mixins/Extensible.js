@@ -17,7 +17,8 @@ import trigger from 'Framework/Constants/Keys/Extensible/trigger';
 import add from 'Framework/Constants/Keys/Extensible/add';
 import remove from 'Framework/Constants/Keys/Extensible/remove';
 
-import typeCheck from 'Framework/Constants/Keys/Mixins/Extensible/isInstance';
+import instanceTypeCheck from 'Framework/Constants/Keys/Mixins/Routable/isInstance';
+import staticTypeCheck from 'Framework/Constants/Keys/Mixins/Routable/isStatic';
 
 let Extensible = (descendant) => class ExtensibleMixin extends descendant {  
 	constructor() {
@@ -123,7 +124,10 @@ let Extensible = (descendant) => class ExtensibleMixin extends descendant {
 		this[trigger]('destructed');
 		return handle;
 	}
-	get [typeCheck]() {
+	get [instanceTypeCheck]() {
+		return true;
+	}
+	static get [staticTypeCheck]() {
 		return true;
 	}
 	toJSON() {

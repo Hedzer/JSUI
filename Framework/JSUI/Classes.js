@@ -22,6 +22,8 @@ import Relationship from 'Framework/Classes/Relationship';
 import BindReceipt from 'Framework/Classes/BindReceipt';
 import DataHandle from 'Framework/Classes/DataHandle';
 import Application from 'Framework/Classes/Application';
+import Role from 'Framework/Classes/Role';
+import Feature from 'Framework/Classes/Feature';
 
 let Classes = {
 	Behavior: Behavior,
@@ -46,7 +48,9 @@ let Classes = {
 	Relationship: Relationship,
 	BindReceipt: BindReceipt,
 	DataHandle: DataHandle,
-	Application: Application
+	Application: Application,
+	Role: Role,
+	Feature: Feature
 };
 
 export default Classes;

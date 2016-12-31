@@ -1,10 +1,9 @@
-import isRole from 'Framework/TypeChecks/isRole';
-import isURole from 'Framework/TypeChecks/isURole';
 import $private from 'Framework/Constants/Keys/General/private';
 
 import Identity from 'Framework/Classes/Identity';
 import Distinct from 'Framework/Classes/Distinct';
 import Routable from 'Framework/Mixins/Routable';
+import Router from 'Framework/Singletons/Navigation/Router';
 
 const identity = new Identity({
 	class: 'Application',
@@ -15,19 +14,12 @@ export default class Application extends Routable(Distinct) {
 	constructor(){
 		super('div');
 		this.identity = identity;
-		this[$private].roles = {};
+		this[$private].routes = {};
 	}
-	add(role) {
-		if (isURole(role)) {
-			role = new role();
-		}
-		if (isRole(role)) {
-			this[$private].roles[role.uid] = role;
-			return;
-		}
-		return super.add(role);
+	static register() {
+		Router.add(this);
 	}
-	get route() {
+	static get route() {
 		return 'Application';
 	}
 }

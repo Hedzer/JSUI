@@ -1,5 +1,7 @@
 //Keys
 import $private from 'Framework/Constants/Keys/General/private';
+import instanceTypeCheck from 'Framework/Constants/Keys/Mixins/Enableable/isInstance';
+import staticTypeCheck from 'Framework/Constants/Keys/Mixins/Enableable/isStatic';
 
 let Enableable = (descendant) => class EnableableMixin extends descendant {
 	constructor() {
@@ -15,6 +17,12 @@ let Enableable = (descendant) => class EnableableMixin extends descendant {
 	}
 	set enabled(v) {
 		this[$private].state.enabled = !!v;
+	}
+	get [instanceTypeCheck]() {
+		return true;
+	}
+	static get [staticTypeCheck]() {
+		return true;
 	}
 };
 
