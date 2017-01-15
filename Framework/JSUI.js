@@ -1,3 +1,4 @@
+import Mixins from 'Framework/JSUI/Mixins';
 import TypeChecks from 'Framework/JSUI/TypeChecks';
 import Classes from 'Framework/JSUI/Classes';
 import Constants from 'Framework/JSUI/Constants';
@@ -21,6 +22,7 @@ let JSUI = {
 		Inline: Classes.StyleInline,
 		Sheets: Singletons.Style.Sheets
 	},
+	Mixins: Mixins,
 	Classes: Classes,
 	Constants: Constants,
 	Singletons: Singletons,

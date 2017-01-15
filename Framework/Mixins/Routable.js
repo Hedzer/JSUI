@@ -2,6 +2,7 @@
 import $private from 'Framework/Constants/Keys/General/private';
 import isRoutable from 'Framework/TypeChecks/isRoutable';
 import isURoutable from 'Framework/TypeChecks/isURoutable';
+import isExecutable from 'Framework/TypeChecks/isExecutable';
 import isInstance from 'Framework/Constants/Keys/Mixins/Routable/isInstance';
 import isStatic from 'Framework/Constants/Keys/Mixins/Routable/isStatic';
 import state from 'Framework/Constants/Keys/General/state';
@@ -17,7 +18,6 @@ let Routable = ((descendant) => {
 					subroutes: {}
 				}
 			};
-
 		}
 		add(routable) {
 			if (isRoutable(routable) || isURoutable(routable)) {
@@ -25,7 +25,9 @@ let Routable = ((descendant) => {
 				//if a route already exists with this name throw an error
 				subroutes[routable.route] = routable;
 			}
-			return super.add(routable);
+			if (isExecutable(super.add)) {
+				return super.add(routable);
+			}
 		}
 		static get route() {
 			return 'route';
@@ -41,6 +43,10 @@ let Routable = ((descendant) => {
 					Router.add(route);
 				}
 			}
+		}
+		subroute(name) {
+			let subroute = this.subroutes[name];
+			return (subroute ? subroute : false);
 		}
 		get subroutes() {
 			return this[state]('subroutes'); 
@@ -63,6 +69,7 @@ let Routable = ((descendant) => {
 		static get [isStatic]() {
 			return true;
 		}
+		onRouteTraversed() {}
 	};
 });
 

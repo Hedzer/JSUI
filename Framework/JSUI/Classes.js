@@ -24,6 +24,9 @@ import DataHandle from 'Framework/Classes/DataHandle';
 import Application from 'Framework/Classes/Application';
 import Role from 'Framework/Classes/Role';
 import Feature from 'Framework/Classes/Feature';
+import Page from 'Framework/Classes/Page';
+import Router from 'Framework/Classes/Router';
+import RoutableFunction from 'Framework/Classes/RoutableFunction';
 
 let Classes = {
 	Behavior: Behavior,
@@ -50,7 +53,10 @@ let Classes = {
 	DataHandle: DataHandle,
 	Application: Application,
 	Role: Role,
-	Feature: Feature
+	Feature: Feature,
+	Page: Page,
+	Router: Router,
+	RoutableFunction: RoutableFunction
 };
 
 export default Classes;

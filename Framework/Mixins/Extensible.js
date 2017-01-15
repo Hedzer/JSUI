@@ -2,6 +2,7 @@ import isString from 'Framework/TypeChecks/isString';
 import isArray from 'Framework/TypeChecks/isArray';
 import isFunction from 'Framework/TypeChecks/isFunction';
 import isJSUIFunction from 'Framework/TypeChecks/isJSUIFunction';
+import isExecutable from 'Framework/TypeChecks/isExecutable';
 import isObject from 'Framework/TypeChecks/isObject';
 import uid from 'Framework/Utilities/General/uid';
 import onEvent from 'Framework/Utilities/Events/on';
@@ -67,13 +68,14 @@ let Extensible = (descendant) => class ExtensibleMixin extends descendant {
 
 		let dispatchers = this[$private].dispatchers;
 		let dispatcher = dispatchers[event];
-		
-		if (isJSUIFunction(dispatcher)) {
-			return dispatcher.execute(args);
+
+		if (isExecutable(dispatcher)) {
+			dispatcher.call(this, args);
 		}
 
-		if (isFunction(dispatcher)) {
-			return dispatcher.call(this, args);
+		let native = this[event];
+		if (isExecutable(native)) {
+			native.call(this, args);
 		}
 	}
 	[add](item, value) {

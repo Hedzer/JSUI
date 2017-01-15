@@ -1,5 +1,5 @@
 import JSUIFunction from 'Framework/Classes/JSUIFunction';
 
-export default function isJSUI(u) {
+export default function isJSUIFunction(u) {
 	return (u instanceof JSUIFunction);
 }

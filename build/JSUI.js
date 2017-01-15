@@ -1,27 +1,6 @@
 var JSUI = (function () {
 'use strict';
 
-function isArray(u) {
-	return Array.isArray(u);
-}
-
-function isElement(u) {
-	return u instanceof Element;
-}
-
-function isEmptyString(u) {
-	return u === "";
-}
-
-function isFunction(u) {
-	return typeof u === 'function';
-}
-
-var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
-function isHTML(u) {
-	return htmlRegex.test(u);
-}
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -32,118 +11,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 
-var asyncGenerator = function () {
-  function AwaitValue(value) {
-    this.value = value;
-  }
 
-  function AsyncGenerator(gen) {
-    var front, back;
-
-    function send(key, arg) {
-      return new Promise(function (resolve, reject) {
-        var request = {
-          key: key,
-          arg: arg,
-          resolve: resolve,
-          reject: reject,
-          next: null
-        };
-
-        if (back) {
-          back = back.next = request;
-        } else {
-          front = back = request;
-          resume(key, arg);
-        }
-      });
-    }
-
-    function resume(key, arg) {
-      try {
-        var result = gen[key](arg);
-        var value = result.value;
-
-        if (value instanceof AwaitValue) {
-          Promise.resolve(value.value).then(function (arg) {
-            resume("next", arg);
-          }, function (arg) {
-            resume("throw", arg);
-          });
-        } else {
-          settle(result.done ? "return" : "normal", result.value);
-        }
-      } catch (err) {
-        settle("throw", err);
-      }
-    }
-
-    function settle(type, value) {
-      switch (type) {
-        case "return":
-          front.resolve({
-            value: value,
-            done: true
-          });
-          break;
-
-        case "throw":
-          front.reject(value);
-          break;
-
-        default:
-          front.resolve({
-            value: value,
-            done: false
-          });
-          break;
-      }
-
-      front = front.next;
-
-      if (front) {
-        resume(front.key, front.arg);
-      } else {
-        back = null;
-      }
-    }
-
-    this._invoke = send;
-
-    if (typeof gen.return !== "function") {
-      this.return = undefined;
-    }
-  }
-
-  if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
-      return this;
-    };
-  }
-
-  AsyncGenerator.prototype.next = function (arg) {
-    return this._invoke("next", arg);
-  };
-
-  AsyncGenerator.prototype.throw = function (arg) {
-    return this._invoke("throw", arg);
-  };
-
-  AsyncGenerator.prototype.return = function (arg) {
-    return this._invoke("return", arg);
-  };
-
-  return {
-    wrap: function (fn) {
-      return function () {
-        return new AsyncGenerator(fn.apply(this, arguments));
-      };
-    },
-    await: function (value) {
-      return new AwaitValue(value);
-    }
-  };
-}();
 
 
 
@@ -179,7 +47,7 @@ var createClass = function () {
 
 
 
-var get$1 = function get$1(object, property, receiver) {
+var get = function get(object, property, receiver) {
   if (object === null) object = Function.prototype;
   var desc = Object.getOwnPropertyDescriptor(object, property);
 
@@ -189,7 +57,7 @@ var get$1 = function get$1(object, property, receiver) {
     if (parent === null) {
       return undefined;
     } else {
-      return get$1(parent, property, receiver);
+      return get(parent, property, receiver);
     }
   } else if ("value" in desc) {
     return desc.value;
@@ -240,14 +108,14 @@ var possibleConstructorReturn = function (self, call) {
 
 
 
-var set$1 = function set$1(object, property, value, receiver) {
+var set = function set(object, property, value, receiver) {
   var desc = Object.getOwnPropertyDescriptor(object, property);
 
   if (desc === undefined) {
     var parent = Object.getPrototypeOf(object);
 
     if (parent !== null) {
-      set$1(parent, property, value, receiver);
+      set(parent, property, value, receiver);
     }
   } else if ("value" in desc && desc.writable) {
     desc.value = value;
@@ -262,31 +130,12 @@ var set$1 = function set$1(object, property, value, receiver) {
   return value;
 };
 
-function getHandledType$1(types, u) {
-	var type = typeof u === "undefined" ? "undefined" : _typeof(u);
-	var subtypes = types[type];
-	if (!subtypes) {
-		return type;
-	}
-	for (var name in subtypes) {
-		var subtype = subtypes[name];
-		if (subtype(u)) {
-			return name;
-		}
-	}
-	return type;
+function isObject(u) {
+	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object' && u !== null;
 }
 
 function isNull(u) {
 	return u === null;
-}
-
-function isRegex(u) {
-	return u instanceof RegExp;
-}
-
-function isPath(u) {
-	return typeof u === 'string' && u.length > 0 && u[0] === '@';
 }
 
 var prefix = '';
@@ -309,24 +158,11 @@ function symbolOrString(name) {
 
 var symbol = symbolOrString('private');
 
-var defaults$1 = {
-	namespace: 'JSUI',
-	Development: {
-		enabled: false,
-		traceErrors: true,
-		haltOnErrors: true,
-		references: true
-	},
-	Production: {}
-};
+var symbol$1 = symbolOrString('Mixins.Privatelike.private');
 
-function isObject(u) {
-	return (typeof u === 'undefined' ? 'undefined' : _typeof(u)) === 'object' && u !== null;
-}
+var symbol$2 = symbolOrString('Mixins.Privatelike.isInstance');
 
-function isString(u) {
-	return typeof u === 'string';
-}
+var symbol$3 = symbolOrString('Mixins.Privatelike.isStatic');
 
 function addHiddenValue(obj, prop, value) {
 	Object.defineProperty(obj, prop, {
@@ -336,127 +172,6 @@ function addHiddenValue(obj, prop, value) {
 		value: value
 	});
 }
-
-var namespace = defaults$1.namespace;
-
-var Identity = function () {
-	function Identity(identity) {
-		classCallCheck(this, Identity);
-
-
-		var defaults$$1 = {
-			namespace: namespace,
-			class: 'NoClass',
-			major: 0, minor: 0, patch: 0
-		};
-
-		if (isObject(identity)) {
-			defaults$$1.namespace = identity.namespace || defaults$$1.namespace;
-			defaults$$1.class = identity.class || defaults$$1.class;
-			defaults$$1.major = identity.major || defaults$$1.major;
-			defaults$$1.minor = identity.minor || defaults$$1.minor;
-			defaults$$1.patch = identity.patch || defaults$$1.patch;
-		}
-
-		if (isString(identity)) {
-			defaults$$1.class = identity;
-		}
-
-		addHiddenValue(this, symbol, defaults$$1);
-
-		Object.freeze(this[symbol]);
-	}
-
-	createClass(Identity, [{
-		key: 'namespace',
-		get: function get() {
-			return this[symbol].namespace;
-		}
-	}, {
-		key: 'class',
-		get: function get() {
-			return this[symbol].class;
-		}
-	}, {
-		key: 'major',
-		get: function get() {
-			return this[symbol].major;
-		}
-	}, {
-		key: 'minor',
-		get: function get() {
-			return this[symbol].minor;
-		}
-	}, {
-		key: 'patch',
-		get: function get() {
-			return this[symbol].patch;
-		}
-	}]);
-	return Identity;
-}();
-
-function isNumber(u) {
-	return !isNaN(u) && typeof u === 'number';
-}
-
-var Sheets$1 = {};
-
-function uncapitalize(text) {
-	return text.charAt(0).toLowerCase() + text.slice(1);
-}
-
-var vendors = ['webkit', 'moz', 'ms', 'o'];
-
-//not a real constant, since it is generated
-var equivalents = {};
-var example = document.createElement('div');
-
-var _loop = function _loop(key) {
-	try {
-		(function () {
-			example.style[key] = 'inherit';
-			var name = (example.getAttribute('style') || '').split(':')[0];
-			equivalents[key] = name;
-			example.setAttribute('style', '');
-			vendors.forEach(function (vendor) {
-				var prefix = '-' + vendor + '-';
-				if (~name.indexOf(prefix)) {
-					var w3cKey = key;
-					w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
-					equivalents[w3cKey] = name;
-					equivalents[name.replace(prefix, '')] = name;
-				}
-			});
-		})();
-	} catch (e) {}
-};
-
-for (var key in example.style) {
-	_loop(key);
-}
-
-var symbol$1 = symbolOrString('Extensible.state');
-
-var symbol$2 = symbolOrString('destructor');
-
-var symbol$3 = symbolOrString('Extensible.on');
-
-var symbol$4 = symbolOrString('Extensible.trigger');
-
-var symbol$5 = symbolOrString('Extensible.add');
-
-var symbol$6 = symbolOrString('Extensible.remove');
-
-var Base = function Base() {
-  classCallCheck(this, Base);
-};
-
-var symbol$7 = symbolOrString('Mixins.Privatelike.private');
-
-var symbol$8 = symbolOrString('Mixins.Privatelike.isInstance');
-
-var symbol$9 = symbolOrString('Mixins.Privatelike.isStatic');
 
 function extend(a) {
 	if (!isObject(a)) {
@@ -492,38 +207,38 @@ var Privatelike = function Privatelike(descendant) {
 
 			var _this = possibleConstructorReturn(this, (PrivatelikeMixin.__proto__ || Object.getPrototypeOf(PrivatelikeMixin)).call(this));
 
-			addHiddenValue(_this, symbol$7, {});
+			addHiddenValue(_this, symbol$1, {});
 			return _this;
 		}
 
 		createClass(PrivatelikeMixin, [{
 			key: 'destructor',
 			value: function destructor() {
-				delete this[symbol$7];
+				delete this[symbol$1];
 			}
 		}, {
 			key: symbol,
-			get: function get() {
-				return this[symbol$7];
+			get: function get$$1() {
+				return this[symbol$1];
 			},
-			set: function set(v) {
+			set: function set$$1(v) {
 				if (isObject(v)) {
-					extend(this[symbol$7]).with(v);
+					extend(this[symbol$1]).with(v);
 					return;
 				}
 				if (isNull(v)) {
-					delete this[symbol$7];
+					delete this[symbol$1];
 					return;
 				}
 			}
 		}, {
-			key: symbol$8,
-			get: function get() {
+			key: symbol$2,
+			get: function get$$1() {
 				return true;
 			}
 		}], [{
-			key: symbol$9,
-			get: function get() {
+			key: symbol$3,
+			get: function get$$1() {
 				return true;
 			}
 		}]);
@@ -531,15 +246,31 @@ var Privatelike = function Privatelike(descendant) {
 	}(descendant);
 };
 
+function isString(u) {
+	return typeof u === 'string';
+}
+
+function isArray(u) {
+	return Array.isArray(u);
+}
+
+function isFunction(u) {
+	return typeof u === 'function';
+}
+
 function isUndefined(u) {
 	return typeof u === 'undefined';
+}
+
+function isNumber(u) {
+	return !isNaN(u) && typeof u === 'number';
 }
 
 function isBoolean(u) {
 	return typeof u === 'boolean';
 }
 
-function debounce$1(fn, time) {
+function debounce(fn, time) {
 	if (isFunction(fn)) {
 		var _ret = function () {
 			var dbcTimer = void 0;
@@ -559,7 +290,7 @@ function debounce$1(fn, time) {
 	}
 }
 
-function throttle$1(fn, time) {
+function throttle(fn, time) {
 	var nextCall = 0;
 	if (isFunction(fn)) {
 		return function () {
@@ -572,9 +303,13 @@ function throttle$1(fn, time) {
 	}
 }
 
-var symbol$10 = symbolOrString('Mixins.Enableable.isInstance');
+var Base = function Base() {
+  classCallCheck(this, Base);
+};
 
-var symbol$11 = symbolOrString('Mixins.Enableable.isStatic');
+var symbol$4 = symbolOrString('Mixins.Enableable.isInstance');
+
+var symbol$5 = symbolOrString('Mixins.Enableable.isStatic');
 
 //Keys
 var Enableable = function Enableable(descendant) {
@@ -596,20 +331,20 @@ var Enableable = function Enableable(descendant) {
 
 		createClass(EnableableMixin, [{
 			key: 'enabled',
-			get: function get() {
+			get: function get$$1() {
 				return this[symbol].state.enabled;
 			},
-			set: function set(v) {
+			set: function set$$1(v) {
 				this[symbol].state.enabled = !!v;
 			}
 		}, {
-			key: symbol$10,
-			get: function get() {
+			key: symbol$4,
+			get: function get$$1() {
 				return true;
 			}
 		}], [{
-			key: symbol$11,
-			get: function get() {
+			key: symbol$5,
+			get: function get$$1() {
 				return true;
 			}
 		}]);
@@ -669,7 +404,7 @@ var JSUIFunction = function (_Enableable) {
 		}
 	}, {
 		key: 'debounce',
-		value: function debounce$1(time) {
+		value: function debounce$$1(time) {
 			time = isNumber(time) ? time : false;
 			this[symbol].debounce = time;
 			this.modify();
@@ -677,7 +412,7 @@ var JSUIFunction = function (_Enableable) {
 		}
 	}, {
 		key: 'throttle',
-		value: function throttle$1(time) {
+		value: function throttle$$1(time) {
 			time = isNumber(time) ? time : false;
 			this[symbol].throttle = time;
 			this.modify();
@@ -689,76 +424,84 @@ var JSUIFunction = function (_Enableable) {
 			var modified = this.original;
 			var dbcTime = this[symbol].debounce;
 			var trlTime = this[symbol].throttle;
-			modified = isBoolean(dbcTime) ? modified : debounce$1(modified, dbcTime);
-			modified = isBoolean(trlTime) ? modified : throttle$1(modified, trlTime);
+			modified = isBoolean(dbcTime) ? modified : debounce(modified, dbcTime);
+			modified = isBoolean(trlTime) ? modified : throttle(modified, trlTime);
 			modified = isUndefined(this.context) ? modified : modified.bind(this.context);
 			this[symbol].modified = modified;
 			return modified;
 		}
 	}, {
 		key: 'uid',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].uid;
 		},
-		set: function set(id) {
+		set: function set$$1(id) {
 			this[symbol].uid = id;
 		}
 	}, {
 		key: 'original',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].original;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].original = v;
 			this.modify();
 		}
 	}, {
 		key: 'modified',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].modified;
 		}
 	}, {
 		key: 'context',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].context;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].context = v;
 			this.modify();
 		}
 	}, {
 		key: 'count',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].count;
 		}
 	}, {
 		key: 'limit',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].limit;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			v = isNumber(v) ? v : Infinity;
 			this[symbol].limit = v;
 		}
 	}, {
 		key: 'isAtLimit',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].count >= this[symbol].limit;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].count = v ? this[symbol].limit : 0;
 		}
 	}, {
 		key: 'executable',
-		get: function get() {
+		get: function get$$1() {
 			return !this.isAtLimit && this.enabled;
 		}
 	}]);
 	return JSUIFunction;
 }(Enableable(Privatelike(Base)));
 
-function isJSUI$1(u) {
+function isJSUIFunction(u) {
 	return u instanceof JSUIFunction;
+}
+
+function isExecutable(method) {
+	return isFunction(method) || isJSUIFunction(method);
+}
+
+function isElement(u) {
+	return u instanceof Element;
 }
 
 function dispatch(context, pool) {
@@ -771,11 +514,11 @@ function dispatch(context, pool) {
 	});
 }
 
-function remove$1() {
+function remove() {
 	delete this.pool[this.id];
 }
 
-function removeAll$1() {
+function removeAll() {
 	var _this = this;
 
 	Object.keys(this.pool).forEach(function (eid) {
@@ -811,13 +554,13 @@ var OnEventBoundReceipt = function (_Enableable) {
 
 	createClass(OnEventBoundReceipt, [{
 		key: 'remove',
-		value: function remove() {
-			return remove$1.call(this);
+		value: function remove$$1() {
+			return remove.call(this);
 		}
 	}, {
 		key: 'removeAll',
-		value: function removeAll() {
-			return removeAll$1.call(this);
+		value: function removeAll$$1() {
+			return removeAll.call(this);
 		}
 	}, {
 		key: 'debounce',
@@ -847,27 +590,27 @@ var OnEventBoundReceipt = function (_Enableable) {
 		}
 	}, {
 		key: 'uid',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].uid;
 		},
-		set: function set(id) {
+		set: function set$$1(id) {
 			this[symbol].uid = id;
 		}
 	}, {
 		key: 'pool',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].pool;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].pool = v;
 		}
 	}, {
 		key: 'enabled',
-		get: function get() {
+		get: function get$$1() {
 			var method = this.pool[this.uid];
 			return method.enabled;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			var method = this.pool[this.uid];
 			method.enabled = !!v;
 		}
@@ -875,7 +618,7 @@ var OnEventBoundReceipt = function (_Enableable) {
 	return OnEventBoundReceipt;
 }(Enableable(Receipt));
 
-function on$1(name, method) {
+function on(name, method) {
 	if (!isFunction(method)) {
 		return;
 	}
@@ -914,46 +657,58 @@ var StateChangeReceipt = function (_Receipt) {
 
 	createClass(StateChangeReceipt, [{
 		key: 'owner',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].owner;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].owner = v;
 		}
 	}, {
 		key: 'property',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].property;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].property = v;
 		}
 	}, {
 		key: 'old',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].old;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].old = v;
 		}
 	}, {
 		key: 'new',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].new;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].new = v;
 		}
 	}]);
 	return StateChangeReceipt;
 }(Receipt);
 
+var symbol$6 = symbolOrString('Extensible.state');
+
+var symbol$7 = symbolOrString('destructor');
+
+var symbol$8 = symbolOrString('Extensible.on');
+
+var symbol$9 = symbolOrString('Extensible.trigger');
+
+var symbol$10 = symbolOrString('Extensible.add');
+
+var symbol$11 = symbolOrString('Extensible.remove');
+
 var symbol$12 = symbolOrString('Mixins.Routable.isInstance');
 
 var symbol$13 = symbolOrString('Mixins.Routable.isStatic');
 
 //Keys
-var Extensible$3 = function Extensible$3(descendant) {
+var Extensible$1 = function Extensible(descendant) {
 	return function (_descendant) {
 		inherits(ExtensibleMixin, _descendant);
 
@@ -971,7 +726,7 @@ var Extensible$3 = function Extensible$3(descendant) {
 		}
 
 		createClass(ExtensibleMixin, [{
-			key: symbol$1,
+			key: symbol$6,
 			value: function value(property, _value) {
 
 				var old = this[symbol].state[property];
@@ -989,20 +744,20 @@ var Extensible$3 = function Extensible$3(descendant) {
 						old: old,
 						new: _value
 					});
-					this[symbol$4]([property + 'Changed', 'Changed'], data);
+					this[symbol$9]([property + 'Changed', 'Changed'], data);
 				}
 
 				return hasChanged;
 			}
 		}, {
-			key: symbol$3,
+			key: symbol$8,
 			value: function value(name, method) {
 				if (isString(name) && isFunction(method)) {
-					return on$1.call(this, name, method);
+					return on.call(this, name, method);
 				}
 			}
 		}, {
-			key: symbol$4,
+			key: symbol$9,
 			value: function value(event, args) {
 				var _this2 = this;
 
@@ -1010,7 +765,7 @@ var Extensible$3 = function Extensible$3(descendant) {
 					var _ret = function () {
 						var results = [];
 						event.forEach(function (e) {
-							results.push(_this2[symbol$4](e, args));
+							results.push(_this2[symbol$9](e, args));
 						});
 						return {
 							v: results
@@ -1023,16 +778,17 @@ var Extensible$3 = function Extensible$3(descendant) {
 				var dispatchers = this[symbol].dispatchers;
 				var dispatcher = dispatchers[event];
 
-				if (isJSUI$1(dispatcher)) {
-					return dispatcher.execute(args);
+				if (isExecutable(dispatcher)) {
+					dispatcher.call(this, args);
 				}
 
-				if (isFunction(dispatcher)) {
-					return dispatcher.call(this, args);
+				var native = this[event];
+				if (isExecutable(native)) {
+					native.call(this, args);
 				}
 			}
 		}, {
-			key: symbol$5,
+			key: symbol$10,
 			value: function value(item, _value2) {
 				var _this3 = this;
 
@@ -1055,7 +811,7 @@ var Extensible$3 = function Extensible$3(descendant) {
 				}
 			}
 		}, {
-			key: symbol$6,
+			key: symbol$11,
 			value: function value(item) {
 				var _this4 = this;
 
@@ -1071,7 +827,7 @@ var Extensible$3 = function Extensible$3(descendant) {
 				}
 			}
 		}, {
-			key: symbol$2,
+			key: symbol$7,
 			value: function value() {
 				var _this5 = this;
 
@@ -1087,7 +843,7 @@ var Extensible$3 = function Extensible$3(descendant) {
 						delete $private[key];
 					});
 				}, 0);
-				this[symbol$4]('destructed');
+				this[symbol$9]('destructed');
 				return handle;
 			}
 		}, {
@@ -1097,12 +853,12 @@ var Extensible$3 = function Extensible$3(descendant) {
 			}
 		}, {
 			key: symbol$12,
-			get: function get() {
+			get: function get$$1() {
 				return true;
 			}
 		}], [{
 			key: symbol$13,
-			get: function get() {
+			get: function get$$1() {
 				return true;
 			}
 		}]);
@@ -1110,10 +866,433 @@ var Extensible$3 = function Extensible$3(descendant) {
 	}(descendant);
 };
 
+function isRoutable(u) {
+	return !!u[symbol$12];
+}
+
+function isRoutable$1(u) {
+	return !!u[symbol$13];
+}
+
+function getHashRoutes(url) {
+	var hash = url || window.location.hash;
+	var path = hash.replace(/#!|#/i, '');
+	var routes = path.split('/');
+	routes = routes.filter(function (route) {
+		return !!route.length;
+	});
+	if (!routes.length) {
+		return false;
+	}
+	return routes;
+}
+
+var Router$1 = function (_Enableable) {
+	inherits(Router, _Enableable);
+
+	function Router() {
+		classCallCheck(this, Router);
+
+		var _this = possibleConstructorReturn(this, (Router.__proto__ || Object.getPrototypeOf(Router)).call(this));
+
+		_this[symbol] = {
+			roots: {},
+			lastURL: null,
+			instances: {},
+			notFound: function notFound() {},
+			notAuthorized: function notAuthorized() {}
+		};
+		window.addEventListener("hashchange", function (e) {
+			_this.onHashChange(e);
+		});
+		return _this;
+	}
+
+	createClass(Router, [{
+		key: 'onHashChange',
+		value: function onHashChange(event) {
+			var _this2 = this;
+
+			var instances = {};
+			var lastURL = this[symbol].lastURL;
+			var routes = getHashRoutes(window.location.hash);
+			if (!routes) {
+				return;
+			}
+			var rootRoute = routes.splice(0, 1)[0];
+			var root = this.roots[rootRoute];
+			//if the root doesn't exist, 404 and exit
+			if (!root) {
+				return this.notFound();
+			}
+			//get the root route, if uninstanced, instantiate
+			root = isRoutable$1(root) ? new root() : root;
+			//if the instance isn't routable, return 
+			if (!isRoutable(root)) {
+				return;
+			}
+			this[symbol].root = root;
+			var traversed = "";
+			var instance = false;
+			console.log(this, routes);
+			for (var index = 0; index < routes.length; index++) {
+				console.log(traversed);
+				var route = routes[index];
+				traversed = (!index ? rootRoute + '/' : '') + (traversed + '/' + route);
+				var parent = instance;
+				var existing = this.instance(traversed);
+				instance = existing || (isRoutable(parent) ? parent.subroute(route) : false);
+				instances[traversed] = instance;
+				//if there's no existing instance, destroy the instances not traversed
+				if (!existing) {
+					(function () {
+						var killList = [];
+						Object.keys(_this2.instances).forEach(function (route) {
+							var instance = instances[route];
+							if (instance) {
+								return;
+							}
+							killList.push({ route: route, instance: instance });
+						});
+						//sort the kill list by shortest path to longest
+						killList.sort(function (a, b) {
+							return a.route.length - b.route.length;
+						});
+						killList.forEach(function (entry) {
+							var destructor = entry.instance[destructor];
+							if (!isFunction(destructor)) {
+								return;
+							}
+							destructor();
+						});
+					})();
+				}
+				//if there's no instance, 404 and return
+				if (!instance) {
+					return this.notFound();
+				}
+				if (!isRoutable(instance)) {
+					return;
+				}
+				if (isExecutable(instance.trigger)) {
+					instance.trigger('onRouteTraversed', traversed);
+					continue;
+				}
+				instance.onRouteTraversed(traversed);
+			}
+			console.log(traversed);
+		}
+	}, {
+		key: 'instance',
+		value: function instance(route, value) {
+			var instances = this.instances;
+			if (arguments.length > 1) {
+				instances[route] = value;
+				return value;
+			}
+			return instances[route];
+		}
+	}, {
+		key: 'add',
+		value: function add(routable) {
+			if (isRoutable$1(routable) || isRoutable(routable)) {
+				this[symbol].roots[routable.route] = routable;
+				return;
+			}
+			return get(Router.prototype.__proto__ || Object.getPrototypeOf(Router.prototype), 'add', this).call(this, routable);
+		}
+	}, {
+		key: 'remove',
+		value: function remove(routable) {
+			if (isRoutable$1(routable) || isRoutable(routable)) {
+				delete this[symbol].roots[routable.route];
+				return;
+			}
+			return get(Router.prototype.__proto__ || Object.getPrototypeOf(Router.prototype), 'remove', this).call(this, routable);
+		}
+	}, {
+		key: 'notFound',
+		get: function get$$1() {
+			return this[symbol].notFound;
+		},
+		set: function set$$1(method) {
+			if (!isFunction(method)) {
+				method = function method() {};
+			}
+			this[symbol].notFound = method;
+		}
+	}, {
+		key: 'notAuthorized',
+		get: function get$$1() {
+			return this[symbol].notAuthorized;
+		},
+		set: function set$$1(method) {
+			if (!isFunction(method)) {
+				method = function method() {};
+			}
+			this[symbol].notAuthorized = method;
+		}
+	}, {
+		key: 'instances',
+		get: function get$$1() {
+			return this[symbol].instances;
+		},
+		set: function set$$1(instances) {
+			this[symbol].instances = instances;
+		}
+	}, {
+		key: 'roots',
+		get: function get$$1() {
+			return this[symbol].roots;
+		}
+	}]);
+	return Router;
+}(Enableable(Privatelike(Base)));
+
+var router = new Router$1();
+
+//Keys
+var Routable = function Routable(descendant) {
+	return function (_descendant) {
+		inherits(RoutableMixin, _descendant);
+
+		function RoutableMixin() {
+			classCallCheck(this, RoutableMixin);
+
+			var _this = possibleConstructorReturn(this, (RoutableMixin.__proto__ || Object.getPrototypeOf(RoutableMixin)).call(this));
+
+			_this[symbol] = {
+				state: {
+					route: _this.constructor.route,
+					subroutes: {}
+				}
+			};
+			return _this;
+		}
+
+		createClass(RoutableMixin, [{
+			key: 'add',
+			value: function add(routable) {
+				if (isRoutable(routable) || isRoutable$1(routable)) {
+					var subroutes = this[symbol$6]('subroutes');
+					//if a route already exists with this name throw an error
+					subroutes[routable.route] = routable;
+				}
+				if (isExecutable(get(RoutableMixin.prototype.__proto__ || Object.getPrototypeOf(RoutableMixin.prototype), 'add', this))) {
+					return get(RoutableMixin.prototype.__proto__ || Object.getPrototypeOf(RoutableMixin.prototype), 'add', this).call(this, routable);
+				}
+			}
+		}, {
+			key: 'subroute',
+			value: function subroute(name) {
+				var subroute = this.subroutes[name];
+				return subroute ? subroute : false;
+			}
+		}, {
+			key: 'onRouteTraversed',
+			value: function onRouteTraversed() {}
+		}, {
+			key: 'route',
+			get: function get$$1() {
+				return this[symbol$6]('route');
+			},
+			set: function set$$1(route) {
+				var old = this.route;
+				if (this[symbol$6]('route', route)) {
+					if (this.isRootRoute) {
+						router.remove(old);
+						router.add(route);
+					}
+				}
+			}
+		}, {
+			key: 'subroutes',
+			get: function get$$1() {
+				return this[symbol$6]('subroutes');
+			}
+		}, {
+			key: 'isRootRoute',
+			get: function get$$1() {
+				return this[symbol$6]('isRootRoute');
+			},
+			set: function set$$1(bool) {
+				if (this[symbol$6]('isRootRoute', bool)) {
+					if (bool) {
+						router.add(this.route);
+						return;
+					}
+					router.remove(route);
+				}
+			}
+		}, {
+			key: symbol$12,
+			get: function get$$1() {
+				return true;
+			}
+		}], [{
+			key: 'route',
+			get: function get$$1() {
+				return 'route';
+			}
+		}, {
+			key: symbol$13,
+			get: function get$$1() {
+				return true;
+			}
+		}]);
+		return RoutableMixin;
+	}(descendant);
+};
+
+var Mixins = {
+	Privatelike: Privatelike,
+	Extensible: Extensible$1,
+	Enableable: Enableable,
+	Routable: Routable
+};
+
+function isEmptyString(u) {
+	return u === "";
+}
+
+var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
+function isHTML(u) {
+	return htmlRegex.test(u);
+}
+
+function getHandledType$1(types, u) {
+	var type = typeof u === "undefined" ? "undefined" : _typeof(u);
+	var subtypes = types[type];
+	if (!subtypes) {
+		return type;
+	}
+	for (var name in subtypes) {
+		var subtype = subtypes[name];
+		if (subtype(u)) {
+			return name;
+		}
+	}
+	return type;
+}
+
+function isRegex(u) {
+	return u instanceof RegExp;
+}
+
+function isPath(u) {
+	return typeof u === 'string' && u.length > 0 && u[0] === '@';
+}
+
+var defaults$1 = {
+	namespace: 'JSUI',
+	Development: {
+		enabled: false,
+		traceErrors: true,
+		haltOnErrors: true,
+		references: true
+	},
+	Production: {}
+};
+
+var namespace = defaults$1.namespace;
+
+var Identity = function () {
+	function Identity(identity) {
+		classCallCheck(this, Identity);
+
+
+		var defaults$$1 = {
+			namespace: namespace,
+			class: 'NoClass',
+			major: 0, minor: 0, patch: 0
+		};
+
+		if (isObject(identity)) {
+			defaults$$1.namespace = identity.namespace || defaults$$1.namespace;
+			defaults$$1.class = identity.class || defaults$$1.class;
+			defaults$$1.major = identity.major || defaults$$1.major;
+			defaults$$1.minor = identity.minor || defaults$$1.minor;
+			defaults$$1.patch = identity.patch || defaults$$1.patch;
+		}
+
+		if (isString(identity)) {
+			defaults$$1.class = identity;
+		}
+
+		addHiddenValue(this, symbol, defaults$$1);
+
+		Object.freeze(this[symbol]);
+	}
+
+	createClass(Identity, [{
+		key: 'namespace',
+		get: function get$$1() {
+			return this[symbol].namespace;
+		}
+	}, {
+		key: 'class',
+		get: function get$$1() {
+			return this[symbol].class;
+		}
+	}, {
+		key: 'major',
+		get: function get$$1() {
+			return this[symbol].major;
+		}
+	}, {
+		key: 'minor',
+		get: function get$$1() {
+			return this[symbol].minor;
+		}
+	}, {
+		key: 'patch',
+		get: function get$$1() {
+			return this[symbol].patch;
+		}
+	}]);
+	return Identity;
+}();
+
+var Sheets$1 = {};
+
+function uncapitalize(text) {
+	return text.charAt(0).toLowerCase() + text.slice(1);
+}
+
+var vendors = ['webkit', 'moz', 'ms', 'o'];
+
+//not a real constant, since it is generated
+var equivalents = {};
+var example = document.createElement('div');
+
+var _loop = function _loop(key) {
+	try {
+		(function () {
+			example.style[key] = 'inherit';
+			var name = (example.getAttribute('style') || '').split(':')[0];
+			equivalents[key] = name;
+			example.setAttribute('style', '');
+			vendors.forEach(function (vendor) {
+				var prefix = '-' + vendor + '-';
+				if (~name.indexOf(prefix)) {
+					var w3cKey = key;
+					w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
+					equivalents[w3cKey] = name;
+					equivalents[name.replace(prefix, '')] = name;
+				}
+			});
+		})();
+	} catch (e) {}
+};
+
+for (var key in example.style) {
+	_loop(key);
+}
+
 //Keys
 //classes
 //mixins
-var Extensible$1 = function (_ExtensibleMixin) {
+var Extensible$2 = function (_ExtensibleMixin) {
 	inherits(Extensible, _ExtensibleMixin);
 
 	function Extensible() {
@@ -1124,41 +1303,41 @@ var Extensible$1 = function (_ExtensibleMixin) {
 	createClass(Extensible, [{
 		key: 'state',
 		value: function state() {
-			return this[symbol$1].apply(this, arguments);
+			return this[symbol$6].apply(this, arguments);
 		}
 	}, {
 		key: 'on',
 		value: function on() {
-			return this[symbol$3].apply(this, arguments);
+			return this[symbol$8].apply(this, arguments);
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger() {
-			return this[symbol$4].apply(this, arguments);
+			return this[symbol$9].apply(this, arguments);
 		}
 	}, {
 		key: 'add',
 		value: function add() {
-			return this[symbol$5].apply(this, arguments);
+			return this[symbol$10].apply(this, arguments);
 		}
 	}, {
 		key: 'remove',
 		value: function remove() {
-			return this[symbol$6].apply(this, arguments);
+			return this[symbol$11].apply(this, arguments);
 		}
 	}, {
 		key: 'destructor',
 		value: function destructor() {
-			return this[symbol$2].apply(this, arguments);
+			return this[symbol$7].apply(this, arguments);
 		}
 	}, {
 		key: 'private',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol];
 		}
 	}]);
 	return Extensible;
-}(Extensible$3(Privatelike(Base)));
+}(Extensible$1(Privatelike(Base)));
 
 function constructor() {
 	this[symbol].uid = uid();
@@ -1185,18 +1364,18 @@ var Distinct = function (_Extensible) {
 
 	createClass(Distinct, [{
 		key: 'uid',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].uid;
 		},
-		set: function set(id) {
+		set: function set$$1(id) {
 			this[symbol].uid = id;
 		}
 	}, {
 		key: 'identity',
-		get: function get() {
+		get: function get$$1() {
 			return this.state('identity');
 		},
-		set: function set(identity) {
+		set: function set$$1(identity) {
 			this.state('identity', identity);
 			if (!this[symbol].Is[identity]) {
 				this[symbol].Is[identity.class] = identity;
@@ -1204,12 +1383,12 @@ var Distinct = function (_Extensible) {
 		}
 	}, {
 		key: 'Is',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].Is;
 		}
 	}]);
 	return Distinct;
-}(Extensible$1);
+}(Extensible$2);
 
 var identity$4 = new Identity({
 	class: 'StyleRules',
@@ -1237,10 +1416,10 @@ var StyleRules = function (_Distinct) {
 
 Object.keys(equivalents).forEach(function (key) {
 	Object.defineProperty(StyleRules.prototype, key, {
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].styles[key];
 		},
-		set: function set(value) {
+		set: function set$$1(value) {
 			var old = this[symbol].styles[key];
 			this[symbol].styles[key] = value;
 			if (isNull(value)) {
@@ -1427,22 +1606,22 @@ var StyleSheet = function (_Distinct) {
 		}
 	}, {
 		key: 'context',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].context;
 		}
 	}, {
 		key: 'variables',
-		get: function get() {},
-		set: function set(vars) {}
+		get: function get$$1() {},
+		set: function set$$1(vars) {}
 	}, {
 		key: 'sorter',
-		get: function get() {
+		get: function get$$1() {
 			if (this[symbol].sorter) {
 				return this[symbol].sorter;
 			}
 			return rules;
 		},
-		set: function set(method) {
+		set: function set$$1(method) {
 			if (isFunction(method)) {
 				this[symbol].sorter = method;
 			}
@@ -1484,7 +1663,7 @@ var StyleSheetRule = function (_StyleRules) {
 
 	createClass(StyleSheetRule, [{
 		key: 'set',
-		value: function set(name, value) {
+		value: function set$$1(name, value) {
 			var _this2 = this;
 
 			if (isObject(name)) {
@@ -1560,10 +1739,10 @@ var StyleSheetRule = function (_StyleRules) {
 		}
 	}, {
 		key: 'selector',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].selector;
 		},
-		set: function set(selector) {
+		set: function set$$1(selector) {
 			var _this4 = this;
 
 			var self = this;
@@ -1586,10 +1765,10 @@ var StyleSheetRule = function (_StyleRules) {
 		}
 	}, {
 		key: 'media',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].media;
 		},
-		set: function set(media) {
+		set: function set$$1(media) {
 			var _this5 = this;
 
 			var self = this;
@@ -1612,10 +1791,10 @@ var StyleSheetRule = function (_StyleRules) {
 		}
 	}, {
 		key: 'importance',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].importance || 0;
 		},
-		set: function set(zindex) {
+		set: function set$$1(zindex) {
 			var old = this[symbol].importance;
 			if (isNumber(zindex)) {
 				if (old === zindex) {
@@ -1628,10 +1807,10 @@ var StyleSheetRule = function (_StyleRules) {
 		}
 	}, {
 		key: 'context',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].context || 'default';
 		},
-		set: function set(context) {
+		set: function set$$1(context) {
 			var old = this[symbol].context;
 			if (old === context) {
 				return;
@@ -1642,10 +1821,10 @@ var StyleSheetRule = function (_StyleRules) {
 		}
 	}, {
 		key: 'isSwitchable',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].isSwitchable;
 		},
-		set: function set(bool) {
+		set: function set$$1(bool) {
 			var old = this[symbol].isSwitchable;
 			if (old === bool) {
 				return;
@@ -1656,10 +1835,10 @@ var StyleSheetRule = function (_StyleRules) {
 		}
 	}, {
 		key: 'isOnByDefault',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].isOnByDefault;
 		},
-		set: function set(bool) {
+		set: function set$$1(bool) {
 			var old = this[symbol].isOnByDefault;
 			if (old === bool) {
 				return;
@@ -1670,10 +1849,10 @@ var StyleSheetRule = function (_StyleRules) {
 		}
 	}, {
 		key: 'class',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].class;
 		},
-		set: function set(className) {
+		set: function set$$1(className) {
 			var old = this[symbol].class;
 			if (old === className) {
 				return;
@@ -1728,7 +1907,7 @@ var StyleInline = function (_StyleRules) {
 
 	createClass(StyleInline, [{
 		key: 'set',
-		value: function set(name, value) {
+		value: function set$$1(name, value) {
 			var _this2 = this;
 
 			if (isObject(name)) {
@@ -1749,10 +1928,10 @@ var StyleInline = function (_StyleRules) {
 		}
 	}, {
 		key: 'host',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].host;
 		},
-		set: function set(element) {
+		set: function set$$1(element) {
 			if (isJSUI(element)) {
 				this[symbol].host = element.element;
 			}
@@ -1796,7 +1975,7 @@ var StyleableHost = function (_Distinct) {
 		}
 	}, {
 		key: 'Inline',
-		get: function get() {
+		get: function get$$1() {
 			if (!this[symbol].Inline) {
 				this[symbol].Inline = new StyleInline(this[symbol].host);
 			}
@@ -1804,10 +1983,10 @@ var StyleableHost = function (_Distinct) {
 		}
 	}, {
 		key: 'context',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].context;
 		},
-		set: function set(context) {
+		set: function set$$1(context) {
 			var _this2 = this;
 
 			var host = this[symbol].host;
@@ -1886,7 +2065,7 @@ var Styleable = function (_Distinct) {
 		}
 	}, {
 		key: 'Style',
-		get: function get() {
+		get: function get$$1() {
 			if (!this[symbol].Style) {
 				this[symbol].Style = new StyleableHost(this);
 			}
@@ -1980,7 +2159,7 @@ var Behavior = function (_Styleable) {
 	}, {
 		key: 'destructor',
 		value: function destructor() {
-			get$1(Behavior.prototype.__proto__ || Object.getPrototypeOf(Behavior.prototype), 'destructor', this).call(this);
+			get(Behavior.prototype.__proto__ || Object.getPrototypeOf(Behavior.prototype), 'destructor', this).call(this);
 		}
 	}]);
 	return Behavior;
@@ -2049,10 +2228,10 @@ var ElementReceipt = function (_Receipt) {
 
 	createClass(ElementReceipt, [{
 		key: 'element',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].element;
 		},
-		set: function set(element) {
+		set: function set$$1(element) {
 			this[symbol].element = element;
 		}
 	}]);
@@ -2110,7 +2289,7 @@ function _string$1(command, args) {
 	var results = new Collection$1();
 	this.forEach(function (item) {
 		var method = item[command];
-		if (isFunction(method) || isJSUI$1(method)) {
+		if (isFunction(method) || isJSUIFunction(method)) {
 			results.push({
 				item: item,
 				value: method.apply(item, args)
@@ -2129,7 +2308,7 @@ function getter(obj, prop) {
 	return obj[prop];
 }
 
-function get$2(obj, path) {
+function get$1(obj, path) {
 	if (isString(path)) {
 		return path.substring(1).split('.').reduce(getter, obj);
 	}
@@ -2150,7 +2329,7 @@ function getWithContext(obj, path) {
 		};
 	}
 	var tail = parts.splice(parts.length - 1, 1);
-	var reference = get$2(obj, parts);
+	var reference = get$1(obj, parts);
 	if (reference) {
 		return {
 			context: reference,
@@ -2194,7 +2373,7 @@ function _string$2(property) {
 function _path$1(path) {
 	var results = new Collection();
 	this.forEach(function (item) {
-		var value = get$2(item, path);
+		var value = get$1(item, path);
 		results.push({ item: item, value: value });
 	});
 	return results;
@@ -2225,7 +2404,7 @@ function setter(obj, path, value) {
 		return true;
 	}
 	var tail = parts.splice(parts.length - 1, 1);
-	var reference = get$2(obj, parts);
+	var reference = get$1(obj, parts);
 	if (reference) {
 		reference[tail[0]] = value;
 		return true;
@@ -2233,15 +2412,15 @@ function setter(obj, path, value) {
 	return false;
 }
 
-function set$2(obj, path, value) {
+function set$1(obj, path, value) {
 	return setter(obj, path, value);
 }
 
 function _path$2(path) {
 	var results = new Collection();
 	this.forEach(function (item) {
-		var value = get$2(item, path);
-		set$2(item, path, value);
+		var value = get$1(item, path);
+		set$1(item, path, value);
 		results.push({ item: item, path: path, old: old, value: value });
 	});
 	return results;
@@ -2269,12 +2448,12 @@ var CollectionWhereReceipt = function (_Receipt) {
 
 	createClass(CollectionWhereReceipt, [{
 		key: 'selected',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].selected;
 		}
 	}, {
 		key: 'rejected',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].rejected;
 		}
 	}]);
@@ -2308,14 +2487,14 @@ var Collection$1 = function (_native) {
 		}
 	}, {
 		key: 'get',
-		value: function get(property) {
+		value: function get$$1(property) {
 			var type = getHandledType(property);
 			var action = Get[type];
 			return (action || unhandled).call(this, property);
 		}
 	}, {
 		key: 'set',
-		value: function set(property, value) {
+		value: function set$$1(property, value) {
 			var type = getHandledType(property);
 			var action = Set[type];
 			return (action || unhandled).call(this, property, value);
@@ -2348,7 +2527,7 @@ function _array(collection) {
 	return results;
 }
 
-function add$1(host, name, defaultValue) {
+function add(host, name, defaultValue) {
 	Object.defineProperty(host, name, {
 		get: function get() {
 			var value = this[symbol].state.hasOwnProperty(name) ? this[symbol].state[name] : defaultValue;
@@ -2379,7 +2558,7 @@ function add$1(host, name, defaultValue) {
 }
 
 function _string$4(prop) {
-	add$1(this, prop);
+	add(this, prop);
 }
 
 function _html(markup) {
@@ -2505,7 +2684,7 @@ function _object(assignments) {
 }
 
 function _string$5(name, method) {
-	return on$1.call(this, name, method);
+	return on.call(this, name, method);
 }
 
 function _path$4(name, method) {
@@ -2719,7 +2898,7 @@ function _string$9(property) {
 }
 
 function _path$8(path) {
-	return get$2(this, path);
+	return get$1(this, path);
 }
 
 var Get$2 = {
@@ -2757,7 +2936,7 @@ function _string$10(property, value) {
 }
 
 function _path$9(path, value) {
-	return set$2(this, path, value);
+	return set$1(this, path, value);
 }
 
 var Set$2 = {
@@ -3115,7 +3294,7 @@ var Element$1 = function (_Styleable) {
 		value: function add(item) {
 			var type = getHandledType(item);
 			var action = Add[type];
-			return (action || get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'add', this) || unhandled).call(this, item);
+			return (action || get(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'add', this) || unhandled).call(this, item);
 		}
 	}, {
 		key: 'addTo',
@@ -3157,14 +3336,14 @@ var Element$1 = function (_Styleable) {
 		}
 	}, {
 		key: 'get',
-		value: function get(property) {
+		value: function get$$1(property) {
 			var type = getHandledType(property);
 			var action = Get$2[type];
 			return (action || unhandled).call(this, property);
 		}
 	}, {
 		key: 'set',
-		value: function set(property, value) {
+		value: function set$$1(property, value) {
 			var type = getHandledType(property);
 			var action = Set$2[type];
 			return (action || unhandled).call(this, property, value);
@@ -3269,15 +3448,15 @@ var Element$1 = function (_Styleable) {
 			_private = null;
 			_parent = null;
 			_children = null;
-			return get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'destructor', this).call(this);
+			return get(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'destructor', this).call(this);
 		}
 	}, {
 		key: 'identity',
-		get: function get() {
-			return get$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'identity', this);
+		get: function get$$1() {
+			return get(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'identity', this);
 		},
-		set: function set(identity) {
-			set$1(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'identity', identity, this);
+		set: function set$$1(identity) {
+			set(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'identity', identity, this);
 			if (identity.namespace) {
 				addClass(this.element, identity.namespace);
 			}
@@ -3338,7 +3517,7 @@ var Data = function (_ExtensibleMixin) {
 	}
 
 	return Data;
-}(Extensible$3(Base));
+}(Extensible$1(Base));
 
 function isData(u) {
 	return u instanceof Data;
@@ -3424,12 +3603,12 @@ var ElementCollection = function (_Collection) {
 		}
 	}, {
 		key: 'get',
-		value: function get() {
+		value: function get$$1() {
 			return this.do('get', arguments);
 		}
 	}, {
 		key: 'set',
-		value: function set() {
+		value: function set$$1() {
 			return this.do('set', arguments);
 		}
 	}, {
@@ -5877,11 +6056,11 @@ var StyleVariables = function (_Distinct) {
 
 	createClass(StyleVariables, [{
 		key: 'add',
-		value: function add(name, value) {
+		value: function add$$1(name, value) {
 			var _this2 = this;
 
 			if (isString(name)) {
-				add$1(this, name, value);
+				add(this, name, value);
 				this.trigger('variableAdded', {
 					name: name,
 					value: value
@@ -5951,77 +6130,77 @@ var RelationshipBindingReceipt = function (_Enableable) {
 		}
 	}, {
 		key: 'uid',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].uid;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].uid = v;
 		}
 	}, {
 		key: 'subjectHandler',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].subjectHandler;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].subjectHandler = v;
 		}
 	}, {
 		key: 'toHandler',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].toHandler;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].toHandler = v;
 		}
 	}, {
 		key: 'subjectDestroyer',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].subjectDestroyer;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].subjectDestroyer = v;
 		}
 	}, {
 		key: 'toDestroyer',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].toDestroyer;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].toDestroyer = v;
 		}
 	}, {
 		key: 'name',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].name;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].name = v;
 		}
 	}, {
 		key: 'normalizer',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].normalizer;
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			this[symbol].normalizer = v;
 		}
 	}, {
 		key: 'handles',
-		get: function get() {
+		get: function get$$1() {
 			var handles = Object.values(this[symbol]).filter(isOnEventBoundReceipt);
 			return handles;
 		}
 	}, {
 		key: 'enabled',
-		get: function get() {
-			return get$1(RelationshipBindingReceipt.prototype.__proto__ || Object.getPrototypeOf(RelationshipBindingReceipt.prototype), 'enabled', this);
+		get: function get$$1() {
+			return get(RelationshipBindingReceipt.prototype.__proto__ || Object.getPrototypeOf(RelationshipBindingReceipt.prototype), 'enabled', this);
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			var value = !!v;
 			this.handles.forEach(function (handle) {
 				handle.enabled = value;
 			});
-			set$1(RelationshipBindingReceipt.prototype.__proto__ || Object.getPrototypeOf(RelationshipBindingReceipt.prototype), 'enabled', value, this);
+			set(RelationshipBindingReceipt.prototype.__proto__ || Object.getPrototypeOf(RelationshipBindingReceipt.prototype), 'enabled', value, this);
 		}
 	}]);
 	return RelationshipBindingReceipt;
@@ -6199,7 +6378,7 @@ function extensibleToExtensible(receipt, event, bind, arrow, to) {
 		elementHandle.remove();
 	});
 
-	var dataHandleDestroyer = _private.to[symbol$3]('destructed', function (e) {
+	var dataHandleDestroyer = _private.to[symbol$8]('destructed', function (e) {
 		elementHandle.remove();
 	});
 
@@ -6320,7 +6499,7 @@ var BindReceipt = function (_Enableable) {
 						Object.keys(relationships$$1).forEach(function (relationship) {
 							var normalizer = relationships$$1[relationship];
 							var key = event + ': ' + relationship;
-							if (isFunction(normalizer) || isJSUI$1(normalizer)) {
+							if (isFunction(normalizer) || isJSUIFunction(normalizer)) {
 								var handle = _this3[symbol].Handles.byName[key];
 								if (handle) {
 									handle.normalizer = normalizer;
@@ -6367,29 +6546,29 @@ var BindReceipt = function (_Enableable) {
 		}
 	}, {
 		key: 'uid',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].uid;
 		},
-		set: function set(id) {
+		set: function set$$1(id) {
 			this[symbol].uid = id;
 		}
 	}, {
 		key: 'handles',
-		get: function get() {
+		get: function get$$1() {
 			var Handles = this[symbol].Handles;
 			return Object.values(Handles.byID);
 		}
 	}, {
 		key: 'enabled',
-		get: function get() {
-			return get$1(BindReceipt.prototype.__proto__ || Object.getPrototypeOf(BindReceipt.prototype), 'enabled', this);
+		get: function get$$1() {
+			return get(BindReceipt.prototype.__proto__ || Object.getPrototypeOf(BindReceipt.prototype), 'enabled', this);
 		},
-		set: function set(v) {
+		set: function set$$1(v) {
 			var value = !!v;
 			this.handles.forEach(function (handle) {
 				handle.enabled = value;
 			});
-			set$1(BindReceipt.prototype.__proto__ || Object.getPrototypeOf(BindReceipt.prototype), 'enabled', value, this);
+			set(BindReceipt.prototype.__proto__ || Object.getPrototypeOf(BindReceipt.prototype), 'enabled', value, this);
 		}
 	}]);
 	return BindReceipt;
@@ -6447,7 +6626,7 @@ var Relationship = function (_Enableable) {
 		}
 	}, {
 		key: 'uid',
-		get: function get() {
+		get: function get$$1() {
 			return this[symbol].uid;
 		}
 	}]);
@@ -6471,160 +6650,7 @@ var DataHandle = function (_Extensible) {
 	}
 
 	return DataHandle;
-}(Extensible$1);
-
-function isRoutable$1(u) {
-	return !!u[symbol$13];
-}
-
-var Router$1 = function (_Enableable) {
-	inherits(Router, _Enableable);
-
-	function Router() {
-		classCallCheck(this, Router);
-
-		var _this = possibleConstructorReturn(this, (Router.__proto__ || Object.getPrototypeOf(Router)).call(this));
-
-		_this[symbol] = {
-			roots: {},
-			lastURL: null,
-			root: null,
-			nonexistent: null,
-			unauthorized: null
-		};
-		window.addEventListener("hashchange", _this.onHashChange);
-		return _this;
-	}
-
-	createClass(Router, [{
-		key: 'onHashChange',
-		value: function onHashChange(event) {
-			var lastURL = this[symbol].lastURL;
-			var hash = window.location.hash;
-			var path = hash.replace('#!', '');
-			var routes = path.split('/');
-			routes = routes.filter(function (route) {
-				return !!route.length;
-			});
-			if (!routes.length) {
-				return;
-			}
-			var roots = this.roots;
-			var root = routes.splice(0, 1)[0];
-			var count = routes.length;
-			var parent = roots[root];
-			if (!parent) {
-				var method = this.nonexistent;
-				if (isFunction(method)) {
-					method();
-				}
-				return;
-			}
-			if (isRoutable$1(parent) && parent.isInstancedRoute) {
-				parent = new parent();
-			}
-			this[symbol].root = parent;
-			for (var index = 0; index < count; index++) {
-				var route = routes[index];
-			}
-		}
-	}, {
-		key: 'add',
-		value: function add(routable) {}
-	}, {
-		key: 'remove',
-		value: function remove(routable) {}
-	}, {
-		key: 'nonexistent',
-		get: function get() {},
-		set: function set(method) {}
-	}, {
-		key: 'unauthorized',
-		get: function get() {},
-		set: function set(method) {}
-	}, {
-		key: 'roots',
-		get: function get() {
-			return this[symbol].roots;
-		}
-	}]);
-	return Router;
-}(Enableable(Privatelike(Base)));
-
-var router = new Router$1();
-
-//Keys
-var Routable = function Routable(descendant) {
-	return function (_descendant) {
-		inherits(RoutableMixin, _descendant);
-
-		function RoutableMixin() {
-			classCallCheck(this, RoutableMixin);
-
-			var _this = possibleConstructorReturn(this, (RoutableMixin.__proto__ || Object.getPrototypeOf(RoutableMixin)).call(this));
-
-			_this[symbol] = {
-				state: {
-					route: _this.constructor.route,
-					subroutes: {}
-				}
-			};
-
-			return _this;
-		}
-
-		createClass(RoutableMixin, [{
-			key: 'route',
-			get: function get() {
-				return this[symbol$1]('route');
-			},
-			set: function set(route) {
-				var old = this.route;
-				if (this[symbol$1]('route', route)) {
-					if (this.isRootRoute) {
-						router.remove(old);
-						router.add(route);
-					}
-				}
-			}
-		}, {
-			key: 'subroutes',
-			get: function get() {
-				return this[symbol$1]('subroutes');
-			}
-		}, {
-			key: 'isRootRoute',
-			get: function get() {
-				return this[symbol$1]('isRootRoute');
-			},
-			set: function set(bool) {
-				if (this[symbol$1]('isRootRoute', bool)) {
-					if (bool) {
-						router.add(this.route);
-						return;
-					}
-					router.remove(route);
-				}
-			}
-		}, {
-			key: symbol$12,
-			get: function get() {
-				return true;
-			}
-		}], [{
-			key: 'route',
-			get: function get() {
-				return 'route';
-			}
-		}, {
-			key: symbol$13,
-			get: function get() {
-				return true;
-			}
-		}]);
-		return RoutableMixin;
-	}(descendant);
-};
+}(Extensible$2);
 
 var identity$125 = new Identity({
 	class: 'Application',
@@ -6641,17 +6667,13 @@ var Application = function (_Routable) {
 
 		_this.identity = identity$125;
 		_this[symbol].routes = {};
+		router.add(_this);
 		return _this;
 	}
 
 	createClass(Application, null, [{
-		key: 'register',
-		value: function register() {
-			router.add(this);
-		}
-	}, {
 		key: 'route',
-		get: function get() {
+		get: function get$$1() {
 			return 'Application';
 		}
 	}]);
@@ -6677,7 +6699,7 @@ var Role = function (_Routable) {
 
 	createClass(Role, null, [{
 		key: 'route',
-		get: function get() {
+		get: function get$$1() {
 			return 'Role';
 		}
 	}]);
@@ -6703,12 +6725,55 @@ var Feature = function (_Routable) {
 
 	createClass(Feature, null, [{
 		key: 'route',
-		get: function get() {
+		get: function get$$1() {
 			return 'Feature';
 		}
 	}]);
 	return Feature;
 }(Routable(Distinct));
+
+var identity$128 = new Identity({
+	class: 'Page',
+	major: 1, minor: 0, patch: 0
+});
+
+var Page = function (_Routable) {
+	inherits(Page, _Routable);
+
+	function Page() {
+		classCallCheck(this, Page);
+
+		var _this = possibleConstructorReturn(this, (Page.__proto__ || Object.getPrototypeOf(Page)).call(this));
+
+		_this.identity = identity$128;
+		return _this;
+	}
+
+	createClass(Page, null, [{
+		key: 'route',
+		get: function get$$1() {
+			return 'Page';
+		}
+	}]);
+	return Page;
+}(Routable(Main));
+
+var RoutableFunction = function (_Routable) {
+	inherits(RoutableFunction, _Routable);
+
+	function RoutableFunction() {
+		classCallCheck(this, RoutableFunction);
+		return possibleConstructorReturn(this, (RoutableFunction.__proto__ || Object.getPrototypeOf(RoutableFunction)).apply(this, arguments));
+	}
+
+	createClass(RoutableFunction, [{
+		key: 'onRouteTraversed',
+		value: function onRouteTraversed() {
+			this.execute();
+		}
+	}]);
+	return RoutableFunction;
+}(Routable(JSUIFunction));
 
 var Classes = {
 	Behavior: Behavior,
@@ -6719,7 +6784,7 @@ var Classes = {
 	ElementClassReceipt: ElementClassReceipt,
 	Element: Element$1,
 	ElementCollection: ElementCollection,
-	Extensible: Extensible$1,
+	Extensible: Extensible$2,
 	JSUIError: JSUIError,
 	Styleable: Styleable,
 	StyleInline: StyleInline,
@@ -6735,7 +6800,10 @@ var Classes = {
 	DataHandle: DataHandle,
 	Application: Application,
 	Role: Role,
-	Feature: Feature
+	Feature: Feature,
+	Page: Page,
+	Router: Router$1,
+	RoutableFunction: RoutableFunction
 };
 
 //Keys
@@ -6749,10 +6817,10 @@ var Constants = {
 	},
 	Keys: {
 		Extensible: {
-			on: symbol$3,
-			trigger: symbol$4,
-			add: symbol$5,
-			remove: symbol$6
+			on: symbol$8,
+			trigger: symbol$9,
+			add: symbol$10,
+			remove: symbol$11
 		},
 		BindReceipt: {
 			normalize: symbol$20,
@@ -6762,10 +6830,10 @@ var Constants = {
 		General: {
 			on: symbol$14,
 			private: symbol,
-			state: symbol$1,
+			state: symbol$6,
 			trigger: symbol$15,
 			uid: symbol$16,
-			destructor: symbol$2
+			destructor: symbol$7
 		}
 	}
 };
@@ -6880,26 +6948,26 @@ var Utilities = {
 		nodeAttributes: nodeAttributes
 	},
 	Events: {
-		on: on$1,
-		remove: remove$1,
-		removeAll: removeAll$1
+		on: on,
+		remove: remove,
+		removeAll: removeAll
 	},
 	Functions: {
-		debounce: debounce$1,
-		throttle: throttle$1
+		debounce: debounce,
+		throttle: throttle
 	},
 	General: {
 		uid: uid
 	},
 	Paths: {
-		get: get$2,
+		get: get$1,
 		getter: getter,
-		set: set$2,
+		set: set$1,
 		setter: setter,
 		getWithContext: getWithContext
 	},
 	Properties: {
-		add: add$1,
+		add: add,
 		doOrSet: doOrSet,
 		getAll: getAll
 	},
@@ -7043,6 +7111,7 @@ var JSUI = {
 		Inline: Classes.StyleInline,
 		Sheets: Singletons.Style.Sheets
 	},
+	Mixins: Mixins,
 	Classes: Classes,
 	Constants: Constants,
 	Singletons: Singletons,
@@ -7058,5 +7127,4 @@ window.JSUI = JSUI;
 return JSUI;
 
 }());
-
 //# sourceMappingURL=JSUI.js.map

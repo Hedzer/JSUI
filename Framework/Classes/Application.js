@@ -15,8 +15,6 @@ export default class Application extends Routable(Distinct) {
 		super('div');
 		this.identity = identity;
 		this[$private].routes = {};
-	}
-	static register() {
 		Router.add(this);
 	}
 	static get route() {
