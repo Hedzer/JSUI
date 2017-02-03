@@ -36,15 +36,17 @@ export default class Router extends Enableable(Privatelike(Base)) {
 		if (!isRoutable(root)) { return; }
 		this[$private].root = root;
 		let traversed = "";
-		let instance = false;
+		let instance = root;
 		console.log(this, routes);
 		for (let index = 0; index < routes.length; index++) {
-			console.log(traversed);
 			let route = routes[index];
-			traversed = (!index ? `${rootRoute}/` : '') + `${traversed}/${route}`;
+			console.log(route, traversed);
+			debugger;
+			traversed = (!index ? `${rootRoute}/` : `${traversed}/`) + `${route}`;
 			let parent = instance;
 			let existing = this.instance(traversed);
 			instance = (existing || (isRoutable(parent) ? parent.subroute(route) : false));
+			instance = (instance.instantiate ? instance.instantiate() : instance);
 			instances[traversed] = instance;
 			//if there's no existing instance, destroy the instances not traversed
 			if (!existing) {
@@ -64,6 +66,7 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			}
 			//if there's no instance, 404 and return
 			if (!instance) { return this.notFound(); }
+			console.log(!isRoutable(instance), instance, isRoutable(instance));
 			if (!isRoutable(instance)) { return; }
 			if (isExecutable(instance.trigger)) {
 				instance.trigger('onRouteTraversed', traversed);

@@ -933,15 +933,17 @@ var Router$1 = function (_Enableable) {
 			}
 			this[symbol].root = root;
 			var traversed = "";
-			var instance = false;
+			var instance = root;
 			console.log(this, routes);
 			for (var index = 0; index < routes.length; index++) {
-				console.log(traversed);
 				var route = routes[index];
-				traversed = (!index ? rootRoute + '/' : '') + (traversed + '/' + route);
+				console.log(route, traversed);
+				debugger;
+				traversed = (!index ? rootRoute + '/' : traversed + '/') + ('' + route);
 				var parent = instance;
 				var existing = this.instance(traversed);
 				instance = existing || (isRoutable(parent) ? parent.subroute(route) : false);
+				instance = instance.instantiate ? instance.instantiate() : instance;
 				instances[traversed] = instance;
 				//if there's no existing instance, destroy the instances not traversed
 				if (!existing) {
@@ -971,6 +973,7 @@ var Router$1 = function (_Enableable) {
 				if (!instance) {
 					return this.notFound();
 				}
+				console.log(!isRoutable(instance), instance, isRoutable(instance));
 				if (!isRoutable(instance)) {
 					return;
 				}
@@ -1089,6 +1092,11 @@ var Routable = function Routable(descendant) {
 				return subroute ? subroute : false;
 			}
 		}, {
+			key: 'instantiate',
+			value: function instantiate() {
+				return this;
+			}
+		}, {
 			key: 'onRouteTraversed',
 			value: function onRouteTraversed() {}
 		}, {
@@ -1130,6 +1138,11 @@ var Routable = function Routable(descendant) {
 				return true;
 			}
 		}], [{
+			key: 'instantiate',
+			value: function instantiate() {
+				return new this();
+			}
+		}, {
 			key: 'route',
 			get: function get$$1() {
 				return 'route';
@@ -6750,6 +6763,13 @@ var Page = function (_Routable) {
 	}
 
 	createClass(Page, null, [{
+		key: 'instantiate',
+		value: function instantiate() {
+			var instance = get(Page.__proto__ || Object.getPrototypeOf(Page), 'instantiate', this).call(this);
+			instance.addTo(document.body);
+			return instance;
+		}
+	}, {
 		key: 'route',
 		get: function get$$1() {
 			return 'Page';
