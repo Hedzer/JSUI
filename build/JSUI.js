@@ -934,11 +934,8 @@ var Router$1 = function (_Enableable) {
 			this[symbol].root = root;
 			var traversed = "";
 			var instance = root;
-			console.log(this, routes);
 			for (var index = 0; index < routes.length; index++) {
 				var route = routes[index];
-				console.log(route, traversed);
-				debugger;
 				traversed = (!index ? rootRoute + '/' : traversed + '/') + ('' + route);
 				var parent = instance;
 				var existing = this.instance(traversed);
@@ -973,7 +970,6 @@ var Router$1 = function (_Enableable) {
 				if (!instance) {
 					return this.notFound();
 				}
-				console.log(!isRoutable(instance), instance, isRoutable(instance));
 				if (!isRoutable(instance)) {
 					return;
 				}
@@ -983,7 +979,6 @@ var Router$1 = function (_Enableable) {
 				}
 				instance.onRouteTraversed(traversed);
 			}
-			console.log(traversed);
 		}
 	}, {
 		key: 'instance',
