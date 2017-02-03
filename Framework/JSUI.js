@@ -1,14 +1,14 @@
-import Mixins from 'Framework/JSUI/Mixins';
-import TypeChecks from 'Framework/JSUI/TypeChecks';
-import Classes from 'Framework/JSUI/Classes';
-import Constants from 'Framework/JSUI/Constants';
-import Singletons from 'Framework/JSUI/Singletons';
-import Utilities from 'Framework/JSUI/Utilities';
-import Sorts from 'Framework/JSUI/Sorts';
-import Reflection from 'Framework/JSUI/Reflection';
-import Elements from 'Framework/Classes/Elements';
-import Data from 'Framework/JSUI/Data';
-import Settings from 'Framework/Constants/JSUI/settings';
+import Mixins from '/Framework/V1.0/JSUI/Mixins';
+import TypeChecks from '/Framework/V1.0/JSUI/TypeChecks';
+import Classes from '/Framework/V1.0/JSUI/Classes';
+import Constants from '/Framework/V1.0/JSUI/Constants';
+import Singletons from '/Framework/V1.0/JSUI/Singletons';
+import Utilities from '/Framework/V1.0/JSUI/Utilities';
+import Sorts from '/Framework/V1.0/JSUI/Sorts';
+import Reflection from '/Framework/V1.0/JSUI/Reflection';
+import Elements from '/Framework/V1.0/Classes/Elements';
+import Data from '/Framework/V1.0/JSUI/Data';
+import Settings from '/Framework/V1.0/Constants/JSUI/settings';
 
 let JSUI = {
 	Settings: Settings,
