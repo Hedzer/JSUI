@@ -6,7 +6,7 @@ import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
 import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import uid from '/Framework/V1.0/Utilities/General/uid';
 import onEvent from '/Framework/V1.0/Utilities/Events/on';
-import StateChangeReceipt from '/Framework/V1.0/Classes/StateChangeReceipt';
+import StateChangeReceipt from '/Framework/V1.0/Classes/Receipts/StateChange';
 
 //Keys
 import $private from '/Framework/V1.0/Constants/Keys/General/private';

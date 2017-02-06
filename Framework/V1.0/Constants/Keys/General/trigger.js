@@ -1,4 +1,4 @@
-import symbolOrString from '/Framework/V1.0/Utilities/Properties/symbolOrString';
+import symbolish from '/Framework/V1.0/Utilities/Properties/symbolish';
 
-let symbol = symbolOrString('trigger');
+let symbol = symbolish('trigger');
 export default symbol;

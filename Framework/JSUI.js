@@ -7,7 +7,6 @@ import Utilities from '/Framework/V1.0/JSUI/Utilities';
 import Sorts from '/Framework/V1.0/JSUI/Sorts';
 import Reflection from '/Framework/V1.0/JSUI/Reflection';
 import Elements from '/Framework/V1.0/Classes/Elements';
-import Data from '/Framework/V1.0/JSUI/Data';
 import Settings from '/Framework/V1.0/Constants/JSUI/settings';
 
 let JSUI = {
@@ -29,8 +28,7 @@ let JSUI = {
 	TypeChecks: TypeChecks,
 	Utilities: Utilities,
 	Sorts: Sorts,
-	Reflection: Reflection,
-	Data: Data
+	Reflection: Reflection
 };
 
 window.JSUI = JSUI;

@@ -151,18 +151,18 @@ function uid() {
 
 var hasSymbol = typeof Symbol == 'function';
 
-function symbolOrString(name) {
+function symbolish(name) {
 	var id = uid();
 	return hasSymbol ? Symbol(name) : 'Symbol(' + name + ')@' + id;
 }
 
-var symbol = symbolOrString('private');
+var symbol = symbolish('private');
 
-var symbol$1 = symbolOrString('Mixins.Privatelike.private');
+var symbol$1 = symbolish('Mixins.Privatelike.private');
 
-var symbol$2 = symbolOrString('Mixins.Privatelike.isInstance');
+var symbol$2 = symbolish('Mixins.Privatelike.isInstance');
 
-var symbol$3 = symbolOrString('Mixins.Privatelike.isStatic');
+var symbol$3 = symbolish('Mixins.Privatelike.isStatic');
 
 function addHiddenValue(obj, prop, value) {
 	Object.defineProperty(obj, prop, {
@@ -254,7 +254,7 @@ function isArray(u) {
 	return Array.isArray(u);
 }
 
-function isFunction(u) {
+function isFunction$1(u) {
 	return typeof u === 'function';
 }
 
@@ -271,7 +271,7 @@ function isBoolean(u) {
 }
 
 function debounce(fn, time) {
-	if (isFunction(fn)) {
+	if (isFunction$1(fn)) {
 		var _ret = function () {
 			var dbcTimer = void 0;
 			return {
@@ -292,7 +292,7 @@ function debounce(fn, time) {
 
 function throttle(fn, time) {
 	var nextCall = 0;
-	if (isFunction(fn)) {
+	if (isFunction$1(fn)) {
 		return function () {
 			var now = new Date().getTime();
 			if (nextCall <= now) {
@@ -307,9 +307,9 @@ var Base = function Base() {
   classCallCheck(this, Base);
 };
 
-var symbol$4 = symbolOrString('Mixins.Enableable.isInstance');
+var symbol$4 = symbolish('Mixins.Enableable.isInstance');
 
-var symbol$5 = symbolOrString('Mixins.Enableable.isStatic');
+var symbol$5 = symbolish('Mixins.Enableable.isStatic');
 
 //Keys
 var Enableable = function Enableable(descendant) {
@@ -360,7 +360,7 @@ var JSUIFunction = function (_Enableable) {
 
 		var _this = possibleConstructorReturn(this, (JSUIFunction.__proto__ || Object.getPrototypeOf(JSUIFunction)).call(this));
 
-		original = isFunction(original) ? original : function () {};
+		original = isFunction$1(original) ? original : function () {};
 
 		_this[symbol] = {
 			uid: uid(),
@@ -497,7 +497,7 @@ function isJSUIFunction(u) {
 }
 
 function isExecutable(method) {
-	return isFunction(method) || isJSUIFunction(method);
+	return isFunction$1(method) || isJSUIFunction(method);
 }
 
 function isElement(u) {
@@ -619,7 +619,7 @@ var OnEventBoundReceipt = function (_Enableable) {
 }(Enableable(Receipt));
 
 function on(name, method) {
-	if (!isFunction(method)) {
+	if (!isFunction$1(method)) {
 		return;
 	}
 	method = new JSUIFunction(method);
@@ -691,21 +691,21 @@ var StateChangeReceipt = function (_Receipt) {
 	return StateChangeReceipt;
 }(Receipt);
 
-var symbol$6 = symbolOrString('Extensible.state');
+var symbol$6 = symbolish('Extensible.state');
 
-var symbol$7 = symbolOrString('destructor');
+var symbol$7 = symbolish('destructor');
 
-var symbol$8 = symbolOrString('Extensible.on');
+var symbol$8 = symbolish('Extensible.on');
 
-var symbol$9 = symbolOrString('Extensible.trigger');
+var symbol$9 = symbolish('Extensible.trigger');
 
-var symbol$10 = symbolOrString('Extensible.add');
+var symbol$10 = symbolish('Extensible.add');
 
-var symbol$11 = symbolOrString('Extensible.remove');
+var symbol$11 = symbolish('Extensible.remove');
 
-var symbol$12 = symbolOrString('Mixins.Routable.isInstance');
+var symbol$12 = symbolish('Mixins.Routable.isInstance');
 
-var symbol$13 = symbolOrString('Mixins.Routable.isStatic');
+var symbol$13 = symbolish('Mixins.Routable.isStatic');
 
 //Keys
 var Extensible$1 = function Extensible(descendant) {
@@ -752,7 +752,7 @@ var Extensible$1 = function Extensible(descendant) {
 		}, {
 			key: symbol$8,
 			value: function value(name, method) {
-				if (isString(name) && isFunction(method)) {
+				if (isString(name) && isFunction$1(method)) {
 					return on.call(this, name, method);
 				}
 			}
@@ -959,7 +959,7 @@ var Router$1 = function (_Enableable) {
 						});
 						killList.forEach(function (entry) {
 							var destructor = entry.instance[destructor];
-							if (!isFunction(destructor)) {
+							if (!isFunction$1(destructor)) {
 								return;
 							}
 							destructor();
@@ -1014,7 +1014,7 @@ var Router$1 = function (_Enableable) {
 			return this[symbol].notFound;
 		},
 		set: function set$$1(method) {
-			if (!isFunction(method)) {
+			if (!isFunction$1(method)) {
 				method = function method() {};
 			}
 			this[symbol].notFound = method;
@@ -1025,7 +1025,7 @@ var Router$1 = function (_Enableable) {
 			return this[symbol].notAuthorized;
 		},
 		set: function set$$1(method) {
-			if (!isFunction(method)) {
+			if (!isFunction$1(method)) {
 				method = function method() {};
 			}
 			this[symbol].notAuthorized = method;
@@ -1630,7 +1630,7 @@ var StyleSheet = function (_Distinct) {
 			return rules;
 		},
 		set: function set$$1(method) {
-			if (isFunction(method)) {
+			if (isFunction$1(method)) {
 				this[symbol].sorter = method;
 			}
 		}
@@ -1731,7 +1731,7 @@ var StyleSheetRule = function (_StyleRules) {
 			if (!this.isSwitchable || !this.class) {
 				return;
 			}
-			if (isJSUI(JSUIElement)) {
+			if (isJSUI$1(JSUIElement)) {
 				JSUIElement.class(this.class).add();
 			}
 		}
@@ -1741,7 +1741,7 @@ var StyleSheetRule = function (_StyleRules) {
 			if (!this.isSwitchable || !this.class) {
 				return;
 			}
-			if (isJSUI(JSUIElement)) {
+			if (isJSUI$1(JSUIElement)) {
 				JSUIElement.class(this.class).remove();
 			}
 		}
@@ -1893,7 +1893,7 @@ var StyleInline = function (_StyleRules) {
 		_this[symbol].host = host || false;
 
 		var handler = function handler() {};
-		if (isJSUI(host)) {
+		if (isJSUI$1(host)) {
 			handler = function handler(ev) {
 				if (_this[symbol].host && ev.property) {
 					_this[symbol].host.element.style[ev.property] = ev.new;
@@ -1940,7 +1940,7 @@ var StyleInline = function (_StyleRules) {
 			return this[symbol].host;
 		},
 		set: function set$$1(element) {
-			if (isJSUI(element)) {
+			if (isJSUI$1(element)) {
 				this[symbol].host = element.element;
 			}
 		}
@@ -1948,25 +1948,130 @@ var StyleInline = function (_StyleRules) {
 	return StyleInline;
 }(StyleRules);
 
+var symbol$14 = symbolish('Mixins.Behaviorlike.isInstance');
+
+var symbol$15 = symbolish('Mixins.Behaviorlike.isStatic');
+
+//Keys
+var Behaviorlike = function Behaviorlike(descendant) {
+	return function (_descendant) {
+		inherits(BehaviorlikeMixin, _descendant);
+
+		function BehaviorlikeMixin(host) {
+			classCallCheck(this, BehaviorlikeMixin);
+
+			//create hosts container
+			var _this = possibleConstructorReturn(this, (BehaviorlikeMixin.__proto__ || Object.getPrototypeOf(BehaviorlikeMixin)).call(this));
+
+			_this[symbol].hosts = {};
+			if (host) {
+				_this.attach(host);
+			}
+			return _this;
+		}
+
+		createClass(BehaviorlikeMixin, [{
+			key: 'attach',
+			value: function attach(host) {
+				var _this2 = this;
+
+				if (isJSUI(host)) {
+					var _ret = function () {
+						var id = host.uid;
+						if (_this2[symbol].hosts[id]) {
+							return {
+								v: void 0
+							};
+						}
+						_this2[symbol].hosts[id] = host;
+						var addAs = _this2.namespace;
+						if (addAs) {
+							addHiddenValue(host, addAs, _this2);
+						}
+						_this2.trigger('attach', host);
+						return {
+							v: {
+								as: function (name) {
+									delete host[addAs];
+									host[name] = this;
+								}.bind(_this2)
+							}
+						};
+					}();
+
+					if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+				}
+			}
+		}, {
+			key: 'detach',
+			value: function detach(host) {
+				var id = void 0;
+				if (isJSUI(host)) {
+					id = host.uid;
+				}
+				host = this[symbol].hosts[id];
+				delete this[symbol].hosts[id];
+				this.trigger('detach', host);
+			}
+		}, {
+			key: 'hosts',
+			value: function hosts(each) {
+				var results = [];
+				var hasTask = isFunction(each);
+				var hosts = this[symbol].hosts;
+				Object.keys(hosts).forEach(function (id) {
+					var host = hosts[id];
+					if (hasTask) {
+						each(host);
+					}
+					results.push(host);
+				});
+				return results;
+			}
+		}, {
+			key: 'destructor',
+			value: function destructor() {
+				get(BehaviorlikeMixin.prototype.__proto__ || Object.getPrototypeOf(BehaviorlikeMixin.prototype), 'destructor', this).call(this);
+			}
+		}, {
+			key: 'namespace',
+			get: function get$$1() {
+				return 'DefaultBehavior';
+			}
+		}, {
+			key: symbol$14,
+			get: function get$$1() {
+				return true;
+			}
+		}], [{
+			key: symbol$15,
+			get: function get$$1() {
+				return true;
+			}
+		}]);
+		return BehaviorlikeMixin;
+	}(descendant);
+};
+
 var identity$7 = new Identity({
 	class: 'StyleableHost',
 	major: 1, minor: 0, patch: 0
 });
 
-var StyleableHost = function (_Distinct) {
-	inherits(StyleableHost, _Distinct);
+var StyleableBehavior = function (_Behaviorlike) {
+	inherits(StyleableBehavior, _Behaviorlike);
 
-	function StyleableHost(host) {
-		classCallCheck(this, StyleableHost);
+	function StyleableBehavior(host) {
+		classCallCheck(this, StyleableBehavior);
 
-		var _this = possibleConstructorReturn(this, (StyleableHost.__proto__ || Object.getPrototypeOf(StyleableHost)).call(this));
+		var _this = possibleConstructorReturn(this, (StyleableBehavior.__proto__ || Object.getPrototypeOf(StyleableBehavior)).call(this));
 
 		_this[symbol].host = host;
 		_this.identity = identity$7;
 		return _this;
 	}
 
-	createClass(StyleableHost, [{
+	createClass(StyleableBehavior, [{
 		key: 'switch',
 		value: function _switch(style) {
 			if (isStyleSheetRule(style)) {
@@ -1980,6 +2085,11 @@ var StyleableHost = function (_Distinct) {
 
 				return action;
 			}
+		}
+	}, {
+		key: 'namespace',
+		get: function get$$1() {
+			return false;
 		}
 	}, {
 		key: 'Inline',
@@ -2017,8 +2127,8 @@ var StyleableHost = function (_Distinct) {
 			});
 		}
 	}]);
-	return StyleableHost;
-}(Distinct);
+	return StyleableBehavior;
+}(Behaviorlike(Distinct));
 
 function constructor$1() {
 	this[symbol].context = 'default';
@@ -2075,7 +2185,7 @@ var Styleable = function (_Distinct) {
 		key: 'Style',
 		get: function get$$1() {
 			if (!this[symbol].Style) {
-				this[symbol].Style = new StyleableHost(this);
+				this[symbol].Style = new StyleableBehavior(this);
 			}
 			return this[symbol].Style;
 		}
@@ -2088,90 +2198,22 @@ var identity$1 = new Identity({
 	major: 1, minor: 0, patch: 0
 });
 
-var Behavior = function (_Styleable) {
-	inherits(Behavior, _Styleable);
+var Behavior = function (_Behaviorlike) {
+	inherits(Behavior, _Behaviorlike);
 
 	function Behavior(host) {
 		classCallCheck(this, Behavior);
 
-		//create hosts container
+		//setup new props
 		var _this = possibleConstructorReturn(this, (Behavior.__proto__ || Object.getPrototypeOf(Behavior)).call(this));
 
-		_this[symbol].hosts = {};
-		if (host) {
-			_this.attach(host);
-		}
-
-		//setup new props
 		_this.identity = identity$1;
 		_this.Style.context = 'behavior';
 		return _this;
 	}
 
-	createClass(Behavior, [{
-		key: 'attach',
-		value: function attach(host) {
-			var _this2 = this;
-
-			if (isJSUI(host)) {
-				var _ret = function () {
-					var id = host.uid;
-					var addAs = _this2.identity.class;
-					if (_this2[symbol].hosts[id]) {
-						return {
-							v: void 0
-						};
-					}
-					_this2[symbol].hosts[id] = host;
-					host[addAs] = _this2;
-					_this2.trigger('attach', host);
-					return {
-						v: {
-							as: function (name) {
-								delete host[addAs];
-								host[name] = this;
-							}.bind(_this2)
-						}
-					};
-				}();
-
-				if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-			}
-		}
-	}, {
-		key: 'detach',
-		value: function detach(host) {
-			var id = void 0;
-			if (isJSUI(host)) {
-				id = host.uid;
-			}
-			host = this[symbol].hosts[id];
-			delete this[symbol].hosts[id];
-			this.trigger('detach', host);
-		}
-	}, {
-		key: 'hosts',
-		value: function hosts(each) {
-			var results = [];
-			var hasTask = isFunction(each);
-			var hosts = this[symbol].hosts;
-			Object.keys(hosts).forEach(function (id) {
-				var host = hosts[id];
-				if (hasTask) {
-					each(host);
-				}
-				results.push(host);
-			});
-			return results;
-		}
-	}, {
-		key: 'destructor',
-		value: function destructor() {
-			get(Behavior.prototype.__proto__ || Object.getPrototypeOf(Behavior.prototype), 'destructor', this).call(this);
-		}
-	}]);
 	return Behavior;
-}(Styleable);
+}(Behaviorlike(Styleable));
 
 function isBehavior(u) {
 	return u instanceof Behavior;
@@ -2182,7 +2224,7 @@ var types$1 = {
 		null: isNull,
 		array: isArray,
 		element: isElement,
-		jsui: isJSUI,
+		jsui: isJSUI$1,
 		regex: isRegex,
 		behavior: isBehavior
 	},
@@ -2297,7 +2339,7 @@ function _string$1(command, args) {
 	var results = new Collection$1();
 	this.forEach(function (item) {
 		var method = item[command];
-		if (isFunction(method) || isJSUIFunction(method)) {
+		if (isFunction$1(method) || isJSUIFunction(method)) {
 			results.push({
 				item: item,
 				value: method.apply(item, args)
@@ -2357,7 +2399,7 @@ function _path(command, args) {
 			return;
 		}
 		var method = path.context[path.property];
-		if (isFunction(method)) {
+		if (isFunction$1(method)) {
 			var value = isArray(args) ? method.apply(path.context, args) : method.call(path.context, args);
 			results.push({ item: item, value: value });
 		}
@@ -2511,7 +2553,7 @@ var Collection$1 = function (_native) {
 		key: 'where',
 		value: function where(selector) {
 			var receipt = new CollectionWhereReceipt();
-			if (!isFunction(selector)) {
+			if (!isFunction$1(selector)) {
 				return receipt;
 			}
 			for (var i = this.length - 1; i >= 0; i--) {
@@ -2847,7 +2889,7 @@ function _object$2(macro) {
 }
 
 function _string$8(command, args) {
-	if (isFunction(this[command])) {
+	if (isFunction$1(this[command])) {
 		if (isArray(args)) {
 			return this[command].apply(this, args);
 		}
@@ -2861,7 +2903,7 @@ function _path$7(command, args) {
 		return;
 	}
 	var method = path.context[path.property];
-	if (isFunction(method)) {
+	if (isFunction$1(method)) {
 		if (isArray(args)) {
 			return method.apply(path.context, args);
 		}
@@ -2986,7 +3028,7 @@ var Text = {
 
 function placeholder() {}
 function nodeAttributes(node, callback) {
-	if (!isFunction(callback)) {
+	if (!isFunction$1(callback)) {
 		callback = placeholder;
 	}
 	if (!isElement(node)) {
@@ -3212,9 +3254,9 @@ var Class = {
 	undefined: _undefined$4
 };
 
-var symbol$14 = symbolOrString('on');
+var symbol$16 = symbolish('on');
 
-var symbol$15 = symbolOrString('trigger');
+var symbol$17 = symbolish('trigger');
 
 function getTagName(el) {
 	if (isElement(el)) {
@@ -3284,14 +3326,14 @@ var Element$1 = function (_Styleable) {
 	}
 
 	createClass(Element, [{
-		key: symbol$14,
+		key: symbol$16,
 		value: function value(event, method) {
 			var type = getHandledType(event);
 			var action = On[type];
 			return (action || unhandled).call(this, event, method);
 		}
 	}, {
-		key: symbol$15,
+		key: symbol$17,
 		value: function value(event, args) {
 			var type = getHandledType(event);
 			var action = Trigger[type];
@@ -3321,12 +3363,12 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'on',
 		value: function on() {
-			return this[symbol$14].apply(this, arguments);
+			return this[symbol$16].apply(this, arguments);
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger() {
-			return this[symbol$15].apply(this, arguments);
+			return this[symbol$17].apply(this, arguments);
 		}
 	}, {
 		key: 'find',
@@ -3413,9 +3455,9 @@ var Element$1 = function (_Styleable) {
 			var _private = this[symbol];
 			if (_element) {
 				var parent = _element.parentNode;
-				if (isFunction(_element.remove)) {
+				if (isFunction$1(_element.remove)) {
 					_element.remove();
-				} else if (parent && isFunction(parent.removeChild)) {
+				} else if (parent && isFunction$1(parent.removeChild)) {
 					parent.removeChild(_element);
 				}
 			}
@@ -3444,7 +3486,7 @@ var Element$1 = function (_Styleable) {
 					if (!child) {
 						return;
 					}
-					if (isFunction(child.remove)) {
+					if (isFunction$1(child.remove)) {
 						child.remove();
 					}
 					delete _children[key];
@@ -3478,7 +3520,7 @@ var Element$1 = function (_Styleable) {
 	return Element;
 }(Styleable);
 
-function isJSUI(u) {
+function isJSUI$1(u) {
 	return u instanceof Element$1;
 }
 
@@ -3497,19 +3539,7 @@ function isTextNode(u) {
 	return !!(u && u.nodeName === "#text");
 }
 
-var symbol$16 = symbolOrString('uid');
-
-function constructor$2() {
-	var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-	addHiddenValue(this, symbol, {
-		events: {},
-		dispatchers: {},
-		state: values
-	});
-	addHiddenValue(this, symbol$16, uid());
-}
-
+//symbols
 //classes
 //mixins
 var Data = function (_ExtensibleMixin) {
@@ -3520,7 +3550,7 @@ var Data = function (_ExtensibleMixin) {
 
 		var _this = possibleConstructorReturn(this, (Data.__proto__ || Object.getPrototypeOf(Data)).call(this));
 
-		constructor$2.call(_this, values);
+		_this[symbol].state = values;
 		return _this;
 	}
 
@@ -3535,19 +3565,19 @@ function isUData(u) {
 	return isUStyleSheetRule$1(u, Data);
 }
 
-var symbol$17 = symbolOrString('Mixins.Extensible.isInstance');
+var symbol$18 = symbolish('Mixins.Extensible.isInstance');
 
 function isExtensible(u) {
-	return !!u[symbol$17];
+	return !!u[symbol$18];
 }
 
 var TypeChecks = {
 	isArray: isArray,
 	isElement: isElement,
 	isEmptyString: isEmptyString,
-	isFunction: isFunction,
+	isFunction: isFunction$1,
 	isHTML: isHTML,
-	isJSUI: isJSUI,
+	isJSUI: isJSUI$1,
 	isNativeTag: isNativeTag,
 	isNull: isNull,
 	isNumber: isNumber,
@@ -6218,27 +6248,29 @@ function isRelationshipBindingReceipt(u) {
 	return u instanceof RelationshipBindingReceipt;
 }
 
-var symbol$18 = symbolOrString('BindReceipt.on');
+var symbol$19 = symbolish('BindReceipt.on');
 
-var symbol$19 = symbolOrString('BindReceipt.on');
+var symbol$20 = symbolish('BindReceipt.on');
 
-var symbol$20 = symbolOrString('BindReceipt.normalize');
+var symbol$21 = symbolish('BindReceipt.normalize');
 
-var symbol$21 = symbolOrString('BindReceipt.remove');
+var symbol$22 = symbolish('BindReceipt.remove');
 
-var symbol$22 = symbolOrString('BindReceipt.removeAll');
+var symbol$23 = symbolish('BindReceipt.removeAll');
 
 function isStateChangeReceipt(u) {
 	return u instanceof StateChangeReceipt;
 }
 
+var symbol$24 = symbolish('uid');
+
 var graph = {}; //prevent infinite loops
 
 function getUID(obj) {
-	var id = obj.uid || obj[symbol$16] || (obj[symbol] ? $obj[symbol].uid : false) || (obj[symbol] ? $obj[symbol][symbol$16] : false);
+	var id = obj.uid || obj[symbol$24] || (obj[symbol] ? $obj[symbol].uid : false) || (obj[symbol] ? $obj[symbol][symbol$24] : false);
 	if (!id) {
 		id = uid();
-		addHiddenValue(obj, symbol$16, id);
+		addHiddenValue(obj, symbol$24, id);
 	}
 	return id;
 }
@@ -6293,7 +6325,7 @@ var actions = {
 		if (!isClosed(objA, objB)) {
 			return;
 		}
-		if (!isFunction(objA[propA])) {
+		if (!isFunction$1(objA[propA])) {
 			return;
 		}
 
@@ -6305,7 +6337,7 @@ var actions = {
 		if (!isClosed(objA, objB)) {
 			return;
 		}
-		if (!isFunction(objB[propB])) {
+		if (!isFunction$1(objB[propB])) {
 			return;
 		}
 
@@ -6317,7 +6349,7 @@ var actions = {
 		if (!isClosed(objA, objB)) {
 			return;
 		}
-		if (!isFunction(objB[propB])) {
+		if (!isFunction$1(objB[propB])) {
 			return;
 		}
 
@@ -6329,7 +6361,7 @@ var actions = {
 		if (!isClosed(objA, objB)) {
 			return;
 		}
-		if (!isFunction(objA[propA])) {
+		if (!isFunction$1(objA[propA])) {
 			return;
 		}
 
@@ -6341,7 +6373,7 @@ var actions = {
 		if (!isClosed(objA, objB)) {
 			return;
 		}
-		if (!isFunction(objA[propA]) || !isFunction(objB[propB])) {
+		if (!isFunction$1(objA[propA]) || !isFunction$1(objB[propB])) {
 			return;
 		}
 
@@ -6353,7 +6385,7 @@ var actions = {
 		if (!isClosed(objA, objB)) {
 			return;
 		}
-		if (!isFunction(objA[propA]) || !isFunction(objB[propB])) {
+		if (!isFunction$1(objA[propA]) || !isFunction$1(objB[propB])) {
 			return;
 		}
 
@@ -6369,20 +6401,20 @@ var none = function none(v) {
 
 function extensibleToExtensible(receipt, event, bind, arrow, to) {
 	var _private = receipt[symbol];
-	var action = isFunction(actions[arrow]) ? actions[arrow] : false;
+	var action = isFunction$1(actions[arrow]) ? actions[arrow] : false;
 	if (!action) {
 		return false;
 	}
 
 	//create the relationship
-	var elementHandle = _private.subject[symbol$14](event, function (e) {
+	var elementHandle = _private.subject[symbol$16](event, function (e) {
 		var normalizer = binding.normalizer;
 		var data = e && isStateChangeReceipt(e.detail) ? e.detail.new : e;
 		action(_private.subject, bind, _private.to, to, data, normalizer);
 	});
 
 	//destroy the relationship if either one dies
-	var elementHandleDestroyer = _private.subject[symbol$14]('destructed', function (e) {
+	var elementHandleDestroyer = _private.subject[symbol$16]('destructed', function (e) {
 		elementHandle.remove();
 	});
 
@@ -6418,7 +6450,7 @@ var Types$1 = Object.create(types$1);
 extend(Types$1).with({
 	object: {
 		data: isData,
-		jsui: isJSUI,
+		jsui: isJSUI$1,
 		extensible: isExtensible
 	}
 });
@@ -6445,25 +6477,25 @@ var BindReceipt = function (_Enableable) {
 		_this[symbol].subject = subject;
 
 		if (subject) {
-			_this.to = _this[symbol$18];
+			_this.to = _this[symbol$19];
 		}
 		return _this;
 	}
 
 	createClass(BindReceipt, [{
-		key: symbol$18,
+		key: symbol$19,
 		value: function value(subject) {
 			var to = this[symbol].to;
 			if (!to) {
 				this[symbol].to = subject;
-				this.on = this[symbol$19];
-				this.normalize = this[symbol$20];
+				this.on = this[symbol$20];
+				this.normalize = this[symbol$21];
 				delete this.to;
 			}
 			return this;
 		}
 	}, {
-		key: symbol$19,
+		key: symbol$20,
 		value: function value(events) {
 			var _this2 = this;
 
@@ -6489,14 +6521,14 @@ var BindReceipt = function (_Enableable) {
 					}
 				});
 				delete this.on;
-				this.remove = this[symbol$21];
-				this.removeAll = this[symbol$22];
+				this.remove = this[symbol$22];
+				this.removeAll = this[symbol$23];
 			}
 
 			return this;
 		}
 	}, {
-		key: symbol$20,
+		key: symbol$21,
 		value: function value(rules) {
 			var _this3 = this;
 
@@ -6507,7 +6539,7 @@ var BindReceipt = function (_Enableable) {
 						Object.keys(relationships$$1).forEach(function (relationship) {
 							var normalizer = relationships$$1[relationship];
 							var key = event + ': ' + relationship;
-							if (isFunction(normalizer) || isJSUIFunction(normalizer)) {
+							if (isFunction$1(normalizer) || isJSUIFunction(normalizer)) {
 								var handle = _this3[symbol].Handles.byName[key];
 								if (handle) {
 									handle.normalizer = normalizer;
@@ -6521,13 +6553,13 @@ var BindReceipt = function (_Enableable) {
 			return this;
 		}
 	}, {
-		key: symbol$21,
+		key: symbol$22,
 		value: function value(handle) {
 			var _this4 = this;
 
 			if (isArray(handle)) {
 				return handle.forEach(function (h) {
-					_this4[symbol$21](h);
+					_this4[symbol$22](h);
 				});
 			}
 			var success = false;
@@ -6546,11 +6578,11 @@ var BindReceipt = function (_Enableable) {
 			return success;
 		}
 	}, {
-		key: symbol$22,
+		key: symbol$23,
 		value: function value() {
 
 			var Handles = this[symbol].Handles;
-			this[symbol$21](Object.values(Handles.byID));
+			this[symbol$22](Object.values(Handles.byID));
 		}
 	}, {
 		key: 'uid',
@@ -6622,7 +6654,7 @@ var Relationship = function (_Enableable) {
 			if (isString(binding)) {
 				binding = this[symbol].bindings[binding];
 			}
-			if (binding && isFunction(binding.remove)) {
+			if (binding && isFunction$1(binding.remove)) {
 				delete this[symbol].bindings[binding.uid];
 				binding.removeAll();
 			}
@@ -6640,25 +6672,6 @@ var Relationship = function (_Enableable) {
 	}]);
 	return Relationship;
 }(Enableable(Base));
-
-//Keys
-//mixins
-var DataHandle = function (_Extensible) {
-	inherits(DataHandle, _Extensible);
-
-	function DataHandle(data) {
-		classCallCheck(this, DataHandle);
-
-		var _this = possibleConstructorReturn(this, (DataHandle.__proto__ || Object.getPrototypeOf(DataHandle)).call(this));
-
-		if (isData(data)) {
-			_this[symbol] = data[symbol];
-		}
-		return _this;
-	}
-
-	return DataHandle;
-}(Extensible$2);
 
 var identity$125 = new Identity({
 	class: 'Application',
@@ -6773,21 +6786,21 @@ var Page = function (_Routable) {
 	return Page;
 }(Routable(Main));
 
-var RoutableFunction = function (_Routable) {
-	inherits(RoutableFunction, _Routable);
+var Endpoint = function (_Routable) {
+	inherits(Endpoint, _Routable);
 
-	function RoutableFunction() {
-		classCallCheck(this, RoutableFunction);
-		return possibleConstructorReturn(this, (RoutableFunction.__proto__ || Object.getPrototypeOf(RoutableFunction)).apply(this, arguments));
+	function Endpoint() {
+		classCallCheck(this, Endpoint);
+		return possibleConstructorReturn(this, (Endpoint.__proto__ || Object.getPrototypeOf(Endpoint)).apply(this, arguments));
 	}
 
-	createClass(RoutableFunction, [{
+	createClass(Endpoint, [{
 		key: 'onRouteTraversed',
 		value: function onRouteTraversed() {
 			this.execute();
 		}
 	}]);
-	return RoutableFunction;
+	return Endpoint;
 }(Routable(JSUIFunction));
 
 var Classes = {
@@ -6812,13 +6825,12 @@ var Classes = {
 	Function: JSUIFunction,
 	Relationship: Relationship,
 	BindReceipt: BindReceipt,
-	DataHandle: DataHandle,
 	Application: Application,
 	Role: Role,
 	Feature: Feature,
 	Page: Page,
 	Router: Router$1,
-	RoutableFunction: RoutableFunction
+	Endpoint: Endpoint
 };
 
 //Keys
@@ -6838,16 +6850,16 @@ var Constants = {
 			remove: symbol$11
 		},
 		BindReceipt: {
-			normalize: symbol$20,
-			on: symbol$19,
-			to: symbol$18
+			normalize: symbol$21,
+			on: symbol$20,
+			to: symbol$19
 		},
 		General: {
-			on: symbol$14,
+			on: symbol$16,
 			private: symbol,
 			state: symbol$6,
-			trigger: symbol$15,
-			uid: symbol$16,
+			trigger: symbol$17,
+			uid: symbol$24,
 			destructor: symbol$7
 		}
 	}
@@ -6861,7 +6873,7 @@ var Singletons = {
 
 function placeholder$1() {}
 function childNodes(node, callback) {
-	if (!isFunction(callback)) {
+	if (!isFunction$1(callback)) {
 		callback = placeholder$1;
 	}
 	if (!isElement(node)) {
@@ -6908,7 +6920,7 @@ function getTextNodes(el, stopAtFirst) {
 
 function doOrSet(obj, prop, value) {
 	if (obj.hasOwnProperty(prop)) {
-		if (isFunction(obj[prop])) {
+		if (isFunction$1(obj[prop])) {
 			obj[prop].apply(obj, value);
 			return true;
 		}
@@ -6936,13 +6948,6 @@ function capitalize(text) {
 	return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-function handle(data) {
-	if (!isData(data)) {
-		return;
-	}
-	return new DataHandle(data);
-}
-
 //Elements
 //Events
 //Functions
@@ -6951,7 +6956,6 @@ function handle(data) {
 //Properties
 //Strings
 //Objects
-//Data
 var Utilities = {
 	Elements: {
 		addClass: addClass,
@@ -6992,9 +6996,6 @@ var Utilities = {
 	},
 	Objects: {
 		extend: extend
-	},
-	Data: {
-		handle: handle
 	}
 };
 
@@ -7008,110 +7009,8 @@ function feval(code) {
 	return new Function(code)();
 }
 
-/*
-	Code Pulled/Modified From: http://stackoverflow.com/questions/19669849/is-there-a-javascript-library-to-slugify-strings-into-valid-css-class-names
-	Answer By: sqykly
-*/
-function cleanName(dirty) {
-    var cleaned = dirty.replace(/^[^-_a-zA-Z]+/, '_').replace(/^-(?:[-0-9]+)/, '_');
-    var result = cleaned && cleaned.replace(/[^-_a-zA-Z0-9]+/g, '_');
-    return result;
-}
-
-function subconstructor(name, namespace, Subclasses) {
-	var self = this;
-	Object.defineProperty(this, '$name', {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: '' + name
-	});
-	Object.defineProperty(this, '$uid', {
-		configurable: true,
-		enumerable: false,
-		writable: true,
-		value: '' + namespace
-	});
-	Object.keys(Subclasses).forEach(function (key) {
-		var subclass = new Subclasses[key]();
-		Object.defineProperty(subclass, '$parent', {
-			configurable: true,
-			enumerable: false,
-			writable: true,
-			value: self
-		});
-		self[key] = subclass;
-		subclass.$on('Changed', function (e) {
-			e.name = self.$name;
-			e.namespace = self.$namespace;
-			self.$trigger('Changed', e);
-		});
-	});
-}
-
-function create(name, json, namespace) {
-	name = cleanName(name);
-	namespace = namespace || name;
-	var Subclasses = {};
-	var src = '\n\t\treturn (function(name, namespace, structure, Data, Subclasses, constructor, subconstructor) {\n\t\t\tfunction ' + name + '() {\n\t\t\t\tconstructor.call(this);\n\t\t\t\tsubconstructor.call(this, name, namespace, Subclasses);\n\t\t\t}\n\t\t\t' + name + '.prototype = Object.create(Data.prototype);\n\t\t\t' + name + '.constructor = ' + name + ';\n\t\t\t' + name + '.prototype.toJSON = function toJSON() {\n\t\t\t\tlet self = this;\n\t\t\t\tlet copy = {};\n\t\t\t\tObject.keys(structure).forEach(function(key) {\n\t\t\t\t\tcopy[key] = self[key];\n\t\t\t\t});\n\t\t\t\treturn copy;\n\t\t\t};\n\t\t\treturn ' + name + ';\n\t\t})\n\t';
-	var DataClass = feval.call(window, src)(name, namespace, json, Data, Subclasses, constructor$2, subconstructor);
-	Object.keys(json).forEach(function (key) {
-		var value = json[key];
-		if (isObject(value)) {
-			Subclasses[key] = create(key, value, name + '.' + key);
-			return;
-		}
-		Object.defineProperty(DataClass.prototype, key, {
-			get: function get() {
-				var state = this.$private.state;
-				if (!state.hasOwnProperty(key)) {
-					return value;
-				}
-				return this.$private.state[key];
-			},
-			set: function set(v) {
-				var state = this.$private.state;
-				if (state) {
-					var old = state[key];
-					state[key] = v;
-					if (old !== v) {
-
-						var data = new StateChangeReceipt({
-							owner: this,
-							property: key,
-							old: old,
-							new: v
-						});
-
-						var trigger = state.$trigger;
-						if (!trigger) {
-							trigger = this.$trigger.bind(this);
-							state.$trigger = trigger;
-						}
-
-						if (trigger) {
-							trigger([key + 'Changed', 'Changed'], data);
-						}
-					}
-					return;
-				}
-			},
-			configurable: true,
-			enumerable: true
-		});
-	});
-	return DataClass;
-}
-
 var Reflection = {
-	Data: {
-		create: create
-	},
 	feval: feval
-};
-
-var Data$2 = {
-	fromJSON: create
 };
 
 var JSUI = {
@@ -7133,8 +7032,7 @@ var JSUI = {
 	TypeChecks: TypeChecks,
 	Utilities: Utilities,
 	Sorts: Sorts,
-	Reflection: Reflection,
-	Data: Data$2
+	Reflection: Reflection
 };
 
 window.JSUI = JSUI;

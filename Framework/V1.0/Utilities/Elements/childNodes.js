@@ -1,6 +1,6 @@
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isElement from '/Framework/V1.0/TypeChecks/isElement';
-import Collection from '/Framework/V1.0/Classes/Collection';
+import Collection from '/Framework/V1.0/Classes/Core/Collection';
 
 function placeholder(){}
 export default function childNodes(node, callback) {

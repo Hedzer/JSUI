@@ -1,8 +1,8 @@
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isElement from '/Framework/V1.0/TypeChecks/isElement';
 import dispatch from '/Framework/V1.0/Utilities/Events/dispatch';
-import OnEventBoundReceipt from '/Framework/V1.0/Classes/OnEventBoundReceipt';
-import JSUIFunction from '/Framework/V1.0/Classes/JSUIFunction';
+import OnEventBoundReceipt from '/Framework/V1.0/Classes/Receipts/OnEventBound';
+import JSUIFunction from '/Framework/V1.0/Classes/Core/Function';
 
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 

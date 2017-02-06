@@ -1,5 +1,5 @@
 import isTextNode from '/Framework/V1.0/TypeChecks/isTextNode';
-import Collection from '/Framework/V1.0/Classes/Collection';
+import Collection from '/Framework/V1.0/Classes/Core/Collection';
 
 export default function getTextNodes(el, stopAtFirst){
 	let nodes = new Collection();

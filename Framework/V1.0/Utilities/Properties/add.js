@@ -1,5 +1,5 @@
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import StateChangeReceipt from '/Framework/V1.0/Classes/StateChangeReceipt';
+import StateChangeReceipt from '/Framework/V1.0/Classes/Receipts/StateChange';
 
 export default function add(host, name, defaultValue){
 	Object.defineProperty(host, name, {
