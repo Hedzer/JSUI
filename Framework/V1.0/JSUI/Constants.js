@@ -10,8 +10,8 @@ import state from '/Framework/V1.0/Constants/Keys/General/state';
 import uid from '/Framework/V1.0/Constants/Keys/General/uid';
 import destructor from '/Framework/V1.0/Constants/Keys/General/destructor';
 
-import extensibleOn from '/Framework/V1.0/Constants/Keys/Extensible/on';
-import extensibleTrigger from '/Framework/V1.0/Constants/Keys/Extensible/trigger';
+import eventfulOn from '/Framework/V1.0/Constants/Keys/Eventful/on';
+import eventfulTrigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
 import extensibleAdd from '/Framework/V1.0/Constants/Keys/Extensible/add';
 import extensibleRemove from '/Framework/V1.0/Constants/Keys/Extensible/remove';
 
@@ -29,8 +29,8 @@ let Constants = {
 	},
 	Keys: {
 		Extensible: {
-			on: extensibleOn,
-			trigger: extensibleTrigger,
+			on: eventfulOn,
+			trigger: eventfulTrigger,
 			add: extensibleAdd,
 			remove: extensibleRemove,
 		},

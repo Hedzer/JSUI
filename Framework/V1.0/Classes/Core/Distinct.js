@@ -2,7 +2,6 @@ import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import Identity from '/Framework/V1.0/Classes/Core/Identity';
 import Extensible from '/Framework/V1.0/Classes/Core/Extensible';
 import uid from '/Framework/V1.0/Utilities/General/uid';
-import constructor from '/Framework/V1.0/Classes/Core/Distinct/constructor';
 
 const identity = new Identity({
 	class: 'Distinct',
@@ -12,7 +11,8 @@ const identity = new Identity({
 export default class Distinct extends Extensible {
 	constructor() {
 		super();
-		constructor.call(this);
+		this[$private].uid = uid();
+		this[$private].Is = {};
 		this.identity = identity;
 	}
 	get uid() {

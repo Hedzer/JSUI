@@ -2,7 +2,7 @@ import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isStateChangeReceipt from '/Framework/V1.0/TypeChecks/isStateChangeReceipt';
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import on from '/Framework/V1.0/Constants/Keys/General/on';
-import extensibleOn from '/Framework/V1.0/Constants/Keys/Extensible/on';
+import eventfulOn from '/Framework/V1.0/Constants/Keys/Eventful/on';
 import actions from '/Framework/V1.0/Classes/Receipts/Bind/actions';
 import RelationshipBindingReceipt from '/Framework/V1.0/Classes/Receipts/RelationshipBinding';
 let none = function(v){ return v; };
@@ -24,7 +24,7 @@ export default function extensibleToExtensible(receipt, event, bind, arrow, to) 
 		elementHandle.remove();
 	});
 
-	let dataHandleDestroyer = _private.to[extensibleOn]('destructed', function(e) {
+	let dataHandleDestroyer = _private.to[eventfulOn]('destructed', function(e) {
 		elementHandle.remove();
 	});
 

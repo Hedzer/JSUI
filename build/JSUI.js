@@ -258,7 +258,7 @@ function isFunction$1(u) {
 	return typeof u === 'function';
 }
 
-function isUndefined(u) {
+function isUndefined$1(u) {
 	return typeof u === 'undefined';
 }
 
@@ -426,7 +426,7 @@ var JSUIFunction = function (_Enableable) {
 			var trlTime = this[symbol].throttle;
 			modified = isBoolean(dbcTime) ? modified : debounce(modified, dbcTime);
 			modified = isBoolean(trlTime) ? modified : throttle(modified, trlTime);
-			modified = isUndefined(this.context) ? modified : modified.bind(this.context);
+			modified = isUndefined$1(this.context) ? modified : modified.bind(this.context);
 			this[symbol].modified = modified;
 			return modified;
 		}
@@ -498,6 +498,12 @@ function isJSUIFunction(u) {
 
 function isExecutable(method) {
 	return isFunction$1(method) || isJSUIFunction(method);
+}
+
+var symbol$6 = symbolish('Mixins.Extensible.isStatic');
+
+function isUExtensible(u) {
+	return !!u[symbol$6];
 }
 
 function isElement(u) {
@@ -691,25 +697,27 @@ var StateChangeReceipt = function (_Receipt) {
 	return StateChangeReceipt;
 }(Receipt);
 
-var symbol$6 = symbolish('Extensible.state');
+var symbol$7 = symbolish('Extensible.state');
 
-var symbol$7 = symbolish('destructor');
+var symbol$8 = symbolish('destructor');
 
-var symbol$8 = symbolish('Extensible.on');
+var symbol$9 = symbolish('Extensible.add');
 
-var symbol$9 = symbolish('Extensible.trigger');
+var symbol$10 = symbolish('Extensible.remove');
 
-var symbol$10 = symbolish('Extensible.add');
+var symbol$11 = symbolish('Extensible.on');
 
-var symbol$11 = symbolish('Extensible.remove');
+var symbol$12 = symbolish('Extensible.trigger');
 
-var symbol$12 = symbolish('Mixins.Routable.isInstance');
-
-var symbol$13 = symbolish('Mixins.Routable.isStatic');
+var symbol$13 = symbolish('Mixins.Extensible.isInstance');
 
 //Keys
-var Extensible$1 = function Extensible(descendant) {
-	return function (_descendant) {
+var Extensible = function Extensible(descendant) {
+	if (!isUExtensible(descendant)) {
+		//throw warning
+	}
+
+	var ExtensibleMixin = function (_descendant) {
 		inherits(ExtensibleMixin, _descendant);
 
 		function ExtensibleMixin() {
@@ -726,7 +734,7 @@ var Extensible$1 = function Extensible(descendant) {
 		}
 
 		createClass(ExtensibleMixin, [{
-			key: symbol$6,
+			key: symbol$7,
 			value: function value(property, _value) {
 
 				var old = this[symbol].state[property];
@@ -744,53 +752,15 @@ var Extensible$1 = function Extensible(descendant) {
 						old: old,
 						new: _value
 					});
-					this[symbol$9]([property + 'Changed', 'Changed'], data);
+					this[symbol$12]([property + 'Changed', 'Changed'], data);
 				}
 
 				return hasChanged;
 			}
 		}, {
-			key: symbol$8,
-			value: function value(name, method) {
-				if (isString(name) && isFunction$1(method)) {
-					return on.call(this, name, method);
-				}
-			}
-		}, {
 			key: symbol$9,
-			value: function value(event, args) {
-				var _this2 = this;
-
-				if (isArray(event)) {
-					var _ret = function () {
-						var results = [];
-						event.forEach(function (e) {
-							results.push(_this2[symbol$9](e, args));
-						});
-						return {
-							v: results
-						};
-					}();
-
-					if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-				}
-
-				var dispatchers = this[symbol].dispatchers;
-				var dispatcher = dispatchers[event];
-
-				if (isExecutable(dispatcher)) {
-					dispatcher.call(this, args);
-				}
-
-				var native = this[event];
-				if (isExecutable(native)) {
-					native.call(this, args);
-				}
-			}
-		}, {
-			key: symbol$10,
 			value: function value(item, _value2) {
-				var _this3 = this;
+				var _this2 = this;
 
 				if (isString(item)) {
 					addProperty(this, item);
@@ -799,21 +769,21 @@ var Extensible$1 = function Extensible(descendant) {
 
 				if (isArray(item)) {
 					item.forEach(function (key) {
-						_this3.add(key, _value2);
+						_this2.add(key, _value2);
 					});
 					return;
 				}
 
 				if (isObject(item)) {
 					Object.keys(item).forEach(function (key) {
-						_this3.add(key, item[key]);
+						_this2.add(key, item[key]);
 					});
 				}
 			}
 		}, {
-			key: symbol$11,
+			key: symbol$10,
 			value: function value(item) {
-				var _this4 = this;
+				var _this3 = this;
 
 				if (isString(item)) {
 					delete this[item];
@@ -822,28 +792,28 @@ var Extensible$1 = function Extensible(descendant) {
 
 				if (isArray(item)) {
 					item.forEach(function (value) {
-						_this4.remove(value);
+						_this3.remove(value);
 					});
 				}
 			}
 		}, {
-			key: symbol$7,
+			key: symbol$8,
 			value: function value() {
-				var _this5 = this;
+				var _this4 = this;
 
 				var handle = setTimeout(function () {
 					//destory these keys
-					Object.keys(_this5).forEach(function (key) {
-						delete _this5[key];
+					Object.keys(_this4).forEach(function (key) {
+						delete _this4[key];
 					});
 
 					//destroy private data
-					var $private = _this5[$private];
+					var $private = _this4[$private];
 					Object.keys($private).forEach(function (key) {
 						delete $private[key];
 					});
 				}, 0);
-				this[symbol$9]('destructed');
+				this[symbol$12]('destructed');
 				return handle;
 			}
 		}, {
@@ -852,26 +822,51 @@ var Extensible$1 = function Extensible(descendant) {
 				return this[symbol].state;
 			}
 		}, {
-			key: symbol$12,
+			key: symbol$13,
 			get: function get$$1() {
 				return true;
 			}
 		}], [{
-			key: symbol$13,
+			key: 'add',
+			value: function add(property, value) {
+				if (isString(property)) {
+					Object.defineProperty(this.prototype, property, {
+						get: function get$$1() {
+							var v = this[symbol$7](property);
+							return isUndefined(v) ? value : v;
+						},
+						set: function set$$1(v) {
+							this[symbol$7](property, v);
+						},
+						configurable: true,
+						enumerable: true
+					});
+				}
+			}
+		}, {
+			key: symbol$6,
 			get: function get$$1() {
 				return true;
 			}
 		}]);
 		return ExtensibleMixin;
 	}(descendant);
+
+	
+
+	return ExtensibleMixin;
 };
 
+var symbol$14 = symbolish('Mixins.Routable.isInstance');
+
 function isRoutable(u) {
-	return !!u[symbol$12];
+	return !!u[symbol$14];
 }
 
+var symbol$15 = symbolish('Mixins.Routable.isStatic');
+
 function isRoutable$1(u) {
-	return !!u[symbol$13];
+	return !!u[symbol$15];
 }
 
 function getHashRoutes(url) {
@@ -1072,7 +1067,7 @@ var Routable = function Routable(descendant) {
 			key: 'add',
 			value: function add(routable) {
 				if (isRoutable(routable) || isRoutable$1(routable)) {
-					var subroutes = this[symbol$6]('subroutes');
+					var subroutes = this[symbol$7]('subroutes');
 					//if a route already exists with this name throw an error
 					subroutes[routable.route] = routable;
 				}
@@ -1097,11 +1092,11 @@ var Routable = function Routable(descendant) {
 		}, {
 			key: 'route',
 			get: function get$$1() {
-				return this[symbol$6]('route');
+				return this[symbol$7]('route');
 			},
 			set: function set$$1(route) {
 				var old = this.route;
-				if (this[symbol$6]('route', route)) {
+				if (this[symbol$7]('route', route)) {
 					if (this.isRootRoute) {
 						router.remove(old);
 						router.add(route);
@@ -1111,15 +1106,15 @@ var Routable = function Routable(descendant) {
 		}, {
 			key: 'subroutes',
 			get: function get$$1() {
-				return this[symbol$6]('subroutes');
+				return this[symbol$7]('subroutes');
 			}
 		}, {
 			key: 'isRootRoute',
 			get: function get$$1() {
-				return this[symbol$6]('isRootRoute');
+				return this[symbol$7]('isRootRoute');
 			},
 			set: function set$$1(bool) {
-				if (this[symbol$6]('isRootRoute', bool)) {
+				if (this[symbol$7]('isRootRoute', bool)) {
 					if (bool) {
 						router.add(this.route);
 						return;
@@ -1128,7 +1123,7 @@ var Routable = function Routable(descendant) {
 				}
 			}
 		}, {
-			key: symbol$12,
+			key: symbol$14,
 			get: function get$$1() {
 				return true;
 			}
@@ -1143,7 +1138,7 @@ var Routable = function Routable(descendant) {
 				return 'route';
 			}
 		}, {
-			key: symbol$13,
+			key: symbol$15,
 			get: function get$$1() {
 				return true;
 			}
@@ -1154,7 +1149,7 @@ var Routable = function Routable(descendant) {
 
 var Mixins = {
 	Privatelike: Privatelike,
-	Extensible: Extensible$1,
+	Extensible: Extensible,
 	Enableable: Enableable,
 	Routable: Routable
 };
@@ -1297,46 +1292,130 @@ for (var key in example.style) {
 	_loop(key);
 }
 
+var symbol$16 = symbolish('Mixins.Eventful.isInstance');
+
+var symbol$18 = symbolish('Mixins.Eventful.isStatic');
+
+//typechecks
+//keys
+var Eventful$2 = function Eventful(descendant) {
+	var EventfulMixin = function (_descendant) {
+		inherits(EventfulMixin, _descendant);
+
+		function EventfulMixin() {
+			classCallCheck(this, EventfulMixin);
+
+			var _this = possibleConstructorReturn(this, (EventfulMixin.__proto__ || Object.getPrototypeOf(EventfulMixin)).call(this));
+
+			_this[symbol] = {
+				events: {},
+				dispatchers: {}
+			};
+			return _this;
+		}
+
+		createClass(EventfulMixin, [{
+			key: symbol$11,
+			value: function value(name, method) {
+				if (isString(name) && isFunction$1(method)) {
+					return on.call(this, name, method);
+				}
+			}
+		}, {
+			key: symbol$12,
+			value: function value(event, args) {
+				var _this2 = this;
+
+				if (isArray(event)) {
+					var _ret = function () {
+						var results = [];
+						event.forEach(function (e) {
+							results.push(_this2[symbol$12](e, args));
+						});
+						return {
+							v: results
+						};
+					}();
+
+					if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+				}
+
+				var dispatchers = this[symbol].dispatchers;
+				var dispatcher = dispatchers[event];
+
+				if (isExecutable(dispatcher)) {
+					dispatcher.call(this, args);
+				}
+
+				var native = this[event];
+				if (isExecutable(native)) {
+					native.call(this, args);
+				}
+			}
+		}]);
+		return EventfulMixin;
+	}(descendant);
+
+	
+
+	return EventfulMixin;
+};
+
 //Keys
 //classes
 //mixins
-var Extensible$2 = function (_ExtensibleMixin) {
-	inherits(Extensible, _ExtensibleMixin);
+var Eventful = function (_EventfulMixin) {
+	inherits(Eventful, _EventfulMixin);
 
-	function Extensible() {
-		classCallCheck(this, Extensible);
-		return possibleConstructorReturn(this, (Extensible.__proto__ || Object.getPrototypeOf(Extensible)).apply(this, arguments));
+	function Eventful() {
+		classCallCheck(this, Eventful);
+		return possibleConstructorReturn(this, (Eventful.__proto__ || Object.getPrototypeOf(Eventful)).apply(this, arguments));
 	}
 
-	createClass(Extensible, [{
-		key: 'state',
-		value: function state() {
-			return this[symbol$6].apply(this, arguments);
-		}
-	}, {
+	createClass(Eventful, [{
 		key: 'on',
 		value: function on() {
-			return this[symbol$8].apply(this, arguments);
+			return this[symbol$11].apply(this, arguments);
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger() {
-			return this[symbol$9].apply(this, arguments);
+			return this[symbol$12].apply(this, arguments);
+		}
+	}]);
+	return Eventful;
+}(Eventful$2(Privatelike(Base)));
+
+//Keys
+//classes
+//mixins
+var Extensible$2 = function (_ExtensibleMixin) {
+	inherits(Extensible$$1, _ExtensibleMixin);
+
+	function Extensible$$1() {
+		classCallCheck(this, Extensible$$1);
+		return possibleConstructorReturn(this, (Extensible$$1.__proto__ || Object.getPrototypeOf(Extensible$$1)).apply(this, arguments));
+	}
+
+	createClass(Extensible$$1, [{
+		key: 'state',
+		value: function state() {
+			return this[symbol$7].apply(this, arguments);
 		}
 	}, {
 		key: 'add',
 		value: function add() {
-			return this[symbol$10].apply(this, arguments);
+			return this[symbol$9].apply(this, arguments);
 		}
 	}, {
 		key: 'remove',
 		value: function remove() {
-			return this[symbol$11].apply(this, arguments);
+			return this[symbol$10].apply(this, arguments);
 		}
 	}, {
 		key: 'destructor',
 		value: function destructor() {
-			return this[symbol$7].apply(this, arguments);
+			return this[symbol$8].apply(this, arguments);
 		}
 	}, {
 		key: 'private',
@@ -1344,13 +1423,8 @@ var Extensible$2 = function (_ExtensibleMixin) {
 			return this[symbol];
 		}
 	}]);
-	return Extensible;
-}(Extensible$1(Privatelike(Base)));
-
-function constructor() {
-	this[symbol].uid = uid();
-	this[symbol].Is = {};
-}
+	return Extensible$$1;
+}(Extensible(Eventful));
 
 var identity$5 = new Identity({
 	class: 'Distinct',
@@ -1365,7 +1439,8 @@ var Distinct = function (_Extensible) {
 
 		var _this = possibleConstructorReturn(this, (Distinct.__proto__ || Object.getPrototypeOf(Distinct)).call(this));
 
-		constructor.call(_this);
+		_this[symbol].uid = uid();
+		_this[symbol].Is = {};
 		_this.identity = identity$5;
 		return _this;
 	}
@@ -1948,9 +2023,9 @@ var StyleInline = function (_StyleRules) {
 	return StyleInline;
 }(StyleRules);
 
-var symbol$14 = symbolish('Mixins.Behaviorlike.isInstance');
+var symbol$20 = symbolish('Mixins.Behaviorlike.isInstance');
 
-var symbol$15 = symbolish('Mixins.Behaviorlike.isStatic');
+var symbol$21 = symbolish('Mixins.Behaviorlike.isStatic');
 
 //Keys
 var Behaviorlike = function Behaviorlike(descendant) {
@@ -2039,12 +2114,12 @@ var Behaviorlike = function Behaviorlike(descendant) {
 				return 'DefaultBehavior';
 			}
 		}, {
-			key: symbol$14,
+			key: symbol$20,
 			get: function get$$1() {
 				return true;
 			}
 		}], [{
-			key: symbol$15,
+			key: symbol$21,
 			get: function get$$1() {
 				return true;
 			}
@@ -2130,7 +2205,7 @@ var StyleableBehavior = function (_Behaviorlike) {
 	return StyleableBehavior;
 }(Behaviorlike(Distinct));
 
-function constructor$1() {
+function constructor() {
 	this[symbol].context = 'default';
 	this[symbol].style = {
 		rules: {}
@@ -2150,7 +2225,7 @@ var Styleable = function (_Distinct) {
 
 		var _this = possibleConstructorReturn(this, (Styleable.__proto__ || Object.getPrototypeOf(Styleable)).call(this));
 
-		constructor$1.call(_this);
+		constructor.call(_this);
 		_this.identity = identity$2;
 		return _this;
 	}
@@ -3089,7 +3164,7 @@ function _get_object(macro) {
 }
 
 function _set_string(name, value) {
-	if (isUndefined(value) || isNull(value)) {
+	if (isUndefined$1(value) || isNull(value)) {
 		this.element.removeAttribute(name);
 		return true;
 	}
@@ -3254,9 +3329,9 @@ var Class = {
 	undefined: _undefined$4
 };
 
-var symbol$16 = symbolish('on');
+var symbol$22 = symbolish('on');
 
-var symbol$17 = symbolish('trigger');
+var symbol$23 = symbolish('trigger');
 
 function getTagName(el) {
 	if (isElement(el)) {
@@ -3326,14 +3401,14 @@ var Element$1 = function (_Styleable) {
 	}
 
 	createClass(Element, [{
-		key: symbol$16,
+		key: symbol$22,
 		value: function value(event, method) {
 			var type = getHandledType(event);
 			var action = On[type];
 			return (action || unhandled).call(this, event, method);
 		}
 	}, {
-		key: symbol$17,
+		key: symbol$23,
 		value: function value(event, args) {
 			var type = getHandledType(event);
 			var action = Trigger[type];
@@ -3363,12 +3438,12 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'on',
 		value: function on() {
-			return this[symbol$16].apply(this, arguments);
+			return this[symbol$22].apply(this, arguments);
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger() {
-			return this[symbol$17].apply(this, arguments);
+			return this[symbol$23].apply(this, arguments);
 		}
 	}, {
 		key: 'find',
@@ -3542,20 +3617,21 @@ function isTextNode(u) {
 //symbols
 //classes
 //mixins
-var Data = function (_ExtensibleMixin) {
-	inherits(Data, _ExtensibleMixin);
+//typechecks
+var Data = function (_Extensible) {
+	inherits(Data, _Extensible);
 
 	function Data(values) {
 		classCallCheck(this, Data);
 
 		var _this = possibleConstructorReturn(this, (Data.__proto__ || Object.getPrototypeOf(Data)).call(this));
 
-		_this[symbol].state = values;
+		_this[symbol].state = isObject(values) ? values : {};
 		return _this;
 	}
 
 	return Data;
-}(Extensible$1(Base));
+}(Extensible(Eventful$2(Base)));
 
 function isData(u) {
 	return u instanceof Data;
@@ -3565,10 +3641,8 @@ function isUData(u) {
 	return isUStyleSheetRule$1(u, Data);
 }
 
-var symbol$18 = symbolish('Mixins.Extensible.isInstance');
-
 function isExtensible(u) {
-	return !!u[symbol$18];
+	return !!u[symbol$13];
 }
 
 var TypeChecks = {
@@ -3588,7 +3662,7 @@ var TypeChecks = {
 	isStyleSheetRule: isStyleSheetRule,
 	isTextNode: isTextNode,
 	isUJSUI: isUJSUI,
-	isUndefined: isUndefined,
+	isUndefined: isUndefined$1,
 	isUStyleSheetRule: isUStyleSheetRule,
 	isData: isData,
 	isUData: isUData,
@@ -6248,29 +6322,29 @@ function isRelationshipBindingReceipt(u) {
 	return u instanceof RelationshipBindingReceipt;
 }
 
-var symbol$19 = symbolish('BindReceipt.on');
+var symbol$24 = symbolish('BindReceipt.on');
 
-var symbol$20 = symbolish('BindReceipt.on');
+var symbol$25 = symbolish('BindReceipt.on');
 
-var symbol$21 = symbolish('BindReceipt.normalize');
+var symbol$26 = symbolish('BindReceipt.normalize');
 
-var symbol$22 = symbolish('BindReceipt.remove');
+var symbol$27 = symbolish('BindReceipt.remove');
 
-var symbol$23 = symbolish('BindReceipt.removeAll');
+var symbol$28 = symbolish('BindReceipt.removeAll');
 
 function isStateChangeReceipt(u) {
 	return u instanceof StateChangeReceipt;
 }
 
-var symbol$24 = symbolish('uid');
+var symbol$29 = symbolish('uid');
 
 var graph = {}; //prevent infinite loops
 
 function getUID(obj) {
-	var id = obj.uid || obj[symbol$24] || (obj[symbol] ? $obj[symbol].uid : false) || (obj[symbol] ? $obj[symbol][symbol$24] : false);
+	var id = obj.uid || obj[symbol$29] || (obj[symbol] ? $obj[symbol].uid : false) || (obj[symbol] ? $obj[symbol][symbol$29] : false);
 	if (!id) {
 		id = uid();
-		addHiddenValue(obj, symbol$24, id);
+		addHiddenValue(obj, symbol$29, id);
 	}
 	return id;
 }
@@ -6407,18 +6481,18 @@ function extensibleToExtensible(receipt, event, bind, arrow, to) {
 	}
 
 	//create the relationship
-	var elementHandle = _private.subject[symbol$16](event, function (e) {
+	var elementHandle = _private.subject[symbol$22](event, function (e) {
 		var normalizer = binding.normalizer;
 		var data = e && isStateChangeReceipt(e.detail) ? e.detail.new : e;
 		action(_private.subject, bind, _private.to, to, data, normalizer);
 	});
 
 	//destroy the relationship if either one dies
-	var elementHandleDestroyer = _private.subject[symbol$16]('destructed', function (e) {
+	var elementHandleDestroyer = _private.subject[symbol$22]('destructed', function (e) {
 		elementHandle.remove();
 	});
 
-	var dataHandleDestroyer = _private.to[symbol$8]('destructed', function (e) {
+	var dataHandleDestroyer = _private.to[symbol$11]('destructed', function (e) {
 		elementHandle.remove();
 	});
 
@@ -6477,25 +6551,25 @@ var BindReceipt = function (_Enableable) {
 		_this[symbol].subject = subject;
 
 		if (subject) {
-			_this.to = _this[symbol$19];
+			_this.to = _this[symbol$24];
 		}
 		return _this;
 	}
 
 	createClass(BindReceipt, [{
-		key: symbol$19,
+		key: symbol$24,
 		value: function value(subject) {
 			var to = this[symbol].to;
 			if (!to) {
 				this[symbol].to = subject;
-				this.on = this[symbol$20];
-				this.normalize = this[symbol$21];
+				this.on = this[symbol$25];
+				this.normalize = this[symbol$26];
 				delete this.to;
 			}
 			return this;
 		}
 	}, {
-		key: symbol$20,
+		key: symbol$25,
 		value: function value(events) {
 			var _this2 = this;
 
@@ -6521,14 +6595,14 @@ var BindReceipt = function (_Enableable) {
 					}
 				});
 				delete this.on;
-				this.remove = this[symbol$22];
-				this.removeAll = this[symbol$23];
+				this.remove = this[symbol$27];
+				this.removeAll = this[symbol$28];
 			}
 
 			return this;
 		}
 	}, {
-		key: symbol$21,
+		key: symbol$26,
 		value: function value(rules) {
 			var _this3 = this;
 
@@ -6553,13 +6627,13 @@ var BindReceipt = function (_Enableable) {
 			return this;
 		}
 	}, {
-		key: symbol$22,
+		key: symbol$27,
 		value: function value(handle) {
 			var _this4 = this;
 
 			if (isArray(handle)) {
 				return handle.forEach(function (h) {
-					_this4[symbol$22](h);
+					_this4[symbol$27](h);
 				});
 			}
 			var success = false;
@@ -6578,11 +6652,11 @@ var BindReceipt = function (_Enableable) {
 			return success;
 		}
 	}, {
-		key: symbol$23,
+		key: symbol$28,
 		value: function value() {
 
 			var Handles = this[symbol].Handles;
-			this[symbol$22](Object.values(Handles.byID));
+			this[symbol$27](Object.values(Handles.byID));
 		}
 	}, {
 		key: 'uid',
@@ -6844,23 +6918,23 @@ var Constants = {
 	},
 	Keys: {
 		Extensible: {
-			on: symbol$8,
-			trigger: symbol$9,
-			add: symbol$10,
-			remove: symbol$11
+			on: symbol$11,
+			trigger: symbol$12,
+			add: symbol$9,
+			remove: symbol$10
 		},
 		BindReceipt: {
-			normalize: symbol$21,
-			on: symbol$20,
-			to: symbol$19
+			normalize: symbol$26,
+			on: symbol$25,
+			to: symbol$24
 		},
 		General: {
-			on: symbol$16,
+			on: symbol$22,
 			private: symbol,
-			state: symbol$6,
-			trigger: symbol$17,
-			uid: symbol$24,
-			destructor: symbol$7
+			state: symbol$7,
+			trigger: symbol$23,
+			uid: symbol$29,
+			destructor: symbol$8
 		}
 	}
 };
