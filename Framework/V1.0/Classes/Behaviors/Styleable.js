@@ -6,7 +6,7 @@ import StyleInline from '/Framework/V1.0/Classes/Style/Inline';
 import Behaviorlike from '/Framework/V1.0/Mixins/Behaviorlike';
 
 const identity = new Identity({
-	class: 'StyleableHost',
+	class: 'StyleableBehavior',
 	major: 1, minor: 0, patch: 0
 });
 
