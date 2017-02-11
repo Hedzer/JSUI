@@ -1,15 +1,15 @@
-import extensibleToExtensible from '/Framework/V1.0/Classes/Receipts/Bind/Extensible/extensible';
+import eventfulToEventful from '/Framework/V1.0/Classes/Receipts/Bind/Eventful/eventful';
 
-let defaultExtensible = {
-	jsui: extensibleToExtensible,
-	data: extensibleToExtensible,
-	extensible: extensibleToExtensible
+let defaultEventful = {
+	jsui: eventfulToEventful,
+	data: eventfulToEventful,
+	eventful: eventfulToEventful
 };
 
 let relationships = {
-	data: Object.create(defaultExtensible),
-	jsui: Object.create(defaultExtensible),
-	extensible: Object.create(defaultExtensible)
+	data: Object.create(defaultEventful),
+	jsui: Object.create(defaultEventful),
+	eventful: Object.create(defaultEventful)
 };
 
 export default relationships;

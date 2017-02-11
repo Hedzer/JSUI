@@ -1294,7 +1294,7 @@ for (var key in example.style) {
 
 var symbol$16 = symbolish('Mixins.Eventful.isInstance');
 
-var symbol$18 = symbolish('Mixins.Eventful.isStatic');
+var symbol$17 = symbolish('Mixins.Eventful.isStatic');
 
 //typechecks
 //keys
@@ -2023,9 +2023,9 @@ var StyleInline = function (_StyleRules) {
 	return StyleInline;
 }(StyleRules);
 
-var symbol$20 = symbolish('Mixins.Behaviorlike.isInstance');
+var symbol$19 = symbolish('Mixins.Behaviorlike.isInstance');
 
-var symbol$21 = symbolish('Mixins.Behaviorlike.isStatic');
+var symbol$20 = symbolish('Mixins.Behaviorlike.isStatic');
 
 //Keys
 var Behaviorlike = function Behaviorlike(descendant) {
@@ -2114,12 +2114,12 @@ var Behaviorlike = function Behaviorlike(descendant) {
 				return 'DefaultBehavior';
 			}
 		}, {
-			key: symbol$20,
+			key: symbol$19,
 			get: function get$$1() {
 				return true;
 			}
 		}], [{
-			key: symbol$21,
+			key: symbol$20,
 			get: function get$$1() {
 				return true;
 			}
@@ -3329,9 +3329,9 @@ var Class = {
 	undefined: _undefined$4
 };
 
-var symbol$22 = symbolish('on');
+var symbol$21 = symbolish('on');
 
-var symbol$23 = symbolish('trigger');
+var symbol$22 = symbolish('trigger');
 
 function getTagName(el) {
 	if (isElement(el)) {
@@ -3401,14 +3401,14 @@ var Element$1 = function (_Styleable) {
 	}
 
 	createClass(Element, [{
-		key: symbol$22,
+		key: symbol$21,
 		value: function value(event, method) {
 			var type = getHandledType(event);
 			var action = On[type];
 			return (action || unhandled).call(this, event, method);
 		}
 	}, {
-		key: symbol$23,
+		key: symbol$22,
 		value: function value(event, args) {
 			var type = getHandledType(event);
 			var action = Trigger[type];
@@ -3438,12 +3438,12 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'on',
 		value: function on() {
-			return this[symbol$22].apply(this, arguments);
+			return this[symbol$21].apply(this, arguments);
 		}
 	}, {
 		key: 'trigger',
 		value: function trigger() {
-			return this[symbol$23].apply(this, arguments);
+			return this[symbol$22].apply(this, arguments);
 		}
 	}, {
 		key: 'find',
@@ -6322,29 +6322,29 @@ function isRelationshipBindingReceipt(u) {
 	return u instanceof RelationshipBindingReceipt;
 }
 
+var symbol$23 = symbolish('BindReceipt.on');
+
 var symbol$24 = symbolish('BindReceipt.on');
 
-var symbol$25 = symbolish('BindReceipt.on');
+var symbol$25 = symbolish('BindReceipt.normalize');
 
-var symbol$26 = symbolish('BindReceipt.normalize');
+var symbol$26 = symbolish('BindReceipt.remove');
 
-var symbol$27 = symbolish('BindReceipt.remove');
-
-var symbol$28 = symbolish('BindReceipt.removeAll');
+var symbol$27 = symbolish('BindReceipt.removeAll');
 
 function isStateChangeReceipt(u) {
 	return u instanceof StateChangeReceipt;
 }
 
-var symbol$29 = symbolish('uid');
+var symbol$28 = symbolish('uid');
 
 var graph = {}; //prevent infinite loops
 
 function getUID(obj) {
-	var id = obj.uid || obj[symbol$29] || (obj[symbol] ? $obj[symbol].uid : false) || (obj[symbol] ? $obj[symbol][symbol$29] : false);
+	var id = obj.uid || obj[symbol$28] || (obj[symbol] ? $obj[symbol].uid : false) || (obj[symbol] ? $obj[symbol][symbol$28] : false);
 	if (!id) {
 		id = uid();
-		addHiddenValue(obj, symbol$29, id);
+		addHiddenValue(obj, symbol$28, id);
 	}
 	return id;
 }
@@ -6481,14 +6481,14 @@ function extensibleToExtensible(receipt, event, bind, arrow, to) {
 	}
 
 	//create the relationship
-	var elementHandle = _private.subject[symbol$22](event, function (e) {
+	var elementHandle = _private.subject[symbol$21](event, function (e) {
 		var normalizer = binding.normalizer;
 		var data = e && isStateChangeReceipt(e.detail) ? e.detail.new : e;
 		action(_private.subject, bind, _private.to, to, data, normalizer);
 	});
 
 	//destroy the relationship if either one dies
-	var elementHandleDestroyer = _private.subject[symbol$22]('destructed', function (e) {
+	var elementHandleDestroyer = _private.subject[symbol$21]('destructed', function (e) {
 		elementHandle.remove();
 	});
 
@@ -6508,24 +6508,28 @@ function extensibleToExtensible(receipt, event, bind, arrow, to) {
 	return binding;
 }
 
-var defaultExtensible = {
+var defaultEventful = {
 	jsui: extensibleToExtensible,
 	data: extensibleToExtensible,
-	extensible: extensibleToExtensible
+	eventful: extensibleToExtensible
 };
 
 var relationships = {
-	data: Object.create(defaultExtensible),
-	jsui: Object.create(defaultExtensible),
-	extensible: Object.create(defaultExtensible)
+	data: Object.create(defaultEventful),
+	jsui: Object.create(defaultEventful),
+	eventful: Object.create(defaultEventful)
 };
+
+function isExtensible$1(u) {
+	return !!u[symbol$16];
+}
 
 var Types$1 = Object.create(types$1);
 extend(Types$1).with({
 	object: {
 		data: isData,
 		jsui: isJSUI$1,
-		extensible: isExtensible
+		eventful: isExtensible$1
 	}
 });
 
@@ -6551,25 +6555,25 @@ var BindReceipt = function (_Enableable) {
 		_this[symbol].subject = subject;
 
 		if (subject) {
-			_this.to = _this[symbol$24];
+			_this.to = _this[symbol$23];
 		}
 		return _this;
 	}
 
 	createClass(BindReceipt, [{
-		key: symbol$24,
+		key: symbol$23,
 		value: function value(subject) {
 			var to = this[symbol].to;
 			if (!to) {
 				this[symbol].to = subject;
-				this.on = this[symbol$25];
-				this.normalize = this[symbol$26];
+				this.on = this[symbol$24];
+				this.normalize = this[symbol$25];
 				delete this.to;
 			}
 			return this;
 		}
 	}, {
-		key: symbol$25,
+		key: symbol$24,
 		value: function value(events) {
 			var _this2 = this;
 
@@ -6595,14 +6599,14 @@ var BindReceipt = function (_Enableable) {
 					}
 				});
 				delete this.on;
-				this.remove = this[symbol$27];
-				this.removeAll = this[symbol$28];
+				this.remove = this[symbol$26];
+				this.removeAll = this[symbol$27];
 			}
 
 			return this;
 		}
 	}, {
-		key: symbol$26,
+		key: symbol$25,
 		value: function value(rules) {
 			var _this3 = this;
 
@@ -6627,13 +6631,13 @@ var BindReceipt = function (_Enableable) {
 			return this;
 		}
 	}, {
-		key: symbol$27,
+		key: symbol$26,
 		value: function value(handle) {
 			var _this4 = this;
 
 			if (isArray(handle)) {
 				return handle.forEach(function (h) {
-					_this4[symbol$27](h);
+					_this4[symbol$26](h);
 				});
 			}
 			var success = false;
@@ -6652,11 +6656,11 @@ var BindReceipt = function (_Enableable) {
 			return success;
 		}
 	}, {
-		key: symbol$28,
+		key: symbol$27,
 		value: function value() {
 
 			var Handles = this[symbol].Handles;
-			this[symbol$27](Object.values(Handles.byID));
+			this[symbol$26](Object.values(Handles.byID));
 		}
 	}, {
 		key: 'uid',
@@ -6924,16 +6928,16 @@ var Constants = {
 			remove: symbol$10
 		},
 		BindReceipt: {
-			normalize: symbol$26,
-			on: symbol$25,
-			to: symbol$24
+			normalize: symbol$25,
+			on: symbol$24,
+			to: symbol$23
 		},
 		General: {
-			on: symbol$22,
+			on: symbol$21,
 			private: symbol,
 			state: symbol$7,
-			trigger: symbol$23,
-			uid: symbol$29,
+			trigger: symbol$22,
+			uid: symbol$28,
 			destructor: symbol$8
 		}
 	}
