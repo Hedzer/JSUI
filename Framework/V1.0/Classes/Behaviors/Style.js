@@ -6,11 +6,11 @@ import StyleInline from '/Framework/V1.0/Classes/Style/Inline';
 import Behaviorlike from '/Framework/V1.0/Mixins/Behaviorlike';
 
 const identity = new Identity({
-	class: 'StyleableBehavior',
+	class: 'StyleBehavior',
 	major: 1, minor: 0, patch: 0
 });
 
-export default class StyleableBehavior extends Behaviorlike(Distinct) {
+export default class StyleBehavior extends Behaviorlike(Distinct) {
 	constructor(host) {
 		super();
 		this[$private].host = host;

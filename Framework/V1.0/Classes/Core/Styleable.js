@@ -3,7 +3,7 @@ import Identity from '/Framework/V1.0/Classes/Core/Identity';
 import isStyleSheetRule from '/Framework/V1.0/TypeChecks/isStyleSheetRule';
 import Sheets from '/Framework/V1.0/Singletons/Style/Sheets';
 import Distinct from '/Framework/V1.0/Classes/Core/Distinct';
-import StyleableBehavior from '/Framework/V1.0/Classes/Behaviors/Styleable';
+import StyleBehavior from '/Framework/V1.0/Classes/Behaviors/Style';
 import constructor from '/Framework/V1.0/Classes/Core/Styleable/constructor';
 
 const identity = new Identity({
@@ -19,7 +19,7 @@ export default class Styleable extends Distinct {
 	}
 	get Style() {
 		if (!this[$private].Style) {
-			this[$private].Style = new StyleableBehavior(this);
+			this[$private].Style = new StyleBehavior(this);
 		}
 		return this[$private].Style;
 	}
