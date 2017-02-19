@@ -1,5 +1,6 @@
 import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
 import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
+import isString from '/Framework/V1.0/TypeChecks/isString';
 import destructor from '/Framework/V1.0/Constants/Keys/General/destructor';
 import Base from '/Framework/V1.0/Classes/Core/Base';
 import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
@@ -8,6 +9,9 @@ import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
 import getHashRoutes from '/Framework/V1.0/Utilities/Navigation/getHashRoutes';
+import getUrlParams from '/Framework/V1.0/Utilities/Navigation/getUrlParams';
+import getIdentifiedType from '/Framework/V1.0/Classes/Core/Router/getIdentifiedType';
+import capitalize from '/Framework/V1.0/Utilities/Strings/capitalize';
 
 export default class Router extends Enableable(Privatelike(Base)) {
 	constructor(){
@@ -16,8 +20,9 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			roots: {},
 			lastURL: null,
 			instances: {},
-			notFound: () => {},
-			notAuthorized: () => {}
+			shortened: {},
+			missing: () => {},
+			unauthorized: () => {}
 		};
 		window.addEventListener("hashchange", (e) => { this.onHashChange(e); });
 	}
@@ -25,11 +30,16 @@ export default class Router extends Enableable(Privatelike(Base)) {
 		let instances = {};
 		let lastURL = this[$private].lastURL;
 		let routes = getHashRoutes(window.location.hash);
+		let context = {
+			arguments: false,
+			parameters: getUrlParams(),
+			instances: instances
+		};
 		if (!routes) { return; }
 		let rootRoute = (routes.splice(0, 1))[0];
 		let root = this.roots[rootRoute];
 		//if the root doesn't exist, 404 and exit
-		if (!root) { return this.notFound(); }
+		if (!root) { return this.missing(); }
 		//get the root route, if uninstanced, instantiate
 		root = (isURoutable(root) ? new root() : root);
 		//if the instance isn't routable, return 
@@ -62,28 +72,38 @@ export default class Router extends Enableable(Privatelike(Base)) {
 				});
 			}
 			//if there's no instance, 404 and return
-			if (!instance) { return this.notFound(); }
+			if (!instance) { return this.missing(); }
 			if (!isRoutable(instance)) { return; }
+
+			//if unauthorized, run unauth and return
+			if (!instance.onRouteAuthorized()) { return this.unauthorized(); }
+
+			let identity = getIdentifiedType(instance);
+			if (isString(identity)) {
+				context[capitalize(identity)] = instance;
+			}
+
+			let activation = (instance.isRouteEndpoint ? 'onRouteCompleted' : 'onRouteTraversed');
 			if (isExecutable(instance.trigger)) {
-				instance.trigger('onRouteTraversed', traversed);
+				instance.trigger.call(instance, activation, context);
 				continue;
 			}
-			instance.onRouteTraversed(traversed);
+			instance[activation].call(instance, activation, context);
 		}
 	}
-	get notFound() {
-		return this[$private].notFound;
+	get missing() {
+		return this[$private].missing;
 	}
-	set notFound(method) {
+	set missing(method) {
 		if (!isFunction(method)) { method = function() {}; }
-		this[$private].notFound = method;
+		this[$private].missing = method;
 	}
-	get notAuthorized() {
-		return this[$private].notAuthorized;
+	get unauthorized() {
+		return this[$private].unauthorized;
 	}
-	set notAuthorized(method) {
+	set unauthorized(method) {
 		if (!isFunction(method)) { method = function() {}; }
-		this[$private].notAuthorized = method;
+		this[$private].unauthorized = method;
 	}
 	instance(route, value) {
 		let instances = this.instances;
@@ -112,6 +132,9 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			return;
 		}
 		return super.remove(routable);
+	}
+	shorten(url) {
+		//syntax: shorten('/Common/Guest/Authentication/login').to('login');
 	}
 	get roots() {
 		return this[$private].roots;

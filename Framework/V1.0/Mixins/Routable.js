@@ -15,7 +15,8 @@ let Routable = ((descendant) => {
 			this[$private] = {
 				state: {
 					route: this.constructor.route,
-					subroutes: {}
+					subroutes: {},
+					traveled: false
 				}
 			};
 		}
@@ -69,13 +70,27 @@ let Routable = ((descendant) => {
 				Router.remove(route);
 			}
 		}
+		get isRouteEndpoint() {
+			return this[state]('isRouteEndpoint'); 
+		}
+		set isRouteEndpoint(bool) {
+			return this[state]('isRouteEndpoint', bool); 
+		}
+		get itinerary() {
+			return this[state]('itinerary'); 
+		}
+		set itinerary(list) {
+			return this[state]('itinerary', list); 
+		}
 		get [isInstance]() {
 			return true;
 		}
 		static get [isStatic]() {
 			return true;
 		}
+		onRouteAuthorized() { return true; }
 		onRouteTraversed() {}
+		onRouteCompleted() {}
 	};
 });
 

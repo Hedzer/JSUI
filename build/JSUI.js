@@ -882,288 +882,45 @@ function getHashRoutes(url) {
 	return routes;
 }
 
-var Router$1 = function (_Enableable) {
-	inherits(Router, _Enableable);
+function getUrlParams() {
+	var result = {};
+	var index = location.href.indexOf('?');
+	if (!~index) return {};
+	var query = location.href.substr(index + 1);
 
-	function Router() {
-		classCallCheck(this, Router);
-
-		var _this = possibleConstructorReturn(this, (Router.__proto__ || Object.getPrototypeOf(Router)).call(this));
-
-		_this[symbol] = {
-			roots: {},
-			lastURL: null,
-			instances: {},
-			notFound: function notFound() {},
-			notAuthorized: function notAuthorized() {}
-		};
-		window.addEventListener("hashchange", function (e) {
-			_this.onHashChange(e);
-		});
-		return _this;
-	}
-
-	createClass(Router, [{
-		key: 'onHashChange',
-		value: function onHashChange(event) {
-			var _this2 = this;
-
-			var instances = {};
-			var lastURL = this[symbol].lastURL;
-			var routes = getHashRoutes(window.location.hash);
-			if (!routes) {
-				return;
-			}
-			var rootRoute = routes.splice(0, 1)[0];
-			var root = this.roots[rootRoute];
-			//if the root doesn't exist, 404 and exit
-			if (!root) {
-				return this.notFound();
-			}
-			//get the root route, if uninstanced, instantiate
-			root = isRoutable$1(root) ? new root() : root;
-			//if the instance isn't routable, return 
-			if (!isRoutable(root)) {
-				return;
-			}
-			this[symbol].root = root;
-			var traversed = "";
-			var instance = root;
-			for (var index = 0; index < routes.length; index++) {
-				var route = routes[index];
-				traversed = (!index ? rootRoute + '/' : traversed + '/') + ('' + route);
-				var parent = instance;
-				var existing = this.instance(traversed);
-				instance = existing || (isRoutable(parent) ? parent.subroute(route) : false);
-				instance = instance.instantiate ? instance.instantiate() : instance;
-				instances[traversed] = instance;
-				//if there's no existing instance, destroy the instances not traversed
-				if (!existing) {
-					(function () {
-						var killList = [];
-						Object.keys(_this2.instances).forEach(function (route) {
-							var instance = instances[route];
-							if (instance) {
-								return;
-							}
-							killList.push({ route: route, instance: instance });
-						});
-						//sort the kill list by shortest path to longest
-						killList.sort(function (a, b) {
-							return a.route.length - b.route.length;
-						});
-						killList.forEach(function (entry) {
-							var destructor = entry.instance[destructor];
-							if (!isFunction$1(destructor)) {
-								return;
-							}
-							destructor();
-						});
-					})();
-				}
-				//if there's no instance, 404 and return
-				if (!instance) {
-					return this.notFound();
-				}
-				if (!isRoutable(instance)) {
-					return;
-				}
-				if (isExecutable(instance.trigger)) {
-					instance.trigger('onRouteTraversed', traversed);
-					continue;
-				}
-				instance.onRouteTraversed(traversed);
-			}
+	query.split('&').forEach(function (part) {
+		if (!part) {
+			return;
 		}
-	}, {
-		key: 'instance',
-		value: function instance(route, value) {
-			var instances = this.instances;
-			if (arguments.length > 1) {
-				instances[route] = value;
-				return value;
-			}
-			return instances[route];
-		}
-	}, {
-		key: 'add',
-		value: function add(routable) {
-			if (isRoutable$1(routable) || isRoutable(routable)) {
-				this[symbol].roots[routable.route] = routable;
-				return;
-			}
-			return get(Router.prototype.__proto__ || Object.getPrototypeOf(Router.prototype), 'add', this).call(this, routable);
-		}
-	}, {
-		key: 'remove',
-		value: function remove(routable) {
-			if (isRoutable$1(routable) || isRoutable(routable)) {
-				delete this[symbol].roots[routable.route];
-				return;
-			}
-			return get(Router.prototype.__proto__ || Object.getPrototypeOf(Router.prototype), 'remove', this).call(this, routable);
-		}
-	}, {
-		key: 'notFound',
-		get: function get$$1() {
-			return this[symbol].notFound;
-		},
-		set: function set$$1(method) {
-			if (!isFunction$1(method)) {
-				method = function method() {};
-			}
-			this[symbol].notFound = method;
-		}
-	}, {
-		key: 'notAuthorized',
-		get: function get$$1() {
-			return this[symbol].notAuthorized;
-		},
-		set: function set$$1(method) {
-			if (!isFunction$1(method)) {
-				method = function method() {};
-			}
-			this[symbol].notAuthorized = method;
-		}
-	}, {
-		key: 'instances',
-		get: function get$$1() {
-			return this[symbol].instances;
-		},
-		set: function set$$1(instances) {
-			this[symbol].instances = instances;
-		}
-	}, {
-		key: 'roots',
-		get: function get$$1() {
-			return this[symbol].roots;
-		}
-	}]);
-	return Router;
-}(Enableable(Privatelike(Base)));
+		part = part.split('+').join(' '); // replace every + with space, regexp-free version
+		var sign = part.indexOf('=');
+		var signed = !!~sign;
+		var key = signed ? part.substr(0, sign) : part;
+		var val = signed ? decodeURIComponent(part.substr(sign + 1)) : '';
+		var from = key.indexOf('[');
 
-var router = new Router$1();
-
-//Keys
-var Routable = function Routable(descendant) {
-	return function (_descendant) {
-		inherits(RoutableMixin, _descendant);
-
-		function RoutableMixin() {
-			classCallCheck(this, RoutableMixin);
-
-			var _this = possibleConstructorReturn(this, (RoutableMixin.__proto__ || Object.getPrototypeOf(RoutableMixin)).call(this));
-
-			_this[symbol] = {
-				state: {
-					route: _this.constructor.route,
-					subroutes: {}
-				}
-			};
-			return _this;
+		if (!~from) {
+			result[decodeURIComponent(key)] = val;
+			return;
 		}
 
-		createClass(RoutableMixin, [{
-			key: 'add',
-			value: function add(routable) {
-				if (isRoutable(routable) || isRoutable$1(routable)) {
-					var subroutes = this[symbol$7]('subroutes');
-					//if a route already exists with this name throw an error
-					subroutes[routable.route] = routable;
-				}
-				if (isExecutable(get(RoutableMixin.prototype.__proto__ || Object.getPrototypeOf(RoutableMixin.prototype), 'add', this))) {
-					return get(RoutableMixin.prototype.__proto__ || Object.getPrototypeOf(RoutableMixin.prototype), 'add', this).call(this, routable);
-				}
-			}
-		}, {
-			key: 'subroute',
-			value: function subroute(name) {
-				var subroute = this.subroutes[name];
-				return subroute ? subroute : false;
-			}
-		}, {
-			key: 'instantiate',
-			value: function instantiate() {
-				return this;
-			}
-		}, {
-			key: 'onRouteTraversed',
-			value: function onRouteTraversed() {}
-		}, {
-			key: 'route',
-			get: function get$$1() {
-				return this[symbol$7]('route');
-			},
-			set: function set$$1(route) {
-				var old = this.route;
-				if (this[symbol$7]('route', route)) {
-					if (this.isRootRoute) {
-						router.remove(old);
-						router.add(route);
-					}
-				}
-			}
-		}, {
-			key: 'subroutes',
-			get: function get$$1() {
-				return this[symbol$7]('subroutes');
-			}
-		}, {
-			key: 'isRootRoute',
-			get: function get$$1() {
-				return this[symbol$7]('isRootRoute');
-			},
-			set: function set$$1(bool) {
-				if (this[symbol$7]('isRootRoute', bool)) {
-					if (bool) {
-						router.add(this.route);
-						return;
-					}
-					router.remove(route);
-				}
-			}
-		}, {
-			key: symbol$14,
-			get: function get$$1() {
-				return true;
-			}
-		}], [{
-			key: 'instantiate',
-			value: function instantiate() {
-				return new this();
-			}
-		}, {
-			key: 'route',
-			get: function get$$1() {
-				return 'route';
-			}
-		}, {
-			key: symbol$15,
-			get: function get$$1() {
-				return true;
-			}
-		}]);
-		return RoutableMixin;
-	}(descendant);
-};
+		var to = key.indexOf(']');
+		var index = decodeURIComponent(key.substring(from + 1, to));
+		key = decodeURIComponent(key.substring(0, from));
+		if (!result[key]) {
+			result[key] = [];
+		}
+		if (!index) {
+			result[key].push(val);
+			return;
+		}
+		result[key][index] = val;
+	});
 
-var Mixins = {
-	Privatelike: Privatelike,
-	Extensible: Extensible,
-	Enableable: Enableable,
-	Routable: Routable
-};
-
-function isEmptyString(u) {
-	return u === "";
+	return result;
 }
 
-var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
-function isHTML(u) {
-	return htmlRegex.test(u);
-}
-
-function getHandledType$1(types, u) {
+function getHandledType(types, u) {
 	var type = typeof u === "undefined" ? "undefined" : _typeof(u);
 	var subtypes = types[type];
 	if (!subtypes) {
@@ -1176,14 +933,6 @@ function getHandledType$1(types, u) {
 		}
 	}
 	return type;
-}
-
-function isRegex(u) {
-	return u instanceof RegExp;
-}
-
-function isPath(u) {
-	return typeof u === 'string' && u.length > 0 && u[0] === '@';
 }
 
 var defaults$1 = {
@@ -1255,42 +1004,6 @@ var Identity = function () {
 	}]);
 	return Identity;
 }();
-
-var Sheets$1 = {};
-
-function uncapitalize(text) {
-	return text.charAt(0).toLowerCase() + text.slice(1);
-}
-
-var vendors = ['webkit', 'moz', 'ms', 'o'];
-
-//not a real constant, since it is generated
-var equivalents = {};
-var example = document.createElement('div');
-
-var _loop = function _loop(key) {
-	try {
-		(function () {
-			example.style[key] = 'inherit';
-			var name = (example.getAttribute('style') || '').split(':')[0];
-			equivalents[key] = name;
-			example.setAttribute('style', '');
-			vendors.forEach(function (vendor) {
-				var prefix = '-' + vendor + '-';
-				if (~name.indexOf(prefix)) {
-					var w3cKey = key;
-					w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
-					equivalents[w3cKey] = name;
-					equivalents[name.replace(prefix, '')] = name;
-				}
-			});
-		})();
-	} catch (e) {}
-};
-
-for (var key in example.style) {
-	_loop(key);
-}
 
 var symbol$16 = symbolish('Mixins.Eventful.isInstance');
 
@@ -1426,7 +1139,7 @@ var Extensible$2 = function (_ExtensibleMixin) {
 	return Extensible$$1;
 }(Extensible(Eventful));
 
-var identity$5 = new Identity({
+var identity$1 = new Identity({
 	class: 'Distinct',
 	major: 1, minor: 0, patch: 0
 });
@@ -1441,7 +1154,7 @@ var Distinct = function (_Extensible) {
 
 		_this[symbol].uid = uid();
 		_this[symbol].Is = {};
-		_this.identity = identity$5;
+		_this.identity = identity$1;
 		return _this;
 	}
 
@@ -1473,7 +1186,152 @@ var Distinct = function (_Extensible) {
 	return Distinct;
 }(Extensible$2);
 
-var identity$4 = new Identity({
+var identity = new Identity({
+	class: 'Application',
+	major: 1, minor: 0, patch: 0
+});
+
+var Application = function (_Routable) {
+	inherits(Application, _Routable);
+
+	function Application() {
+		classCallCheck(this, Application);
+
+		var _this = possibleConstructorReturn(this, (Application.__proto__ || Object.getPrototypeOf(Application)).call(this, 'div'));
+
+		_this.identity = identity;
+		_this[symbol].routes = {};
+		router.add(_this);
+		return _this;
+	}
+
+	createClass(Application, null, [{
+		key: 'route',
+		get: function get$$1() {
+			return 'Application';
+		}
+	}]);
+	return Application;
+}(Routable(Distinct));
+
+function isApplication(u) {
+	return u instanceof Application;
+}
+
+var identity$2 = new Identity({
+	class: 'Role',
+	major: 1, minor: 0, patch: 0
+});
+
+var Role = function (_Routable) {
+	inherits(Role, _Routable);
+
+	function Role() {
+		classCallCheck(this, Role);
+
+		var _this = possibleConstructorReturn(this, (Role.__proto__ || Object.getPrototypeOf(Role)).call(this));
+
+		_this.identity = identity$2;
+		return _this;
+	}
+
+	createClass(Role, null, [{
+		key: 'route',
+		get: function get$$1() {
+			return 'Role';
+		}
+	}]);
+	return Role;
+}(Routable(Distinct));
+
+function isRole(u) {
+	return u instanceof Role;
+}
+
+var identity$3 = new Identity({
+	class: 'Feature',
+	major: 1, minor: 0, patch: 0
+});
+
+var Feature = function (_Routable) {
+	inherits(Feature, _Routable);
+
+	function Feature() {
+		classCallCheck(this, Feature);
+
+		var _this = possibleConstructorReturn(this, (Feature.__proto__ || Object.getPrototypeOf(Feature)).call(this));
+
+		_this.identity = identity$3;
+		return _this;
+	}
+
+	createClass(Feature, null, [{
+		key: 'route',
+		get: function get$$1() {
+			return 'Feature';
+		}
+	}]);
+	return Feature;
+}(Routable(Distinct));
+
+function isFeature(u) {
+	return u instanceof Feature;
+}
+
+function isJSUI$1(u) {
+	return u instanceof Element$1;
+}
+
+function isRegex(u) {
+	return u instanceof RegExp;
+}
+
+var htmlRegex = /^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$/;
+function isHTML(u) {
+	return htmlRegex.test(u);
+}
+
+function isPath(u) {
+	return typeof u === 'string' && u.length > 0 && u[0] === '@';
+}
+
+var Sheets$1 = {};
+
+function uncapitalize(text) {
+	return text.charAt(0).toLowerCase() + text.slice(1);
+}
+
+var vendors = ['webkit', 'moz', 'ms', 'o'];
+
+//not a real constant, since it is generated
+var equivalents = {};
+var example = document.createElement('div');
+
+var _loop = function _loop(key) {
+	try {
+		(function () {
+			example.style[key] = 'inherit';
+			var name = (example.getAttribute('style') || '').split(':')[0];
+			equivalents[key] = name;
+			example.setAttribute('style', '');
+			vendors.forEach(function (vendor) {
+				var prefix = '-' + vendor + '-';
+				if (~name.indexOf(prefix)) {
+					var w3cKey = key;
+					w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
+					equivalents[w3cKey] = name;
+					equivalents[name.replace(prefix, '')] = name;
+				}
+			});
+		})();
+	} catch (e) {}
+};
+
+for (var key in example.style) {
+	_loop(key);
+}
+
+var identity$10 = new Identity({
 	class: 'StyleRules',
 	major: 1, minor: 0, patch: 0
 });
@@ -1487,7 +1345,7 @@ var StyleRules = function (_Distinct) {
 		var _this = possibleConstructorReturn(this, (StyleRules.__proto__ || Object.getPrototypeOf(StyleRules)).call(this));
 
 		_this[symbol].styles = {};
-		_this.identity = identity$4;
+		_this.identity = identity$10;
 		return _this;
 	}
 
@@ -1562,7 +1420,7 @@ function rules(a, b) {
 	return importance;
 }
 
-var identity$6 = new Identity({
+var identity$11 = new Identity({
 	class: 'StyleSheet',
 	major: 1, minor: 0, patch: 0
 });
@@ -1599,7 +1457,7 @@ var StyleSheet = function (_Distinct) {
 		_this[symbol].element = element;
 		Sheets$1[context] = _this;
 
-		_this.identity = identity$6;
+		_this.identity = identity$11;
 		return _this;
 	}
 
@@ -1713,7 +1571,7 @@ var StyleSheet = function (_Distinct) {
 	return StyleSheet;
 }(Distinct);
 
-var identity$3 = new Identity({
+var identity$9 = new Identity({
 	class: 'StyleSheetRule',
 	major: 1, minor: 0, patch: 0
 });
@@ -1726,7 +1584,7 @@ var StyleSheetRule = function (_StyleRules) {
 
 		var _this = possibleConstructorReturn(this, (StyleSheetRule.__proto__ || Object.getPrototypeOf(StyleSheetRule)).call(this));
 
-		_this.identity = identity$3;
+		_this.identity = identity$9;
 
 		_this[symbol] = {
 			importance: 0,
@@ -1952,7 +1810,7 @@ function isStyleSheetRule(u) {
 	return u instanceof StyleSheetRule;
 }
 
-var identity$8 = new Identity({
+var identity$13 = new Identity({
 	class: 'StyleInline',
 	major: 1, minor: 0, patch: 0
 });
@@ -1984,7 +1842,7 @@ var StyleInline = function (_StyleRules) {
 		}
 
 		_this.on('styleChanged', handler);
-		_this.identity = identity$8;
+		_this.identity = identity$13;
 		return _this;
 	}
 
@@ -2128,25 +1986,25 @@ var Behaviorlike = function Behaviorlike(descendant) {
 	}(descendant);
 };
 
-var identity$7 = new Identity({
-	class: 'StyleableHost',
+var identity$12 = new Identity({
+	class: 'StyleBehavior',
 	major: 1, minor: 0, patch: 0
 });
 
-var StyleableBehavior = function (_Behaviorlike) {
-	inherits(StyleableBehavior, _Behaviorlike);
+var StyleBehavior = function (_Behaviorlike) {
+	inherits(StyleBehavior, _Behaviorlike);
 
-	function StyleableBehavior(host) {
-		classCallCheck(this, StyleableBehavior);
+	function StyleBehavior(host) {
+		classCallCheck(this, StyleBehavior);
 
-		var _this = possibleConstructorReturn(this, (StyleableBehavior.__proto__ || Object.getPrototypeOf(StyleableBehavior)).call(this));
+		var _this = possibleConstructorReturn(this, (StyleBehavior.__proto__ || Object.getPrototypeOf(StyleBehavior)).call(this));
 
 		_this[symbol].host = host;
-		_this.identity = identity$7;
+		_this.identity = identity$12;
 		return _this;
 	}
 
-	createClass(StyleableBehavior, [{
+	createClass(StyleBehavior, [{
 		key: 'switch',
 		value: function _switch(style) {
 			if (isStyleSheetRule(style)) {
@@ -2202,7 +2060,7 @@ var StyleableBehavior = function (_Behaviorlike) {
 			});
 		}
 	}]);
-	return StyleableBehavior;
+	return StyleBehavior;
 }(Behaviorlike(Distinct));
 
 function constructor() {
@@ -2212,7 +2070,7 @@ function constructor() {
 	};
 }
 
-var identity$2 = new Identity({
+var identity$8 = new Identity({
 	class: 'Styleable',
 	major: 1, minor: 0, patch: 0
 });
@@ -2226,7 +2084,7 @@ var Styleable = function (_Distinct) {
 		var _this = possibleConstructorReturn(this, (Styleable.__proto__ || Object.getPrototypeOf(Styleable)).call(this));
 
 		constructor.call(_this);
-		_this.identity = identity$2;
+		_this.identity = identity$8;
 		return _this;
 	}
 
@@ -2260,7 +2118,7 @@ var Styleable = function (_Distinct) {
 		key: 'Style',
 		get: function get$$1() {
 			if (!this[symbol].Style) {
-				this[symbol].Style = new StyleableBehavior(this);
+				this[symbol].Style = new StyleBehavior(this);
 			}
 			return this[symbol].Style;
 		}
@@ -2268,7 +2126,7 @@ var Styleable = function (_Distinct) {
 	return Styleable;
 }(Distinct);
 
-var identity$1 = new Identity({
+var identity$7 = new Identity({
 	class: 'Behavior',
 	major: 1, minor: 0, patch: 0
 });
@@ -2282,7 +2140,7 @@ var Behavior = function (_Behaviorlike) {
 		//setup new props
 		var _this = possibleConstructorReturn(this, (Behavior.__proto__ || Object.getPrototypeOf(Behavior)).call(this));
 
-		_this.identity = identity$1;
+		_this.identity = identity$7;
 		_this.Style.context = 'behavior';
 		return _this;
 	}
@@ -2294,7 +2152,7 @@ function isBehavior(u) {
 	return u instanceof Behavior;
 }
 
-var types$1 = {
+var types$3 = {
 	object: {
 		null: isNull,
 		array: isArray,
@@ -2309,12 +2167,16 @@ var types$1 = {
 	}
 };
 
-var Types = Object.create(types$1);
+var Types = Object.create(types$3);
 
-var getHandledType = getHandledType$1.bind(null, Types);
+var getHandledType$1 = getHandledType.bind(null, Types);
 
 function unhandled(args) {
   return args;
+}
+
+function isEmptyString(u) {
+	return u === "";
 }
 
 function addClass(el, name) {
@@ -2606,21 +2468,21 @@ var Collection$1 = function (_native) {
 	createClass(Collection, [{
 		key: 'do',
 		value: function _do(method, args) {
-			var type = getHandledType(method);
+			var type = getHandledType$1(method);
 			var action = Do[type];
 			return (action || unhandled).call(this, method, args);
 		}
 	}, {
 		key: 'get',
 		value: function get$$1(property) {
-			var type = getHandledType(property);
+			var type = getHandledType$1(property);
 			var action = Get[type];
 			return (action || unhandled).call(this, property);
 		}
 	}, {
 		key: 'set',
 		value: function set$$1(property, value) {
-			var type = getHandledType(property);
+			var type = getHandledType$1(property);
 			var action = Set[type];
 			return (action || unhandled).call(this, property, value);
 		}
@@ -3359,7 +3221,7 @@ var Constructor = {
 //handlers
 //classes
 //Keys
-var identity = new Identity({
+var identity$6 = new Identity({
 	class: 'Element',
 	major: 1, minor: 0, patch: 0
 });
@@ -3372,9 +3234,9 @@ var Element$1 = function (_Styleable) {
 
 		var _this = possibleConstructorReturn(this, (Element.__proto__ || Object.getPrototypeOf(Element)).call(this, tag));
 
-		_this.identity = identity;
+		_this.identity = identity$6;
 		//select the proper constructor action
-		var type = getHandledType(tag);
+		var type = getHandledType$1(tag);
 		var action = Constructor[type];
 		tag = (action || function () {
 			return Constructor.string.call(this, 'div');
@@ -3403,35 +3265,35 @@ var Element$1 = function (_Styleable) {
 	createClass(Element, [{
 		key: symbol$21,
 		value: function value(event, method) {
-			var type = getHandledType(event);
+			var type = getHandledType$1(event);
 			var action = On[type];
 			return (action || unhandled).call(this, event, method);
 		}
 	}, {
 		key: symbol$22,
 		value: function value(event, args) {
-			var type = getHandledType(event);
+			var type = getHandledType$1(event);
 			var action = Trigger[type];
 			return (action || unhandled).call(this, event, args);
 		}
 	}, {
 		key: 'add',
 		value: function add(item) {
-			var type = getHandledType(item);
+			var type = getHandledType$1(item);
 			var action = Add[type];
 			return (action || get(Element.prototype.__proto__ || Object.getPrototypeOf(Element.prototype), 'add', this) || unhandled).call(this, item);
 		}
 	}, {
 		key: 'addTo',
 		value: function addTo(item) {
-			var type = getHandledType(item);
+			var type = getHandledType$1(item);
 			var action = AddTo[type];
 			return (action || unhandled).call(this, item);
 		}
 	}, {
 		key: 'remove',
 		value: function remove(item) {
-			var type = getHandledType(item);
+			var type = getHandledType$1(item);
 			var action = Remove[type];
 			return (action || unhandled).call(this, item);
 		}
@@ -3448,35 +3310,35 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'find',
 		value: function find(what) {
-			var type = getHandledType(what);
+			var type = getHandledType$1(what);
 			var action = Find[type];
 			return (action || unhandled([])).call(this, what);
 		}
 	}, {
 		key: 'do',
 		value: function _do(method, args) {
-			var type = getHandledType(method);
+			var type = getHandledType$1(method);
 			var action = Do$2[type];
 			return (action || unhandled).call(this, method, args);
 		}
 	}, {
 		key: 'get',
 		value: function get$$1(property) {
-			var type = getHandledType(property);
+			var type = getHandledType$1(property);
 			var action = Get$2[type];
 			return (action || unhandled).call(this, property);
 		}
 	}, {
 		key: 'set',
 		value: function set$$1(property, value) {
-			var type = getHandledType(property);
+			var type = getHandledType$1(property);
 			var action = Set$2[type];
 			return (action || unhandled).call(this, property, value);
 		}
 	}, {
 		key: 'text',
 		value: function text(_text) {
-			var type = getHandledType(_text);
+			var type = getHandledType$1(_text);
 			var action = Text[type];
 			return (action || unhandled).call(this, _text);
 		}
@@ -3486,7 +3348,7 @@ var Element$1 = function (_Styleable) {
 			if (!isElement(this.element) || isEmptyString(name)) {
 				return;
 			}
-			var type = getHandledType(name);
+			var type = getHandledType$1(name);
 			var isSet = arguments.length > 1;
 			var action = Attribute[isSet ? 'Set' : 'Get'][type];
 			return (action || unhandled).apply(this, [name, value]);
@@ -3494,7 +3356,7 @@ var Element$1 = function (_Styleable) {
 	}, {
 		key: 'class',
 		value: function _class(name) {
-			var type = getHandledType(name);
+			var type = getHandledType$1(name);
 			var action = Class[type];
 			return (action || unhandled).call(this, name);
 		}
@@ -3595,9 +3457,419 @@ var Element$1 = function (_Styleable) {
 	return Element;
 }(Styleable);
 
-function isJSUI$1(u) {
-	return u instanceof Element$1;
+var identity$5 = new Identity({
+	class: 'Main',
+	major: 1, minor: 0, patch: 0
+});
+
+var Main = function (_Element) {
+	inherits(Main, _Element);
+
+	function Main() {
+		classCallCheck(this, Main);
+
+		var _this = possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, 'main'));
+
+		_this.identity = identity$5;
+		return _this;
+	}
+
+	return Main;
+}(Element$1);
+
+var identity$4 = new Identity({
+	class: 'Page',
+	major: 1, minor: 0, patch: 0
+});
+
+var Page = function (_Routable) {
+	inherits(Page, _Routable);
+
+	function Page() {
+		classCallCheck(this, Page);
+
+		var _this = possibleConstructorReturn(this, (Page.__proto__ || Object.getPrototypeOf(Page)).call(this));
+
+		_this.identity = identity$4;
+		return _this;
+	}
+
+	createClass(Page, null, [{
+		key: 'instantiate',
+		value: function instantiate() {
+			var instance = get(Page.__proto__ || Object.getPrototypeOf(Page), 'instantiate', this).call(this);
+			instance.addTo(document.body);
+			return instance;
+		}
+	}, {
+		key: 'route',
+		get: function get$$1() {
+			return 'Page';
+		}
+	}]);
+	return Page;
+}(Routable(Main));
+
+function isPage(u) {
+	return u instanceof Page;
 }
+
+var Endpoint = function (_Routable) {
+	inherits(Endpoint, _Routable);
+
+	function Endpoint() {
+		classCallCheck(this, Endpoint);
+		return possibleConstructorReturn(this, (Endpoint.__proto__ || Object.getPrototypeOf(Endpoint)).apply(this, arguments));
+	}
+
+	createClass(Endpoint, [{
+		key: 'onRouteTraversed',
+		value: function onRouteTraversed() {
+			this.execute();
+		}
+	}]);
+	return Endpoint;
+}(Routable(JSUIFunction));
+
+function isEndpoint(u) {
+	return u instanceof Endpoint;
+}
+
+var types = {
+	object: {
+		application: isApplication,
+		role: isRole,
+		feature: isFeature,
+		page: isPage,
+		endpoint: isEndpoint
+	}
+};
+
+var getIdentifiedType = getHandledType.bind(null, types);
+
+function capitalize(text) {
+	return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+var Router$1 = function (_Enableable) {
+	inherits(Router, _Enableable);
+
+	function Router() {
+		classCallCheck(this, Router);
+
+		var _this = possibleConstructorReturn(this, (Router.__proto__ || Object.getPrototypeOf(Router)).call(this));
+
+		_this[symbol] = {
+			roots: {},
+			lastURL: null,
+			instances: {},
+			shortened: {},
+			missing: function missing() {},
+			unauthorized: function unauthorized() {}
+		};
+		window.addEventListener("hashchange", function (e) {
+			_this.onHashChange(e);
+		});
+		return _this;
+	}
+
+	createClass(Router, [{
+		key: 'onHashChange',
+		value: function onHashChange(event) {
+			var _this2 = this;
+
+			var instances = {};
+			var lastURL = this[symbol].lastURL;
+			var routes = getHashRoutes(window.location.hash);
+			var context = {
+				arguments: false,
+				parameters: getUrlParams(),
+				instances: instances
+			};
+			if (!routes) {
+				return;
+			}
+			var rootRoute = routes.splice(0, 1)[0];
+			var root = this.roots[rootRoute];
+			//if the root doesn't exist, 404 and exit
+			if (!root) {
+				return this.missing();
+			}
+			//get the root route, if uninstanced, instantiate
+			root = isRoutable$1(root) ? new root() : root;
+			//if the instance isn't routable, return 
+			if (!isRoutable(root)) {
+				return;
+			}
+			this[symbol].root = root;
+			var traversed = "";
+			var instance = root;
+			for (var index = 0; index < routes.length; index++) {
+				var route = routes[index];
+				traversed = (!index ? rootRoute + '/' : traversed + '/') + ('' + route);
+				var parent = instance;
+				var existing = this.instance(traversed);
+				instance = existing || (isRoutable(parent) ? parent.subroute(route) : false);
+				instance = instance.instantiate ? instance.instantiate() : instance;
+				instances[traversed] = instance;
+				//if there's no existing instance, destroy the instances not traversed
+				if (!existing) {
+					(function () {
+						var killList = [];
+						Object.keys(_this2.instances).forEach(function (route) {
+							var instance = instances[route];
+							if (instance) {
+								return;
+							}
+							killList.push({ route: route, instance: instance });
+						});
+						//sort the kill list by shortest path to longest
+						killList.sort(function (a, b) {
+							return a.route.length - b.route.length;
+						});
+						killList.forEach(function (entry) {
+							var destructor = entry.instance[destructor];
+							if (!isFunction$1(destructor)) {
+								return;
+							}
+							destructor();
+						});
+					})();
+				}
+				//if there's no instance, 404 and return
+				if (!instance) {
+					return this.missing();
+				}
+				if (!isRoutable(instance)) {
+					return;
+				}
+
+				//if unauthorized, run unauth and return
+				if (!instance.onRouteAuthorized()) {
+					return this.unauthorized();
+				}
+
+				var identity = getIdentifiedType(instance);
+				if (isString(identity)) {
+					context[capitalize(identity)] = instance;
+				}
+
+				var activation = instance.isRouteEndpoint ? 'onRouteCompleted' : 'onRouteTraversed';
+				if (isExecutable(instance.trigger)) {
+					instance.trigger.call(instance, activation, context);
+					continue;
+				}
+				instance[activation].call(instance, activation, context);
+			}
+		}
+	}, {
+		key: 'instance',
+		value: function instance(route, value) {
+			var instances = this.instances;
+			if (arguments.length > 1) {
+				instances[route] = value;
+				return value;
+			}
+			return instances[route];
+		}
+	}, {
+		key: 'add',
+		value: function add(routable) {
+			if (isRoutable$1(routable) || isRoutable(routable)) {
+				this[symbol].roots[routable.route] = routable;
+				return;
+			}
+			return get(Router.prototype.__proto__ || Object.getPrototypeOf(Router.prototype), 'add', this).call(this, routable);
+		}
+	}, {
+		key: 'remove',
+		value: function remove(routable) {
+			if (isRoutable$1(routable) || isRoutable(routable)) {
+				delete this[symbol].roots[routable.route];
+				return;
+			}
+			return get(Router.prototype.__proto__ || Object.getPrototypeOf(Router.prototype), 'remove', this).call(this, routable);
+		}
+	}, {
+		key: 'shorten',
+		value: function shorten(url) {
+			//syntax: shorten('/Common/Guest/Authentication/login').to('login');
+		}
+	}, {
+		key: 'missing',
+		get: function get$$1() {
+			return this[symbol].missing;
+		},
+		set: function set$$1(method) {
+			if (!isFunction$1(method)) {
+				method = function method() {};
+			}
+			this[symbol].missing = method;
+		}
+	}, {
+		key: 'unauthorized',
+		get: function get$$1() {
+			return this[symbol].unauthorized;
+		},
+		set: function set$$1(method) {
+			if (!isFunction$1(method)) {
+				method = function method() {};
+			}
+			this[symbol].unauthorized = method;
+		}
+	}, {
+		key: 'instances',
+		get: function get$$1() {
+			return this[symbol].instances;
+		},
+		set: function set$$1(instances) {
+			this[symbol].instances = instances;
+		}
+	}, {
+		key: 'roots',
+		get: function get$$1() {
+			return this[symbol].roots;
+		}
+	}]);
+	return Router;
+}(Enableable(Privatelike(Base)));
+
+var router = new Router$1();
+
+//Keys
+var Routable = function Routable(descendant) {
+	return function (_descendant) {
+		inherits(RoutableMixin, _descendant);
+
+		function RoutableMixin() {
+			classCallCheck(this, RoutableMixin);
+
+			var _this = possibleConstructorReturn(this, (RoutableMixin.__proto__ || Object.getPrototypeOf(RoutableMixin)).call(this));
+
+			_this[symbol] = {
+				state: {
+					route: _this.constructor.route,
+					subroutes: {},
+					traveled: false
+				}
+			};
+			return _this;
+		}
+
+		createClass(RoutableMixin, [{
+			key: 'add',
+			value: function add(routable) {
+				if (isRoutable(routable) || isRoutable$1(routable)) {
+					var subroutes = this[symbol$7]('subroutes');
+					//if a route already exists with this name throw an error
+					subroutes[routable.route] = routable;
+				}
+				if (isExecutable(get(RoutableMixin.prototype.__proto__ || Object.getPrototypeOf(RoutableMixin.prototype), 'add', this))) {
+					return get(RoutableMixin.prototype.__proto__ || Object.getPrototypeOf(RoutableMixin.prototype), 'add', this).call(this, routable);
+				}
+			}
+		}, {
+			key: 'subroute',
+			value: function subroute(name) {
+				var subroute = this.subroutes[name];
+				return subroute ? subroute : false;
+			}
+		}, {
+			key: 'instantiate',
+			value: function instantiate() {
+				return this;
+			}
+		}, {
+			key: 'onRouteAuthorized',
+			value: function onRouteAuthorized() {
+				return true;
+			}
+		}, {
+			key: 'onRouteTraversed',
+			value: function onRouteTraversed() {}
+		}, {
+			key: 'onRouteCompleted',
+			value: function onRouteCompleted() {}
+		}, {
+			key: 'route',
+			get: function get$$1() {
+				return this[symbol$7]('route');
+			},
+			set: function set$$1(route) {
+				var old = this.route;
+				if (this[symbol$7]('route', route)) {
+					if (this.isRootRoute) {
+						router.remove(old);
+						router.add(route);
+					}
+				}
+			}
+		}, {
+			key: 'subroutes',
+			get: function get$$1() {
+				return this[symbol$7]('subroutes');
+			}
+		}, {
+			key: 'isRootRoute',
+			get: function get$$1() {
+				return this[symbol$7]('isRootRoute');
+			},
+			set: function set$$1(bool) {
+				if (this[symbol$7]('isRootRoute', bool)) {
+					if (bool) {
+						router.add(this.route);
+						return;
+					}
+					router.remove(route);
+				}
+			}
+		}, {
+			key: 'isRouteEndpoint',
+			get: function get$$1() {
+				return this[symbol$7]('isRouteEndpoint');
+			},
+			set: function set$$1(bool) {
+				return this[symbol$7]('isRouteEndpoint', bool);
+			}
+		}, {
+			key: 'itinerary',
+			get: function get$$1() {
+				return this[symbol$7]('itinerary');
+			},
+			set: function set$$1(list) {
+				return this[symbol$7]('itinerary', list);
+			}
+		}, {
+			key: symbol$14,
+			get: function get$$1() {
+				return true;
+			}
+		}], [{
+			key: 'instantiate',
+			value: function instantiate() {
+				return new this();
+			}
+		}, {
+			key: 'route',
+			get: function get$$1() {
+				return 'route';
+			}
+		}, {
+			key: symbol$15,
+			get: function get$$1() {
+				return true;
+			}
+		}]);
+		return RoutableMixin;
+	}(descendant);
+};
+
+var Mixins = {
+	Privatelike: Privatelike,
+	Extensible: Extensible,
+	Enableable: Enableable,
+	Routable: Routable
+};
 
 var tags = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio', 'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command', 'datalist', 'dd', 'del', 'details', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'menu', 'meta', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'u', 'ul', 'video', 'wbr'];
 
@@ -3752,7 +4024,7 @@ var ElementCollection = function (_Collection) {
 	return ElementCollection;
 }(Collection$1);
 
-var identity$9 = new Identity({
+var identity$14 = new Identity({
 	class: 'A',
 	major: 1, minor: 0, patch: 0
 });
@@ -3765,14 +4037,14 @@ var A = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (A.__proto__ || Object.getPrototypeOf(A)).call(this, 'a'));
 
-		_this.identity = identity$9;
+		_this.identity = identity$14;
 		return _this;
 	}
 
 	return A;
 }(Element$1);
 
-var identity$10 = new Identity({
+var identity$15 = new Identity({
 	class: 'Abbr',
 	major: 1, minor: 0, patch: 0
 });
@@ -3785,14 +4057,14 @@ var Abbr = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Abbr.__proto__ || Object.getPrototypeOf(Abbr)).call(this, 'abbr'));
 
-		_this.identity = identity$10;
+		_this.identity = identity$15;
 		return _this;
 	}
 
 	return Abbr;
 }(Element$1);
 
-var identity$11 = new Identity({
+var identity$16 = new Identity({
 	class: 'Acronym',
 	major: 1, minor: 0, patch: 0
 });
@@ -3805,14 +4077,14 @@ var Acronym = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Acronym.__proto__ || Object.getPrototypeOf(Acronym)).call(this, 'acronym'));
 
-		_this.identity = identity$11;
+		_this.identity = identity$16;
 		return _this;
 	}
 
 	return Acronym;
 }(Element$1);
 
-var identity$12 = new Identity({
+var identity$17 = new Identity({
 	class: 'Address',
 	major: 1, minor: 0, patch: 0
 });
@@ -3825,14 +4097,14 @@ var Address = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Address.__proto__ || Object.getPrototypeOf(Address)).call(this, 'address'));
 
-		_this.identity = identity$12;
+		_this.identity = identity$17;
 		return _this;
 	}
 
 	return Address;
 }(Element$1);
 
-var identity$13 = new Identity({
+var identity$18 = new Identity({
 	class: 'Applet',
 	major: 1, minor: 0, patch: 0
 });
@@ -3845,14 +4117,14 @@ var Applet = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Applet.__proto__ || Object.getPrototypeOf(Applet)).call(this, 'applet'));
 
-		_this.identity = identity$13;
+		_this.identity = identity$18;
 		return _this;
 	}
 
 	return Applet;
 }(Element$1);
 
-var identity$14 = new Identity({
+var identity$19 = new Identity({
 	class: 'Area',
 	major: 1, minor: 0, patch: 0
 });
@@ -3865,14 +4137,14 @@ var Area = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Area.__proto__ || Object.getPrototypeOf(Area)).call(this, 'area'));
 
-		_this.identity = identity$14;
+		_this.identity = identity$19;
 		return _this;
 	}
 
 	return Area;
 }(Element$1);
 
-var identity$15 = new Identity({
+var identity$20 = new Identity({
 	class: 'Article',
 	major: 1, minor: 0, patch: 0
 });
@@ -3885,14 +4157,14 @@ var Article = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).call(this, 'article'));
 
-		_this.identity = identity$15;
+		_this.identity = identity$20;
 		return _this;
 	}
 
 	return Article;
 }(Element$1);
 
-var identity$16 = new Identity({
+var identity$21 = new Identity({
 	class: 'Aside',
 	major: 1, minor: 0, patch: 0
 });
@@ -3905,14 +4177,14 @@ var Aside = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Aside.__proto__ || Object.getPrototypeOf(Aside)).call(this, 'aside'));
 
-		_this.identity = identity$16;
+		_this.identity = identity$21;
 		return _this;
 	}
 
 	return Aside;
 }(Element$1);
 
-var identity$17 = new Identity({
+var identity$22 = new Identity({
 	class: 'Audio',
 	major: 1, minor: 0, patch: 0
 });
@@ -3925,14 +4197,14 @@ var Audio = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Audio.__proto__ || Object.getPrototypeOf(Audio)).call(this, 'audio'));
 
-		_this.identity = identity$17;
+		_this.identity = identity$22;
 		return _this;
 	}
 
 	return Audio;
 }(Element$1);
 
-var identity$18 = new Identity({
+var identity$23 = new Identity({
 	class: 'B',
 	major: 1, minor: 0, patch: 0
 });
@@ -3945,14 +4217,14 @@ var B = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (B.__proto__ || Object.getPrototypeOf(B)).call(this, 'b'));
 
-		_this.identity = identity$18;
+		_this.identity = identity$23;
 		return _this;
 	}
 
 	return B;
 }(Element$1);
 
-var identity$19 = new Identity({
+var identity$24 = new Identity({
 	class: 'Base',
 	major: 1, minor: 0, patch: 0
 });
@@ -3965,14 +4237,14 @@ var Base$2 = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Base.__proto__ || Object.getPrototypeOf(Base)).call(this, 'base'));
 
-		_this.identity = identity$19;
+		_this.identity = identity$24;
 		return _this;
 	}
 
 	return Base;
 }(Element$1);
 
-var identity$20 = new Identity({
+var identity$25 = new Identity({
 	class: 'Basefont',
 	major: 1, minor: 0, patch: 0
 });
@@ -3985,14 +4257,14 @@ var Basefont = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Basefont.__proto__ || Object.getPrototypeOf(Basefont)).call(this, 'basefont'));
 
-		_this.identity = identity$20;
+		_this.identity = identity$25;
 		return _this;
 	}
 
 	return Basefont;
 }(Element$1);
 
-var identity$21 = new Identity({
+var identity$26 = new Identity({
 	class: 'Bdi',
 	major: 1, minor: 0, patch: 0
 });
@@ -4005,14 +4277,14 @@ var Bdi = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Bdi.__proto__ || Object.getPrototypeOf(Bdi)).call(this, 'bdi'));
 
-		_this.identity = identity$21;
+		_this.identity = identity$26;
 		return _this;
 	}
 
 	return Bdi;
 }(Element$1);
 
-var identity$22 = new Identity({
+var identity$27 = new Identity({
 	class: 'Bdo',
 	major: 1, minor: 0, patch: 0
 });
@@ -4025,14 +4297,14 @@ var Bdo = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Bdo.__proto__ || Object.getPrototypeOf(Bdo)).call(this, 'bdo'));
 
-		_this.identity = identity$22;
+		_this.identity = identity$27;
 		return _this;
 	}
 
 	return Bdo;
 }(Element$1);
 
-var identity$23 = new Identity({
+var identity$28 = new Identity({
 	class: 'Big',
 	major: 1, minor: 0, patch: 0
 });
@@ -4045,14 +4317,14 @@ var Big = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Big.__proto__ || Object.getPrototypeOf(Big)).call(this, 'big'));
 
-		_this.identity = identity$23;
+		_this.identity = identity$28;
 		return _this;
 	}
 
 	return Big;
 }(Element$1);
 
-var identity$24 = new Identity({
+var identity$29 = new Identity({
 	class: 'Blockquote',
 	major: 1, minor: 0, patch: 0
 });
@@ -4065,14 +4337,14 @@ var Blockquote = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Blockquote.__proto__ || Object.getPrototypeOf(Blockquote)).call(this, 'blockquote'));
 
-		_this.identity = identity$24;
+		_this.identity = identity$29;
 		return _this;
 	}
 
 	return Blockquote;
 }(Element$1);
 
-var identity$25 = new Identity({
+var identity$30 = new Identity({
 	class: 'Body',
 	major: 1, minor: 0, patch: 0
 });
@@ -4085,14 +4357,14 @@ var Body = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Body.__proto__ || Object.getPrototypeOf(Body)).call(this, 'body'));
 
-		_this.identity = identity$25;
+		_this.identity = identity$30;
 		return _this;
 	}
 
 	return Body;
 }(Element$1);
 
-var identity$26 = new Identity({
+var identity$31 = new Identity({
 	class: 'Br',
 	major: 1, minor: 0, patch: 0
 });
@@ -4105,14 +4377,14 @@ var Br = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Br.__proto__ || Object.getPrototypeOf(Br)).call(this, 'br'));
 
-		_this.identity = identity$26;
+		_this.identity = identity$31;
 		return _this;
 	}
 
 	return Br;
 }(Element$1);
 
-var identity$27 = new Identity({
+var identity$32 = new Identity({
 	class: 'Button',
 	major: 1, minor: 0, patch: 0
 });
@@ -4125,14 +4397,14 @@ var Button = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Button.__proto__ || Object.getPrototypeOf(Button)).call(this, 'button'));
 
-		_this.identity = identity$27;
+		_this.identity = identity$32;
 		return _this;
 	}
 
 	return Button;
 }(Element$1);
 
-var identity$28 = new Identity({
+var identity$33 = new Identity({
 	class: 'Canvas',
 	major: 1, minor: 0, patch: 0
 });
@@ -4145,14 +4417,14 @@ var Canvas = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Canvas.__proto__ || Object.getPrototypeOf(Canvas)).call(this, 'canvas'));
 
-		_this.identity = identity$28;
+		_this.identity = identity$33;
 		return _this;
 	}
 
 	return Canvas;
 }(Element$1);
 
-var identity$29 = new Identity({
+var identity$34 = new Identity({
 	class: 'Caption',
 	major: 1, minor: 0, patch: 0
 });
@@ -4165,14 +4437,14 @@ var Caption = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Caption.__proto__ || Object.getPrototypeOf(Caption)).call(this, 'caption'));
 
-		_this.identity = identity$29;
+		_this.identity = identity$34;
 		return _this;
 	}
 
 	return Caption;
 }(Element$1);
 
-var identity$30 = new Identity({
+var identity$35 = new Identity({
 	class: 'Center',
 	major: 1, minor: 0, patch: 0
 });
@@ -4185,14 +4457,14 @@ var Center = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Center.__proto__ || Object.getPrototypeOf(Center)).call(this, 'center'));
 
-		_this.identity = identity$30;
+		_this.identity = identity$35;
 		return _this;
 	}
 
 	return Center;
 }(Element$1);
 
-var identity$31 = new Identity({
+var identity$36 = new Identity({
 	class: 'Cite',
 	major: 1, minor: 0, patch: 0
 });
@@ -4205,14 +4477,14 @@ var Cite = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Cite.__proto__ || Object.getPrototypeOf(Cite)).call(this, 'cite'));
 
-		_this.identity = identity$31;
+		_this.identity = identity$36;
 		return _this;
 	}
 
 	return Cite;
 }(Element$1);
 
-var identity$32 = new Identity({
+var identity$37 = new Identity({
 	class: 'Code',
 	major: 1, minor: 0, patch: 0
 });
@@ -4225,14 +4497,14 @@ var Code = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Code.__proto__ || Object.getPrototypeOf(Code)).call(this, 'code'));
 
-		_this.identity = identity$32;
+		_this.identity = identity$37;
 		return _this;
 	}
 
 	return Code;
 }(Element$1);
 
-var identity$33 = new Identity({
+var identity$38 = new Identity({
 	class: 'Col',
 	major: 1, minor: 0, patch: 0
 });
@@ -4245,14 +4517,14 @@ var Col = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Col.__proto__ || Object.getPrototypeOf(Col)).call(this, 'col'));
 
-		_this.identity = identity$33;
+		_this.identity = identity$38;
 		return _this;
 	}
 
 	return Col;
 }(Element$1);
 
-var identity$34 = new Identity({
+var identity$39 = new Identity({
 	class: 'Colgroup',
 	major: 1, minor: 0, patch: 0
 });
@@ -4265,14 +4537,14 @@ var Colgroup = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Colgroup.__proto__ || Object.getPrototypeOf(Colgroup)).call(this, 'colgroup'));
 
-		_this.identity = identity$34;
+		_this.identity = identity$39;
 		return _this;
 	}
 
 	return Colgroup;
 }(Element$1);
 
-var identity$35 = new Identity({
+var identity$40 = new Identity({
 	class: 'Command',
 	major: 1, minor: 0, patch: 0
 });
@@ -4285,14 +4557,14 @@ var Command = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Command.__proto__ || Object.getPrototypeOf(Command)).call(this, 'command'));
 
-		_this.identity = identity$35;
+		_this.identity = identity$40;
 		return _this;
 	}
 
 	return Command;
 }(Element$1);
 
-var identity$36 = new Identity({
+var identity$41 = new Identity({
 	class: 'Datalist',
 	major: 1, minor: 0, patch: 0
 });
@@ -4305,14 +4577,14 @@ var Datalist = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Datalist.__proto__ || Object.getPrototypeOf(Datalist)).call(this, 'datalist'));
 
-		_this.identity = identity$36;
+		_this.identity = identity$41;
 		return _this;
 	}
 
 	return Datalist;
 }(Element$1);
 
-var identity$37 = new Identity({
+var identity$42 = new Identity({
 	class: 'Dd',
 	major: 1, minor: 0, patch: 0
 });
@@ -4325,14 +4597,14 @@ var Dd = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Dd.__proto__ || Object.getPrototypeOf(Dd)).call(this, 'dd'));
 
-		_this.identity = identity$37;
+		_this.identity = identity$42;
 		return _this;
 	}
 
 	return Dd;
 }(Element$1);
 
-var identity$38 = new Identity({
+var identity$43 = new Identity({
 	class: 'Del',
 	major: 1, minor: 0, patch: 0
 });
@@ -4345,14 +4617,14 @@ var Del = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Del.__proto__ || Object.getPrototypeOf(Del)).call(this, 'del'));
 
-		_this.identity = identity$38;
+		_this.identity = identity$43;
 		return _this;
 	}
 
 	return Del;
 }(Element$1);
 
-var identity$39 = new Identity({
+var identity$44 = new Identity({
 	class: 'Details',
 	major: 1, minor: 0, patch: 0
 });
@@ -4365,14 +4637,14 @@ var Details = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Details.__proto__ || Object.getPrototypeOf(Details)).call(this, 'details'));
 
-		_this.identity = identity$39;
+		_this.identity = identity$44;
 		return _this;
 	}
 
 	return Details;
 }(Element$1);
 
-var identity$40 = new Identity({
+var identity$45 = new Identity({
 	class: 'Dfn',
 	major: 1, minor: 0, patch: 0
 });
@@ -4385,14 +4657,14 @@ var Dfn = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Dfn.__proto__ || Object.getPrototypeOf(Dfn)).call(this, 'dfn'));
 
-		_this.identity = identity$40;
+		_this.identity = identity$45;
 		return _this;
 	}
 
 	return Dfn;
 }(Element$1);
 
-var identity$41 = new Identity({
+var identity$46 = new Identity({
 	class: 'Dir',
 	major: 1, minor: 0, patch: 0
 });
@@ -4405,14 +4677,14 @@ var Dir = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Dir.__proto__ || Object.getPrototypeOf(Dir)).call(this, 'dir'));
 
-		_this.identity = identity$41;
+		_this.identity = identity$46;
 		return _this;
 	}
 
 	return Dir;
 }(Element$1);
 
-var identity$42 = new Identity({
+var identity$47 = new Identity({
 	class: 'Div',
 	major: 1, minor: 0, patch: 0
 });
@@ -4425,14 +4697,14 @@ var Div = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Div.__proto__ || Object.getPrototypeOf(Div)).call(this, 'div'));
 
-		_this.identity = identity$42;
+		_this.identity = identity$47;
 		return _this;
 	}
 
 	return Div;
 }(Element$1);
 
-var identity$43 = new Identity({
+var identity$48 = new Identity({
 	class: 'Dl',
 	major: 1, minor: 0, patch: 0
 });
@@ -4445,14 +4717,14 @@ var Dl = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Dl.__proto__ || Object.getPrototypeOf(Dl)).call(this, 'dl'));
 
-		_this.identity = identity$43;
+		_this.identity = identity$48;
 		return _this;
 	}
 
 	return Dl;
 }(Element$1);
 
-var identity$44 = new Identity({
+var identity$49 = new Identity({
 	class: 'Dt',
 	major: 1, minor: 0, patch: 0
 });
@@ -4465,14 +4737,14 @@ var Dt = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Dt.__proto__ || Object.getPrototypeOf(Dt)).call(this, 'dt'));
 
-		_this.identity = identity$44;
+		_this.identity = identity$49;
 		return _this;
 	}
 
 	return Dt;
 }(Element$1);
 
-var identity$45 = new Identity({
+var identity$50 = new Identity({
 	class: 'Em',
 	major: 1, minor: 0, patch: 0
 });
@@ -4485,14 +4757,14 @@ var Em = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Em.__proto__ || Object.getPrototypeOf(Em)).call(this, 'em'));
 
-		_this.identity = identity$45;
+		_this.identity = identity$50;
 		return _this;
 	}
 
 	return Em;
 }(Element$1);
 
-var identity$46 = new Identity({
+var identity$51 = new Identity({
 	class: 'Embed',
 	major: 1, minor: 0, patch: 0
 });
@@ -4505,14 +4777,14 @@ var Embed = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Embed.__proto__ || Object.getPrototypeOf(Embed)).call(this, 'embed'));
 
-		_this.identity = identity$46;
+		_this.identity = identity$51;
 		return _this;
 	}
 
 	return Embed;
 }(Element$1);
 
-var identity$47 = new Identity({
+var identity$52 = new Identity({
 	class: 'Fieldset',
 	major: 1, minor: 0, patch: 0
 });
@@ -4525,14 +4797,14 @@ var Fieldset = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Fieldset.__proto__ || Object.getPrototypeOf(Fieldset)).call(this, 'fieldset'));
 
-		_this.identity = identity$47;
+		_this.identity = identity$52;
 		return _this;
 	}
 
 	return Fieldset;
 }(Element$1);
 
-var identity$48 = new Identity({
+var identity$53 = new Identity({
 	class: 'Figcaption',
 	major: 1, minor: 0, patch: 0
 });
@@ -4545,14 +4817,14 @@ var Figcaption = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Figcaption.__proto__ || Object.getPrototypeOf(Figcaption)).call(this, 'figcaption'));
 
-		_this.identity = identity$48;
+		_this.identity = identity$53;
 		return _this;
 	}
 
 	return Figcaption;
 }(Element$1);
 
-var identity$49 = new Identity({
+var identity$54 = new Identity({
 	class: 'Figure',
 	major: 1, minor: 0, patch: 0
 });
@@ -4565,14 +4837,14 @@ var Figure = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Figure.__proto__ || Object.getPrototypeOf(Figure)).call(this, 'figure'));
 
-		_this.identity = identity$49;
+		_this.identity = identity$54;
 		return _this;
 	}
 
 	return Figure;
 }(Element$1);
 
-var identity$50 = new Identity({
+var identity$55 = new Identity({
 	class: 'Footer',
 	major: 1, minor: 0, patch: 0
 });
@@ -4585,14 +4857,14 @@ var Footer = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).call(this, 'footer'));
 
-		_this.identity = identity$50;
+		_this.identity = identity$55;
 		return _this;
 	}
 
 	return Footer;
 }(Element$1);
 
-var identity$51 = new Identity({
+var identity$56 = new Identity({
 	class: 'Form',
 	major: 1, minor: 0, patch: 0
 });
@@ -4605,14 +4877,14 @@ var Form = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, 'form'));
 
-		_this.identity = identity$51;
+		_this.identity = identity$56;
 		return _this;
 	}
 
 	return Form;
 }(Element$1);
 
-var identity$52 = new Identity({
+var identity$57 = new Identity({
 	class: 'H1',
 	major: 1, minor: 0, patch: 0
 });
@@ -4625,14 +4897,14 @@ var H1 = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (H1.__proto__ || Object.getPrototypeOf(H1)).call(this, 'h1'));
 
-		_this.identity = identity$52;
+		_this.identity = identity$57;
 		return _this;
 	}
 
 	return H1;
 }(Element$1);
 
-var identity$53 = new Identity({
+var identity$58 = new Identity({
 	class: 'H2',
 	major: 1, minor: 0, patch: 0
 });
@@ -4645,14 +4917,14 @@ var H2 = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (H2.__proto__ || Object.getPrototypeOf(H2)).call(this, 'h2'));
 
-		_this.identity = identity$53;
+		_this.identity = identity$58;
 		return _this;
 	}
 
 	return H2;
 }(Element$1);
 
-var identity$54 = new Identity({
+var identity$59 = new Identity({
 	class: 'H3',
 	major: 1, minor: 0, patch: 0
 });
@@ -4665,14 +4937,14 @@ var H3 = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (H3.__proto__ || Object.getPrototypeOf(H3)).call(this, 'h3'));
 
-		_this.identity = identity$54;
+		_this.identity = identity$59;
 		return _this;
 	}
 
 	return H3;
 }(Element$1);
 
-var identity$55 = new Identity({
+var identity$60 = new Identity({
 	class: 'H4',
 	major: 1, minor: 0, patch: 0
 });
@@ -4685,14 +4957,14 @@ var H4 = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (H4.__proto__ || Object.getPrototypeOf(H4)).call(this, 'h4'));
 
-		_this.identity = identity$55;
+		_this.identity = identity$60;
 		return _this;
 	}
 
 	return H4;
 }(Element$1);
 
-var identity$56 = new Identity({
+var identity$61 = new Identity({
 	class: 'H5',
 	major: 1, minor: 0, patch: 0
 });
@@ -4705,14 +4977,14 @@ var H5 = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (H5.__proto__ || Object.getPrototypeOf(H5)).call(this, 'h5'));
 
-		_this.identity = identity$56;
+		_this.identity = identity$61;
 		return _this;
 	}
 
 	return H5;
 }(Element$1);
 
-var identity$57 = new Identity({
+var identity$62 = new Identity({
 	class: 'H6',
 	major: 1, minor: 0, patch: 0
 });
@@ -4725,14 +4997,14 @@ var H6 = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (H6.__proto__ || Object.getPrototypeOf(H6)).call(this, 'h6'));
 
-		_this.identity = identity$57;
+		_this.identity = identity$62;
 		return _this;
 	}
 
 	return H6;
 }(Element$1);
 
-var identity$58 = new Identity({
+var identity$63 = new Identity({
 	class: 'Head',
 	major: 1, minor: 0, patch: 0
 });
@@ -4745,14 +5017,14 @@ var Head = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Head.__proto__ || Object.getPrototypeOf(Head)).call(this, 'head'));
 
-		_this.identity = identity$58;
+		_this.identity = identity$63;
 		return _this;
 	}
 
 	return Head;
 }(Element$1);
 
-var identity$59 = new Identity({
+var identity$64 = new Identity({
 	class: 'Header',
 	major: 1, minor: 0, patch: 0
 });
@@ -4765,14 +5037,14 @@ var Header = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, 'header'));
 
-		_this.identity = identity$59;
+		_this.identity = identity$64;
 		return _this;
 	}
 
 	return Header;
 }(Element$1);
 
-var identity$60 = new Identity({
+var identity$65 = new Identity({
 	class: 'Hgroup',
 	major: 1, minor: 0, patch: 0
 });
@@ -4785,14 +5057,14 @@ var Hgroup = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Hgroup.__proto__ || Object.getPrototypeOf(Hgroup)).call(this, 'hgroup'));
 
-		_this.identity = identity$60;
+		_this.identity = identity$65;
 		return _this;
 	}
 
 	return Hgroup;
 }(Element$1);
 
-var identity$61 = new Identity({
+var identity$66 = new Identity({
 	class: 'Hr',
 	major: 1, minor: 0, patch: 0
 });
@@ -4805,14 +5077,14 @@ var Hr = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Hr.__proto__ || Object.getPrototypeOf(Hr)).call(this, 'hr'));
 
-		_this.identity = identity$61;
+		_this.identity = identity$66;
 		return _this;
 	}
 
 	return Hr;
 }(Element$1);
 
-var identity$62 = new Identity({
+var identity$67 = new Identity({
 	class: 'Html',
 	major: 1, minor: 0, patch: 0
 });
@@ -4825,14 +5097,14 @@ var Html = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Html.__proto__ || Object.getPrototypeOf(Html)).call(this, 'html'));
 
-		_this.identity = identity$62;
+		_this.identity = identity$67;
 		return _this;
 	}
 
 	return Html;
 }(Element$1);
 
-var identity$63 = new Identity({
+var identity$68 = new Identity({
 	class: 'I',
 	major: 1, minor: 0, patch: 0
 });
@@ -4845,14 +5117,14 @@ var I = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (I.__proto__ || Object.getPrototypeOf(I)).call(this, 'i'));
 
-		_this.identity = identity$63;
+		_this.identity = identity$68;
 		return _this;
 	}
 
 	return I;
 }(Element$1);
 
-var identity$64 = new Identity({
+var identity$69 = new Identity({
 	class: 'Iframe',
 	major: 1, minor: 0, patch: 0
 });
@@ -4865,14 +5137,14 @@ var Iframe = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Iframe.__proto__ || Object.getPrototypeOf(Iframe)).call(this, 'iframe'));
 
-		_this.identity = identity$64;
+		_this.identity = identity$69;
 		return _this;
 	}
 
 	return Iframe;
 }(Element$1);
 
-var identity$65 = new Identity({
+var identity$70 = new Identity({
 	class: 'Img',
 	major: 1, minor: 0, patch: 0
 });
@@ -4885,14 +5157,14 @@ var Img = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Img.__proto__ || Object.getPrototypeOf(Img)).call(this, 'img'));
 
-		_this.identity = identity$65;
+		_this.identity = identity$70;
 		return _this;
 	}
 
 	return Img;
 }(Element$1);
 
-var identity$66 = new Identity({
+var identity$71 = new Identity({
 	class: 'Input',
 	major: 1, minor: 0, patch: 0
 });
@@ -4905,14 +5177,14 @@ var Input = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, 'input'));
 
-		_this.identity = identity$66;
+		_this.identity = identity$71;
 		return _this;
 	}
 
 	return Input;
 }(Element$1);
 
-var identity$67 = new Identity({
+var identity$72 = new Identity({
 	class: 'Ins',
 	major: 1, minor: 0, patch: 0
 });
@@ -4925,14 +5197,14 @@ var Ins = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Ins.__proto__ || Object.getPrototypeOf(Ins)).call(this, 'ins'));
 
-		_this.identity = identity$67;
+		_this.identity = identity$72;
 		return _this;
 	}
 
 	return Ins;
 }(Element$1);
 
-var identity$68 = new Identity({
+var identity$73 = new Identity({
 	class: 'Kbd',
 	major: 1, minor: 0, patch: 0
 });
@@ -4945,14 +5217,14 @@ var Kbd = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Kbd.__proto__ || Object.getPrototypeOf(Kbd)).call(this, 'kbd'));
 
-		_this.identity = identity$68;
+		_this.identity = identity$73;
 		return _this;
 	}
 
 	return Kbd;
 }(Element$1);
 
-var identity$69 = new Identity({
+var identity$74 = new Identity({
 	class: 'Keygen',
 	major: 1, minor: 0, patch: 0
 });
@@ -4965,14 +5237,14 @@ var Keygen = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Keygen.__proto__ || Object.getPrototypeOf(Keygen)).call(this, 'keygen'));
 
-		_this.identity = identity$69;
+		_this.identity = identity$74;
 		return _this;
 	}
 
 	return Keygen;
 }(Element$1);
 
-var identity$70 = new Identity({
+var identity$75 = new Identity({
 	class: 'Label',
 	major: 1, minor: 0, patch: 0
 });
@@ -4985,14 +5257,14 @@ var Label = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Label.__proto__ || Object.getPrototypeOf(Label)).call(this, 'label'));
 
-		_this.identity = identity$70;
+		_this.identity = identity$75;
 		return _this;
 	}
 
 	return Label;
 }(Element$1);
 
-var identity$71 = new Identity({
+var identity$76 = new Identity({
 	class: 'Legend',
 	major: 1, minor: 0, patch: 0
 });
@@ -5005,14 +5277,14 @@ var Legend = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Legend.__proto__ || Object.getPrototypeOf(Legend)).call(this, 'legend'));
 
-		_this.identity = identity$71;
+		_this.identity = identity$76;
 		return _this;
 	}
 
 	return Legend;
 }(Element$1);
 
-var identity$72 = new Identity({
+var identity$77 = new Identity({
 	class: 'Li',
 	major: 1, minor: 0, patch: 0
 });
@@ -5025,14 +5297,14 @@ var Li = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Li.__proto__ || Object.getPrototypeOf(Li)).call(this, 'li'));
 
-		_this.identity = identity$72;
+		_this.identity = identity$77;
 		return _this;
 	}
 
 	return Li;
 }(Element$1);
 
-var identity$73 = new Identity({
+var identity$78 = new Identity({
 	class: 'Link',
 	major: 1, minor: 0, patch: 0
 });
@@ -5045,34 +5317,14 @@ var Link = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Link.__proto__ || Object.getPrototypeOf(Link)).call(this, 'link'));
 
-		_this.identity = identity$73;
+		_this.identity = identity$78;
 		return _this;
 	}
 
 	return Link;
 }(Element$1);
 
-var identity$74 = new Identity({
-	class: 'Main',
-	major: 1, minor: 0, patch: 0
-});
-
-var Main = function (_Element) {
-	inherits(Main, _Element);
-
-	function Main() {
-		classCallCheck(this, Main);
-
-		var _this = possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, 'main'));
-
-		_this.identity = identity$74;
-		return _this;
-	}
-
-	return Main;
-}(Element$1);
-
-var identity$75 = new Identity({
+var identity$79 = new Identity({
 	class: 'Map',
 	major: 1, minor: 0, patch: 0
 });
@@ -5085,14 +5337,14 @@ var Map = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Map.__proto__ || Object.getPrototypeOf(Map)).call(this, 'map'));
 
-		_this.identity = identity$75;
+		_this.identity = identity$79;
 		return _this;
 	}
 
 	return Map;
 }(Element$1);
 
-var identity$76 = new Identity({
+var identity$80 = new Identity({
 	class: 'Mark',
 	major: 1, minor: 0, patch: 0
 });
@@ -5105,14 +5357,14 @@ var Mark = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Mark.__proto__ || Object.getPrototypeOf(Mark)).call(this, 'mark'));
 
-		_this.identity = identity$76;
+		_this.identity = identity$80;
 		return _this;
 	}
 
 	return Mark;
 }(Element$1);
 
-var identity$77 = new Identity({
+var identity$81 = new Identity({
 	class: 'Menu',
 	major: 1, minor: 0, patch: 0
 });
@@ -5125,14 +5377,14 @@ var Menu = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, 'menu'));
 
-		_this.identity = identity$77;
+		_this.identity = identity$81;
 		return _this;
 	}
 
 	return Menu;
 }(Element$1);
 
-var identity$78 = new Identity({
+var identity$82 = new Identity({
 	class: 'Meta',
 	major: 1, minor: 0, patch: 0
 });
@@ -5145,14 +5397,14 @@ var Meta = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Meta.__proto__ || Object.getPrototypeOf(Meta)).call(this, 'meta'));
 
-		_this.identity = identity$78;
+		_this.identity = identity$82;
 		return _this;
 	}
 
 	return Meta;
 }(Element$1);
 
-var identity$79 = new Identity({
+var identity$83 = new Identity({
 	class: 'Meter',
 	major: 1, minor: 0, patch: 0
 });
@@ -5165,14 +5417,14 @@ var Meter = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Meter.__proto__ || Object.getPrototypeOf(Meter)).call(this, 'meter'));
 
-		_this.identity = identity$79;
+		_this.identity = identity$83;
 		return _this;
 	}
 
 	return Meter;
 }(Element$1);
 
-var identity$80 = new Identity({
+var identity$84 = new Identity({
 	class: 'Nav',
 	major: 1, minor: 0, patch: 0
 });
@@ -5185,14 +5437,14 @@ var Nav = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this, 'nav'));
 
-		_this.identity = identity$80;
+		_this.identity = identity$84;
 		return _this;
 	}
 
 	return Nav;
 }(Element$1);
 
-var identity$81 = new Identity({
+var identity$85 = new Identity({
 	class: 'Noscript',
 	major: 1, minor: 0, patch: 0
 });
@@ -5205,14 +5457,14 @@ var Noscript = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Noscript.__proto__ || Object.getPrototypeOf(Noscript)).call(this, 'noscript'));
 
-		_this.identity = identity$81;
+		_this.identity = identity$85;
 		return _this;
 	}
 
 	return Noscript;
 }(Element$1);
 
-var identity$82 = new Identity({
+var identity$86 = new Identity({
 	class: 'Object',
 	major: 1, minor: 0, patch: 0
 });
@@ -5225,14 +5477,14 @@ var Object$1 = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Object.__proto__ || Object.getPrototypeOf(Object)).call(this, 'object'));
 
-		_this.identity = identity$82;
+		_this.identity = identity$86;
 		return _this;
 	}
 
 	return Object;
 }(Element$1);
 
-var identity$83 = new Identity({
+var identity$87 = new Identity({
 	class: 'Ol',
 	major: 1, minor: 0, patch: 0
 });
@@ -5245,14 +5497,14 @@ var Ol = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Ol.__proto__ || Object.getPrototypeOf(Ol)).call(this, 'ol'));
 
-		_this.identity = identity$83;
+		_this.identity = identity$87;
 		return _this;
 	}
 
 	return Ol;
 }(Element$1);
 
-var identity$84 = new Identity({
+var identity$88 = new Identity({
 	class: 'Optgroup',
 	major: 1, minor: 0, patch: 0
 });
@@ -5265,14 +5517,14 @@ var Optgroup = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Optgroup.__proto__ || Object.getPrototypeOf(Optgroup)).call(this, 'optgroup'));
 
-		_this.identity = identity$84;
+		_this.identity = identity$88;
 		return _this;
 	}
 
 	return Optgroup;
 }(Element$1);
 
-var identity$85 = new Identity({
+var identity$89 = new Identity({
 	class: 'Option',
 	major: 1, minor: 0, patch: 0
 });
@@ -5285,14 +5537,14 @@ var Option = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Option.__proto__ || Object.getPrototypeOf(Option)).call(this, 'option'));
 
-		_this.identity = identity$85;
+		_this.identity = identity$89;
 		return _this;
 	}
 
 	return Option;
 }(Element$1);
 
-var identity$86 = new Identity({
+var identity$90 = new Identity({
 	class: 'Output',
 	major: 1, minor: 0, patch: 0
 });
@@ -5305,14 +5557,14 @@ var Output = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Output.__proto__ || Object.getPrototypeOf(Output)).call(this, 'output'));
 
-		_this.identity = identity$86;
+		_this.identity = identity$90;
 		return _this;
 	}
 
 	return Output;
 }(Element$1);
 
-var identity$87 = new Identity({
+var identity$91 = new Identity({
 	class: 'P',
 	major: 1, minor: 0, patch: 0
 });
@@ -5325,14 +5577,14 @@ var P = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (P.__proto__ || Object.getPrototypeOf(P)).call(this, 'p'));
 
-		_this.identity = identity$87;
+		_this.identity = identity$91;
 		return _this;
 	}
 
 	return P;
 }(Element$1);
 
-var identity$88 = new Identity({
+var identity$92 = new Identity({
 	class: 'Param',
 	major: 1, minor: 0, patch: 0
 });
@@ -5345,14 +5597,14 @@ var Param = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Param.__proto__ || Object.getPrototypeOf(Param)).call(this, 'param'));
 
-		_this.identity = identity$88;
+		_this.identity = identity$92;
 		return _this;
 	}
 
 	return Param;
 }(Element$1);
 
-var identity$89 = new Identity({
+var identity$93 = new Identity({
 	class: 'Pre',
 	major: 1, minor: 0, patch: 0
 });
@@ -5365,14 +5617,14 @@ var Pre = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Pre.__proto__ || Object.getPrototypeOf(Pre)).call(this, 'pre'));
 
-		_this.identity = identity$89;
+		_this.identity = identity$93;
 		return _this;
 	}
 
 	return Pre;
 }(Element$1);
 
-var identity$90 = new Identity({
+var identity$94 = new Identity({
 	class: 'Progress',
 	major: 1, minor: 0, patch: 0
 });
@@ -5385,14 +5637,14 @@ var Progress = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Progress.__proto__ || Object.getPrototypeOf(Progress)).call(this, 'progress'));
 
-		_this.identity = identity$90;
+		_this.identity = identity$94;
 		return _this;
 	}
 
 	return Progress;
 }(Element$1);
 
-var identity$91 = new Identity({
+var identity$95 = new Identity({
 	class: 'Q',
 	major: 1, minor: 0, patch: 0
 });
@@ -5405,14 +5657,14 @@ var Q = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Q.__proto__ || Object.getPrototypeOf(Q)).call(this, 'q'));
 
-		_this.identity = identity$91;
+		_this.identity = identity$95;
 		return _this;
 	}
 
 	return Q;
 }(Element$1);
 
-var identity$92 = new Identity({
+var identity$96 = new Identity({
 	class: 'Rp',
 	major: 1, minor: 0, patch: 0
 });
@@ -5425,14 +5677,14 @@ var Rp = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Rp.__proto__ || Object.getPrototypeOf(Rp)).call(this, 'rp'));
 
-		_this.identity = identity$92;
+		_this.identity = identity$96;
 		return _this;
 	}
 
 	return Rp;
 }(Element$1);
 
-var identity$93 = new Identity({
+var identity$97 = new Identity({
 	class: 'Rt',
 	major: 1, minor: 0, patch: 0
 });
@@ -5445,14 +5697,14 @@ var Rt = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Rt.__proto__ || Object.getPrototypeOf(Rt)).call(this, 'rt'));
 
-		_this.identity = identity$93;
+		_this.identity = identity$97;
 		return _this;
 	}
 
 	return Rt;
 }(Element$1);
 
-var identity$94 = new Identity({
+var identity$98 = new Identity({
 	class: 'Ruby',
 	major: 1, minor: 0, patch: 0
 });
@@ -5465,14 +5717,14 @@ var Ruby = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Ruby.__proto__ || Object.getPrototypeOf(Ruby)).call(this, 'ruby'));
 
-		_this.identity = identity$94;
+		_this.identity = identity$98;
 		return _this;
 	}
 
 	return Ruby;
 }(Element$1);
 
-var identity$95 = new Identity({
+var identity$99 = new Identity({
 	class: 'S',
 	major: 1, minor: 0, patch: 0
 });
@@ -5485,14 +5737,14 @@ var S = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (S.__proto__ || Object.getPrototypeOf(S)).call(this, 's'));
 
-		_this.identity = identity$95;
+		_this.identity = identity$99;
 		return _this;
 	}
 
 	return S;
 }(Element$1);
 
-var identity$96 = new Identity({
+var identity$100 = new Identity({
 	class: 'Samp',
 	major: 1, minor: 0, patch: 0
 });
@@ -5505,14 +5757,14 @@ var Samp = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Samp.__proto__ || Object.getPrototypeOf(Samp)).call(this, 'samp'));
 
-		_this.identity = identity$96;
+		_this.identity = identity$100;
 		return _this;
 	}
 
 	return Samp;
 }(Element$1);
 
-var identity$97 = new Identity({
+var identity$101 = new Identity({
 	class: 'Script',
 	major: 1, minor: 0, patch: 0
 });
@@ -5525,14 +5777,14 @@ var Script = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Script.__proto__ || Object.getPrototypeOf(Script)).call(this, 'script'));
 
-		_this.identity = identity$97;
+		_this.identity = identity$101;
 		return _this;
 	}
 
 	return Script;
 }(Element$1);
 
-var identity$98 = new Identity({
+var identity$102 = new Identity({
 	class: 'Section',
 	major: 1, minor: 0, patch: 0
 });
@@ -5545,14 +5797,14 @@ var Section = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Section.__proto__ || Object.getPrototypeOf(Section)).call(this, 'section'));
 
-		_this.identity = identity$98;
+		_this.identity = identity$102;
 		return _this;
 	}
 
 	return Section;
 }(Element$1);
 
-var identity$99 = new Identity({
+var identity$103 = new Identity({
 	class: 'Select',
 	major: 1, minor: 0, patch: 0
 });
@@ -5565,14 +5817,14 @@ var Select = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, 'select'));
 
-		_this.identity = identity$99;
+		_this.identity = identity$103;
 		return _this;
 	}
 
 	return Select;
 }(Element$1);
 
-var identity$100 = new Identity({
+var identity$104 = new Identity({
 	class: 'Small',
 	major: 1, minor: 0, patch: 0
 });
@@ -5585,14 +5837,14 @@ var Small = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Small.__proto__ || Object.getPrototypeOf(Small)).call(this, 'small'));
 
-		_this.identity = identity$100;
+		_this.identity = identity$104;
 		return _this;
 	}
 
 	return Small;
 }(Element$1);
 
-var identity$101 = new Identity({
+var identity$105 = new Identity({
 	class: 'Source',
 	major: 1, minor: 0, patch: 0
 });
@@ -5605,14 +5857,14 @@ var Source = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Source.__proto__ || Object.getPrototypeOf(Source)).call(this, 'source'));
 
-		_this.identity = identity$101;
+		_this.identity = identity$105;
 		return _this;
 	}
 
 	return Source;
 }(Element$1);
 
-var identity$102 = new Identity({
+var identity$106 = new Identity({
 	class: 'Span',
 	major: 1, minor: 0, patch: 0
 });
@@ -5625,14 +5877,14 @@ var Span = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Span.__proto__ || Object.getPrototypeOf(Span)).call(this, 'span'));
 
-		_this.identity = identity$102;
+		_this.identity = identity$106;
 		return _this;
 	}
 
 	return Span;
 }(Element$1);
 
-var identity$103 = new Identity({
+var identity$107 = new Identity({
 	class: 'Strong',
 	major: 1, minor: 0, patch: 0
 });
@@ -5645,14 +5897,14 @@ var Strong = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Strong.__proto__ || Object.getPrototypeOf(Strong)).call(this, 'strong'));
 
-		_this.identity = identity$103;
+		_this.identity = identity$107;
 		return _this;
 	}
 
 	return Strong;
 }(Element$1);
 
-var identity$104 = new Identity({
+var identity$108 = new Identity({
 	class: 'Style',
 	major: 1, minor: 0, patch: 0
 });
@@ -5665,14 +5917,14 @@ var Style = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Style.__proto__ || Object.getPrototypeOf(Style)).call(this, 'style'));
 
-		_this.identity = identity$104;
+		_this.identity = identity$108;
 		return _this;
 	}
 
 	return Style;
 }(Element$1);
 
-var identity$105 = new Identity({
+var identity$109 = new Identity({
 	class: 'Sub',
 	major: 1, minor: 0, patch: 0
 });
@@ -5685,14 +5937,14 @@ var Sub = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Sub.__proto__ || Object.getPrototypeOf(Sub)).call(this, 'sub'));
 
-		_this.identity = identity$105;
+		_this.identity = identity$109;
 		return _this;
 	}
 
 	return Sub;
 }(Element$1);
 
-var identity$106 = new Identity({
+var identity$110 = new Identity({
 	class: 'Summary',
 	major: 1, minor: 0, patch: 0
 });
@@ -5705,14 +5957,14 @@ var Summary = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Summary.__proto__ || Object.getPrototypeOf(Summary)).call(this, 'summary'));
 
-		_this.identity = identity$106;
+		_this.identity = identity$110;
 		return _this;
 	}
 
 	return Summary;
 }(Element$1);
 
-var identity$107 = new Identity({
+var identity$111 = new Identity({
 	class: 'Sup',
 	major: 1, minor: 0, patch: 0
 });
@@ -5725,14 +5977,14 @@ var Sup = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Sup.__proto__ || Object.getPrototypeOf(Sup)).call(this, 'sup'));
 
-		_this.identity = identity$107;
+		_this.identity = identity$111;
 		return _this;
 	}
 
 	return Sup;
 }(Element$1);
 
-var identity$108 = new Identity({
+var identity$112 = new Identity({
 	class: 'Table',
 	major: 1, minor: 0, patch: 0
 });
@@ -5745,14 +5997,14 @@ var Table = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, 'table'));
 
-		_this.identity = identity$108;
+		_this.identity = identity$112;
 		return _this;
 	}
 
 	return Table;
 }(Element$1);
 
-var identity$109 = new Identity({
+var identity$113 = new Identity({
 	class: 'Tbody',
 	major: 1, minor: 0, patch: 0
 });
@@ -5765,14 +6017,14 @@ var Tbody = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Tbody.__proto__ || Object.getPrototypeOf(Tbody)).call(this, 'tbody'));
 
-		_this.identity = identity$109;
+		_this.identity = identity$113;
 		return _this;
 	}
 
 	return Tbody;
 }(Element$1);
 
-var identity$110 = new Identity({
+var identity$114 = new Identity({
 	class: 'Td',
 	major: 1, minor: 0, patch: 0
 });
@@ -5785,14 +6037,14 @@ var Td = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Td.__proto__ || Object.getPrototypeOf(Td)).call(this, 'td'));
 
-		_this.identity = identity$110;
+		_this.identity = identity$114;
 		return _this;
 	}
 
 	return Td;
 }(Element$1);
 
-var identity$111 = new Identity({
+var identity$115 = new Identity({
 	class: 'Textarea',
 	major: 1, minor: 0, patch: 0
 });
@@ -5805,14 +6057,14 @@ var Textarea = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Textarea.__proto__ || Object.getPrototypeOf(Textarea)).call(this, 'textarea'));
 
-		_this.identity = identity$111;
+		_this.identity = identity$115;
 		return _this;
 	}
 
 	return Textarea;
 }(Element$1);
 
-var identity$112 = new Identity({
+var identity$116 = new Identity({
 	class: 'Tfoot',
 	major: 1, minor: 0, patch: 0
 });
@@ -5825,14 +6077,14 @@ var Tfoot = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Tfoot.__proto__ || Object.getPrototypeOf(Tfoot)).call(this, 'tfoot'));
 
-		_this.identity = identity$112;
+		_this.identity = identity$116;
 		return _this;
 	}
 
 	return Tfoot;
 }(Element$1);
 
-var identity$113 = new Identity({
+var identity$117 = new Identity({
 	class: 'Th',
 	major: 1, minor: 0, patch: 0
 });
@@ -5845,14 +6097,14 @@ var Th = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Th.__proto__ || Object.getPrototypeOf(Th)).call(this, 'th'));
 
-		_this.identity = identity$113;
+		_this.identity = identity$117;
 		return _this;
 	}
 
 	return Th;
 }(Element$1);
 
-var identity$114 = new Identity({
+var identity$118 = new Identity({
 	class: 'Thead',
 	major: 1, minor: 0, patch: 0
 });
@@ -5865,14 +6117,14 @@ var Thead = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Thead.__proto__ || Object.getPrototypeOf(Thead)).call(this, 'thead'));
 
-		_this.identity = identity$114;
+		_this.identity = identity$118;
 		return _this;
 	}
 
 	return Thead;
 }(Element$1);
 
-var identity$115 = new Identity({
+var identity$119 = new Identity({
 	class: 'Time',
 	major: 1, minor: 0, patch: 0
 });
@@ -5885,14 +6137,14 @@ var Time = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Time.__proto__ || Object.getPrototypeOf(Time)).call(this, 'time'));
 
-		_this.identity = identity$115;
+		_this.identity = identity$119;
 		return _this;
 	}
 
 	return Time;
 }(Element$1);
 
-var identity$116 = new Identity({
+var identity$120 = new Identity({
 	class: 'Title',
 	major: 1, minor: 0, patch: 0
 });
@@ -5905,14 +6157,14 @@ var Title = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Title.__proto__ || Object.getPrototypeOf(Title)).call(this, 'title'));
 
-		_this.identity = identity$116;
+		_this.identity = identity$120;
 		return _this;
 	}
 
 	return Title;
 }(Element$1);
 
-var identity$117 = new Identity({
+var identity$121 = new Identity({
 	class: 'Tr',
 	major: 1, minor: 0, patch: 0
 });
@@ -5925,14 +6177,14 @@ var Tr = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Tr.__proto__ || Object.getPrototypeOf(Tr)).call(this, 'tr'));
 
-		_this.identity = identity$117;
+		_this.identity = identity$121;
 		return _this;
 	}
 
 	return Tr;
 }(Element$1);
 
-var identity$118 = new Identity({
+var identity$122 = new Identity({
 	class: 'Track',
 	major: 1, minor: 0, patch: 0
 });
@@ -5945,14 +6197,14 @@ var Track = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Track.__proto__ || Object.getPrototypeOf(Track)).call(this, 'track'));
 
-		_this.identity = identity$118;
+		_this.identity = identity$122;
 		return _this;
 	}
 
 	return Track;
 }(Element$1);
 
-var identity$119 = new Identity({
+var identity$123 = new Identity({
 	class: 'U',
 	major: 1, minor: 0, patch: 0
 });
@@ -5965,14 +6217,14 @@ var U = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (U.__proto__ || Object.getPrototypeOf(U)).call(this, 'u'));
 
-		_this.identity = identity$119;
+		_this.identity = identity$123;
 		return _this;
 	}
 
 	return U;
 }(Element$1);
 
-var identity$120 = new Identity({
+var identity$124 = new Identity({
 	class: 'Ul',
 	major: 1, minor: 0, patch: 0
 });
@@ -5985,14 +6237,14 @@ var Ul = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Ul.__proto__ || Object.getPrototypeOf(Ul)).call(this, 'ul'));
 
-		_this.identity = identity$120;
+		_this.identity = identity$124;
 		return _this;
 	}
 
 	return Ul;
 }(Element$1);
 
-var identity$121 = new Identity({
+var identity$125 = new Identity({
 	class: 'Video',
 	major: 1, minor: 0, patch: 0
 });
@@ -6005,14 +6257,14 @@ var Video = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Video.__proto__ || Object.getPrototypeOf(Video)).call(this, 'video'));
 
-		_this.identity = identity$121;
+		_this.identity = identity$125;
 		return _this;
 	}
 
 	return Video;
 }(Element$1);
 
-var identity$122 = new Identity({
+var identity$126 = new Identity({
 	class: 'Wbr',
 	major: 1, minor: 0, patch: 0
 });
@@ -6025,7 +6277,7 @@ var Wbr = function (_Element) {
 
 		var _this = possibleConstructorReturn(this, (Wbr.__proto__ || Object.getPrototypeOf(Wbr)).call(this, 'wbr'));
 
-		_this.identity = identity$122;
+		_this.identity = identity$126;
 		return _this;
 	}
 
@@ -6149,7 +6401,7 @@ var Elements = {
 	Wbr: Wbr
 };
 
-var identity$123 = new Identity({
+var identity$127 = new Identity({
 	class: 'StyleVariables',
 	major: 1, minor: 0, patch: 0
 });
@@ -6162,7 +6414,7 @@ var StyleVariables = function (_Distinct) {
 
 		var _this = possibleConstructorReturn(this, (StyleVariables.__proto__ || Object.getPrototypeOf(StyleVariables)).call(this));
 
-		_this.identity = identity$123;
+		_this.identity = identity$127;
 		return _this;
 	}
 
@@ -6524,7 +6776,7 @@ function isExtensible$1(u) {
 	return !!u[symbol$16];
 }
 
-var Types$1 = Object.create(types$1);
+var Types$1 = Object.create(types$3);
 extend(Types$1).with({
 	object: {
 		data: isData,
@@ -6533,7 +6785,7 @@ extend(Types$1).with({
 	}
 });
 
-var getHandledType$2 = getHandledType$1.bind(null, Types$1);
+var getHandledType$2 = getHandledType.bind(null, Types$1);
 
 //keys
 var BindReceipt = function (_Enableable) {
@@ -6692,7 +6944,7 @@ var BindReceipt = function (_Enableable) {
 	return BindReceipt;
 }(Enableable(Receipt));
 
-var identity$124 = new Identity({
+var identity$128 = new Identity({
 	class: 'Relationship',
 	major: 1, minor: 0, patch: 0
 });
@@ -6750,136 +7002,6 @@ var Relationship = function (_Enableable) {
 	}]);
 	return Relationship;
 }(Enableable(Base));
-
-var identity$125 = new Identity({
-	class: 'Application',
-	major: 1, minor: 0, patch: 0
-});
-
-var Application = function (_Routable) {
-	inherits(Application, _Routable);
-
-	function Application() {
-		classCallCheck(this, Application);
-
-		var _this = possibleConstructorReturn(this, (Application.__proto__ || Object.getPrototypeOf(Application)).call(this, 'div'));
-
-		_this.identity = identity$125;
-		_this[symbol].routes = {};
-		router.add(_this);
-		return _this;
-	}
-
-	createClass(Application, null, [{
-		key: 'route',
-		get: function get$$1() {
-			return 'Application';
-		}
-	}]);
-	return Application;
-}(Routable(Distinct));
-
-var identity$126 = new Identity({
-	class: 'Role',
-	major: 1, minor: 0, patch: 0
-});
-
-var Role = function (_Routable) {
-	inherits(Role, _Routable);
-
-	function Role() {
-		classCallCheck(this, Role);
-
-		var _this = possibleConstructorReturn(this, (Role.__proto__ || Object.getPrototypeOf(Role)).call(this));
-
-		_this.identity = identity$126;
-		return _this;
-	}
-
-	createClass(Role, null, [{
-		key: 'route',
-		get: function get$$1() {
-			return 'Role';
-		}
-	}]);
-	return Role;
-}(Routable(Distinct));
-
-var identity$127 = new Identity({
-	class: 'Feature',
-	major: 1, minor: 0, patch: 0
-});
-
-var Feature = function (_Routable) {
-	inherits(Feature, _Routable);
-
-	function Feature() {
-		classCallCheck(this, Feature);
-
-		var _this = possibleConstructorReturn(this, (Feature.__proto__ || Object.getPrototypeOf(Feature)).call(this));
-
-		_this.identity = identity$127;
-		return _this;
-	}
-
-	createClass(Feature, null, [{
-		key: 'route',
-		get: function get$$1() {
-			return 'Feature';
-		}
-	}]);
-	return Feature;
-}(Routable(Distinct));
-
-var identity$128 = new Identity({
-	class: 'Page',
-	major: 1, minor: 0, patch: 0
-});
-
-var Page = function (_Routable) {
-	inherits(Page, _Routable);
-
-	function Page() {
-		classCallCheck(this, Page);
-
-		var _this = possibleConstructorReturn(this, (Page.__proto__ || Object.getPrototypeOf(Page)).call(this));
-
-		_this.identity = identity$128;
-		return _this;
-	}
-
-	createClass(Page, null, [{
-		key: 'instantiate',
-		value: function instantiate() {
-			var instance = get(Page.__proto__ || Object.getPrototypeOf(Page), 'instantiate', this).call(this);
-			instance.addTo(document.body);
-			return instance;
-		}
-	}, {
-		key: 'route',
-		get: function get$$1() {
-			return 'Page';
-		}
-	}]);
-	return Page;
-}(Routable(Main));
-
-var Endpoint = function (_Routable) {
-	inherits(Endpoint, _Routable);
-
-	function Endpoint() {
-		classCallCheck(this, Endpoint);
-		return possibleConstructorReturn(this, (Endpoint.__proto__ || Object.getPrototypeOf(Endpoint)).apply(this, arguments));
-	}
-
-	createClass(Endpoint, [{
-		key: 'onRouteTraversed',
-		value: function onRouteTraversed() {
-			this.execute();
-		}
-	}]);
-	return Endpoint;
-}(Routable(JSUIFunction));
 
 var Classes = {
 	Behavior: Behavior,
@@ -7020,10 +7142,6 @@ function getAll(obj) {
 		});
 	} while ((obj = Object.getPrototypeOf(obj)) && obj !== ObjectPrototype);
 	return props;
-}
-
-function capitalize(text) {
-	return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 //Elements
