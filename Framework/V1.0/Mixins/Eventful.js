@@ -45,7 +45,7 @@ let Eventful = (descendant) => {
 				dispatcher.call(this, args);
 			}
 
-			let native = this[event];
+			let native = this[`on.${event}`];
 			if (isExecutable(native)) {
 				native.call(this, args);
 			}

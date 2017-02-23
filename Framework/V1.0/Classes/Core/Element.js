@@ -56,15 +56,15 @@ export default class Element extends Styleable {
 		if (development.enabled && development.references) {
 			this.element.JSUI = this;
 		}
-		this.on('Style.contextChanged', () => {
-			//if not default, change the context of the child elements
-			let context = this.Style.context;
-			this.children((child) => {
-				//allow context to only change once
-				let childStyle = child.Style;
-				childStyle.context = (childStyle.context === 'default' ? context : childStyle.context);
-			});			
-		});
+	}
+	['on.Style.contextChanged']() {
+		//if not default, change the context of the child elements
+		let context = this.Style.context;
+		this.children((child) => {
+			//allow context to only change once
+			let childStyle = child.Style;
+			childStyle.context = (childStyle.context === 'default' ? context : childStyle.context);
+		});	
 	}
 	[on](event, method) {
 		let type = getHandledType(event);
