@@ -4,6 +4,7 @@ import Identity from '/Framework/V1.0/Classes/Core/Identity';
 import Distinct from '/Framework/V1.0/Classes/Core/Distinct';
 import StyleInline from '/Framework/V1.0/Classes/Style/Inline';
 import Behaviorlike from '/Framework/V1.0/Mixins/Behaviorlike';
+import Sheets from '/Framework/V1.0/Singletons/Style/Sheets';
 
 const identity = new Identity({
 	class: 'StyleBehavior',
@@ -14,6 +15,7 @@ export default class StyleBehavior extends Behaviorlike(Distinct) {
 	constructor(host) {
 		super();
 		this[$private].host = host;
+		this[$private].context = 'default';
 		this.identity = identity;
 	}
 	get namespace() {
