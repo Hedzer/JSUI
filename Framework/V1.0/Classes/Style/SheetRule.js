@@ -179,13 +179,13 @@ export default class StyleSheetRule extends StyleRules {
 		let data = new StateChangeReceipt({old: old, new: className});
 		this.trigger('classChanged', data);
 	}
-	_on(JSUIElement) {
+	addTo(JSUIElement) {
 		if (!this.isSwitchable || !this.class) { return; }
 		if (isJSUI(JSUIElement)) {
 			JSUIElement.class(this.class).add();
 		}
 	}
-	_off(JSUIElement) {
+	removeFrom(JSUIElement) {
 		if (!this.isSwitchable || !this.class) { return; }
 		if (isJSUI(JSUIElement)) {
 			JSUIElement.class(this.class).remove();

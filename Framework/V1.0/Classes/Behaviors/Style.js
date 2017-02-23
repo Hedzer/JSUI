@@ -56,8 +56,8 @@ export default class StyleBehavior extends Behaviorlike(Distinct) {
 			let host = this[$private].host;
 
 			let action = (styleActions[style.uid] || {
-				on: style._on.bind(style, host),
-				off: style._off.bind(style, host)
+				on: style.addTo.bind(style, host),
+				off: style.removeFrom.bind(style, host)
 			});
 			
 			return action;
