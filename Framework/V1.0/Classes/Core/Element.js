@@ -54,9 +54,18 @@ export default class Element extends Styleable {
 		//add references 
 		let development = settings.Development;
 		if (development.enabled && development.references) {
-			this.element.JSUI = this;
+			this.element.JSUIElement = this;
 		}
+
+		this.constructor.structure.call(this);
+		this.constructor.style.call(this);
+		this.constructor.relationships.call(this);
 	}
+	//constructors
+	static structure() {}
+	static style() {}
+	static relationships() {}
+	//end constructors
 	onStyleContextChanged() {
 		//if not default, change the context of the child elements
 		let context = this.Style.context;
