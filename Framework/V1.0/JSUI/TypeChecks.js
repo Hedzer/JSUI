@@ -20,6 +20,11 @@ import isData from '/Framework/V1.0/TypeChecks/isData';
 import isUData from '/Framework/V1.0/TypeChecks/isUData';
 import isBoolean from '/Framework/V1.0/TypeChecks/isBoolean';
 import isExtensible from '/Framework/V1.0/TypeChecks/isExtensible';
+import isApplication from '/Framework/V1.0/TypeChecks/isApplication';
+import isRole from '/Framework/V1.0/TypeChecks/isRole';
+import isFeature from '/Framework/V1.0/TypeChecks/isFeature';
+import isPage from '/Framework/V1.0/TypeChecks/isPage';
+import isEndpoint from '/Framework/V1.0/TypeChecks/isEndpoint';
 
 let TypeChecks = {
 	isArray: isArray,
@@ -43,7 +48,12 @@ let TypeChecks = {
 	isData: isData,
 	isUData: isUData,
 	isBoolean: isBoolean,
-	isExtensible: isExtensible
+	isExtensible: isExtensible,
+	isApplication: isApplication,
+	isRole: isRole,
+	isFeature: isFeature,
+	isPage: isPage,
+	isEndpoint: isEndpoint
 };
 
 export default TypeChecks;
