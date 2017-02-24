@@ -13,6 +13,7 @@ import on from '/Framework/V1.0/Constants/Keys/Eventful/on';
 import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
 
 import onEvent from '/Framework/V1.0/Utilities/Events/on';
+import capitalize from '/Framework/V1.0/Utilities/Strings/capitalize';
 
 let Eventful = (descendant) => {
 
@@ -45,7 +46,8 @@ let Eventful = (descendant) => {
 				dispatcher.call(this, args);
 			}
 
-			let native = this[`on.${event}`];
+			event = capitalize(event);
+			let native = this[`on${event}`];
 			if (isExecutable(native)) {
 				native.call(this, args);
 			}

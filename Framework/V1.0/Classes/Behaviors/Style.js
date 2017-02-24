@@ -45,7 +45,7 @@ export default class StyleBehavior extends Behaviorlike(Distinct) {
 			entry.rule.render(this[$private].context);
 		});
 
-		host.trigger('Style.contextChanged', {
+		host.trigger('StyleContextChanged', {
 			old: old,
 			new: context
 		});

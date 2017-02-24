@@ -30,7 +30,7 @@ import on from '/Framework/V1.0/Constants/Keys/General/on';
 import trigger from '/Framework/V1.0/Constants/Keys/General/trigger';
 
 import settings from '/Framework/V1.0/Constants/JSUI/settings';
-import conHandler from '/Framework/V1.0/Classes/Core/Element/Handlers/Constructor';
+import handler from '/Framework/V1.0/Classes/Core/Element/Handlers/Constructor';
 
 const identity = new Identity({
 	class: 'Element',
@@ -43,9 +43,9 @@ export default class Element extends Styleable {
 		this.identity = identity;
 		//select the proper constructor action
 		let type = getHandledType(tag);
-		let action = conHandler[type];
+		let action = handler[type];
 		tag = (action || function(){
-			return conHandler.string.call(this, 'div');
+			return handler.string.call(this, 'div');
 		}).call(this, tag);
 
 		//set up ids
@@ -57,7 +57,7 @@ export default class Element extends Styleable {
 			this.element.JSUI = this;
 		}
 	}
-	['on.Style.contextChanged']() {
+	onStyleContextChanged() {
 		//if not default, change the context of the child elements
 		let context = this.Style.context;
 		this.children((child) => {
