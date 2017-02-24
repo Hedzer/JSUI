@@ -88,9 +88,11 @@ let Routable = ((descendant) => {
 		static get [isStatic]() {
 			return true;
 		}
-		onRouteAuthorized() { return true; }
-		onRouteTraversed() {}
-		onRouteCompleted() {}
+		get isRouteAuthorized() {
+			return true;
+		}
+		onRouteTraversed(context) {}
+		onRouteCompleted(context) {}
 	};
 });
 

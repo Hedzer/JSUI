@@ -1,3 +1,4 @@
+
 import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
 import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
 import isString from '/Framework/V1.0/TypeChecks/isString';
@@ -7,6 +8,7 @@ import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
 import Enableable from '/Framework/V1.0/Mixins/Enableable';
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
 import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
 import getHashRoutes from '/Framework/V1.0/Utilities/Navigation/getHashRoutes';
 import getUrlParams from '/Framework/V1.0/Utilities/Navigation/getUrlParams';
@@ -39,12 +41,16 @@ export default class Router extends Enableable(Privatelike(Base)) {
 		let rootRoute = (routes.splice(0, 1))[0];
 		let root = this.roots[rootRoute];
 		//if the root doesn't exist, 404 and exit
-		if (!root) { return this.missing(); }
+		if (!root) { return this.missing(context); }
 		//get the root route, if uninstanced, instantiate
 		root = (isURoutable(root) ? new root() : root);
 		//if the instance isn't routable, return 
 		if (!isRoutable(root)) { return; }
+		//traverse root
+		context.arguments = routes;
+		this.traverse(root, context);
 		this[$private].root = root;
+		
 		let traversed = "";
 		let instance = root;
 		for (let index = 0; index < routes.length; index++) {
@@ -72,23 +78,14 @@ export default class Router extends Enableable(Privatelike(Base)) {
 				});
 			}
 			//if there's no instance, 404 and return
-			if (!instance) { return this.missing(); }
+			if (!instance) { return this.missing(context); }
 			if (!isRoutable(instance)) { return; }
 
 			//if unauthorized, run unauth and return
-			if (!instance.onRouteAuthorized()) { return this.unauthorized(); }
+			if (!instance.isRouteAuthorized) { return this.unauthorized(context); }
 
-			let identity = getIdentifiedType(instance);
-			if (isString(identity)) {
-				context[capitalize(identity)] = instance;
-			}
-
-			let activation = (instance.isRouteEndpoint ? 'onRouteCompleted' : 'onRouteTraversed');
-			if (isExecutable(instance.trigger)) {
-				instance.trigger.call(instance, activation, context);
-				continue;
-			}
-			instance[activation].call(instance, activation, context);
+			context.arguments = routes.slice(index - 1);
+			this.traverse(instance, context);
 		}
 	}
 	get missing() {
@@ -112,6 +109,21 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			return value;
 		}
 		return instances[route];
+	}
+	traverse(instance, context) {
+		if (!isRoutable(instance)) { return false; }
+		let identity = getIdentifiedType(instance);
+		if (isString(identity)) {
+			context[capitalize(identity)] = instance;
+		}
+
+		let activation = (instance.isRouteEndpoint ? 'routeCompleted' : 'routeTraversed');
+		if (isExecutable(instance.trigger)) {
+			instance.trigger.call(instance, activation, context);
+			return;
+		}
+		instance[activation].call(instance, context);
+		return true;
 	}
 	get instances() {
 		return this[$private].instances;
