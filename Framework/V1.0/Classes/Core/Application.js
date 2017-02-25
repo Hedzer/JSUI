@@ -1,5 +1,4 @@
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-
 import Identity from '/Framework/V1.0/Classes/Core/Identity';
 import Distinct from '/Framework/V1.0/Classes/Core/Distinct';
 import Routable from '/Framework/V1.0/Mixins/Routable';
