@@ -34,12 +34,15 @@ export default class Router extends Enableable(Privatelike(Base)) {
 	navigate(url) {
 		let instances = {};
 		let lastURL = this[$private].lastURL;
-		let hash = getHashParts(this.resolve(url));
+		let resolved = this.resolve(url);
+		let hash = getHashParts(resolved);
 		let context = {
-			Router: this,
+			url: url,
+			resolved: resolved,
 			arguments: false,
 			parameters: hash.parameters,
 			instances: instances
+			Router: this,
 		};
 		let routes = hash.routes;
 		if (!routes) { return; }
@@ -53,6 +56,7 @@ export default class Router extends Enableable(Privatelike(Base)) {
 		//if the instance isn't routable, return 
 		if (!isRoutable(root)) { return; }
 		//traverse root
+		root.Context = context;
 		this.traverse(root, context);
 		this[$private].root = root;
 		
@@ -90,6 +94,7 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			if (!instance.isRouteAuthorized) { return this.unauthorized(context); }
 
 			context.arguments = routes.slice(index);
+			instance.Context = context;
 			this.traverse(instance, context);
 		}
 	}
@@ -151,9 +156,18 @@ export default class Router extends Enableable(Privatelike(Base)) {
 		return super.remove(routable);
 	}
 	shorten(url) {
+		if (!isString(url)) { return false; }
 		let shortened = this[$private].shortened;
 		return new RouteShorten(this, url);
 		//syntax: shorten('/Common/Guest/Authentication/login').to('login');
+	}
+	unshorten(shortcut) {
+		if (!isString(shortcut)) { return false; }
+		let shortened = this[$private].shortened;
+		if (shortened.hasOwnProperty(shortcut)) {
+			delete shortened[shortcut];
+			return true;
+		}
 	}
 	resolve(url) {
 		if (!isString(url)) { return url; }
