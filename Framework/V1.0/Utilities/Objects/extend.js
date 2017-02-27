@@ -1,12 +1,13 @@
 import isObject from '/Framework/V1.0/TypeChecks/isObject';
+import isBase from '/Framework/V1.0/TypeChecks/isBase';
 
 export default function extend(a) {
 	if (!isObject(a)) { return a; }
 	return {
 		with: function(b) {
-			if (!isObject(b)) { return a; }
+			if (!isObject(b) || isBase(b)) { return a; }
 			Object.keys(b).forEach((key) => {
-				if (isObject(b[key])) {
+				if (isObject(b[key]) && !isBase(b[key])) {
 					if (!isObject(a[key])) {
 						a[key] = {};
 					}
