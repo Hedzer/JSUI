@@ -8,6 +8,7 @@ import Sorts from '/Framework/V1.0/JSUI/Sorts';
 import Reflection from '/Framework/V1.0/JSUI/Reflection';
 import Elements from '/Framework/V1.0/Classes/Elements';
 import Settings from '/Framework/V1.0/Constants/JSUI/settings';
+import Router from '/Framework/V1.0/Singletons/Navigation/Router';
 
 let JSUI = {
 	Settings: Settings,
@@ -28,7 +29,8 @@ let JSUI = {
 	TypeChecks: TypeChecks,
 	Utilities: Utilities,
 	Sorts: Sorts,
-	Reflection: Reflection
+	Reflection: Reflection,
+	Router: Router
 };
 
 window.JSUI = JSUI;
