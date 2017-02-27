@@ -41,8 +41,8 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			resolved: resolved,
 			arguments: false,
 			parameters: hash.parameters,
-			instances: instances
-			Router: this,
+			instances: instances,
+			Router: this
 		};
 		let routes = hash.routes;
 		if (!routes) { return; }
