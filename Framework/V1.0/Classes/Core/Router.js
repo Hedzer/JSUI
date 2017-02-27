@@ -10,10 +10,10 @@ import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
 import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
-import getHashRoutes from '/Framework/V1.0/Utilities/Navigation/getHashRoutes';
-import getUrlParams from '/Framework/V1.0/Utilities/Navigation/getUrlParams';
+import getHashParts from '/Framework/V1.0/Utilities/Navigation/getHashParts';
 import getIdentifiedType from '/Framework/V1.0/Classes/Core/Router/getIdentifiedType';
 import capitalize from '/Framework/V1.0/Utilities/Strings/capitalize';
+import RouteShorten from '/Framework/V1.0/Classes/Receipts/RouteShorten';
 
 export default class Router extends Enableable(Privatelike(Base)) {
 	constructor(){
@@ -29,15 +29,21 @@ export default class Router extends Enableable(Privatelike(Base)) {
 		window.addEventListener("hashchange", (e) => { this.onHashChange(e); });
 	}
 	onHashChange(event) {
+		return this.navigate(window.location.hash);
+	}
+	navigate(url) {
 		let instances = {};
 		let lastURL = this[$private].lastURL;
-		let routes = getHashRoutes(window.location.hash);
+		let hash = getHashParts(this.resolve(url));
 		let context = {
+			Router: this,
 			arguments: false,
-			parameters: getUrlParams(),
+			parameters: hash.parameters,
 			instances: instances
 		};
+		let routes = hash.routes;
 		if (!routes) { return; }
+		context.arguments = routes;
 		let rootRoute = (routes.splice(0, 1))[0];
 		let root = this.roots[rootRoute];
 		//if the root doesn't exist, 404 and exit
@@ -47,7 +53,6 @@ export default class Router extends Enableable(Privatelike(Base)) {
 		//if the instance isn't routable, return 
 		if (!isRoutable(root)) { return; }
 		//traverse root
-		context.arguments = routes;
 		this.traverse(root, context);
 		this[$private].root = root;
 		
@@ -84,7 +89,7 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			//if unauthorized, run unauth and return
 			if (!instance.isRouteAuthorized) { return this.unauthorized(context); }
 
-			context.arguments = routes.slice(index - 1);
+			context.arguments = routes.slice(index);
 			this.traverse(instance, context);
 		}
 	}
@@ -146,7 +151,28 @@ export default class Router extends Enableable(Privatelike(Base)) {
 		return super.remove(routable);
 	}
 	shorten(url) {
+		let shortened = this[$private].shortened;
+		return new RouteShorten(this, url);
 		//syntax: shorten('/Common/Guest/Authentication/login').to('login');
+	}
+	resolve(url) {
+		if (!isString(url)) { return url; }
+		url = url.replace(/#!|#/i, '');
+		let shortened = this.shortened;
+		let shortcuts = Object.keys(shortened).filter((a) => { return !url.indexOf(a); });
+		if (!shortcuts.length) { return url; }
+		shortcuts.sort((a, b) => { return a.length - b.length });
+		url = (url[0] !== '/' ? '/' : '') + url;
+		for (var i = shortcuts.length - 1; i >= 0; i--) {
+			let shortcut = shortcuts[i];
+			if (!url.indexOf(shortcut)) {
+				let actual = shortened[shortcut];
+				return url.replace(shortcut, actual);
+			}
+		}
+	}
+	get shortened() {
+		return this[$private].shortened;
 	}
 	get roots() {
 		return this[$private].roots;

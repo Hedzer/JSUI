@@ -1,9 +1,9 @@
 
-export default function getUrlParams() {
+export default function getUrlParams(url) {
 	let result = {};
-	let index = location.href.indexOf('?');
+	let index = url.indexOf('?');
 	if(!~index) return {};
-	let query = location.href.substr(index + 1);
+	let query = url.substr(index + 1);
 
 	query.split('&').forEach((part) => {
 		if(!part) { return; }
