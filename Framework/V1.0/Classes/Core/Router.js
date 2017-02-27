@@ -96,6 +96,9 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			context.arguments = routes.slice(index);
 			instance.Context = context;
 			this.traverse(instance, context);
+			if (instance.isRouteEndpoint) {
+				return;
+			}
 		}
 	}
 	get missing() {
