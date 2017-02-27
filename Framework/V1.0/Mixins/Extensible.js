@@ -112,9 +112,9 @@ let Extensible = (descendant) => {
 				});
 
 				//destroy private data
-				let $private = this[$private];
-				Object.keys($private).forEach((key) => {
-					delete $private[key];
+				let _private = this[$private];
+				Object.keys(_private).forEach((key) => {
+					delete _private[key];
 				});
 			}, 0);
 			this[trigger]('destructed');
