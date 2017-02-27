@@ -16,7 +16,8 @@ let Routable = ((descendant) => {
 				state: {
 					route: this.constructor.route,
 					subroutes: {},
-					traveled: false
+					traveled: false,
+					Context: {}
 				}
 			};
 		}
@@ -76,11 +77,11 @@ let Routable = ((descendant) => {
 		set isRouteEndpoint(bool) {
 			return this[state]('isRouteEndpoint', bool); 
 		}
-		get itinerary() {
-			return this[state]('itinerary'); 
+		get Context() {
+			return this[state]('Context'); 
 		}
-		set itinerary(list) {
-			return this[state]('itinerary', list); 
+		set Context(context) {
+			return this[state]('Context', context); 
 		}
 		get [isInstance]() {
 			return true;
