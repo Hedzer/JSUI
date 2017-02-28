@@ -6,10 +6,10 @@ import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
 import Base from '/Framework/V1.0/Classes/Core/Base';
 
 //mixins
-import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
+import Stateful from '/Framework/V1.0/Classes/Core/Stateful';
 import EventfulMixin from '/Framework/V1.0/Mixins/Eventful';
 
-export default class Eventful extends EventfulMixin(Privatelike(Base)) {
+export default class Eventful extends EventfulMixin(Stateful) {
 	on() {
 		return this[on].apply(this, arguments);
 	}

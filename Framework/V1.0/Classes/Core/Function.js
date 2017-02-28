@@ -9,9 +9,11 @@ import $private from '/Framework/V1.0/Constants/Keys/General/private';
 
 import Base from '/Framework/V1.0/Classes/Core/Base';
 import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
+import Stateful from '/Framework/V1.0/Mixins/Stateful';
+import Eventful from '/Framework/V1.0/Mixins/Eventful';
 import Enableable from '/Framework/V1.0/Mixins/Enableable';
 
-export default class JSUIFunction extends Enableable(Privatelike(Base)) {
+export default class JSUIFunction extends Enableable(Eventful(Stateful(Privatelike(Base)))) {
 	constructor(original) {
 		super();
 		original = (isFunction(original) ? original : () => {});

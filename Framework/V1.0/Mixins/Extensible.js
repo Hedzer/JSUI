@@ -47,28 +47,6 @@ let Extensible = (descendant) => {
 				});
 			}
 		}
-		[state](property, value) {
-			
-			let old = this[$private].state[property];
-			if (arguments.length === 1) {
-				return old;
-			}
-
-			let hasChanged = (old !== value);
-
-			if (hasChanged) {
-				this[$private].state[property] = value;
-				let data = new StateChangeReceipt({
-					owner: this,
-					property: property,
-					old: old,
-					new: value
-				});
-				this[trigger]([`${property}Changed`, 'Changed'], data);
-			}
-
-			return hasChanged;	
-		}
 		[add](item, value) {
 			if (isString(item)) {
 				addProperty(this, item);
