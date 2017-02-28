@@ -1,8 +1,5 @@
 import isString from '/Framework/V1.0/TypeChecks/isString';
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
-import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
-import isJSUIFunction from '/Framework/V1.0/TypeChecks/isJSUIFunction';
-import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
 import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import isUEventful from '/Framework/V1.0/TypeChecks/isUEventful';
 import uid from '/Framework/V1.0/Utilities/General/uid';
@@ -19,8 +16,8 @@ import remove from '/Framework/V1.0/Constants/Keys/Extensible/remove';
 import on from '/Framework/V1.0/Constants/Keys/Eventful/on';
 import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
 
-import instanceTypeCheck from '/Framework/V1.0/Constants/Keys/Mixins/Extensible/isInstance';
-import staticTypeCheck from '/Framework/V1.0/Constants/Keys/Mixins/Extensible/isStatic';
+import isInstance from '/Framework/V1.0/Constants/Keys/Mixins/Extensible/isInstance';
+import isStatic from '/Framework/V1.0/Constants/Keys/Mixins/Extensible/isStatic';
 
 let Extensible = (descendant) => {
 	if (!isUEventful(descendant)) {
@@ -120,10 +117,10 @@ let Extensible = (descendant) => {
 			this[trigger]('destructed');
 			return handle;
 		}
-		get [instanceTypeCheck]() {
+		get [isInstance]() {
 			return true;
 		}
-		static get [staticTypeCheck]() {
+		static get [isStatic]() {
 			return true;
 		}
 		toJSON() {
