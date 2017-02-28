@@ -135,7 +135,8 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			instance.trigger.call(instance, activation, context);
 			return;
 		}
-		instance[activation].call(instance, context);
+		activation = capitalize(activation);
+		instance[`on${activation}`].call(instance, context);
 		return true;
 	}
 	get instances() {
