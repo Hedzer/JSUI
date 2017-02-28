@@ -53,12 +53,6 @@ let Routable = ((descendant) => {
 		get subroutes() {
 			return this[state]('subroutes'); 
 		}
-		instantiate() {
-			return this;
-		}
-		static instantiate() {
-			return new this();
-		}
 		get isRootRoute() {
 			return this[state]('isRootRoute');
 		}
