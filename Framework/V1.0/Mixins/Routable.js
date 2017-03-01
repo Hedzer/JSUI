@@ -1,5 +1,6 @@
 //Keys
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
 import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
 import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
@@ -15,21 +16,10 @@ let Routable = ((descendant) => {
 			this[$private] = {
 				state: {
 					route: this.constructor.route,
-					subroutes: {},
 					traveled: false,
 					Context: {}
 				}
 			};
-		}
-		add(routable) {
-			if (isRoutable(routable) || isURoutable(routable)) {
-				let subroutes = this[state]('subroutes');
-				//if a route already exists with this name throw an error
-				subroutes[routable.route] = routable;
-			}
-			if (isExecutable(super.add)) {
-				return super.add(routable);
-			}
 		}
 		static get route() {
 			return 'route';
@@ -46,12 +36,17 @@ let Routable = ((descendant) => {
 				}
 			}
 		}
-		subroute(name) {
-			let subroute = this.subroutes[name];
-			return (subroute ? subroute : false);
+		static get routes() {
+			return {};
 		}
-		get subroutes() {
-			return this[state]('subroutes'); 
+		get routes() {
+			return this.constructor.routes;
+		}
+		subroute(name) {
+			let subroutes = this.routes;
+			if (!isObject(subroutes)) { return false; }
+			let subroute = subroutes[name];
+			return (subroute ? subroute : false);
 		}
 		get isRootRoute() {
 			return this[state]('isRootRoute');

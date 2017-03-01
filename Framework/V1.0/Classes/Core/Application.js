@@ -57,4 +57,4 @@ export default class Application extends Routable(Distinct) {
 	set Navigation(navigation) {}
 }
 
-//Application -> Roles -> Features -> Pages & Server
+//Application -> Roles -> Features -> Pages -> Endpoint

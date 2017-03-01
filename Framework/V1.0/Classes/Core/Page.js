@@ -17,11 +17,6 @@ export default class Page extends Routable(Main) {
 	static get route() {
 		return 'Page';
 	}
-	static instantiate() {
-		let instance = super.instantiate();
-		instance.addTo(document.body);
-		return instance;
-	}
 	set Context(context) {
 		if (context) {
 			let Application = context.Application;
