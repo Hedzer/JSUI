@@ -57,14 +57,14 @@ export default class Element extends Styleable {
 			this.element.JSUIElement = this;
 		}
 
-		this.constructor.structure.call(this);
-		this.constructor.style.call(this);
-		this.constructor.relationships.call(this);
+		this.construct_structure();
+		this.construct_style();
+		this.construct_relationships();
 	}
 	//constructors
-	static structure() {}
-	static style() {}
-	static relationships() {}
+	construct_structure() {}
+	construct_style() {}
+	construct_relationships() {}
 	//end constructors
 	onStyleContextChanged() {
 		//if not default, change the context of the child elements
