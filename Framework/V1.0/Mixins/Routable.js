@@ -1,6 +1,7 @@
 //Keys
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import isObject from '/Framework/V1.0/TypeChecks/isObject';
+import isArray from '/Framework/V1.0/TypeChecks/isArray';
 import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
 import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
 import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
@@ -44,6 +45,14 @@ let Routable = ((descendant) => {
 		}
 		subroute(name) {
 			let subroutes = this.routes;
+			if (isArray(subroutes)) {
+				let map = {};
+				subroutes.forEach((subroute) => {
+					if (!subroute || !subroute.route) { return; }
+					map[subroute.route] = subroute;
+				});
+				subroutes = map;
+			}
 			if (!isObject(subroutes)) { return false; }
 			let subroute = subroutes[name];
 			return (subroute ? subroute : false);
