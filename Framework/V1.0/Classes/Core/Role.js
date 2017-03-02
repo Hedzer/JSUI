@@ -12,7 +12,4 @@ export default class Role extends Routable(Distinct) {
 		super();
 		this.identity = identity;
 	}
-	static get route() {
-		return 'Role';
-	}
 }

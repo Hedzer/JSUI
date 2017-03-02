@@ -12,7 +12,4 @@ export default class Feature extends Routable(Distinct) {
 		super();
 		this.identity = identity;
 	}
-	static get route() {
-		return 'Feature';
-	}
 }

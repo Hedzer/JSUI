@@ -14,9 +14,6 @@ export default class Page extends Routable(Main) {
 		this.identity = identity;
 		this.Style.context = 'page';
 	}
-	static get route() {
-		return 'Page';
-	}
 	set Context(context) {
 		if (context) {
 			let Application = context.Application;

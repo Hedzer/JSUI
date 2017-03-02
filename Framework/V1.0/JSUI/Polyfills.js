@@ -11,6 +11,9 @@ import keys from '/Framework/V1.0/Polyfills/Object/keys';
 import CustomEvent from '/Framework/V1.0/Polyfills/DOM/CustomEvent';
 import addEventListener from '/Framework/V1.0/Polyfills/DOM/addEventListener';
 
+//Function
+import name from '/Framework/V1.0/Polyfills/Function/name';
+
 let Polyfilled = {
 	Array: {
 		forEach: forEach,
@@ -24,6 +27,9 @@ let Polyfilled = {
 	DOM: {
 		CustomEvent: CustomEvent,
 		addEventListener: addEventListener
+	},
+	Function: {
+		name: name
 	}
 };
 

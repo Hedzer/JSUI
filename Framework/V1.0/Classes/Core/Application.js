@@ -19,9 +19,6 @@ export default class Application extends Routable(Distinct) {
 		this[$private].routes = {};
 		Router.add(this);
 	}
-	static get route() {
-		return 'Application';
-	}
 	static get Root() {
 		return document.body;
 	}

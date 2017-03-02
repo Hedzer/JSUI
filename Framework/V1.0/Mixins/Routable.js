@@ -22,7 +22,7 @@ let Routable = ((descendant) => {
 			};
 		}
 		static get route() {
-			return 'route';
+			return this.name;
 		}
 		get route() {
 			return this[state]('route');
