@@ -37,14 +37,14 @@ let Routable = ((descendant) => {
 				}
 			}
 		}
-		static get routes() {
+		static get subroutes() {
 			return {};
 		}
-		get routes() {
-			return this.constructor.routes;
+		get subroutes() {
+			return this.constructor.subroutes;
 		}
 		subroute(name) {
-			let subroutes = this.routes;
+			let subroutes = this.subroutes;
 			if (isArray(subroutes)) {
 				let map = {};
 				subroutes.forEach((subroute) => {
