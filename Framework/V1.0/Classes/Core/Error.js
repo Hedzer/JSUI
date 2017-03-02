@@ -1,4 +1,6 @@
-export default class JSUIError extends Error {
+import native from '/Framework/V1.0/Utilities/Classes/native';
+
+export default class JSUIError extends native(Error) {
 	constructor(title, message, severity) {
 		super();
 	}
