@@ -26,6 +26,7 @@ import Feature from '/Framework/V1.0/Classes/Core/Feature';
 import Page from '/Framework/V1.0/Classes/Core/Page';
 import Router from '/Framework/V1.0/Classes/Core/Router';
 import Endpoint from '/Framework/V1.0/Classes/Core/Endpoint';
+import Navigation from '/Framework/V1.0/Classes/Core/Navigation';
 
 let Classes = {
 	Behavior: Behavior,
@@ -54,7 +55,8 @@ let Classes = {
 	Feature: Feature,
 	Page: Page,
 	Router: Router,
-	Endpoint: Endpoint
+	Endpoint: Endpoint,
+	Navigation: Navigation
 };
 
 export default Classes;

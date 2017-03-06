@@ -1,11 +1,14 @@
 import Data from '/Framework/V1.0/Classes/Core/Data';
 
-export default class Placard extends Data {
+export default class NavigationItem extends Data {
 	static get defaults() {
 		return {
 			title: false,
 			icon: false,
-			description: false
+			description: false,
+			path: false,
+			url: false,
+			shortpath: false
 		};
 	}
 	get title() {
@@ -25,5 +28,23 @@ export default class Placard extends Data {
 	}
 	set description(text) {
 		return Data.state(this, 'description', text);
+	}
+	get path() {
+		return Data.state(this, 'path');
+	}
+	set path(value) {
+		return Data.state(this, 'path', value);
+	}
+	get hashpath() {
+		return Data.state(this, 'hashpath');
+	}
+	set hashpath(value) {
+		return Data.state(this, 'hashpath', value);
+	}
+	get shortpath() {
+		return Data.state(this, 'shortpath');
+	}
+	set shortpath(value) {
+		return Data.state(this, 'shortpath', value);
 	}
 }
