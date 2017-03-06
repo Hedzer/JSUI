@@ -23,9 +23,13 @@ export default class RouteShortenReceipt extends Receipt {
 		url = url.trim();
 		shortcut = shortcut.trim();
 		let shortened = router.shortened;
+		let lengthened = router.lengthened;
 		if (shortened.hasOwnProperty(shortcut) && shortened[shortcut] !== url) {
 			//throw warning regarding duplicates & console.trace
 		}
-		shortened[(shortcut[0] !== '/' ? '/' : '') + shortcut] = (url[0] !== '/' ? '/' : '') + url;
+		let shortKey = (shortcut[0] !== '/' ? '/' : '') + shortcut;
+		let longValue = (url[0] !== '/' ? '/' : '') + url;
+		shortened[shortKey] = longValue;
+		lengthened[longValue] = shortKey;
 	}
 }
