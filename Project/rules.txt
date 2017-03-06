@@ -1,0 +1,6 @@
+1. Maintainability & legibility comes first
+2. Everything must be accessible through javascript
+3. There must be one test per file, minimum
+4. There must be one project descriptor per file
+5. Project descriptors must link tests, settings, and api exposure together
+ 
