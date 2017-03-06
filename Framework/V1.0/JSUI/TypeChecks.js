@@ -25,6 +25,11 @@ import isRole from '/Framework/V1.0/TypeChecks/isRole';
 import isFeature from '/Framework/V1.0/TypeChecks/isFeature';
 import isPage from '/Framework/V1.0/TypeChecks/isPage';
 import isEndpoint from '/Framework/V1.0/TypeChecks/isEndpoint';
+import isUApplication from '/Framework/V1.0/TypeChecks/isUApplication';
+import isURole from '/Framework/V1.0/TypeChecks/isURole';
+import isUFeature from '/Framework/V1.0/TypeChecks/isUFeature';
+import isUPage from '/Framework/V1.0/TypeChecks/isUPage';
+import isUEndpoint from '/Framework/V1.0/TypeChecks/isUEndpoint';
 
 let TypeChecks = {
 	isArray: isArray,
@@ -53,7 +58,12 @@ let TypeChecks = {
 	isRole: isRole,
 	isFeature: isFeature,
 	isPage: isPage,
-	isEndpoint: isEndpoint
+	isEndpoint: isEndpoint,
+	isUApplication: isUApplication,
+	isURole: isURole,
+	isUFeature: isUFeature,
+	isUPage: isUPage,
+	isUEndpoint: isUEndpoint
 };
 
 export default TypeChecks;
