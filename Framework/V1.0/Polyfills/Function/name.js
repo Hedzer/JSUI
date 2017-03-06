@@ -116,3 +116,5 @@
 	}
 
 })();
+let hasName = ("name" in Function.prototype && "name" in (function x() {}));
+export default !hasName;
