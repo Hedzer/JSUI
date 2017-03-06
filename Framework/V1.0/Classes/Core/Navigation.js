@@ -14,10 +14,21 @@ export default class Navigation extends Nav {
 		super();
 		this.identity = identity;
 		this.Style.context = 'navigation';
+		this.private.state.willAddItemsAfterMap = this.constructor.willAddItemsAfterMap;
+	}
+	static get willAddItemsAfterMap() {
+		return true;
+	}
+	get willAddItemsAfterMap() {
+		return this.state('willAddItemsAfterMap');
+	}
+	set willAddItemsAfterMap(bool) {
+		this.state('willAddItemsAfterMap', !!bool);
 	}
 	map(routable) {
 		if ((!isRoutable(routable) && !isRoutable(routable))) { return false; }
 		let items = map(routable);
-		console.log(items);
+		if (!this.willAddItemsAfterMap) { return items; }
+		this.add(items);
 	}
 }

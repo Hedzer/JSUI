@@ -71,6 +71,7 @@ export default class Application extends Routable(Distinct) {
 				previous.remove();
 			}
 			navigation.addTo(this.Root);
+			if (!this.willAutoMapRoutes) { return; }
 			navigation.map(this);
 		}
 	}
@@ -79,7 +80,6 @@ export default class Application extends Routable(Distinct) {
 		return this.state('Router');
 	}
 	set Router(router) {
-		console.log(router);
 		if (!isRouter(router)) { return; }
 		let previous = this.state('Router');
 		if (this.state('Router', router)) {
@@ -91,6 +91,15 @@ export default class Application extends Routable(Distinct) {
 	}
 	static get Router() {
 		return Router;
+	}
+	static get willAutoMapRoutes() {
+		return true;
+	}
+	get willAutoMapRoutes() {
+		return this.state('willAutoMapRoutes');
+	}
+	set willAutoMapRoutes(bool) {
+		this.state('willAutoMapRoutes', !!bool);
 	}
 }
 
