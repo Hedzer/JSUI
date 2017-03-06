@@ -11,6 +11,13 @@ let types = {
 		// feature: isFeature,
 		// page: isPage,
 		// endpoint: isEndpoint
+	},
+	function: {
+		// Application: isUApplication,
+		// Role: isURole,
+		// Feature: isUFeature,
+		// Page: isUPage,
+		// Endpoint: isUEndpoint
 	}
 };
 
@@ -47,6 +54,44 @@ Object.defineProperties(types.object, {
 	endpoint: {
 		get: function() {
 			return JSUI.TypeChecks.isEndpoint;
+		},
+		enumerable: true,
+		configurable: true
+	}
+});
+
+Object.defineProperties(types.function, {
+	Application: {
+		get: function() {
+			return JSUI.TypeChecks.isUApplication;
+		},
+		enumerable: true,
+		configurable: true
+	},
+	Role: {
+		get: function() {
+			return JSUI.TypeChecks.isURole;
+		},
+		enumerable: true,
+		configurable: true
+	},
+	Feature: {
+		get: function() {
+			return JSUI.TypeChecks.isUFeature;
+		},
+		enumerable: true,
+		configurable: true
+	},
+	Page: {
+		get: function() {
+			return JSUI.TypeChecks.isUPage;
+		},
+		enumerable: true,
+		configurable: true
+	},
+	Endpoint: {
+		get: function() {
+			return JSUI.TypeChecks.isUEndpoint;
 		},
 		enumerable: true,
 		configurable: true

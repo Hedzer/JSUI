@@ -7,8 +7,9 @@ export default class NavigationItem extends Data {
 			icon: false,
 			description: false,
 			path: false,
-			url: false,
-			shortpath: false
+			shortpath: false,
+			hashpath: false,
+			url: false
 		};
 	}
 	get title() {
@@ -46,5 +47,41 @@ export default class NavigationItem extends Data {
 	}
 	set shortpath(value) {
 		return Data.state(this, 'shortpath', value);
+	}
+	get url() {
+		return Data.state(this, 'url');
+	}
+	set url(value) {
+		return Data.state(this, 'url', value);
+	}
+	get Application() {
+		return Data.state(this, 'Application');
+	}
+	set Application(value) {
+		return Data.state(this, 'Application', value);
+	}
+	get Role() {
+		return Data.state(this, 'Role');
+	}
+	set Role(value) {
+		return Data.state(this, 'Role', value);
+	}
+	get Feature() {
+		return Data.state(this, 'Feature');
+	}
+	set Feature(value) {
+		return Data.state(this, 'Feature', value);
+	}
+	get Page() {
+		return Data.state(this, 'Page');
+	}
+	set Page(value) {
+		return Data.state(this, 'Page', value);
+	}
+	get Endpoint() {
+		return Data.state(this, 'Endpoint');
+	}
+	set Endpoint(value) {
+		return Data.state(this, 'Endpoint', value);
 	}
 }

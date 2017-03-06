@@ -21,9 +21,11 @@ export default class Application extends Routable(Distinct) {
 		super('div');
 		this.identity = identity;
 		this[$private].routes = {};
-		let DefaultPage = this.constructor.Page;
-		let DefaultNavigation = this.constructor.Navigation;
-		let DefaultRouter = this.constructor.Router;
+		let defaults = this.constructor;
+		let DefaultPage = defaults.Page;
+		let DefaultNavigation = defaults.Navigation;
+		let DefaultRouter = defaults.Router;
+		this.willAutoMapRoutes = defaults.willAutoMapRoutes;
 		this.Page = (isUPage(DefaultPage) ? new DefaultPage() : false);
 		this.Navigation = (isUNavigation(DefaultNavigation) ? new DefaultNavigation() : false);
 		this.Router = (isRouter(DefaultRouter) ? DefaultRouter : Router);
