@@ -12,7 +12,7 @@ for (let key in example.style) {
 		example.setAttribute('style', '');
 		vendors.forEach((vendor) => {
 			let prefix = '-'+vendor+'-';
-			if (~name.indexOf(prefix)){
+			if (name.includes(prefix)){
 				let w3cKey = key;
 				w3cKey = uncapitalize(w3cKey.replace(vendor, ''));
 				equivalents[w3cKey] = name;

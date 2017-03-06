@@ -8,7 +8,7 @@ export default function addClass(el, name) {
 		return;
 	}
 	let classes = el.className.split(' ');
-	if (~classes.indexOf(name)) { return; }
+	if (classes.includes(name)) { return; }
 	classes.push(name);
 	el.className = classes.join(' ');
 }
