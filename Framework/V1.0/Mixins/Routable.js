@@ -9,7 +9,6 @@ import isInstance from '/Framework/V1.0/Constants/Keys/Mixins/Routable/isInstanc
 import isStatic from '/Framework/V1.0/Constants/Keys/Mixins/Routable/isStatic';
 import state from '/Framework/V1.0/Constants/Keys/General/state';
 import Router from '/Framework/V1.0/Singletons/Navigation/Router';
-import Placard from '/Framework/V1.0/DataTypes/Placard';
 
 let Routable = ((descendant) => {
 	return class RoutableMixin extends descendant {
@@ -39,25 +38,22 @@ let Routable = ((descendant) => {
 			}
 		}
 		static get subroutes() {
-			return {};
+			return [];
 		}
 		get subroutes() {
 			return this.constructor.subroutes;
 		}
 		subroute(name) {
-			let subroutes = this.subroutes;
-			if (isArray(subroutes)) {
-				let map = {};
-				subroutes.forEach((subroute) => {
-					if (!subroute || !subroute.route) { return; }
-					map[subroute.route] = subroute;
-				});
-				subroutes = map;
+			let subroutes = this.constructor.subroutes;
+			if (!isArray(subroutes)) { return false; }
+			for (var i = subroutes.length - 1; i >= 0; i--) {
+				let routable = subroutes[i];
+				if (!isURoutable(routable)) { continue; }
+				if (routable.route === name) {
+					return routable;
+				}
 			}
-			if (!isObject(subroutes)) { return false; }
-			if (!arguments.length) { return subroutes; }
-			let subroute = subroutes[name];
-			return (subroute ? subroute : false);
+			return false;
 		}
 		static get placard() {
 			return false;
