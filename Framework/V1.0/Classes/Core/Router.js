@@ -2,6 +2,7 @@
 import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
 import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
 import isString from '/Framework/V1.0/TypeChecks/isString';
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import destructor from '/Framework/V1.0/Constants/Keys/General/destructor';
 import Base from '/Framework/V1.0/Classes/Core/Base';
 import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
@@ -23,6 +24,7 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			last: null,
 			instances: {},
 			shortened: {},
+			lengthened: {},
 			missing: () => {},
 			unauthorized: () => {}
 		};
@@ -168,9 +170,35 @@ export default class Router extends Enableable(Privatelike(Base)) {
 	unshorten(shortcut) {
 		if (!isString(shortcut)) { return false; }
 		let shortened = this[$private].shortened;
+		let lengthened = this[$private].lengthened;
 		if (shortened.hasOwnProperty(shortcut)) {
+			let longValue = shortened[shortcut];
 			delete shortened[shortcut];
+			if (lengthened[longValue] === shortcut) {
+				delete lengthened[longValue];
+			}
 			return true;
+		}
+	}
+	shortcutOf(url) {
+		if (!isString(url)) { return url; }
+		url = url.replace(/#!|#/i, '');
+		let lengthened = this.lengthened;
+		let longcuts = Object.keys(lengthened).filter((a) => { return !url.indexOf(a); });
+		if (!longcuts.length) { return url; }
+		longcuts.sort((a, b) => { return a.length - b.length });
+		url = (url[0] !== '/' ? '/' : '') + url;
+		for (var i = longcuts.length - 1; i >= 0; i--) {
+			let longcut = longcuts[i];
+			if (!url.indexOf(longcut)) {
+				let shortened = lengthened[longcut];
+				let replaced = url.replace(longcut, shortened);
+				if (replaced.length !== shortened.length) {
+					let removed = url.replace(longcut, '');
+					shortened = ((shortened[shortened.length - 1] !== '/' && removed[0] !== '/') ? `${shortened}/` : shortened);
+				}
+				return url.replace(longcut, shortened);
+			}
 		}
 	}
 	resolve(url) {
@@ -191,6 +219,9 @@ export default class Router extends Enableable(Privatelike(Base)) {
 	}
 	get shortened() {
 		return this[$private].shortened;
+	}
+	get lengthened() {
+		return this[$private].lengthened;
 	}
 	get roots() {
 		return this[$private].roots;
