@@ -29,19 +29,23 @@ let imports = '';
 	'wbr'
 ].forEach((tag) => {
 	let name = capitalize(tag);
-	fs.writeFileSync(`${name}.js`, [
+	fs.writeFileSync(`./Elements/${name}.js`, [
+		`\n\/\/Classes\n`,
 		`import Element from 'Framework/Classes/Element';\n`,
 		`import Identity from 'Framework/Classes/Identity';\n\n`,
+		`\/\/Utilities\n`,
+		`import exports from '/Framework/V1.0/Utilities/Dependencies/exports';\n\n`,
 		`const identity = new Identity({\n`,
 			`\tclass: '${name}',\n`,
-			`\tmajor: 1, minor: 0, patch: 0\n`,
+			`\tmajor: 1, minor: 0, patch: 0,\n`,
 		`});\n\n`,
 		`export default class ${name} extends Element {\n`,
 			`\tconstructor() {\n`,
 			`\t\tsuper('${tag}');\n`,
 			`\t\tthis.identity = identity;\n`,
 			`\t}\n`,
-		`}`
+		`}\n\n`,
+		`exports(${name}).as('/Framework/V1.0/Classes/Elements/${name}');\n`
 	].join(''));
 	imports += `import ${name} from 'Framework/Classes/Elements/${name}';\n`;
 	elements += `\n\t${name}: ${name},`;
