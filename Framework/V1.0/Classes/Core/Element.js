@@ -1,40 +1,44 @@
-import getHandledType from '/Framework/V1.0/Classes/Core/Element/getHandledType';
-import unhandled from '/Framework/V1.0/Classes/Core/Handlers/unhandled';
-import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
-import isArray from '/Framework/V1.0/TypeChecks/isArray';
-import isElement from '/Framework/V1.0/TypeChecks/isElement';
-import isEmptyString from '/Framework/V1.0/TypeChecks/isEmptyString';
-import addClass from '/Framework/V1.0/Utilities/Elements/addClass';
 
-//handlers
-import Add from '/Framework/V1.0/Classes/Core/Element/Handlers/Add';
-import AddTo from '/Framework/V1.0/Classes/Core/Element/Handlers/AddTo';
-import Remove from '/Framework/V1.0/Classes/Core/Element/Handlers/Remove';
-import On from '/Framework/V1.0/Classes/Core/Element/Handlers/On';
-import Trigger from '/Framework/V1.0/Classes/Core/Element/Handlers/Trigger';
-import Find from '/Framework/V1.0/Classes/Core/Element/Handlers/Find';
-import Do from '/Framework/V1.0/Classes/Core/Element/Handlers/Do';
-import Get from '/Framework/V1.0/Classes/Core/Element/Handlers/Get';
-import Set from '/Framework/V1.0/Classes/Core/Element/Handlers/Set';
-import Text from '/Framework/V1.0/Classes/Core/Element/Handlers/Text';
-import Attribute from '/Framework/V1.0/Classes/Core/Element/Handlers/Attribute';
-import Class from '/Framework/V1.0/Classes/Core/Element/Handlers/Class';
-
-//classes
+//Classes
 import Identity from '/Framework/V1.0/Classes/Core/Identity';
 import Styleable from '/Framework/V1.0/Classes/Core/Styleable';
 
-//Keys
+//Handlers
+import Add from '/Framework/V1.0/Classes/Core/Element/Handlers/Add';
+import AddTo from '/Framework/V1.0/Classes/Core/Element/Handlers/AddTo';
+import Attribute from '/Framework/V1.0/Classes/Core/Element/Handlers/Attribute';
+import Class from '/Framework/V1.0/Classes/Core/Element/Handlers/Class';
+import constructor from '/Framework/V1.0/Classes/Core/Element/Handlers/Constructor';
+import Do from '/Framework/V1.0/Classes/Core/Element/Handlers/Do';
+import Find from '/Framework/V1.0/Classes/Core/Element/Handlers/Find';
+import Get from '/Framework/V1.0/Classes/Core/Element/Handlers/Get';
+import getHandledType from '/Framework/V1.0/Classes/Core/Element/getHandledType';
+import On from '/Framework/V1.0/Classes/Core/Element/Handlers/On';
+import Remove from '/Framework/V1.0/Classes/Core/Element/Handlers/Remove';
+import Set from '/Framework/V1.0/Classes/Core/Element/Handlers/Set';
+import Text from '/Framework/V1.0/Classes/Core/Element/Handlers/Text';
+import Trigger from '/Framework/V1.0/Classes/Core/Element/Handlers/Trigger';
+import unhandled from '/Framework/V1.0/Classes/Core/Handlers/unhandled';
+
+//Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import on from '/Framework/V1.0/Constants/Keys/General/on';
+import settings from '/Framework/V1.0/Constants/JSUI/settings';
 import trigger from '/Framework/V1.0/Constants/Keys/General/trigger';
 
-import settings from '/Framework/V1.0/Constants/JSUI/settings';
-import handler from '/Framework/V1.0/Classes/Core/Element/Handlers/Constructor';
+//Utilities
+import addClass from '/Framework/V1.0/Utilities/Elements/addClass';
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
+//TypeChecks
+import isArray from '/Framework/V1.0/TypeChecks/isArray';
+import isElement from '/Framework/V1.0/TypeChecks/isElement';
+import isEmptyString from '/Framework/V1.0/TypeChecks/isEmptyString';
+import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 
 const identity = new Identity({
 	class: 'Element',
-	major: 1, minor: 0, patch: 0
+	major: 1, minor: 0, patch: 0,
 });
 
 export default class Element extends Styleable {
@@ -43,9 +47,9 @@ export default class Element extends Styleable {
 		this.identity = identity;
 		//select the proper constructor action
 		let type = getHandledType(tag);
-		let action = handler[type];
+		let action = constructor[type];
 		tag = (action || function(){
-			return handler.string.call(this, 'div');
+			return constructor.string.call(this, 'div');
 		}).call(this, tag);
 
 		//set up ids
@@ -61,44 +65,8 @@ export default class Element extends Styleable {
 		this.construct_style();
 		this.construct_relationships();
 	}
-	//constructors
-	construct_structure() {}
-	construct_style() {}
-	construct_relationships() {}
-	//end constructors
-	onStyleContextChanged() {
-		//if not default, change the context of the child elements
-		let context = this.Style.context;
-		this.children((child) => {
-			//allow context to only change once
-			let childStyle = child.Style;
-			childStyle.context = (childStyle.context === 'default' ? context : childStyle.context);
-		});	
-	}
-	[on](event, method) {
-		let type = getHandledType(event);
-		let action = On[type];
-		return (action || unhandled).call(this, event, method);
-	}
-	[trigger](event, args) {
-		let type = getHandledType(event);
-		let action = Trigger[type];
-		return (action || unhandled).call(this, event, args);
-	}
-	get identity() {
-		return super.identity;
-	}
-	set identity(identity) {
-		super.identity = identity;
-		if (identity.namespace) {
-			addClass(this.element, identity.namespace);
-		}
-		// else {} throw error here later
-		if (identity.class) {
-			addClass(this.element, identity.class);
-		}
-		// else {} also throw one here later
-	}
+
+	//methods
 	add(item) {
 		let type = getHandledType(item);
 		let action = Add[type];
@@ -109,53 +77,12 @@ export default class Element extends Styleable {
 		let action = AddTo[type];
 		return (action || unhandled).call(this, item);
 	}
-	remove(item) {
-		let type = getHandledType(item);
-		let action = Remove[type];
-		return (action || unhandled).call(this, item);
-	}
-	on() {
-		return this[on].apply(this, arguments);
-	}
-	trigger() {
-		return this[trigger].apply(this, arguments);
-	}
-	find(what) {
-		let type = getHandledType(what);
-		let action = Find[type];
-		return (action || unhandled([])).call(this, what);
-	}
-	do(method, args) {
-		let type = getHandledType(method);
-		let action = Do[type];
-		return (action || unhandled).call(this, method, args);
-	}
-	get(property) {
-		let type = getHandledType(property);
-		let action = Get[type];
-		return (action || unhandled).call(this, property);
-	}
-	set(property, value) {
-		let type = getHandledType(property);
-		let action = Set[type];
-		return (action || unhandled).call(this, property, value);
-	}
-	text(text) {
-		let type = getHandledType(text);
-		let action = Text[type];
-		return (action || unhandled).call(this, text);
-	}
 	attribute(name, value) {
 		if (!isElement(this.element) || isEmptyString(name)) { return; }
 		let type = getHandledType(name);
 		let isSet = (arguments.length > 1);
 		let action = Attribute[(isSet ? 'Set' : 'Get')][type];
 		return (action || unhandled).apply(this, [name, value]);
-	}
-	class(name) {
-		let type = getHandledType(name);
-		let action = Class[type];
-		return (action || unhandled).call(this, name);
 	}
 	children(callback = () => { return true; }) {
 		let results = [];
@@ -171,6 +98,11 @@ export default class Element extends Styleable {
 			});
 		}
 		return results;
+	}
+	class(name) {
+		let type = getHandledType(name);
+		let action = Class[type];
+		return (action || unhandled).call(this, name);
 	}
 	destructor() {
 		let _element = this.element;
@@ -220,4 +152,84 @@ export default class Element extends Styleable {
 		_children = null;
 		return super.destructor();
 	}
+	do(method, args) {
+		let type = getHandledType(method);
+		let action = Do[type];
+		return (action || unhandled).call(this, method, args);
+	}
+	find(what) {
+		let type = getHandledType(what);
+		let action = Find[type];
+		return (action || unhandled([])).call(this, what);
+	}
+	get(property) {
+		let type = getHandledType(property);
+		let action = Get[type];
+		return (action || unhandled).call(this, property);
+	}
+	on() {
+		return this[on].apply(this, arguments);
+	}
+	remove(item) {
+		let type = getHandledType(item);
+		let action = Remove[type];
+		return (action || unhandled).call(this, item);
+	}
+	set(property, value) {
+		let type = getHandledType(property);
+		let action = Set[type];
+		return (action || unhandled).call(this, property, value);
+	}
+	text(text) {
+		let type = getHandledType(text);
+		let action = Text[type];
+		return (action || unhandled).call(this, text);
+	}
+	trigger() {
+		return this[trigger].apply(this, arguments);
+	}
+	[on](event, method) {
+		let type = getHandledType(event);
+		let action = On[type];
+		return (action || unhandled).call(this, event, method);
+	}
+	[trigger](event, args) {
+		let type = getHandledType(event);
+		let action = Trigger[type];
+		return (action || unhandled).call(this, event, args);
+	}
+
+	//properties
+	get identity() {
+		return super.identity;
+	}
+	set identity(identity) {
+		super.identity = identity;
+		if (identity.namespace) {
+			addClass(this.element, identity.namespace);
+		}
+		// else {} throw error here later
+		if (identity.class) {
+			addClass(this.element, identity.class);
+		}
+		// else {} also throw one here later
+	}
+
+	//auto-run
+	construct_structure() {}
+	construct_style() {}
+	construct_relationships() {}
+
+	//pre-defined events
+	onStyleContextChanged() {
+		//if not default, change the context of the child elements
+		let context = this.Style.context;
+		this.children((child) => {
+			//allow context to only change once
+			let childStyle = child.Style;
+			childStyle.context = (childStyle.context === 'default' ? context : childStyle.context);
+		});	
+	}
 }
+
+exports(Element).as('/Framework/V1.0/Classes/Core/Element');

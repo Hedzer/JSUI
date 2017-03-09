@@ -1,25 +1,28 @@
 
-//symbols
+//Classes
+import Base from '/Framework/V1.0/Classes/Core/Base';
+
+//Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import state from '/Framework/V1.0/Constants/Keys/General/state';
 
-//classes
-import Base from '/Framework/V1.0/Classes/Core/Base';
-
-//mixins
-import Extensible from '/Framework/V1.0/Mixins/Extensible';
+//Mixins
 import Eventful from '/Framework/V1.0/Mixins/Eventful';
+import Extensible from '/Framework/V1.0/Mixins/Extensible';
 import Stateful from '/Framework/V1.0/Mixins/Stateful';
 
-//utilities
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import extend from '/Framework/V1.0/Utilities/Objects/extend';
 
-//typechecks
+//TypeChecks
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import isString from '/Framework/V1.0/TypeChecks/isString';
 import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
-import isObject from '/Framework/V1.0/TypeChecks/isObject';
 
-class Data extends Extensible(Eventful(Stateful(Base))) {
+class Data extends Base
+	.implements(Stateful, Eventful, Extensible) {
+
 	constructor(values) {
 		super();
 		let defaults = this.constructor.defaults;
@@ -29,9 +32,13 @@ class Data extends Extensible(Eventful(Stateful(Base))) {
 		}
 		this[$private].state = defaults;
 	}
+
+	//default values
 	static get defaults() {
 		return {};
 	}
 }
 
 export default Data;
+
+exports(Data).as('/Framework/V1.0/Classes/Core/Data');
