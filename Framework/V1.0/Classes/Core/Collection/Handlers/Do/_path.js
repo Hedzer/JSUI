@@ -12,11 +12,13 @@ export default function _path(command, args) {
 	this.forEach((item) => {
 		let path = getWithContext(this, command);
 		if (!path || !path.context || !path.property) { return; }
+
 		let method = path.context[path.property];
 		if (isFunction(method)) {
 			let value = (isArray(args) ? method.apply(path.context, args) : method.call(path.context, args));
-			results.push({item, value});
+			results.push({ item, value });
 		}
+		
 	});
 }
 

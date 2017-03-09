@@ -10,7 +10,7 @@ import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 let AddTo = {
 	array: _array,
 	element: _element,
-	jsui: _jsui
+	jsui: _jsui,
 };
 
 export default AddTo;

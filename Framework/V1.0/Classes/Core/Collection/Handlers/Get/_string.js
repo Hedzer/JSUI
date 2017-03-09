@@ -11,10 +11,12 @@ import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function _string(property) {
 	let results = new Collection();
+
 	this.forEach((item) => {
 		let value = item[property];
-		results.push({item, value});
+		results.push({ item, value });
 	});
+	
 	return results;	
 }
 

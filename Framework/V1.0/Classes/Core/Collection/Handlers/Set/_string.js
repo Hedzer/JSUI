@@ -14,7 +14,7 @@ export default function _string(property, value) {
 	this.forEach((item) => {
 		let old = item[property];
 		item[property] = value;
-		results.push({item, property, old, value});
+		results.push({ item, property, old, value });
 	});
 	return results;	
 }

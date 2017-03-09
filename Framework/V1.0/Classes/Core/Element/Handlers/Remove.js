@@ -10,7 +10,7 @@ import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 let Remove = {
 	array: _array,
 	jsui: _jsui,
-	undefined: _undefined
+	undefined: _undefined,
 };
 
 export default Remove;

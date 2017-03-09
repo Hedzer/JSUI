@@ -10,7 +10,7 @@ import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 let Text = {
 	path: _path,
 	string: _string,
-	undefined: _undefined
+	undefined: _undefined,
 };
 
 export default Text;

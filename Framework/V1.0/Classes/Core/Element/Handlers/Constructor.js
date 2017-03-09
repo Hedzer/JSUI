@@ -8,7 +8,7 @@ import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 let Constructor = {
 	element: _element,
-	string: _string
+	string: _string,
 };
 
 export default Constructor;

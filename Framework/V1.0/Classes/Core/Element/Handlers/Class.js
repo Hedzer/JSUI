@@ -12,7 +12,7 @@ let Class = {
 	object: _object,
 	path: _path,
 	string: _string,
-	undefined: _undefined
+	undefined: _undefined,
 };
 
 export default Class;

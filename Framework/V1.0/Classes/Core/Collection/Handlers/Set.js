@@ -7,8 +7,8 @@ import _string from '/Framework/V1.0/Classes/Core/Collection/Handlers/Set/_strin
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 let Set = {
+	path: _path,
 	string: _string,
-	path: _path
 };
 
 export default Set;

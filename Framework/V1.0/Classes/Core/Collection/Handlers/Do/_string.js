@@ -13,6 +13,7 @@ export default function _string(command, args) {
 	let results = new Collection();
 	this.forEach((item) => {
 		let method = item[command];
+
 		if (isFunction(method) || isJSUIFunction(method)) {
 			results.push({
 				item: item,
@@ -20,6 +21,7 @@ export default function _string(command, args) {
 			});
 			return;
 		}
+		
 		results.push(undefined);
 	});
 	return results;	

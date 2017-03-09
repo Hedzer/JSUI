@@ -18,7 +18,7 @@ let Find = {
 	path: _path,
 	regex: _regex,
 	string: _string,
-	undefined: _undefined
+	undefined: _undefined,
 };
 
 export default Find;

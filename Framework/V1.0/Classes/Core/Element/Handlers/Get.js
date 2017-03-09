@@ -10,7 +10,7 @@ import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 let Get = {
 	array: _array,
 	path: _path,
-	string: _string
+	string: _string,
 };
 
 export default Get;

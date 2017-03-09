@@ -14,7 +14,7 @@ let Do = {
 	function: _function,
 	object: _object,
 	path: _path,
-	string: _string
+	string: _string,
 };
 
 export default Do;

@@ -21,13 +21,13 @@ let Attribute = {
 		object: _get_object,
 		path: _get_path,
 		string: _get_string,
-		undefined: _get_undefined
+		undefined: _get_undefined,
 	},
 	Set:{
 		array: _set_array,
 		object: _set_object,
 		path: _set_path,
-		string: _set_string
+		string: _set_string,
 	}
 };
 

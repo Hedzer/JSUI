@@ -20,7 +20,7 @@ import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 const identity = new Identity({
 	class: 'StyleBehavior',
-	major: 1, minor: 0, patch: 0
+	major: 1, minor: 0, patch: 0,
 });
 
 export default class StyleBehavior extends Behaviorlike(Distinct) {
@@ -37,7 +37,7 @@ export default class StyleBehavior extends Behaviorlike(Distinct) {
 
 			let action = (styleActions[style.uid] || {
 				on: style.addTo.bind(style, host),
-				off: style.removeFrom.bind(style, host)
+				off: style.removeFrom.bind(style, host),
 			});
 			
 			return action;
@@ -63,7 +63,7 @@ export default class StyleBehavior extends Behaviorlike(Distinct) {
 
 		host.trigger('StyleContextChanged', {
 			old: old,
-			new: context
+			new: context,
 		});
 	}
 	get Inline() {

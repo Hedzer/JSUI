@@ -10,7 +10,7 @@ let Trigger = {
 	array: _array,
 	object: _object,
 	path: _path,
-	string: _string
+	string: _string,
 };
 
 export default Trigger;

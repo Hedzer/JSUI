@@ -20,7 +20,7 @@ let Add = {
 	html: _html,
 	jsui: _jsui,
 	path: _path,
-	string: _string
+	string: _string,
 };
 
 export default Add;
