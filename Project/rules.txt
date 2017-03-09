@@ -4,3 +4,10 @@
 4. There must be one project descriptor per file
 5. Project descriptors must link tests, settings, and api exposure together
  
+
+
+functions first
+properties second
+static functions
+static properties
+
