@@ -1,22 +1,39 @@
 
-import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
-import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
-import isString from '/Framework/V1.0/TypeChecks/isString';
-import isObject from '/Framework/V1.0/TypeChecks/isObject';
-import destructor from '/Framework/V1.0/Constants/Keys/General/destructor';
+//Classes
 import Base from '/Framework/V1.0/Classes/Core/Base';
-import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
-import Enableable from '/Framework/V1.0/Mixins/Enableable';
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
-import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
-import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
-import getHashParts from '/Framework/V1.0/Utilities/Navigation/getHashParts';
-import getIdentifiedType from '/Framework/V1.0/Classes/Core/Router/getIdentifiedType';
-import capitalize from '/Framework/V1.0/Utilities/Strings/capitalize';
 import RouteShorten from '/Framework/V1.0/Classes/Receipts/RouteShorten';
 
-export default class Router extends Enableable(Privatelike(Base)) {
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+import destructor from '/Framework/V1.0/Constants/Keys/General/destructor';
+
+//Handlers
+import getIdentifiedType from '/Framework/V1.0/Classes/Core/Router/getIdentifiedType';
+
+//Mixins
+import Enableable from '/Framework/V1.0/Mixins/Enableable';
+import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
+
+//TypeChecks
+import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
+import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
+import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
+import isString from '/Framework/V1.0/TypeChecks/isString';
+import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
+import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
+
+//Utilities
+import capitalize from '/Framework/V1.0/Utilities/Strings/capitalize';
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import getHashParts from '/Framework/V1.0/Utilities/Navigation/getHashParts';
+
+export default class Router extends Base
+	.implements(
+		Privatelike,
+		Enableable
+	) {
+	
 	constructor(){
 		super();
 		this[$private] = {
@@ -26,12 +43,26 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			shortened: {},
 			lengthened: {},
 			missing: () => {},
-			unauthorized: () => {}
+			unauthorized: () => {},
 		};
 		window.addEventListener("hashchange", (e) => { this.onHashChange(e); });
 	}
-	onHashChange(event) {
-		return this.navigate(window.location.hash);
+
+	//methods
+	add(routable) {
+		if (isURoutable(routable) || isRoutable(routable)) {
+			this[$private].roots[routable.route] = routable;
+			return;
+		}
+		return super.add(routable);
+	}
+	instance(route, value) {
+		let instances = this.instances;
+		if (arguments.length > 1) {
+			instances[route] = value;
+			return value;
+		}
+		return instances[route];
 	}
 	navigate(hashpath) {
 		let instances = {};
@@ -44,7 +75,7 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			arguments: undefined,
 			parameters: hash.parameters,
 			instances: instances,
-			Router: this
+			Router: this,
 		};
 		this[$private].last = context;
 		let routes = hash.routes;
@@ -103,57 +134,6 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			this.traverse(instance, context);
 		}
 	}
-	get missing() {
-		return this[$private].missing;
-	}
-	set missing(method) {
-		if (!isFunction(method)) { method = function() {}; }
-		this[$private].missing = method;
-	}
-	get unauthorized() {
-		return this[$private].unauthorized;
-	}
-	set unauthorized(method) {
-		if (!isFunction(method)) { method = function() {}; }
-		this[$private].unauthorized = method;
-	}
-	instance(route, value) {
-		let instances = this.instances;
-		if (arguments.length > 1) {
-			instances[route] = value;
-			return value;
-		}
-		return instances[route];
-	}
-	traverse(instance, context) {
-		if (!isRoutable(instance)) { return false; }
-		let identity = getIdentifiedType(instance);
-		if (isString(identity)) {
-			context[capitalize(identity)] = instance;
-		}
-
-		let activation = (instance.isRouteEndpoint ? 'routeCompleted' : 'routeTraversed');
-		if (isExecutable(instance.trigger)) {
-			instance.trigger.call(instance, activation, context);
-			return;
-		}
-		activation = capitalize(activation);
-		instance[`on${activation}`].call(instance, context);
-		return true;
-	}
-	get instances() {
-		return this[$private].instances;
-	}
-	set instances(instances) {
-		this[$private].instances = instances;
-	}
-	add(routable) {
-		if (isURoutable(routable) || isRoutable(routable)) {
-			this[$private].roots[routable.route] = routable;
-			return;
-		}
-		return super.add(routable);
-	}
 	remove(routable) {
 		if (isURoutable(routable) || isRoutable(routable)) {
 			delete this[$private].roots[routable.route];
@@ -161,24 +141,27 @@ export default class Router extends Enableable(Privatelike(Base)) {
 		}
 		return super.remove(routable);
 	}
+	resolve(url) {
+		if (!isString(url)) { return url; }
+		url = url.replace(/#!|#/i, '');
+		let shortened = this.shortened;
+		let shortcuts = Object.keys(shortened).filter((a) => { return !url.indexOf(a); });
+		if (!shortcuts.length) { return url; }
+		shortcuts.sort((a, b) => { return a.length - b.length });
+		url = (url[0] !== '/' ? '/' : '') + url;
+		for (var i = shortcuts.length - 1; i >= 0; i--) {
+			let shortcut = shortcuts[i];
+			if (!url.indexOf(shortcut)) {
+				let actual = shortened[shortcut];
+				return url.replace(shortcut, actual);
+			}
+		}
+	}
 	shorten(url) {
 		if (!isString(url)) { return false; }
 		let shortened = this[$private].shortened;
 		return new RouteShorten(this, url);
 		//syntax: shorten('/Common/Guest/Authentication/login').to('login');
-	}
-	unshorten(shortcut) {
-		if (!isString(shortcut)) { return false; }
-		let shortened = this[$private].shortened;
-		let lengthened = this[$private].lengthened;
-		if (shortened.hasOwnProperty(shortcut)) {
-			let longValue = shortened[shortcut];
-			delete shortened[shortcut];
-			if (lengthened[longValue] === shortcut) {
-				delete lengthened[longValue];
-			}
-			return true;
-		}
 	}
 	shortcutOf(url) {
 		if (!isString(url)) { return url; }
@@ -201,29 +184,72 @@ export default class Router extends Enableable(Privatelike(Base)) {
 			}
 		}
 	}
-	resolve(url) {
-		if (!isString(url)) { return url; }
-		url = url.replace(/#!|#/i, '');
-		let shortened = this.shortened;
-		let shortcuts = Object.keys(shortened).filter((a) => { return !url.indexOf(a); });
-		if (!shortcuts.length) { return url; }
-		shortcuts.sort((a, b) => { return a.length - b.length });
-		url = (url[0] !== '/' ? '/' : '') + url;
-		for (var i = shortcuts.length - 1; i >= 0; i--) {
-			let shortcut = shortcuts[i];
-			if (!url.indexOf(shortcut)) {
-				let actual = shortened[shortcut];
-				return url.replace(shortcut, actual);
+	traverse(instance, context) {
+		if (!isRoutable(instance)) { return false; }
+		let identity = getIdentifiedType(instance);
+		if (isString(identity)) {
+			context[capitalize(identity)] = instance;
+		}
+
+		let activation = (instance.isRouteEndpoint ? 'routeCompleted' : 'routeTraversed');
+		if (isExecutable(instance.trigger)) {
+			instance.trigger.call(instance, activation, context);
+			return;
+		}
+		activation = capitalize(activation);
+		instance[`on${activation}`].call(instance, context);
+		return true;
+	}
+	unshorten(shortcut) {
+		if (!isString(shortcut)) { return false; }
+		let shortened = this[$private].shortened;
+		let lengthened = this[$private].lengthened;
+		if (shortened.hasOwnProperty(shortcut)) {
+			let longValue = shortened[shortcut];
+			delete shortened[shortcut];
+			if (lengthened[longValue] === shortcut) {
+				delete lengthened[longValue];
 			}
+			return true;
 		}
 	}
-	get shortened() {
-		return this[$private].shortened;
+
+	//properties
+	get instances() {
+		return this[$private].instances;
+	}
+	set instances(instances) {
+		this[$private].instances = instances;
 	}
 	get lengthened() {
 		return this[$private].lengthened;
 	}
+	get missing() {
+		return this[$private].missing;
+	}
+	set missing(method) {
+		if (!isFunction(method)) { method = function() {}; }
+		this[$private].missing = method;
+	}
 	get roots() {
 		return this[$private].roots;
 	}
+	get shortened() {
+		return this[$private].shortened;
+	}
+	get unauthorized() {
+		return this[$private].unauthorized;
+	}
+	set unauthorized(method) {
+		if (!isFunction(method)) { method = function() {}; }
+		this[$private].unauthorized = method;
+	}
+
+	//pre-defined events
+	onHashChange(event) {
+		return this.navigate(window.location.hash);
+	}
 }
+
+exports(Router).as('/Framework/V1.0/Classes/Core/Router');
+

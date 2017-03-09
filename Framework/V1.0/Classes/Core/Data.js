@@ -11,14 +11,14 @@ import Eventful from '/Framework/V1.0/Mixins/Eventful';
 import Extensible from '/Framework/V1.0/Mixins/Extensible';
 import Stateful from '/Framework/V1.0/Mixins/Stateful';
 
-//Utilities
-import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
-import extend from '/Framework/V1.0/Utilities/Objects/extend';
-
 //TypeChecks
 import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import isString from '/Framework/V1.0/TypeChecks/isString';
 import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import extend from '/Framework/V1.0/Utilities/Objects/extend';
 
 class Data extends Base
 	.implements(Stateful, Eventful, Extensible) {

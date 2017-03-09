@@ -1,11 +1,11 @@
 
-//Utilities
-import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
-
 //TypeChecks
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isString from '/Framework/V1.0/TypeChecks/isString';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default class Base {
 	//methods

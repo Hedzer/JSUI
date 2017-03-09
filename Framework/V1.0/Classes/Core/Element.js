@@ -26,15 +26,15 @@ import on from '/Framework/V1.0/Constants/Keys/General/on';
 import settings from '/Framework/V1.0/Constants/JSUI/settings';
 import trigger from '/Framework/V1.0/Constants/Keys/General/trigger';
 
-//Utilities
-import addClass from '/Framework/V1.0/Utilities/Elements/addClass';
-import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
-
 //TypeChecks
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
 import isElement from '/Framework/V1.0/TypeChecks/isElement';
 import isEmptyString from '/Framework/V1.0/TypeChecks/isEmptyString';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+
+//Utilities
+import addClass from '/Framework/V1.0/Utilities/Elements/addClass';
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 const identity = new Identity({
 	class: 'Element',

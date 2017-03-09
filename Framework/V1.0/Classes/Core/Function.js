@@ -1,19 +1,36 @@
-import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
-import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
-import isNumber from '/Framework/V1.0/TypeChecks/isNumber';
-import isBoolean from '/Framework/V1.0/TypeChecks/isBoolean';
-import uid from '/Framework/V1.0/Utilities/General/uid';
-import debounce from '/Framework/V1.0/Utilities/Functions/debounce';
-import throttle from '/Framework/V1.0/Utilities/Functions/throttle';
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
 
+//Classes
 import Base from '/Framework/V1.0/Classes/Core/Base';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+import uid from '/Framework/V1.0/Utilities/General/uid';
+
+//Mixins
+import Enableable from '/Framework/V1.0/Mixins/Enableable';
+import Eventful from '/Framework/V1.0/Mixins/Eventful';
 import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
 import Stateful from '/Framework/V1.0/Mixins/Stateful';
-import Eventful from '/Framework/V1.0/Mixins/Eventful';
-import Enableable from '/Framework/V1.0/Mixins/Enableable';
 
-export default class JSUIFunction extends Enableable(Eventful(Stateful(Privatelike(Base)))) {
+//TypeChecks
+import isBoolean from '/Framework/V1.0/TypeChecks/isBoolean';
+import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+import isNumber from '/Framework/V1.0/TypeChecks/isNumber';
+import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
+
+//Utilities
+import debounce from '/Framework/V1.0/Utilities/Functions/debounce';
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import throttle from '/Framework/V1.0/Utilities/Functions/throttle';
+
+export default class JSUIFunction extends Base
+	.implements(
+		Privatelike,
+		Stateful,
+		Eventful,
+		Enableable,
+	) {
+
 	constructor(original) {
 		super();
 		original = (isFunction(original) ? original : () => {});
@@ -29,43 +46,17 @@ export default class JSUIFunction extends Enableable(Eventful(Stateful(Privateli
 			limit: Infinity
 		};
 	}
-	get uid() {
-		return this[$private].uid;
-	}
-	set uid(id) {
-		this[$private].uid = id;
-	}
-	get original() {
-		return this[$private].original;
-	}
-	set original(v) {
-		this[$private].original = v;
-		this.modify();
-	}
-	get modified() {
-		return this[$private].modified;
-	}
-	get context() {
-		return this[$private].context;
-	}
-	set context(v) {
-		this[$private].context = v;
-		this.modify();
-	}
-	execute() {
+
+	//methods
+	apply() {
 		if (!this.executable) { return; }
 		this[$private].count++;
-		return this.modified.apply(null, arguments);
+		return Function.prototype.apply.apply(this.modified, arguments);
 	}
 	call() {
 		if (!this.executable) { return; }
 		this[$private].count++;
 		return Function.prototype.call.apply(this.modified, arguments);
-	}
-	apply() {
-		if (!this.executable) { return; }
-		this[$private].count++;
-		return Function.prototype.apply.apply(this.modified, arguments);
 	}
 	debounce(time) {
 		time = (isNumber(time) ? time : false);
@@ -73,11 +64,10 @@ export default class JSUIFunction extends Enableable(Eventful(Stateful(Privateli
 		this.modify();
 		return this;
 	}
-	throttle(time) {
-		time = (isNumber(time) ? time : false);
-		this[$private].throttle = time;
-		this.modify();
-		return this;
+	execute() {
+		if (!this.executable) { return; }
+		this[$private].count++;
+		return this.modified.apply(null, arguments);
 	}
 	modify() {
 		let modified = this.original;
@@ -89,8 +79,32 @@ export default class JSUIFunction extends Enableable(Eventful(Stateful(Privateli
 		this[$private].modified = modified;
 		return modified;
 	}
+	throttle(time) {
+		time = (isNumber(time) ? time : false);
+		this[$private].throttle = time;
+		this.modify();
+		return this;
+	}
+
+	//properties
+	get context() {
+		return this[$private].context;
+	}
+	set context(v) {
+		this[$private].context = v;
+		this.modify();
+	}
 	get count() {
 		return this[$private].count;
+	}
+	get executable() {
+		return (!this.isAtLimit && this.enabled);
+	}
+	get isAtLimit() {
+		return (this[$private].count >= this[$private].limit);
+	}
+	set isAtLimit(v) {
+		this[$private].count = (v ? this[$private].limit : 0);
 	}
 	get limit() {
 		return this[$private].limit;
@@ -99,13 +113,22 @@ export default class JSUIFunction extends Enableable(Eventful(Stateful(Privateli
 		v = (isNumber(v) ? v : Infinity);
 		this[$private].limit = v;
 	}
-	get isAtLimit() {
-		return (this[$private].count >= this[$private].limit);
+	get modified() {
+		return this[$private].modified;
 	}
-	set isAtLimit(v) {
-		this[$private].count = (v ? this[$private].limit : 0);
+	get original() {
+		return this[$private].original;
 	}
-	get executable() {
-		return (!this.isAtLimit && this.enabled);
+	set original(v) {
+		this[$private].original = v;
+		this.modify();
+	}
+	get uid() {
+		return this[$private].uid;
+	}
+	set uid(id) {
+		this[$private].uid = id;
 	}
 }
+
+exports(Base).as('/Framework/V1.0/Classes/Core/Base');

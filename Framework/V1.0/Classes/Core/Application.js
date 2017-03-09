@@ -12,9 +12,6 @@ import Routable from '/Framework/V1.0/Mixins/Routable';
 //Singletons
 import Router from '/Framework/V1.0/Singletons/Navigation/Router';
 
-//Utilities
-import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
-
 //TypeChecks
 import isElement from '/Framework/V1.0/TypeChecks/isElement';
 import isJSUI from '/Framework/V1.0/TypeChecks/isJSUI';
@@ -23,6 +20,9 @@ import isPage from '/Framework/V1.0/TypeChecks/isPage';
 import isRouter from '/Framework/V1.0/TypeChecks/isRouter';
 import isUNavigation from '/Framework/V1.0/TypeChecks/isUNavigation';
 import isUPage from '/Framework/V1.0/TypeChecks/isUPage';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 const identity = new Identity({
 	class: 'Application',

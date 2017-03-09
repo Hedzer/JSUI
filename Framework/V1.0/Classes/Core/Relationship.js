@@ -1,30 +1,41 @@
-import isString from '/Framework/V1.0/TypeChecks/isString';
+
+//Classes
+import Base from '/Framework/V1.0/Classes/Core/Base';
+import BindReceipt from '/Framework/V1.0/Classes/Receipts/Bind';
+import Identity from '/Framework/V1.0/Classes/Core/Identity';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Mixins
+import Enableable from '/Framework/V1.0/Mixins/Enableable';
+
+//TypeChecks
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import Identity from '/Framework/V1.0/Classes/Core/Identity';
-import uid from '/Framework/V1.0/Utilities/General/uid';
-import BindReceipt from '/Framework/V1.0/Classes/Receipts/Bind';
+import isString from '/Framework/V1.0/TypeChecks/isString';
 
-import Base from '/Framework/V1.0/Classes/Core/Base';
-import Enableable from '/Framework/V1.0/Mixins/Enableable';
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import uid from '/Framework/V1.0/Utilities/General/uid';
 
 const identity = new Identity({
 	class: 'Relationship',
-	major: 1, minor: 0, patch: 0
+	major: 1, minor: 0, patch: 0,
 });
 
-export default class Relationship extends Enableable(Base) {
+export default class Relationship extends Base
+	.implements(Enableable) {
+	
 	constructor() {
 		super();
 		this[$private] = {
 			bindings: {},
-			uid: uid()
+			uid: uid(),
 		};
 	}
-	get uid() {
-		return this[$private].uid;
-	}
+
+	//methods
 	bind(subject) {
 		let binding = new BindReceipt(this, subject);
 		this[$private].bindings[binding.uid] = binding;
@@ -47,7 +58,14 @@ export default class Relationship extends Enableable(Base) {
 	removeAll() {
 		this.remove(Object.values(this[$private].bindings));
 	}
+
+	//properties
+	get uid() {
+		return this[$private].uid;
+	}
 }
+
+exports(Relationship).as('/Framework/V1.0/Classes/Core/Relationship');
 
 //(new Bond(data)).to(element).
 /*

@@ -1,15 +1,25 @@
-//Keys
-import state from '/Framework/V1.0/Constants/Keys/General/state';
 
-//classes
+//Classes
 import Base from '/Framework/V1.0/Classes/Core/Base';
 
-//mixins
+//Constants
+import state from '/Framework/V1.0/Constants/Keys/General/state';
+
+//Mixins
 import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
 import StatefulMixin from '/Framework/V1.0/Mixins/Stateful';
 
-export default class Stateful extends StatefulMixin(Privatelike(Base)) {
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
+export default class Stateful extends Base
+	.implements(
+		Privatelike,
+		StatefulMixin
+	) {
 	state() {
 		return this[state].apply(this, arguments);
 	}
 }
+
+exports(Stateful).as('/Framework/V1.0/Classes/Core/Stateful');

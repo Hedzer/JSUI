@@ -12,13 +12,13 @@ import getHandledType from '/Framework/V1.0/Classes/Core/Element/getHandledType'
 import Set from '/Framework/V1.0/Classes/Core/Collection/Handlers/Set';
 import unhandled from '/Framework/V1.0/Classes/Core/Handlers/unhandled';
 
-//Utilities
-import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
-import native from '/Framework/V1.0/Utilities/Classes/native';
-
 //TypeChecks
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import native from '/Framework/V1.0/Utilities/Classes/native';
 
 export default class Collection extends native(Array) {
 	do(method, args) {

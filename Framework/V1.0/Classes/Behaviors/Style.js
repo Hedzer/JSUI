@@ -9,11 +9,11 @@ import $private from '/Framework/V1.0/Constants/Keys/General/private';
 //Mixins
 import Behaviorlike from '/Framework/V1.0/Mixins/Behaviorlike';
 
-//TypeChecks
-import isStyleSheetRule from '/Framework/V1.0/TypeChecks/isStyleSheetRule';
-
 //Singletons
 import Sheets from '/Framework/V1.0/Singletons/Style/Sheets';
+
+//TypeChecks
+import isStyleSheetRule from '/Framework/V1.0/TypeChecks/isStyleSheetRule';
 
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';

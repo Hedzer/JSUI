@@ -1,3 +1,5 @@
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import native from '/Framework/V1.0/Utilities/Classes/native';
 
 export default class JSUIError extends native(Error) {
@@ -10,3 +12,5 @@ export default class JSUIError extends native(Error) {
 		}
 	}
 }
+
+exports(JSUIError).as('/Framework/V1.0/Classes/Core/JSUIError');
