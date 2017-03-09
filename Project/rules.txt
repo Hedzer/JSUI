@@ -5,9 +5,25 @@
 5. Project descriptors must link tests, settings, and api exposure together
  
 
-
-functions first
-properties second
+class members should be in the following order:
+constructor at top
+instance functions
+instance symbol keyed methods
+instance properties
+instance symbol keyed properties
 static functions
+static symbol keyed methods
 static properties
+static symbol keyed properties
+automatically run methods
+automatically run, symbol keyed methods
+pre-defined onEvent methods
+pre-defined symbol keyed onEvent methods
+static default values
+static symbol keyed default values
 
+
+new line after code potentially dies or when loops
+new line between class methods, properties, ...
+files end with a new line
+export goes at the bottom
