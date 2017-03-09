@@ -1,4 +1,9 @@
+
+//Classes
 import Element from '/Framework/V1.0/Classes/Core/Element';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function _function(method) {
 	let results = [];
@@ -13,3 +18,5 @@ export default function _function(method) {
 	}
 	return results;
 }
+
+exports(_function).as('/Framework/V1.0/Classes/Core/Element/Handlers/Find/_function');

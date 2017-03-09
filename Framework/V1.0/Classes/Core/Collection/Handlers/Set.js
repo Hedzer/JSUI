@@ -1,5 +1,10 @@
-import _string from '/Framework/V1.0/Classes/Core/Collection/Handlers/Set/_string';
+
+//Handlers
 import _path from '/Framework/V1.0/Classes/Core/Collection/Handlers/Set/_path';
+import _string from '/Framework/V1.0/Classes/Core/Collection/Handlers/Set/_string';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 let Set = {
 	string: _string,
@@ -7,3 +12,6 @@ let Set = {
 };
 
 export default Set;
+
+
+exports(Set).as('/Framework/V1.0/Classes/Core/Collection/Handlers/Set');

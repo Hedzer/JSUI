@@ -1,4 +1,9 @@
+
+//TypeChecks
 import isObject from '/Framework/V1.0/TypeChecks/isObject';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function _object(macro, value){
 	let result = (isObject(value) ? value : {});
@@ -7,3 +12,5 @@ export default function _object(macro, value){
 	});
 	return results;
 }
+
+exports(_object).as('/Framework/V1.0/Classes/Core/Element/Handlers/Attribute/Set/_object');

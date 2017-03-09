@@ -1,21 +1,28 @@
-import _element from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_element';
-import _jsui from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_jsui';
+
+//Handlers
 import _array from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_array';
-import _string from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_string';
-import _html from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_html';
-import _path from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_path';
-import _function from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_function';
 import _behavior from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_behavior';
+import _element from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_element';
+import _function from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_function';
+import _html from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_html';
+import _jsui from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_jsui';
+import _path from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_path';
+import _string from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_string';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 let Add = {
-	element: _element,
-	jsui: _jsui,
 	array: _array,
-	string: _string,
-	html: _html,
-	path: _path,
+	behavior: _behavior,
+	element: _element,
 	function: _function,
-	behavior: _behavior
+	html: _html,
+	jsui: _jsui,
+	path: _path,
+	string: _string
 };
 
 export default Add;
+
+exports(Add).as('/Framework/V1.0/Classes/Core/Element/Handlers/Add');

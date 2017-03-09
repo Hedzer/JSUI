@@ -1,4 +1,9 @@
+
+//Classes
 import Collection from '/Framework/V1.0/Classes/Core/Collection';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default class ElementCollection extends Collection {
 	constructor(target) {
@@ -9,30 +14,6 @@ export default class ElementCollection extends Collection {
 	}
 	addTo() {
 		return this.do('addTo', arguments);
-	}
-	remove() {
-		return this.do('remove', arguments);
-	}
-	on() {
-		return this.do('on', arguments);
-	}
-	trigger() {
-		return this.do('trigger', arguments);
-	}
-	find() {
-		return this.do('find', arguments);
-	}
-	do() {
-		return this.do('do', arguments);
-	}
-	get() {
-		return this.do('get', arguments);
-	}
-	set() {
-		return this.do('set', arguments);
-	}
-	text() {
-		return this.do('text', arguments);
 	}
 	attribute() {
 		return this.do('attribute', arguments);
@@ -46,4 +27,30 @@ export default class ElementCollection extends Collection {
 	destructor() {
 		return this.do('destructor', arguments);
 	}
+	do() {
+		return this.do('do', arguments);
+	}
+	find() {
+		return this.do('find', arguments);
+	}
+	get() {
+		return this.do('get', arguments);
+	}
+	remove() {
+		return this.do('remove', arguments);
+	}
+	on() {
+		return this.do('on', arguments);
+	}
+	set() {
+		return this.do('set', arguments);
+	}
+	text() {
+		return this.do('text', arguments);
+	}
+	trigger() {
+		return this.do('trigger', arguments);
+	}
 }
+
+exports(ElementCollection).as('/Framework/V1.0/Classes/Collections/Element');

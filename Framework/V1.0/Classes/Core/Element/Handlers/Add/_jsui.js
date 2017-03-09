@@ -1,5 +1,12 @@
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Classes
 import ElementAddedReceipt from '/Framework/V1.0/Classes/Receipts/ElementAdded';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function _jsui(instance){
 	if (this.element && instance.element){
@@ -14,3 +21,5 @@ export default function _jsui(instance){
 	let receipt = new ElementAddedReceipt(this, instance);
 	return receipt;
 }
+
+exports(_jsui).as('/Framework/V1.0/Classes/Core/Element/Handlers/Add/_jsui');

@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 export default function _regex(expression) {
 	let results = [];
 	this.children(function(child) {
@@ -11,3 +15,5 @@ export default function _regex(expression) {
 	});
 	return results;
 }
+
+exports(_regex).as('/Framework/V1.0/Classes/Core/Element/Handlers/Find/_regex');

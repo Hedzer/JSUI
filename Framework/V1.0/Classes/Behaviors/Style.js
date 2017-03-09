@@ -1,10 +1,22 @@
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import isStyleSheetRule from '/Framework/V1.0/TypeChecks/isStyleSheetRule';
-import Identity from '/Framework/V1.0/Classes/Core/Identity';
+//Classes
 import Distinct from '/Framework/V1.0/Classes/Core/Distinct';
+import Identity from '/Framework/V1.0/Classes/Core/Identity';
 import StyleInline from '/Framework/V1.0/Classes/Style/Inline';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Mixins
 import Behaviorlike from '/Framework/V1.0/Mixins/Behaviorlike';
+
+//TypeChecks
+import isStyleSheetRule from '/Framework/V1.0/TypeChecks/isStyleSheetRule';
+
+//Singletons
 import Sheets from '/Framework/V1.0/Singletons/Style/Sheets';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 const identity = new Identity({
 	class: 'StyleBehavior',
@@ -18,14 +30,18 @@ export default class StyleBehavior extends Behaviorlike(Distinct) {
 		this[$private].context = 'default';
 		this.identity = identity;
 	}
-	get namespace() {
-		return false;
-	}
-	get Inline() {
-		if (!this[$private].Inline) {
-			this[$private].Inline = new StyleInline(this[$private].host);
+	switch(style) {
+		if (isStyleSheetRule(style)) {
+			let styleActions = this[$private].styleActions = (this[$private].styleActions || {});
+			let host = this[$private].host;
+
+			let action = (styleActions[style.uid] || {
+				on: style.addTo.bind(style, host),
+				off: style.removeFrom.bind(style, host)
+			});
+			
+			return action;
 		}
-		return this[$private].Inline;
 	}
 	get context() {
 		return this[$private].context;
@@ -50,17 +66,15 @@ export default class StyleBehavior extends Behaviorlike(Distinct) {
 			new: context
 		});
 	}
-	switch(style) {
-		if (isStyleSheetRule(style)) {
-			let styleActions = this[$private].styleActions = (this[$private].styleActions || {});
-			let host = this[$private].host;
-
-			let action = (styleActions[style.uid] || {
-				on: style.addTo.bind(style, host),
-				off: style.removeFrom.bind(style, host)
-			});
-			
-			return action;
+	get Inline() {
+		if (!this[$private].Inline) {
+			this[$private].Inline = new StyleInline(this[$private].host);
 		}
+		return this[$private].Inline;
+	}
+	get namespace() {
+		return false;
 	}
 }
+
+exports(StyleBehavior).as('/Framework/V1.0/Classes/Behavior/Style');

@@ -1,7 +1,7 @@
 import exported from '/Framework/V1.0/Singletons/Dependencies/exported';
 import isString from '/Framework/V1.0/TypeChecks/isString';
 
-function exports(code) {
+export default function exports(code) {
 	if (arguments.length < 1) { return false; }
 	return {
 		as: (name) => {
