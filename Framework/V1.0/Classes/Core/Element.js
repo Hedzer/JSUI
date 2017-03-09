@@ -61,9 +61,7 @@ export default class Element extends Styleable {
 			this.element.JSUIElement = this;
 		}
 
-		this.construct('structure');
-		this.construct('style');
-		this.construct('relationships');
+		this.construct(['structure', 'style', 'relationships']);
 	}
 
 	//methods
@@ -103,27 +101,6 @@ export default class Element extends Styleable {
 		let type = getHandledType(name);
 		let action = Class[type];
 		return (action || unhandled).call(this, name);
-	}
-	construct(name, args) {
-
-		if (isArray(name)) {
-			let results = {};
-			name.forEach((constructor) => {
-				if (!isString(constructor)) {
-					//warn
-					return;
-				}
-				results[constructor] = this.construct(constructor, args);
-			});
-			return results;
-		}
-
-		let constructor = `construct_${name}`;
-		if (!isFunction(this[constructor])) {
-			//throw warning
-			return;
-		}
-		this[constructor](args);
 	}
 	destructor() {
 		let _element = this.element;
