@@ -3,6 +3,7 @@ import StateChangeReceipt from '/Framework/V1.0/Classes/Receipts/StateChange';
 import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
 
 let Stateful = (descendant) => {
 
@@ -11,7 +12,16 @@ let Stateful = (descendant) => {
 			super();
 		}
 		static state(context, property, value) {
-			let old = context[$private].state[property];
+			let state = context[$private].state;
+			let old = state[property];
+			let isDefault = false;
+
+			let defaults = this[property];
+			if (!isUndefined(defaults)) {
+				isDefault = (old === defaults);
+				old = defaults;
+			}
+
 			if (arguments.length === 2) {
 				return old;
 			}
@@ -19,13 +29,16 @@ let Stateful = (descendant) => {
 			let hasChanged = (old !== value);
 
 			if (hasChanged) {
-				context[$private].state[property] = value;
+				state[property] = value;
+
 				let data = new StateChangeReceipt({
+					isDefault: isDefault,
+					new: value,
+					old: old,
 					owner: context,
 					property: property,
-					old: old,
-					new: value
 				});
+
 				if (!context[trigger]) { return hasChanged; }
 				context[trigger]([`${property}Changed`, 'Changed'], data);
 			}
