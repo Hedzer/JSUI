@@ -1,13 +1,25 @@
+
+//Classes
+import RelationshipBindingReceipt from '/Framework/V1.0/Classes/Receipts/RelationshipBinding';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+import eventfulOn from '/Framework/V1.0/Constants/Keys/Eventful/on';
+import on from '/Framework/V1.0/Constants/Keys/General/on';
+
+//Handlers
+import actions from '/Framework/V1.0/Classes/Receipts/Bind/actions';
+
+//TypeChecks
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isStateChangeReceipt from '/Framework/V1.0/TypeChecks/isStateChangeReceipt';
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import on from '/Framework/V1.0/Constants/Keys/General/on';
-import eventfulOn from '/Framework/V1.0/Constants/Keys/Eventful/on';
-import actions from '/Framework/V1.0/Classes/Receipts/Bind/actions';
-import RelationshipBindingReceipt from '/Framework/V1.0/Classes/Receipts/RelationshipBinding';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 let none = function(v){ return v; };
 
-export default function extensibleToExtensible(receipt, event, bind, arrow, to) {
+export default function eventfulToEventful(receipt, event, bind, arrow, to) {
 	let _private = receipt[$private];
 	let action = (isFunction(actions[arrow]) ? actions[arrow] : false);
 	if (!action) { return false; }
@@ -30,12 +42,14 @@ export default function extensibleToExtensible(receipt, event, bind, arrow, to) 
 
 	let binding = new RelationshipBindingReceipt({
 		name: `${event}: ${bind} ${arrow} ${to}`,
-		subjectHandler: elementHandle,
-		toHandler: false,
+		normalizer: none,
 		subjectDestroyer: elementHandleDestroyer,
+		subjectHandler: elementHandle,
 		toDestroyer: dataHandleDestroyer,
-		normalizer: none
+		toHandler: false,
 	});
 
 	return binding;
 }
+
+exports(eventfulToEventful).as('/Framework/V1.0/Classes/Receipts/Bind/Eventful/eventful');

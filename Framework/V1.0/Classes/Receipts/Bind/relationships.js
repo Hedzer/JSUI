@@ -1,15 +1,22 @@
+
+//Handlers
 import eventfulToEventful from '/Framework/V1.0/Classes/Receipts/Bind/Eventful/eventful';
 
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 let defaultEventful = {
-	jsui: eventfulToEventful,
 	data: eventfulToEventful,
-	eventful: eventfulToEventful
+	eventful: eventfulToEventful,
+	jsui: eventfulToEventful,
 };
 
 let relationships = {
 	data: Object.create(defaultEventful),
+	eventful: Object.create(defaultEventful),
 	jsui: Object.create(defaultEventful),
-	eventful: Object.create(defaultEventful)
 };
 
 export default relationships;
+
+exports(relationships).as('/Framework/V1.0/Classes/Receipts/Bind/relationships');

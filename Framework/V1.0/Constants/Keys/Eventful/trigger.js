@@ -1,4 +1,9 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import symbolish from '/Framework/V1.0/Utilities/Properties/symbolish';
 
-let symbol = symbolish('Extensible.trigger');
+let symbol = symbolish('Eventful.trigger');
 export default symbol;
+
+exports(symbol).as('/Framework/V1.0/Constants/Keys/Eventful/trigger');

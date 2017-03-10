@@ -1,45 +1,60 @@
-import isOnEventBoundReceipt from '/Framework/V1.0/TypeChecks/isOnEventBoundReceipt';
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Classes
 import Receipt from '/Framework/V1.0/Classes/Core/Receipt';
-import define from '/Framework/V1.0/Utilities/Properties/addHiddenValue';
-import uid from '/Framework/V1.0/Utilities/General/uid';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Mixins
 import Enableable from '/Framework/V1.0/Mixins/Enableable';
 
-export default class RelationshipBindingReceipt extends Enableable(Receipt) {
+//TypeChecks
+import isOnEventBoundReceipt from '/Framework/V1.0/TypeChecks/isOnEventBoundReceipt';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import uid from '/Framework/V1.0/Utilities/General/uid';
+
+//local constants
+const removable = [
+	'subjectHandler',
+	'toHandler',
+	'subjectDestroyer',
+	'toDestroyer',
+	'normalizer',
+	'name',
+];
+
+export default class RelationshipBindingReceipt extends Receipt
+	.implements(Enableable) {
+	
 	constructor(bindings = {}) {
 		super();
 		this[$private] = bindings;
 		bindings.uid = uid();
 	}
-	get uid() {
-		return this[$private].uid;
+
+	//methods
+	remove() {
+		this.handles.forEach((handle) => { handle.remove(); });
+		removable.forEach((key) => {
+			delete this[$private][key];
+		});
+		delete this[$private];
 	}
-	set uid(v) {
-		this[$private].uid = v;
+	
+	//properties
+	get enabled() {
+		return super.enabled;
 	}
-	get subjectHandler() {
-		return this[$private].subjectHandler;
+	set enabled(v) {
+		let value = !!v;
+		this.handles.forEach((handle) => { handle.enabled = value; });
+		super.enabled = value;
 	}
-	set subjectHandler(v) {
-		this[$private].subjectHandler = v;
-	}
-	get toHandler() {
-		return this[$private].toHandler;
-	}
-	set toHandler(v) {
-		this[$private].toHandler = v;
-	}
-	get subjectDestroyer() {
-		return this[$private].subjectDestroyer;
-	}
-	set subjectDestroyer(v) {
-		this[$private].subjectDestroyer = v;
-	}
-	get toDestroyer() {
-		return this[$private].toDestroyer;
-	}
-	set toDestroyer(v) {
-		this[$private].toDestroyer = v;
+	get handles() {
+		let handles = Object.values(this[$private]).filter(isOnEventBoundReceipt);
+		return handles;
 	}
 	get name() {
 		return this[$private].name;
@@ -53,30 +68,36 @@ export default class RelationshipBindingReceipt extends Enableable(Receipt) {
 	set normalizer(v) {
 		this[$private].normalizer = v;
 	}
-	get handles() {
-		let handles = Object.values(this[$private]).filter(isOnEventBoundReceipt);
-		return handles;
+	get subjectHandler() {
+		return this[$private].subjectHandler;
 	}
-	remove() {
-		this.handles.forEach((handle) => { handle.remove(); });
-		[
-			'subjectHandler',
-			'toHandler',
-			'subjectDestroyer',
-			'toDestroyer',
-			'normalizer',
-			'name'
-		].forEach((key) => {
-			delete this[$private][key];
-		});
-		delete this[$private];
+	set subjectHandler(v) {
+		this[$private].subjectHandler = v;
 	}
-	get enabled() {
-		return super.enabled;
+	get toDestroyer() {
+		return this[$private].toDestroyer;
 	}
-	set enabled(v) {
-		let value = !!v;
-		this.handles.forEach((handle) => { handle.enabled = value; });
-		super.enabled = value;
+	set toDestroyer(v) {
+		this[$private].toDestroyer = v;
+	}
+	get toHandler() {
+		return this[$private].toHandler;
+	}
+	set toHandler(v) {
+		this[$private].toHandler = v;
+	}
+	get subjectDestroyer() {
+		return this[$private].subjectDestroyer;
+	}
+	set subjectDestroyer(v) {
+		this[$private].subjectDestroyer = v;
+	}
+	get uid() {
+		return this[$private].uid;
+	}
+	set uid(v) {
+		this[$private].uid = v;
 	}
 }
+
+exports(RelationshipBindingReceipt).as('/Framework/V1.0/Classes/Receipts/RelationshipBinding');

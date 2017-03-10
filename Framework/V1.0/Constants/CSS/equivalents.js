@@ -1,5 +1,10 @@
-import uncapitalize from '/Framework/V1.0/Utilities/Strings/uncapitalize';
+
+//Constants
 import vendors from '/Framework/V1.0/Constants/CSS/vendors';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import uncapitalize from '/Framework/V1.0/Utilities/Strings/uncapitalize';
 
 //not a real constant, since it is generated
 let equivalents = {};
@@ -24,3 +29,5 @@ for (let key in example.style) {
 let element = null;
 
 export default equivalents;
+
+exports(equivalents).as('/Framework/V1.0/Constants/CSS/equivalents');

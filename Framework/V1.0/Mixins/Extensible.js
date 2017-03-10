@@ -8,7 +8,7 @@ import StateChangeReceipt from '/Framework/V1.0/Classes/Receipts/StateChange';
 
 //Keys
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import state from '/Framework/V1.0/Constants/Keys/General/state';
+import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
 import destructor from '/Framework/V1.0/Constants/Keys/General/destructor';
 
 import add from '/Framework/V1.0/Constants/Keys/Extensible/add';
@@ -16,8 +16,8 @@ import remove from '/Framework/V1.0/Constants/Keys/Extensible/remove';
 import on from '/Framework/V1.0/Constants/Keys/Eventful/on';
 import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
 
-import isInstance from '/Framework/V1.0/Constants/Keys/Mixins/Extensible/isInstance';
-import isStatic from '/Framework/V1.0/Constants/Keys/Mixins/Extensible/isStatic';
+import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Extensible/isInstance';
+import isStatic from '/Framework/V1.0/Constants/Keys/TypeChecks/Extensible/isStatic';
 
 let Extensible = (descendant) => {
 	if (!isUEventful(descendant)) {

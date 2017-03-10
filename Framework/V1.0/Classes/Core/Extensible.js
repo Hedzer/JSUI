@@ -3,7 +3,7 @@ import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import add from '/Framework/V1.0/Constants/Keys/Extensible/add';
 import destructor from '/Framework/V1.0/Constants/Keys/General/destructor';
 import remove from '/Framework/V1.0/Constants/Keys/Extensible/remove';
-import state from '/Framework/V1.0/Constants/Keys/General/state';
+import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
 
 //Classes
 import Base from '/Framework/V1.0/Classes/Core/Base';

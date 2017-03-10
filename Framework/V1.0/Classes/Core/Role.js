@@ -1,7 +1,7 @@
-import Identity from '/Framework/V1.0/Classes/Core/Identity';
 
 //Classes
 import Distinct from '/Framework/V1.0/Classes/Core/Distinct';
+import Identity from '/Framework/V1.0/Classes/Core/Identity';
 
 //Mixins
 import Routable from '/Framework/V1.0/Mixins/Routable';

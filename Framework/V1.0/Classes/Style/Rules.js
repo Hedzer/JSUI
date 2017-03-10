@@ -1,14 +1,23 @@
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import Identity from '/Framework/V1.0/Classes/Core/Identity';
-import isNull from '/Framework/V1.0/TypeChecks/isNull';
-import vendors from '/Framework/V1.0/Constants/CSS/vendors';
-import equivalents from '/Framework/V1.0/Constants/CSS/equivalents';
+
+//Classes
 import Distinct from '/Framework/V1.0/Classes/Core/Distinct';
+import Identity from '/Framework/V1.0/Classes/Core/Identity';
 import StateChangeReceipt from '/Framework/V1.0/Classes/Receipts/StateChange';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+import equivalents from '/Framework/V1.0/Constants/CSS/equivalents';
+import vendors from '/Framework/V1.0/Constants/CSS/vendors';
+
+//TypeChecks
+import isNull from '/Framework/V1.0/TypeChecks/isNull';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 const identity = new Identity({
 	class: 'StyleRules',
-	major: 1, minor: 0, patch: 0
+	major: 1, minor: 0, patch: 0,
 });
 
 class StyleRules extends Distinct {
@@ -36,18 +45,19 @@ Object.keys(equivalents).forEach((key) => {
 					owner:this,
 					property:key,
 					old:old,
-					new:value
+					new:value,
 				});
 				if (this.trigger){
-					this.trigger(`${key}Changed`, data);
-					this.trigger('styleChanged', data);
+					this.trigger([`${key}Changed`, 'styleChanged'], data);
 				}
 			}
 
 		},
 		configurable:true,
-		enumerable:true
+		enumerable:true,
 	});
 });
 
 export default StyleRules;
+
+exports(StyleRules).as('/Framework/V1.0/Classes/Styles/Rules');

@@ -1,44 +1,34 @@
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import uid from '/Framework/V1.0/Utilities/General/uid';
-import remove from '/Framework/V1.0/Utilities/Events/remove';
-import removeAll from '/Framework/V1.0/Utilities/Events/removeAll';
+
+//Classes
 import Receipt from '/Framework/V1.0/Classes/Core/Receipt';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Mixins
 import Enableable from '/Framework/V1.0/Mixins/Enableable';
 
-export default class OnEventBoundReceipt extends Enableable(Receipt) {
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import remove from '/Framework/V1.0/Utilities/Events/remove';
+import removeAll from '/Framework/V1.0/Utilities/Events/removeAll';
+import uid from '/Framework/V1.0/Utilities/General/uid';
+
+export default class OnEventBoundReceipt extends Receipt
+	.implements(Enableable) {
+	
 	constructor(pool) {
 		super();
 		this[$private] = {
-			uid: uid()
+			uid: uid(),
 		};
 		this[$private].pool = pool;
 	}
-	get uid() {
-		return this[$private].uid;
-	}
-	set uid(id) {
-		this[$private].uid = id;
-	}
-	get pool() {
-		return this[$private].pool;
-	}
-	set pool(v) {
-		this[$private].pool = v;
-	}
-	remove() {
-		return remove.call(this);
-	}
-	removeAll() {
-		return removeAll.call(this);
-	}
+
+	//methods
 	debounce(time) {
 		let method = this.pool[this.uid];
 		method.debounce(time);
-		return this;
-	}
-	throttle(time) {
-		let method = this.pool[this.uid];
-		method.throttle(time);
 		return this;
 	}
 	limit(count) {
@@ -49,6 +39,19 @@ export default class OnEventBoundReceipt extends Enableable(Receipt) {
 	once() {
 		return this.limit(1);
 	}
+	remove() {
+		return remove.call(this);
+	}
+	removeAll() {
+		return removeAll.call(this);
+	}
+	throttle(time) {
+		let method = this.pool[this.uid];
+		method.throttle(time);
+		return this;
+	}
+
+	//properties
 	get enabled() {
 		let method = this.pool[this.uid];
 		return method.enabled;
@@ -57,4 +60,18 @@ export default class OnEventBoundReceipt extends Enableable(Receipt) {
 		let method = this.pool[this.uid];
 		method.enabled = !!v;
 	}
+	get pool() {
+		return this[$private].pool;
+	}
+	set pool(v) {
+		this[$private].pool = v;
+	}
+	get uid() {
+		return this[$private].uid;
+	}
+	set uid(id) {
+		this[$private].uid = id;
+	}
 }
+
+exports(OnEventBoundReceipt).as('/Framework/V1.0/Classes/Receipts/OnEventBound');

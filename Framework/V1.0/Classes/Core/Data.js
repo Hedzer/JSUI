@@ -4,7 +4,7 @@ import Base from '/Framework/V1.0/Classes/Core/Base';
 
 //Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import state from '/Framework/V1.0/Constants/Keys/General/state';
+import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
 
 //Mixins
 import Eventful from '/Framework/V1.0/Mixins/Eventful';
@@ -21,7 +21,11 @@ import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import extend from '/Framework/V1.0/Utilities/Objects/extend';
 
 class Data extends Base
-	.implements(Stateful, Eventful, Extensible) {
+	.implements(
+		Stateful,
+		Eventful,
+		Extensible,
+	) {
 
 	constructor(values) {
 		super();

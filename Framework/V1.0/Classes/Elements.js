@@ -227,7 +227,7 @@ let Elements = {
 	U: U,
 	Ul: Ul,
 	Video: Video,
-	Wbr: Wbr
+	Wbr: Wbr,
 };
 
 export default Elements;

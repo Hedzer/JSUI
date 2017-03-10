@@ -1,34 +1,45 @@
-import isString from '/Framework/V1.0/TypeChecks/isString';
-import isObject from '/Framework/V1.0/TypeChecks/isObject';
+
+//Classes
+import Receipt from '/Framework/V1.0/Classes/Core/Receipt';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+import normalize from '/Framework/V1.0/Constants/Keys/BindReceipt/normalize';
+import on from '/Framework/V1.0/Constants/Keys/BindReceipt/on';
+import remove from '/Framework/V1.0/Constants/Keys/BindReceipt/remove';
+import removeAll from '/Framework/V1.0/Constants/Keys/BindReceipt/removeAll';
+import to from '/Framework/V1.0/Constants/Keys/BindReceipt/to';
+
+//Handlers
+import getHandledType from '/Framework/V1.0/Classes/Receipts/Bind/getHandledType';
+import relationships from '/Framework/V1.0/Classes/Receipts/Bind/relationships';
+
+//Mixins
+import Enableable from '/Framework/V1.0/Mixins/Enableable';
+
+//TypeChecks
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isJSUIFunction from '/Framework/V1.0/TypeChecks/isJSUIFunction';
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import isRelationshipBindingReceipt from '/Framework/V1.0/TypeChecks/isRelationshipBindingReceipt';
+import isString from '/Framework/V1.0/TypeChecks/isString';
 
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import Receipt from '/Framework/V1.0/Classes/Core/Receipt';
-import uid from '/Framework/V1.0/Utilities/General/uid';
+//Utilities
 import define from '/Framework/V1.0/Utilities/Properties/addHiddenValue';
-import Enableable from '/Framework/V1.0/Mixins/Enableable';
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import uid from '/Framework/V1.0/Utilities/General/uid';
 
-//keys
-import to from '/Framework/V1.0/Constants/Keys/BindReceipt/to';
-import on from '/Framework/V1.0/Constants/Keys/BindReceipt/on';
-import normalize from '/Framework/V1.0/Constants/Keys/BindReceipt/normalize';
-import remove from '/Framework/V1.0/Constants/Keys/BindReceipt/remove';
-import removeAll from '/Framework/V1.0/Constants/Keys/BindReceipt/removeAll';
+export default class BindReceipt extends Receipt
+	.implements(Enableable) {
 
-import relationships from '/Framework/V1.0/Classes/Receipts/Bind/relationships';
-import getHandledType from '/Framework/V1.0/Classes/Receipts/Bind/getHandledType';
-
-export default class BindReceipt extends Enableable(Receipt) {
 	constructor(relationship, subject) {
 		super();
 		this[$private] = {
 			uid: uid(),
 			Handles: {
 				byID: {},
-				byName: {}
+				byName: {},
 			}
 		};
 		this[$private].relationship = relationship;
@@ -38,20 +49,28 @@ export default class BindReceipt extends Enableable(Receipt) {
 			this.to = this[to];
 		}
 	}
-	get uid() {
-		return this[$private].uid;
-	}
-	set uid(id) {
-		this[$private].uid = id;
-	}
-	[to](subject) {
-		let to = this[$private].to;
-		if (!to) {
-			this[$private].to = subject;
-			this.on = this[on];
-			this.normalize = this[normalize];
-			delete this.to;
+
+	//methods
+	[normalize](rules) {
+
+		if (isObject(rules)) {
+			Object.keys(rules).forEach((event) => {
+				let relationships = rules[event];
+				if (isObject(relationships)) {
+					Object.keys(relationships).forEach((relationship) => {
+						let normalizer = relationships[relationship];
+						let key = `${event}: ${relationship}`;
+						if (isFunction(normalizer) || isJSUIFunction(normalizer)) {
+							let handle = this[$private].Handles.byName[key];
+							if (handle) {
+								handle.normalizer = normalizer;
+							}
+						}
+					});
+				}
+			});
 		}
+
 		return this;
 	}
 	[on](events) {
@@ -85,30 +104,7 @@ export default class BindReceipt extends Enableable(Receipt) {
 
 		return this;
 	}
-	[normalize](rules) {
-
-		if (isObject(rules)) {
-			Object.keys(rules).forEach((event) => {
-				let relationships = rules[event];
-				if (isObject(relationships)) {
-					Object.keys(relationships).forEach((relationship) => {
-						let normalizer = relationships[relationship];
-						let key = `${event}: ${relationship}`;
-						if (isFunction(normalizer) || isJSUIFunction(normalizer)) {
-							let handle = this[$private].Handles.byName[key];
-							if (handle) {
-								handle.normalizer = normalizer;
-							}
-						}
-					});
-				}
-			});
-		}
-
-		return this;
-	}
 	[remove](handle) {
-
 		if (isArray(handle)) {
 			return handle.forEach((h) => { this[remove](h); });
 		}
@@ -125,19 +121,25 @@ export default class BindReceipt extends Enableable(Receipt) {
 			delete Handles.byID[id];
 			success = true;
 		}
-		return success;
 
+		return success;
 	}
 	[removeAll]() {
-
 		let Handles = this[$private].Handles;
 		this[remove](Object.values(Handles.byID));
+	}
+	[to](subject) {
+		let to = this[$private].to;
+		if (!to) {
+			this[$private].to = subject;
+			this.on = this[on];
+			this.normalize = this[normalize];
+			delete this.to;
+		}
+		return this;
+	}
 
-	}
-	get handles() {
-		let Handles = this[$private].Handles;
-		return Object.values(Handles.byID);
-	}
+	//properties
 	get enabled() {
 		return super.enabled;
 	}
@@ -146,4 +148,16 @@ export default class BindReceipt extends Enableable(Receipt) {
 		this.handles.forEach((handle) => { handle.enabled = value; });
 		super.enabled = value;
 	}
+	get handles() {
+		let Handles = this[$private].Handles;
+		return Object.values(Handles.byID);
+	}
+	get uid() {
+		return this[$private].uid;
+	}
+	set uid(id) {
+		this[$private].uid = id;
+	}
 }
+
+exports(BindReceipt).as('/Framework/V1.0/Classes/Receipts/Bind');

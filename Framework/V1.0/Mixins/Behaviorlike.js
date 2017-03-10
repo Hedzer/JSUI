@@ -1,7 +1,7 @@
 //Keys
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import instanceTypeCheck from '/Framework/V1.0/Constants/Keys/Mixins/Behaviorlike/isInstance';
-import staticTypeCheck from '/Framework/V1.0/Constants/Keys/Mixins/Behaviorlike/isStatic';
+import instanceTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Behaviorlike/isInstance';
+import staticTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Behaviorlike/isStatic';
 import define from '/Framework/V1.0/Utilities/Properties/addHiddenValue';
 
 let Behaviorlike = (descendant) => class BehaviorlikeMixin extends descendant {

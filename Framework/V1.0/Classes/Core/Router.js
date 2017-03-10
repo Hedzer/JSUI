@@ -31,7 +31,7 @@ import getHashParts from '/Framework/V1.0/Utilities/Navigation/getHashParts';
 export default class Router extends Base
 	.implements(
 		Privatelike,
-		Enableable
+		Enableable,
 	) {
 	
 	constructor(){

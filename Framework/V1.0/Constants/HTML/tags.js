@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 let tags = [
 	'a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio',
 	'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button',
@@ -19,7 +23,9 @@ let tags = [
 	'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track',
 	'u', 'ul',
 	'video',
-	'wbr'
+	'wbr',
 ];
 
 export default tags;
+
+exports(tags).as('/Framework/V1.0/Constants/HTML/tags');

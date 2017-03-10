@@ -7,7 +7,7 @@ import add from '/Framework/V1.0/Constants/Keys/Extensible/add';
 import destructor from '/Framework/V1.0/Constants/Keys/General/destructor';
 import on from '/Framework/V1.0/Constants/Keys/Extensible/on';
 import remove from '/Framework/V1.0/Constants/Keys/Extensible/remove';
-import state from '/Framework/V1.0/Constants/Keys/General/state';
+import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
 import trigger from '/Framework/V1.0/Constants/Keys/Extensible/trigger';
 
 //Utilities

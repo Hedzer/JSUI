@@ -1,6 +1,15 @@
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Classes
 import ElementReceipt from '/Framework/V1.0/Classes/Receipts/Element';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//TypeChecks
 import isElement from '/Framework/V1.0/TypeChecks/isElement';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import getClasses from '/Framework/V1.0/Utilities/Elements/getClasses';
 
 export default class ElementClassReceipt extends ElementReceipt {
@@ -9,6 +18,8 @@ export default class ElementClassReceipt extends ElementReceipt {
 		this.element = element;
 		this[$private].classes = className.split(' ');
 	}
+
+	//methods
 	add() {
 		let existing = (getClasses(this.element) || {});
 		this[$private].classes.forEach((name) => {
@@ -16,6 +27,18 @@ export default class ElementClassReceipt extends ElementReceipt {
 		});
 		this.element.className = Object.keys(existing).join(' ');
 		return existing;
+	}
+	exists() {
+		let existing = (getClasses(this.element) || {});
+		let classes = this[$private].classes;
+		let count = classes.length;
+		for (let i = 0; i < count; i++) {
+			let name = classes[i];
+			if (!existing[name]) {
+				return false;
+			}
+		};
+		return true; 
 	}
 	remove() {
 		let existing = (getClasses(this.element) || {});
@@ -37,16 +60,6 @@ export default class ElementClassReceipt extends ElementReceipt {
 		this.element.className = Object.keys(existing).join(' ');
 		return existing;
 	}
-	exists() {
-		let existing = (getClasses(this.element) || {});
-		let classes = this[$private].classes;
-		let count = classes.length;
-		for (let i = 0; i < count; i++) {
-			let name = classes[i];
-			if (!existing[name]) {
-				return false;
-			}
-		};
-		return true; 
-	}
 }
+
+exports(ElementClassReceipt).as('/Framework/V1.0/Classes/Receipts/ElementClass');

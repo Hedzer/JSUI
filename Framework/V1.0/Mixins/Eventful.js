@@ -6,8 +6,8 @@ import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
 
 //keys
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import instanceTypeCheck from '/Framework/V1.0/Constants/Keys/Mixins/Eventful/isInstance';
-import staticTypeCheck from '/Framework/V1.0/Constants/Keys/Mixins/Eventful/isStatic';
+import instanceTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Eventful/isInstance';
+import staticTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Eventful/isStatic';
 
 import on from '/Framework/V1.0/Constants/Keys/Eventful/on';
 import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';

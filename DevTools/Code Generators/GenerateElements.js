@@ -31,8 +31,8 @@ let imports = '';
 	let name = capitalize(tag);
 	fs.writeFileSync(`./Elements/${name}.js`, [
 		`\n\/\/Classes\n`,
-		`import Element from 'Framework/Classes/Element';\n`,
-		`import Identity from 'Framework/Classes/Identity';\n\n`,
+		`import Element from '/Framework/V1.0/Classes/Core/Element';\n`,
+		`import Identity from '/Framework/V1.0/Classes/Core/Identity';\n\n`,
 		`\/\/Utilities\n`,
 		`import exports from '/Framework/V1.0/Utilities/Dependencies/exports';\n\n`,
 		`const identity = new Identity({\n`,
@@ -47,7 +47,7 @@ let imports = '';
 		`}\n\n`,
 		`exports(${name}).as('/Framework/V1.0/Classes/Elements/${name}');\n`
 	].join(''));
-	imports += `import ${name} from 'Framework/Classes/Elements/${name}';\n`;
+	imports += `import ${name} from '/Framework/V1.0/Classes/Elements/${name}';\n`;
 	elements += `\n\t${name}: ${name},`;
 });
 elements += '\n};';

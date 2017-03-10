@@ -5,9 +5,9 @@ import isArray from '/Framework/V1.0/TypeChecks/isArray';
 import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
 import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
 import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
-import isInstance from '/Framework/V1.0/Constants/Keys/Mixins/Routable/isInstance';
-import isStatic from '/Framework/V1.0/Constants/Keys/Mixins/Routable/isStatic';
-import state from '/Framework/V1.0/Constants/Keys/General/state';
+import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Routable/isInstance';
+import isStatic from '/Framework/V1.0/Constants/Keys/TypeChecks/Routable/isStatic';
+import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
 import Router from '/Framework/V1.0/Singletons/Navigation/Router';
 
 let Routable = ((descendant) => {

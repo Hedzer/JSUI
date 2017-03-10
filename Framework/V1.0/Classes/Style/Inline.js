@@ -1,14 +1,23 @@
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Classes
 import Identity from '/Framework/V1.0/Classes/Core/Identity';
-import isJSUI from '/Framework/V1.0/TypeChecks/isJSUI';
+import StyleRules from '/Framework/V1.0/Classes/Style/Rules';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//TypeChecks
 import isBehavior from '/Framework/V1.0/TypeChecks/isBehavior';
+import isJSUI from '/Framework/V1.0/TypeChecks/isJSUI';
 import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import isString from '/Framework/V1.0/TypeChecks/isString';
-import StyleRules from '/Framework/V1.0/Classes/Style/Rules';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 const identity = new Identity({
 	class: 'StyleInline',
-	major: 1, minor: 0, patch: 0
+	major: 1, minor: 0, patch: 0,
 });
 
 export default class StyleInline extends StyleRules {
@@ -18,6 +27,7 @@ export default class StyleInline extends StyleRules {
 		this[$private].host = (host || false);
 
 		let handler = (() => {});
+
 		if (isJSUI(host)) {
 			handler = (ev) => {
 				if (this[$private].host && ev.property) {
@@ -25,6 +35,7 @@ export default class StyleInline extends StyleRules {
 				}				
 			};
 		}
+
 		if (isBehavior(host)) {
 			handler = (ev) => {
 				host.hosts((jsui) => {
@@ -36,14 +47,8 @@ export default class StyleInline extends StyleRules {
 		this.on('styleChanged', handler);
 		this.identity = identity;
 	}
-	get host() {
-		return this[$private].host;
-	}
-	set host(element) {
-		if (isJSUI(element)) {
-			this[$private].host = element.element;
-		}
-	}
+
+	//methods
 	set(name, value) {
 		if (isObject(name)) {
 			Object.keys(name).forEach((key) => {
@@ -61,4 +66,16 @@ export default class StyleInline extends StyleRules {
 			}
 		}
 	}
+
+	//properties
+	get host() {
+		return this[$private].host;
+	}
+	set host(element) {
+		if (isJSUI(element)) {
+			this[$private].host = element.element;
+		}
+	}
 }
+
+exports(StyleInline).as('/Framework/V1.0/Classes/Style/Inline');

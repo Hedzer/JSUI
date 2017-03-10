@@ -1,10 +1,10 @@
 //Keys
-import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import isNull from '/Framework/V1.0/TypeChecks/isNull';
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
+import $$private from '/Framework/V1.0/Constants/Keys/Privatelike/private';
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import $$private from '/Framework/V1.0/Constants/Keys/Mixins/Privatelike/private';
-import isInstance from '/Framework/V1.0/Constants/Keys/Mixins/Privatelike/isInstance';
-import isStatic from '/Framework/V1.0/Constants/Keys/Mixins/Privatelike/isStatic';
+import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Privatelike/isInstance';
+import isStatic from '/Framework/V1.0/Constants/Keys/TypeChecks/Privatelike/isStatic';
 import define from '/Framework/V1.0/Utilities/Properties/addHiddenValue';
 import extend from '/Framework/V1.0/Utilities/Objects/extend';
 

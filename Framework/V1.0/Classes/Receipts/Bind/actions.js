@@ -1,7 +1,14 @@
-import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
-import $uid from '/Framework/V1.0/Constants/Keys/General/uid';
+
+//Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
+import $uid from '/Framework/V1.0/Constants/Keys/General/uid';
+
+//TypeChecks
+import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+
+//Utilities
 import define from '/Framework/V1.0/Utilities/Properties/addHiddenValue';
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import uid from '/Framework/V1.0/Utilities/General/uid';
 
 let graph = {}; //prevent infinite loops
@@ -114,7 +121,9 @@ let actions = {
 		open(objA, objB);
 		objA[propA](normalizer(objB[propB]()));
 		close(objA, objB);
-	}
+	},
 };
 
 export default actions;
+
+exports(actions).as('/Framework/V1.0/Classes/Receipts/Bind/actions');

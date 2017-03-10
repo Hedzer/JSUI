@@ -1,17 +1,31 @@
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Classes
+import Distinct from '/Framework/V1.0/Classes/Core/Distinct';
 import Identity from '/Framework/V1.0/Classes/Core/Identity';
-import isString from '/Framework/V1.0/TypeChecks/isString';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Singletons
+import Sheets from '/Framework/V1.0/Singletons/Style/Sheets';
+
+//Sorts
+import sort from '/Framework/V1.0/Sorts/StyleSheet/rules';
+
+//TypeChecks
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isNumber from '/Framework/V1.0/TypeChecks/isNumber';
+import isString from '/Framework/V1.0/TypeChecks/isString';
 import isStyleSheetRule from '/Framework/V1.0/TypeChecks/isStyleSheetRule';
 import isUStyleSheetRule from '/Framework/V1.0/TypeChecks/isUStyleSheetRule';
-import sort from '/Framework/V1.0/Sorts/StyleSheet/rules';
-import Sheets from '/Framework/V1.0/Singletons/Style/Sheets';
-import Distinct from '/Framework/V1.0/Classes/Core/Distinct';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 
 const identity = new Identity({
 	class: 'StyleSheet',
-	major: 1, minor: 0, patch: 0
+	major: 1, minor: 0, patch: 0,
 });
 
 export default class StyleSheet extends Distinct {
@@ -23,7 +37,7 @@ export default class StyleSheet extends Distinct {
 			rules: {},
 			timer: false,
 			element: false,
-			context: context
+			context: context,
 		};
 
 		let contextSheet = Sheets[context];
@@ -41,13 +55,15 @@ export default class StyleSheet extends Distinct {
 
 		this.identity = identity;
 	}
+
+	//methods
 	add(rule) {
 		if (isStyleSheetRule(rule)) {
 			let rules = this[$private].rules;
 			if (!rules[rule.uid]) {
 				rules[rule.uid] = {
 					references: 1,
-					rule: rule
+					rule: rule,
 				};
 				return this.render(10);
 			}
@@ -73,22 +89,6 @@ export default class StyleSheet extends Distinct {
 		}
 		if (isStyleSheetRule(rule)) {
 			this.remove(rule.uid);
-		}
-	}
-	get context() {
-		return this[$private].context;
-	}
-	get variables() {}
-	set variables(vars) {}
-	get sorter() {
-		if (this[$private].sorter) {
-			return this[$private].sorter;
-		}
-		return sort;
-	}
-	set sorter(method) {
-		if (isFunction(method)) {
-			this[$private].sorter = method;
 		}
 	}
 	render(timeout) {
@@ -133,4 +133,24 @@ export default class StyleSheet extends Distinct {
 		this[$private].element = element;
 		this.trigger('rendered');
 	}
+
+	//properties
+	get context() {
+		return this[$private].context;
+	}
+	get sorter() {
+		if (this[$private].sorter) {
+			return this[$private].sorter;
+		}
+		return sort;
+	}
+	set sorter(method) {
+		if (isFunction(method)) {
+			this[$private].sorter = method;
+		}
+	}
+	get variables() {}
+	set variables(vars) {}
 }
+
+exports(StyleSheet).as('/Framework/V1.0/Classes/Style/Sheet');

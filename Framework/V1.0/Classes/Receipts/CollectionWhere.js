@@ -1,16 +1,25 @@
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import Receipt from '/Framework/V1.0/Classes/Core/Receipt';
-import define from '/Framework/V1.0/Utilities/Properties/addHiddenValue';
+
+//Classes
 import Collection from '/Framework/V1.0/Classes/Core/Collection';
+import Receipt from '/Framework/V1.0/Classes/Core/Receipt';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Utilities
+import define from '/Framework/V1.0/Utilities/Properties/addHiddenValue';
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default class CollectionWhereReceipt extends Receipt {
 	constructor() {
 		super();
 		this[$private] = {
 			selected: new Collection(),
-			rejected: new Collection()
+			rejected: new Collection(),
 		};
 	}
+
+	//properties
 	get selected() {
 		return this[$private].selected;
 	}
@@ -18,3 +27,5 @@ export default class CollectionWhereReceipt extends Receipt {
 		return this[$private].rejected;
 	}
 }
+
+exports(CollectionWhereReceipt).as('/Framework/V1.0/Classes/Receipts/CollectionWhere');

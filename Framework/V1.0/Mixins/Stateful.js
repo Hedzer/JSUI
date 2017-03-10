@@ -1,4 +1,4 @@
-import state from '/Framework/V1.0/Constants/Keys/General/state';
+import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
 import StateChangeReceipt from '/Framework/V1.0/Classes/Receipts/StateChange';
 import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
 import $private from '/Framework/V1.0/Constants/Keys/General/private';

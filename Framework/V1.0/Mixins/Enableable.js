@@ -1,7 +1,7 @@
 //Keys
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import instanceTypeCheck from '/Framework/V1.0/Constants/Keys/Mixins/Enableable/isInstance';
-import staticTypeCheck from '/Framework/V1.0/Constants/Keys/Mixins/Enableable/isStatic';
+import instanceTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Enableable/isInstance';
+import staticTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Enableable/isStatic';
 
 let Enableable = (descendant) => class EnableableMixin extends descendant {
 	constructor() {
