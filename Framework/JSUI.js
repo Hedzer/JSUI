@@ -20,7 +20,7 @@ let JSUI = {
 		Sheet: Classes.StyleSheet,
 		Rule: Classes.StyleSheetRule,
 		Inline: Classes.StyleInline,
-		Sheets: Singletons.Style.Sheets
+		Sheets: Singletons.Style.Sheets,
 	},
 	Mixins: Mixins,
 	Classes: Classes,
@@ -30,7 +30,7 @@ let JSUI = {
 	Utilities: Utilities,
 	Sorts: Sorts,
 	Reflection: Reflection,
-	Router: Router
+	Router: Router,
 };
 
 window.JSUI = JSUI;
