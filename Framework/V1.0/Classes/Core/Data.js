@@ -7,6 +7,7 @@ import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
 
 //Mixins
+import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
 import Eventful from '/Framework/V1.0/Mixins/Eventful';
 import Extensible from '/Framework/V1.0/Mixins/Extensible';
 import Serializable from '/Framework/V1.0/Mixins/Serializable';
@@ -23,6 +24,7 @@ import extend from '/Framework/V1.0/Utilities/Objects/extend';
 
 class Data extends Base
 	.implements(
+		Privatelike,
 		Stateful,
 		Serializable,
 		Eventful,
