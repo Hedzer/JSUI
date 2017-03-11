@@ -1,6 +1,11 @@
+
+//TypeChecks
+import isArray from '/Framework/V1.0/TypeChecks/isArray';
 import isElement from '/Framework/V1.0/TypeChecks/isElement';
 import isString from '/Framework/V1.0/TypeChecks/isString';
-import isArray from '/Framework/V1.0/TypeChecks/isArray';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function getClasses(el) {
 	if (!isElement(el)) { return; }
@@ -15,3 +20,5 @@ export default function getClasses(el) {
 	}
 	return classes;
 }
+
+exports(getClasses).as('/Framework/V1.0/Utilities/Elements/getClasses');

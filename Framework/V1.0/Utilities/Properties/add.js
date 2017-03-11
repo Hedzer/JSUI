@@ -1,5 +1,12 @@
-import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Classes
 import StateChangeReceipt from '/Framework/V1.0/Classes/Receipts/StateChange';
+
+//Constants
+import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function add(host, name, defaultValue){
 	Object.defineProperty(host, name, {
@@ -17,16 +24,17 @@ export default function add(host, name, defaultValue){
 					owner: this,
 					property: name,
 					old: old,
-					new: value
+					new: value,
 				});
 				let trigger = (this.trigger || this.$trigger).bind(this);
 				if (trigger){
-					trigger(`${name}Changed`, data);
-					trigger('Changed', data);
+					trigger([`${name}Changed`, 'Changed'], data);
 				}
 			}
 		},
 		configurable:true,
-		enumerable:true
+		enumerable:true,
 	});
 }
+
+exports(add).as('/Framework/V1.0/Utilities/Properties/add');

@@ -1,4 +1,8 @@
+
+//Classes
 import Application from '/Framework/V1.0/Classes/Core/Application';
+
+//Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 function isApplication(u) {

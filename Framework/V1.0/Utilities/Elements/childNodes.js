@@ -1,6 +1,13 @@
-import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
-import isElement from '/Framework/V1.0/TypeChecks/isElement';
+
+//Classes
 import Collection from '/Framework/V1.0/Classes/Core/Collection';
+
+//TypeChecks
+import isElement from '/Framework/V1.0/TypeChecks/isElement';
+import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 function placeholder(){}
 export default function childNodes(node, callback) {
@@ -19,3 +26,5 @@ export default function childNodes(node, callback) {
 	}
 	return children;
 }
+
+exports(childNodes).as('/Framework/V1.0/Utilities/Elements/childNodes');

@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 // Production steps of ECMA-262, Edition 5, 15.4.4.21
 // Reference: http://es5.github.io/#x15.4.4.21
 let hasReduce = !!Array.prototype.reduce;
@@ -35,3 +39,5 @@ if (!Array.prototype.reduce) {
 }
 
 export default !hasReduce;
+
+exports(!hasReduce).as('/Framework/V1.0/Polyfills/Array/reduce');

@@ -1,5 +1,10 @@
-import isObject from '/Framework/V1.0/TypeChecks/isObject';
+
+//TypeChecks
 import isBase from '/Framework/V1.0/TypeChecks/isBase';
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function extend(a) {
 	if (!isObject(a)) { return a; }
@@ -20,3 +25,5 @@ export default function extend(a) {
 		}
 	};
 }
+
+exports(extend).as('/Framework/V1.0/Utilities/Objects/extend');

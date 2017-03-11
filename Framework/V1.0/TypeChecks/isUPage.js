@@ -1,6 +1,10 @@
+
+//Classes
 import Page from '/Framework/V1.0/Classes/Core/Page';
-import isUOfType from '/Framework/V1.0/Utilities/TypeChecks/isUOfType';
+
+//Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import isUOfType from '/Framework/V1.0/Utilities/TypeChecks/isUOfType';
 
 export default function isUPage(u) {
 	return isUOfType(u, Page);

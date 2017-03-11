@@ -6,6 +6,8 @@ export default class JSUIError extends native(Error) {
 	constructor(title, message, severity) {
 		super();
 	}
+
+	//methods
 	throw(title, message, severity) {
 		if (window.console && window.console.trace) {
 			console.trace(title || '');

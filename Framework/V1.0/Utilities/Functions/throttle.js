@@ -1,4 +1,9 @@
+
+//TypeChecks
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function throttle(fn, time) {
 	let nextCall = 0;
@@ -12,3 +17,5 @@ export default function throttle(fn, time) {
 		};
 	}
 }
+
+exports(throttle).as('/Framework/V1.0/Utilities/Functions/throttle');

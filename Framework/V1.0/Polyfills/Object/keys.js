@@ -1,3 +1,10 @@
+
+//Constants
+import dontEnums from '/Framework/V1.0/Constants/JS/Object/properties';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 let hasObjectKeys = !!Object.keys;
 if (!hasObjectKeys) {
@@ -7,15 +14,6 @@ if (!hasObjectKeys) {
 			hasDontEnumBug = !({
 				toString: null
 			}).propertyIsEnumerable('toString'),
-			dontEnums = [
-				'toString',
-				'toLocaleString',
-				'valueOf',
-				'hasOwnProperty',
-				'isPrototypeOf',
-				'propertyIsEnumerable',
-				'constructor'
-			],
 			dontEnumsLength = dontEnums.length;
 
 		return function(obj) {
@@ -45,3 +43,5 @@ if (!hasObjectKeys) {
 }
 
 export default !hasObjectKeys;
+
+exports(!hasObjectKeys).as('/Framework/V1.0/Polyfills/Object/keys');

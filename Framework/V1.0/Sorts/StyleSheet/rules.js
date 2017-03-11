@@ -1,4 +1,9 @@
+
+//Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function rules(a, b) {
 	let importance = b.importance - a.importance;
@@ -8,3 +13,5 @@ export default function rules(a, b) {
 	}
 	return importance;
 }
+
+exports(rules).as('/Framework/V1.0/Sorts/StyleSheet/rules');

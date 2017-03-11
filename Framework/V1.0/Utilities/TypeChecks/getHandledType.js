@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 export default function getHandledType(types, u){
 	let type = typeof u;
 	let subtypes = types[type];
@@ -12,3 +16,5 @@ export default function getHandledType(types, u){
 	}
 	return type;
 };
+
+exports(getHandledType).as('/Framework/V1.0/Utilities/TypeChecks/getHandledType');

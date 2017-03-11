@@ -15,7 +15,8 @@ import ExtensibleMixin from '/Framework/V1.0/Mixins/Extensible';
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
-export default class Extensible extends ExtensibleMixin(Eventful) {
+export default class Extensible extends Eventful
+	.implements(ExtensibleMixin) {
 	
 	//methods
 	add() {

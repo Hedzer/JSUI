@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 //from https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 let hasAddEventListener = !!Element.prototype.addEventListener;
 if (!hasAddEventListener) {
@@ -84,3 +88,5 @@ if (!hasAddEventListener) {
 }
 
 export default !hasAddEventListener;
+
+exports(!hasAddEventListener).as('/Framework/V1.0/Polyfills/DOM/addEventListener');

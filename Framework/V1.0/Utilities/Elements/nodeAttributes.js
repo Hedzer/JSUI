@@ -1,5 +1,10 @@
-import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+
+//TypeChecks
 import isElement from '/Framework/V1.0/TypeChecks/isElement';
+import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 function placeholder(){}
 export default function nodeAttributes(node, callback) {
@@ -18,3 +23,5 @@ export default function nodeAttributes(node, callback) {
 	};
 	return attributes;
 }
+
+exports(nodeAttributes).as('/Framework/V1.0/Utilities/Elements/nodeAttributes');

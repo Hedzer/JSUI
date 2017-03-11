@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 export default function native(nativeClass){
     function Native(){
         nativeClass.apply(this, arguments);
@@ -7,3 +11,5 @@ export default function native(nativeClass){
 
     return Native;
 }
+
+exports(native).as('/Framework/V1.0/Utilities/Classes/native');

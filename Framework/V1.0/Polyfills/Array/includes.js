@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 // https://tc39.github.io/ecma262/#sec-array.prototype.includes
 let hasIncludes = !!Array.prototype.includes;
 if (!hasIncludes) {
@@ -49,3 +53,5 @@ if (!hasIncludes) {
 }
 
 export default !hasIncludes;
+
+exports(!hasIncludes).as('/Framework/V1.0/Polyfills/Array/includes');

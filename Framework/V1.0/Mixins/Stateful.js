@@ -1,9 +1,18 @@
-import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
+
+//Classes
 import StateChangeReceipt from '/Framework/V1.0/Classes/Receipts/StateChange';
-import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
+
+//Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
+import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
+import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
+
+//TypeChecks
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 let Stateful = (descendant) => {
 
@@ -11,6 +20,17 @@ let Stateful = (descendant) => {
 		constructor() {
 			super();
 		}
+
+		//methods
+		[state](property, value) {
+			let count = arguments.length;
+			if (count < 2) {
+				return StatefulMixin.state(this, property);
+			}
+			return StatefulMixin.state(this, property, value);
+		}
+
+		//properties
 		static state(context, property, value) {
 			let state = context[$private].state;
 			let old = state[property];
@@ -45,13 +65,6 @@ let Stateful = (descendant) => {
 
 			return hasChanged;
 		}
-		[state](property, value) {
-			let count = arguments.length;
-			if (count < 2) {
-				return StatefulMixin.state(this, property);
-			}
-			return StatefulMixin.state(this, property, value);
-		}
 	};
 
 	return StatefulMixin;
@@ -59,3 +72,5 @@ let Stateful = (descendant) => {
 
 
 export default Stateful;
+
+exports(Stateful).as('/Framework/V1.0/Mixins/Stateful');

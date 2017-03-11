@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 // Production steps of ECMA-262, Edition 5, 15.4.4.18
 // Reference: http://es5.github.io/#x15.4.4.18
 let hasForEach = !!Array.prototype.forEach;
@@ -63,3 +67,5 @@ if (!hasForEach) {
 }
 
 export default !hasForEach;
+
+exports(!hasForEach).as('/Framework/V1.0/Polyfills/Array/forEach');

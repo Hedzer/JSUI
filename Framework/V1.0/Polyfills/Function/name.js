@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 // Polyfill from https://github.com/JamesMGreene/Function.name
 (function() {
 
@@ -118,3 +122,5 @@
 })();
 let hasName = ("name" in Function.prototype && "name" in (function x() {}));
 export default !hasName;
+
+exports(!hasName).as('/Framework/V1.0/Polyfills/Function/name');

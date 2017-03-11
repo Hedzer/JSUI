@@ -1,4 +1,8 @@
+
+//Singletons
 import exported from '/Framework/V1.0/Singletons/Dependencies/exported';
+
+//TypeChecks
 import isString from '/Framework/V1.0/TypeChecks/isString';
 
 export default function exports(code) {
@@ -15,3 +19,5 @@ export default function exports(code) {
 		}
 	};
 }
+
+exports(exports).as('/Framework/V1.0/Utilities/Dependencies/exports');

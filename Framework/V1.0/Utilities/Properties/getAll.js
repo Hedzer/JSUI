@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 let ObjectPrototype = Object.getPrototypeOf({});
 export default function getAll(obj) {
 	//code modified from airportyh, http://stackoverflow.com/questions/8024149/is-it-possible-to-get-the-non-enumerable-inherited-property-names-of-an-object
@@ -11,3 +15,5 @@ export default function getAll(obj) {
 	} while ((obj = Object.getPrototypeOf(obj)) && obj !== ObjectPrototype);
 	return props;
 }
+
+exports(getAll).as('/Framework/V1.0/Utilities/Properties/getAll');

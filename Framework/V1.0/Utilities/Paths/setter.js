@@ -1,3 +1,6 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import get from '/Framework/V1.0/Utilities/Paths/get';
 
 export default function setter(obj, path, value) {
@@ -15,3 +18,5 @@ export default function setter(obj, path, value) {
 	}
 	return false;
 }
+
+exports(setter).as('/Framework/V1.0/Utilities/Paths/setter');

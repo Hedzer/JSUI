@@ -1,14 +1,25 @@
-import isString from '/Framework/V1.0/TypeChecks/isString';
-import isObject from '/Framework/V1.0/TypeChecks/isObject';
-import isArray from '/Framework/V1.0/TypeChecks/isArray';
-import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
-import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
-import isUEndpoint from '/Framework/V1.0/TypeChecks/isUEndpoint';
-import isData from '/Framework/V1.0/TypeChecks/isData';
-import Router from '/Framework/V1.0/Singletons/Navigation/Router';
-import getIdentifiedType from '/Framework/V1.0/Classes/Core/Router/getIdentifiedType';
-import extend from '/Framework/V1.0/Utilities/Objects/extend';
+
+//DataTypes
 import NavigationItem from '/Framework/V1.0/DataTypes/NavigationItem';
+
+//Handlers
+import getIdentifiedType from '/Framework/V1.0/Classes/Core/Router/getIdentifiedType';
+
+//Singletons
+import Router from '/Framework/V1.0/Singletons/Navigation/Router';
+
+//TypeChecks
+import isArray from '/Framework/V1.0/TypeChecks/isArray';
+import isData from '/Framework/V1.0/TypeChecks/isData';
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
+import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
+import isString from '/Framework/V1.0/TypeChecks/isString';
+import isUEndpoint from '/Framework/V1.0/TypeChecks/isUEndpoint';
+import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import extend from '/Framework/V1.0/Utilities/Objects/extend';
 
 export default function map(routable, prefix = '', items, history = {}) {
 	if ((!isRoutable(routable) && !isURoutable(routable))) { return false; }
@@ -36,16 +47,16 @@ export default function map(routable, prefix = '', items, history = {}) {
 			let shortpath = Router.shortcutOf(hashpath);
 			extend(placard).with({
 				//paths
-				path: path,
 				hashpath: hashpath,
+				path: path,
 				shortpath: shortpath,
 				url: `#!${shortpath}`,
 				//history
 				Application: history.Application,
-				Role: history.Role,
+				Endpoint: history.Endpoint,
 				Feature: history.Feature,
 				Page: history.Page,
-				Endpoint: history.Endpoint
+				Role: history.Role,
 			});
 			items.push(new NavigationItem(placard));
 			return;
@@ -54,3 +65,5 @@ export default function map(routable, prefix = '', items, history = {}) {
 	});
 	return items;
 }
+
+exports(map).as('/Framework/V1.0/Utilities/Navigation/map');

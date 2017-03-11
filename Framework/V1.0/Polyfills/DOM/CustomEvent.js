@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 //from https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
 let hasCustomEvent = (typeof window.CustomEvent === "function");
 if (!hasCustomEvent) {
@@ -12,3 +16,5 @@ if (!hasCustomEvent) {
 }
 
 export default !hasCustomEvent;
+
+exports(!hasCustomEvent).as('/Framework/V1.0/Polyfills/DOM/CustomEvent');

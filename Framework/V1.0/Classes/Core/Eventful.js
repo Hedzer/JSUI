@@ -13,7 +13,10 @@ import Stateful from '/Framework/V1.0/Classes/Core/Stateful';
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
-export default class Eventful extends EventfulMixin(Stateful) {
+export default class Eventful extends Stateful
+	.implements(EventfulMixin) {
+	
+	//methods
 	on() {
 		return this[on].apply(this, arguments);
 	}

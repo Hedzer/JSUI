@@ -1,11 +1,17 @@
-//Keys
-import isNull from '/Framework/V1.0/TypeChecks/isNull';
-import isObject from '/Framework/V1.0/TypeChecks/isObject';
+
+//Constants
 import $$private from '/Framework/V1.0/Constants/Keys/Privatelike/private';
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
+import isClass from '/Framework/V1.0/Constants/Keys/TypeChecks/Privatelike/isStatic';
 import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Privatelike/isInstance';
-import isStatic from '/Framework/V1.0/Constants/Keys/TypeChecks/Privatelike/isStatic';
+
+//TypeChecks
+import isNull from '/Framework/V1.0/TypeChecks/isNull';
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
+
+//Utilities
 import define from '/Framework/V1.0/Utilities/Properties/addHiddenValue';
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import extend from '/Framework/V1.0/Utilities/Objects/extend';
 
 let Privatelike = (descendant) => class PrivatelikeMixin extends descendant {
@@ -13,6 +19,13 @@ let Privatelike = (descendant) => class PrivatelikeMixin extends descendant {
 		super();
 		define(this, $$private, {});
 	}
+
+	//methods
+	destructor() {
+		delete this[$$private];
+	}
+
+	//properties
 	get [$private]() {
 		return this[$$private];
 	}
@@ -26,15 +39,14 @@ let Privatelike = (descendant) => class PrivatelikeMixin extends descendant {
 			return;
 		}
 	}
+	static get [isClass]() {
+		return true;
+	}
 	get [isInstance]() {
 		return true;
-	}
-	static get [isStatic]() {
-		return true;
-	}
-	destructor() {
-		delete this[$$private];
 	}
 };
 
 export default Privatelike;
+
+exports(Privatelike).as('/Framework/V1.0/Mixins/Privatelike');

@@ -8,7 +8,9 @@ import Routable from '/Framework/V1.0/Mixins/Routable';
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
-export default class Endpoint extends Routable(JSUIFunction) {
+export default class Endpoint extends JSUIFunction
+	.implements(Routable) {
+	
 	constructor() {
 		super();
 		this.isRouteEndpoint = true;

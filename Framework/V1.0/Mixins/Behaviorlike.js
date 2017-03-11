@@ -1,8 +1,12 @@
-//Keys
+
+//Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import instanceTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Behaviorlike/isInstance';
-import staticTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Behaviorlike/isStatic';
+import isClass from '/Framework/V1.0/Constants/Keys/TypeChecks/Behaviorlike/isStatic';
+import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Behaviorlike/isInstance';
+
+//Utilities
 import define from '/Framework/V1.0/Utilities/Properties/addHiddenValue';
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 let Behaviorlike = (descendant) => class BehaviorlikeMixin extends descendant {
 	constructor(host) {
@@ -14,6 +18,8 @@ let Behaviorlike = (descendant) => class BehaviorlikeMixin extends descendant {
 			this.attach(host);
 		}
 	}
+	
+	//methods
 	attach(host) {
 		if (isJSUI(host)) {
 			let id = host.uid;
@@ -31,6 +37,9 @@ let Behaviorlike = (descendant) => class BehaviorlikeMixin extends descendant {
 				}).bind(this)
 			};
 		}
+	}
+	destructor() {
+		super.destructor();
 	}
 	detach(host) {
 		let id;
@@ -54,18 +63,21 @@ let Behaviorlike = (descendant) => class BehaviorlikeMixin extends descendant {
 		});
 		return results;
 	}
+
+	//properties
 	get namespace() {
 		return 'DefaultBehavior';
 	}
-	destructor() {
-		super.destructor();
-	}
-	get [instanceTypeCheck]() {
+
+	//type checks
+	static get [isClass]() {
 		return true;
 	}
-	static get [staticTypeCheck]() {
+	get [isInstance]() {
 		return true;
 	}
 };
 
 export default Behaviorlike;
+
+exports(Behaviorlike).as('/Framework/V1.0/Mixins/Behaviorlike');

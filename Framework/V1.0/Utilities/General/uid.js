@@ -1,3 +1,7 @@
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+
 let prefix = '';
 let current = 0;
 let max = Number.MAX_SAFE_INTEGER - 1;			
@@ -8,3 +12,5 @@ export default function uid(){
 	}
 	return prefix + current++;
 }
+
+exports(uid).as('/Framework/V1.0/Utilities/General/uid');

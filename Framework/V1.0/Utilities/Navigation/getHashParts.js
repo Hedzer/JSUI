@@ -1,4 +1,6 @@
 
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import getUrlParams from '/Framework/V1.0/Utilities/Navigation/getUrlParams';
 
 export default function getHashParts(url) {
@@ -17,3 +19,5 @@ export default function getHashParts(url) {
 	};
 	return result;
 }
+
+exports(getHashParts).as('/Framework/V1.0/Utilities/Navigation/getHashParts');

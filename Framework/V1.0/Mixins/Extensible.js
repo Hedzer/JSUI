@@ -1,23 +1,28 @@
-import isString from '/Framework/V1.0/TypeChecks/isString';
-import isArray from '/Framework/V1.0/TypeChecks/isArray';
-import isObject from '/Framework/V1.0/TypeChecks/isObject';
-import isUEventful from '/Framework/V1.0/TypeChecks/isUEventful';
-import uid from '/Framework/V1.0/Utilities/General/uid';
-import onEvent from '/Framework/V1.0/Utilities/Events/on';
+
+//Classes
 import StateChangeReceipt from '/Framework/V1.0/Classes/Receipts/StateChange';
 
-//Keys
+//Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
-import destructor from '/Framework/V1.0/Constants/Keys/General/destructor';
-
 import add from '/Framework/V1.0/Constants/Keys/Extensible/add';
-import remove from '/Framework/V1.0/Constants/Keys/Extensible/remove';
+import destructor from '/Framework/V1.0/Constants/Keys/General/destructor';
+import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Extensible/isInstance';
+import isClass from '/Framework/V1.0/Constants/Keys/TypeChecks/Extensible/isStatic';
 import on from '/Framework/V1.0/Constants/Keys/Eventful/on';
+import remove from '/Framework/V1.0/Constants/Keys/Extensible/remove';
+import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
 import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
 
-import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Extensible/isInstance';
-import isStatic from '/Framework/V1.0/Constants/Keys/TypeChecks/Extensible/isStatic';
+//TypeChecks
+import isArray from '/Framework/V1.0/TypeChecks/isArray';
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
+import isString from '/Framework/V1.0/TypeChecks/isString';
+import isUEventful from '/Framework/V1.0/TypeChecks/isUEventful';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
+import onEvent from '/Framework/V1.0/Utilities/Events/on';
+import uid from '/Framework/V1.0/Utilities/General/uid';
 
 let Extensible = (descendant) => {
 	if (!isUEventful(descendant)) {
@@ -29,24 +34,11 @@ let Extensible = (descendant) => {
 			this[$private] = {
 				events: {},
 				dispatchers: {},
-				state: {}
+				state: {},
 			};
 		}
-		static add(property, value) {
-			if (isString(property)) {
-				Object.defineProperty(this.prototype, property, {
-					get: function() {
-						let v = this[state](property);
-						return (isUndefined(v) ? value : v);
-					},
-					set: function(v) {
-						this[state](property, v);
-					},
-					configurable: true,
-					enumerable: true
-				});
-			}
-		}
+
+		//methods
 		[add](item, value) {
 			if (isString(item)) {
 				addProperty(this, item);
@@ -63,18 +55,6 @@ let Extensible = (descendant) => {
 			if (isObject(item)) {
 				Object.keys(item).forEach((key) => {
 					this.add(key, item[key]);
-				});
-			}
-		}
-		[remove](item) {
-			if (isString(item)) {
-				delete this[item];
-				return;
-			}
-
-			if (isArray(item)) {
-				item.forEach((value) => {
-					this.remove(value);
 				});
 			}
 		}
@@ -95,14 +75,40 @@ let Extensible = (descendant) => {
 			this[trigger]('destructed');
 			return handle;
 		}
+		[remove](item) {
+			if (isString(item)) {
+				delete this[item];
+				return;
+			}
+
+			if (isArray(item)) {
+				item.forEach((value) => {
+					this.remove(value);
+				});
+			}
+		}
+		static add(property, value) {
+			if (isString(property)) {
+				Object.defineProperty(this.prototype, property, {
+					get: function() {
+						let v = this[state](property);
+						return (isUndefined(v) ? value : v);
+					},
+					set: function(v) {
+						this[state](property, v);
+					},
+					configurable: true,
+					enumerable: true,
+				});
+			}
+		}
+
+		//properties
 		get [isInstance]() {
 			return true;
 		}
-		static get [isStatic]() {
+		static get [isClass]() {
 			return true;
-		}
-		toJSON() {
-			return this[$private].state;
 		}
 	};
 
@@ -110,3 +116,5 @@ let Extensible = (descendant) => {
 }
 
 export default Extensible;
+
+exports(Extensible).as('/Framework/V1.0/Mixins/Extensible');

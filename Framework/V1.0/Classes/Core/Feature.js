@@ -14,7 +14,9 @@ const identity = new Identity({
 	major: 1, minor: 0, patch: 0,
 });
 
-export default class Feature extends Routable(Distinct) {
+export default class Feature extends Distinct
+	.implements(Routable) {
+	
 	constructor(){
 		super();
 		this.identity = identity;

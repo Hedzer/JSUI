@@ -1,29 +1,39 @@
-//Keys
+
+//Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import instanceTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Enableable/isInstance';
-import staticTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Enableable/isStatic';
+import isClass from '/Framework/V1.0/Constants/Keys/TypeChecks/Enableable/isStatic';
+import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Enableable/isInstance';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 let Enableable = (descendant) => class EnableableMixin extends descendant {
 	constructor() {
 		super();
 		this[$private] = {
 			state: {
-				enabled: true
-			}
+				enabled: true,
+			},
 		};
 	}
+
+	//properties
 	get enabled() {
 		return this[$private].state.enabled;
 	}
 	set enabled(v) {
 		this[$private].state.enabled = !!v;
 	}
-	get [instanceTypeCheck]() {
+
+	//type checks
+	static get [isClass]() {
 		return true;
 	}
-	static get [staticTypeCheck]() {
+	get [isInstance]() {
 		return true;
 	}
 };
 
 export default Enableable;
+
+exports(Enableable).as('/Framework/V1.0/Mixins/Enableable');

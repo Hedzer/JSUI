@@ -1,14 +1,22 @@
-//Keys
+
+//Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import isObject from '/Framework/V1.0/TypeChecks/isObject';
+import isClass from '/Framework/V1.0/Constants/Keys/TypeChecks/Routable/isStatic';
+import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Routable/isInstance';
+import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
+
+//Singletons
+import Router from '/Framework/V1.0/Singletons/Navigation/Router';
+
+//TypeChecks
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
+import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
+import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import isRoutable from '/Framework/V1.0/TypeChecks/isRoutable';
 import isURoutable from '/Framework/V1.0/TypeChecks/isURoutable';
-import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
-import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Routable/isInstance';
-import isStatic from '/Framework/V1.0/Constants/Keys/TypeChecks/Routable/isStatic';
-import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
-import Router from '/Framework/V1.0/Singletons/Navigation/Router';
+
+//Utilities
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 let Routable = ((descendant) => {
 	return class RoutableMixin extends descendant {
@@ -18,31 +26,12 @@ let Routable = ((descendant) => {
 				state: {
 					route: this.constructor.route,
 					traveled: false,
-					Context: {}
-				}
+					Context: {},
+				},
 			};
 		}
-		static get route() {
-			return this.name;
-		}
-		get route() {
-			return this[state]('route');
-		}
-		set route(route) {
-			let old = this.route;
-			if (this[state]('route', route)) {
-				if (this.isRootRoute) {
-					Router.remove(old);
-					Router.add(route);
-				}
-			}
-		}
-		static get subroutes() {
-			return [];
-		}
-		get subroutes() {
-			return this.constructor.subroutes;
-		}
+
+		//methods
 		subroute(name) {
 			let subroutes = this.constructor.subroutes;
 			if (!isArray(subroutes)) { return false; }
@@ -55,8 +44,13 @@ let Routable = ((descendant) => {
 			}
 			return false;
 		}
-		static get placard() {
-			return false;
+
+		//properties
+		get Context() {
+			return this[state]('Context'); 
+		}
+		set Context(context) {
+			return this[state]('Context', context); 
 		}
 		get isRootRoute() {
 			return this[state]('isRootRoute');
@@ -70,30 +64,54 @@ let Routable = ((descendant) => {
 				Router.remove(route);
 			}
 		}
+		get isRouteAuthorized() {
+			return true;
+		}
 		get isRouteEndpoint() {
 			return this[state]('isRouteEndpoint'); 
 		}
 		set isRouteEndpoint(bool) {
 			return this[state]('isRouteEndpoint', bool); 
 		}
-		get Context() {
-			return this[state]('Context'); 
+		get route() {
+			return this[state]('route');
 		}
-		set Context(context) {
-			return this[state]('Context', context); 
+		set route(route) {
+			let old = this.route;
+			if (this[state]('route', route)) {
+				if (this.isRootRoute) {
+					Router.remove(old);
+					Router.add(route);
+				}
+			}
+		}
+		get subroutes() {
+			return this.constructor.subroutes;
 		}
 		get [isInstance]() {
 			return true;
 		}
-		static get [isStatic]() {
+		static get [isClass]() {
 			return true;
 		}
-		get isRouteAuthorized() {
-			return true;
+		static get placard() {
+			return false;
 		}
+		static get subroutes() {
+			return [];
+		}
+
+		//pre-defined events
 		onRouteTraversed(context) {}
 		onRouteCompleted(context) {}
+
+		//defaults
+		static get route() {
+			return this.name;
+		}
 	};
 });
 
 export default Routable;
+
+exports(Routable).as('/Framework/V1.0/Mixins/Routable');

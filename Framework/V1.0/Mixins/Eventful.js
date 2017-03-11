@@ -1,30 +1,32 @@
-//typechecks
+//TypeChecks
 import isString from '/Framework/V1.0/TypeChecks/isString';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
 import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
 
-//keys
+//Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
-import instanceTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Eventful/isInstance';
-import staticTypeCheck from '/Framework/V1.0/Constants/Keys/TypeChecks/Eventful/isStatic';
-
+import isClass from '/Framework/V1.0/Constants/Keys/TypeChecks/Eventful/isStatic';
+import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Eventful/isInstance';
 import on from '/Framework/V1.0/Constants/Keys/Eventful/on';
 import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
 
+//Utilities
 import onEvent from '/Framework/V1.0/Utilities/Events/on';
 import capitalize from '/Framework/V1.0/Utilities/Strings/capitalize';
+import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 let Eventful = (descendant) => {
-
 	class EventfulMixin extends descendant {
 		constructor() {
 			super();
 			this[$private] = {
 				events: {},
-				dispatchers: {}
+				dispatchers: {},
 			};
 		}
+
+		//methods
 		[on](name, method) {
 			if (isString(name) && isFunction(method)) {
 				return onEvent.call(this, name, method);
@@ -52,6 +54,14 @@ let Eventful = (descendant) => {
 				native.call(this, args);
 			}
 		}
+
+		//type checks
+		static get [isClass]() {
+			return true;
+		}
+		get [isInstance]() {
+			return true;
+		}
 	};
 
 	return EventfulMixin;
@@ -59,3 +69,5 @@ let Eventful = (descendant) => {
 
 
 export default Eventful;
+
+exports(Eventful).as('/Framework/V1.0/Mixins/Eventful');

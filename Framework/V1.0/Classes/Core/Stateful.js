@@ -7,6 +7,7 @@ import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
 
 //Mixins
 import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
+import Serializable from '/Framework/V1.0/Mixins/Serializable';
 import StatefulMixin from '/Framework/V1.0/Mixins/Stateful';
 
 //Utilities
@@ -16,6 +17,7 @@ export default class Stateful extends Base
 	.implements(
 		Privatelike,
 		StatefulMixin,
+		Serializable,
 	) {
 
 	//methods
