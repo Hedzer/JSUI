@@ -148,7 +148,7 @@ export default class Router extends Base
 		let shortcuts = Object.keys(shortened).filter((a) => { return !url.indexOf(a); });
 		if (!shortcuts.length) { return url; }
 		shortcuts.sort((a, b) => { return a.length - b.length });
-		url = (url[0] !== '/' ? '/' : '') + url;
+		url = (url.charAt(0) !== '/' ? '/' : '') + url;
 		for (var i = shortcuts.length - 1; i >= 0; i--) {
 			let shortcut = shortcuts[i];
 			if (!url.indexOf(shortcut)) {
@@ -170,7 +170,7 @@ export default class Router extends Base
 		let longcuts = Object.keys(lengthened).filter((a) => { return !url.indexOf(a); });
 		if (!longcuts.length) { return url; }
 		longcuts.sort((a, b) => { return a.length - b.length });
-		url = (url[0] !== '/' ? '/' : '') + url;
+		url = (url.charAt(0) !== '/' ? '/' : '') + url;
 		for (var i = longcuts.length - 1; i >= 0; i--) {
 			let longcut = longcuts[i];
 			if (!url.indexOf(longcut)) {
@@ -178,7 +178,7 @@ export default class Router extends Base
 				let replaced = url.replace(longcut, shortened);
 				if (replaced.length !== shortened.length) {
 					let removed = url.replace(longcut, '');
-					shortened = ((shortened[shortened.length - 1] !== '/' && removed[0] !== '/') ? `${shortened}/` : shortened);
+					shortened = ((shortened.charAt(shortened.length - 1) !== '/' && removed.charAt(0) !== '/') ? `${shortened}/` : shortened);
 				}
 				return url.replace(longcut, shortened);
 			}

@@ -38,8 +38,8 @@ export default class RouteShortenReceipt extends Receipt {
 		if (shortened.hasOwnProperty(shortcut) && shortened[shortcut] !== url) {
 			//throw warning regarding duplicates & console.trace
 		}
-		let shortKey = (shortcut[0] !== '/' ? '/' : '') + shortcut;
-		let longValue = (url[0] !== '/' ? '/' : '') + url;
+		let shortKey = (shortcut.charAt(0) !== '/' ? '/' : '') + shortcut;
+		let longValue = (url.charAt(0) !== '/' ? '/' : '') + url;
 		shortened[shortKey] = longValue;
 		lengthened[longValue] = shortKey;
 	}
