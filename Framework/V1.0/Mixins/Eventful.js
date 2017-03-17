@@ -1,15 +1,15 @@
-//TypeChecks
-import isString from '/Framework/V1.0/TypeChecks/isString';
-import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
-import isArray from '/Framework/V1.0/TypeChecks/isArray';
-import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
-
 //Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import isClass from '/Framework/V1.0/Constants/Keys/TypeChecks/Eventful/isStatic';
 import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Eventful/isInstance';
 import on from '/Framework/V1.0/Constants/Keys/Eventful/on';
 import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';
+
+//TypeChecks
+import isString from '/Framework/V1.0/TypeChecks/isString';
+import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
+import isArray from '/Framework/V1.0/TypeChecks/isArray';
+import isExecutable from '/Framework/V1.0/TypeChecks/isExecutable';
 
 //Utilities
 import onEvent from '/Framework/V1.0/Utilities/Events/on';
