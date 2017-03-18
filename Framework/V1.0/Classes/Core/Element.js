@@ -1,7 +1,7 @@
 
 //Classes
 import Identity from '/Framework/V1.0/Classes/Core/Identity';
-import Styleable from '/Framework/V1.0/Classes/Core/Styleable';
+import Base from '/Framework/V1.0/Classes/Core/Base';
 
 //Handlers
 import Add from '/Framework/V1.0/Classes/Core/Element/Handlers/Add';
@@ -26,6 +26,16 @@ import on from '/Framework/V1.0/Constants/Keys/General/on';
 import settings from '/Framework/V1.0/Constants/JSUI/settings';
 import trigger from '/Framework/V1.0/Constants/Keys/General/trigger';
 
+//Mixins
+import Eventful from '/Framework/V1.0/Mixins/Eventful';
+import Extensible from '/Framework/V1.0/Mixins/Extensible';
+import Identifiable from '/Framework/V1.0/Mixins/Identifiable';
+import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
+import Serializable from '/Framework/V1.0/Mixins/Serializable';
+import Stateful from '/Framework/V1.0/Mixins/Stateful';
+import Styleable from '/Framework/V1.0/Mixins/Styleable';
+
+
 //TypeChecks
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
 import isElement from '/Framework/V1.0/TypeChecks/isElement';
@@ -41,7 +51,25 @@ const identity = new Identity({
 	major: 1, minor: 0, patch: 0,
 });
 
-export default class Element extends Styleable {
+export default class Element extends Base
+	.implements(
+		Privatelike,
+		Stateful,
+		Eventful,
+		Identifiable,
+		Serializable,
+		Extensible,
+		Styleable,
+	)
+	.exposes(
+		Privatelike,
+		Identifiable,
+		Stateful,
+		Serializable,
+		Extensible,
+		Styleable,
+	) {
+
 	constructor(tag){
 		super(tag);
 		this.identity = identity;
