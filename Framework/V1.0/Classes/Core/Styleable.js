@@ -7,9 +7,6 @@ import StyleBehavior from '/Framework/V1.0/Classes/Behaviors/Style';
 //Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 
-//Handlers
-import constructor from '/Framework/V1.0/Classes/Core/Styleable/constructor';
-
 //Singletons
 import Sheets from '/Framework/V1.0/Singletons/Style/Sheets';
 
@@ -27,8 +24,11 @@ const identity = new Identity({
 export default class Styleable extends Distinct {
 	constructor() {
 		super();
-		constructor.call(this);
 		this.identity = identity;
+		this[$private].context = 'default';
+		this[$private].style = {
+			rules: {}
+		};
 	}
 
 	//methods
