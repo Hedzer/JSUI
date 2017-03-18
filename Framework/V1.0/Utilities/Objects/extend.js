@@ -16,6 +16,7 @@ export default function extend(a) {
 					if (!isObject(a[key])) {
 						a[key] = {};
 					}
+					a[key] = Object.create(a[key]);
 					a[key] = extend(a[key]).with(b[key]);
 					return;
 				}
