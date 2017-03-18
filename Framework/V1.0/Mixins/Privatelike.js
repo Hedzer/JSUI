@@ -39,13 +39,18 @@ let Privatelike = (descendant) => class PrivatelikeMixin extends descendant {
 			return;
 		}
 	}
+
+	//type checks
 	static get [isClass]() {
 		return true;
 	}
 	get [isInstance]() {
 		return true;
-	}
+	}	
 };
+
+//exposable
+Privatelike.exposable = { private: $private };
 
 export default Privatelike;
 

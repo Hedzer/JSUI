@@ -19,6 +19,9 @@ let Stateful = (descendant) => {
 	class StatefulMixin extends descendant {
 		constructor() {
 			super();
+			this[$private] = {
+				state: {}
+			};
 		}
 
 		//methods
@@ -65,11 +68,13 @@ let Stateful = (descendant) => {
 
 			return hasChanged;
 		}
+
 	};
 
 	return StatefulMixin;
 };
 
+Stateful.exposable = { state };
 
 export default Stateful;
 

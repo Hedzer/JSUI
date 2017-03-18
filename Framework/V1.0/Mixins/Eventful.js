@@ -67,6 +67,7 @@ let Eventful = (descendant) => {
 	return EventfulMixin;
 };
 
+Eventful.exposable = { on, trigger };
 
 export default Eventful;
 

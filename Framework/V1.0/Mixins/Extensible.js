@@ -40,6 +40,7 @@ let Extensible = (descendant) => {
 
 		//methods
 		[add](item, value) {
+
 			if (isString(item)) {
 				addProperty(this, item);
 				return;
@@ -47,15 +48,16 @@ let Extensible = (descendant) => {
 
 			if (isArray(item)) {
 				item.forEach((key) => {
-					this.add(key, value);
+					(this.add || this[add])(key, value);
 				});
 				return;
 			}
 
 			if (isObject(item)) {
 				Object.keys(item).forEach((key) => {
-					this.add(key, item[key]);
+					(this.add || this[add])(key, item[key]);
 				});
+				return;
 			}
 		}
 		[destructor]() {
@@ -114,6 +116,8 @@ let Extensible = (descendant) => {
 
 	return ExtensibleMixin;
 }
+
+Extensible.exposable = { add, destructor, remove };
 
 export default Extensible;
 

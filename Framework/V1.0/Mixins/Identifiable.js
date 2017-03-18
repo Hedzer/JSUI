@@ -14,6 +14,11 @@ import isPrivatelike from '/Framework/V1.0/TypeChecks/isPrivatelike';
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import uid from '/Framework/V1.0/Utilities/General/uid';
 
+const identity = new Identity({
+	class: 'Identifiable',
+	major: 1, minor: 0, patch: 0,
+});
+
 let Identifiable = (descendant) => {
 	//requires privatelike
 	class IdentifiableMixin extends descendant {
