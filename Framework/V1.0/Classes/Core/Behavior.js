@@ -21,7 +21,9 @@ const identity = new Identity({
 	major: 1, minor: 0, patch: 0,
 });
 
-export default class Behavior extends Behaviorlike(Distinct) {
+export default class Behavior extends Distinct
+	.implements(Behaviorlike) {
+		
 	constructor(host) {
 		super();
 
