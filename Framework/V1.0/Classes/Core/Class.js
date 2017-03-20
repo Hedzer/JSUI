@@ -10,7 +10,7 @@ import isString from '/Framework/V1.0/TypeChecks/isString';
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
-export default class Base {
+export default class Class {
 	//methods
 	construct(name, args) {
 
@@ -95,4 +95,4 @@ export default class Base {
 	}
 }
 
-exports(Base).as('/Framework/V1.0/Classes/Core/Base');
+exports(Class).as('/Framework/V1.0/Classes/Core/Class');

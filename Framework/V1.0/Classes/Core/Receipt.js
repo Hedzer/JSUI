@@ -1,6 +1,6 @@
 
 //Classes
-import Base from '/Framework/V1.0/Classes/Core/Base';
+import Class from '/Framework/V1.0/Classes/Core/Class';
 
 //Mixins
 import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
@@ -8,7 +8,7 @@ import Privatelike from '/Framework/V1.0/Mixins/Privatelike';
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
-export default class Receipt extends Base
+export default class Receipt extends Class
 	.implements(Privatelike) {
 
 	}

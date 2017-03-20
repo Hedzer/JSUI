@@ -1,6 +1,6 @@
 
 //Classes
-import Base from '/Framework/V1.0/Classes/Core/Base';
+import Class from '/Framework/V1.0/Classes/Core/Class';
 import BindReceipt from '/Framework/V1.0/Classes/Receipts/Bind';
 import Identity from '/Framework/V1.0/Classes/Core/Identity';
 
@@ -24,7 +24,7 @@ const identity = new Identity({
 	major: 1, minor: 0, patch: 0,
 });
 
-export default class Relationship extends Base
+export default class Relationship extends Class
 	.implements(Enableable) {
 	
 	constructor() {

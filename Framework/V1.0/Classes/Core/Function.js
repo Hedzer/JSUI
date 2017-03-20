@@ -1,6 +1,6 @@
 
 //Classes
-import Base from '/Framework/V1.0/Classes/Core/Base';
+import Class from '/Framework/V1.0/Classes/Core/Class';
 
 //Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
@@ -23,7 +23,7 @@ import debounce from '/Framework/V1.0/Utilities/Functions/debounce';
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import throttle from '/Framework/V1.0/Utilities/Functions/throttle';
 
-export default class JSUIFunction extends Base
+export default class JSUIFunction extends Class
 	.implements(
 		Privatelike,
 		Stateful,
@@ -131,4 +131,4 @@ export default class JSUIFunction extends Base
 	}
 }
 
-exports(Base).as('/Framework/V1.0/Classes/Core/Base');
+exports(JSUIFunction).as('/Framework/V1.0/Classes/Core/Function');

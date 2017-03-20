@@ -1,6 +1,6 @@
 
 //Classes
-import Base from '/Framework/V1.0/Classes/Core/Base';
+import Class from '/Framework/V1.0/Classes/Core/Class';
 
 //Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
@@ -22,7 +22,7 @@ import isUndefined from '/Framework/V1.0/TypeChecks/isUndefined';
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import extend from '/Framework/V1.0/Utilities/Objects/extend';
 
-class Data extends Base
+class Data extends Class
 	.implements(
 		Privatelike,
 		Stateful,

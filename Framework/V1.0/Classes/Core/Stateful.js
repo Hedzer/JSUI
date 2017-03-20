@@ -1,6 +1,6 @@
 
 //Classes
-import Base from '/Framework/V1.0/Classes/Core/Base';
+import Class from '/Framework/V1.0/Classes/Core/Class';
 
 //Constants
 import state from '/Framework/V1.0/Constants/Keys/Stateful/state';
@@ -13,7 +13,7 @@ import StatefulMixin from '/Framework/V1.0/Mixins/Stateful';
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
-export default class Stateful extends Base
+export default class Stateful extends Class
 	.implements(
 		Privatelike,
 		StatefulMixin,

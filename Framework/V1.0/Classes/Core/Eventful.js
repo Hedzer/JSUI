@@ -1,7 +1,4 @@
 
-//Classes
-import Base from '/Framework/V1.0/Classes/Core/Base';
-
 //Constants
 import on from '/Framework/V1.0/Constants/Keys/Eventful/on';
 import trigger from '/Framework/V1.0/Constants/Keys/Eventful/trigger';

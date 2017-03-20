@@ -1,6 +1,6 @@
 
 //Classes
-import Base from '/Framework/V1.0/Classes/Core/Base';
+import Class from '/Framework/V1.0/Classes/Core/Class';
 import RouteShorten from '/Framework/V1.0/Classes/Receipts/RouteShorten';
 
 //Constants
@@ -28,7 +28,7 @@ import capitalize from '/Framework/V1.0/Utilities/Strings/capitalize';
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import getHashParts from '/Framework/V1.0/Utilities/Navigation/getHashParts';
 
-export default class Router extends Base
+export default class Router extends Class
 	.implements(
 		Privatelike,
 		Enableable,
