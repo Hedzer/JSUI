@@ -14,7 +14,7 @@ import equivalents from '/Framework/V1.0/Constants/CSS/equivalents';
 import Sheets from '/Framework/V1.0/Singletons/Style/Sheets';
 
 //TypeChecks
-import isJSUI from '/Framework/V1.0/TypeChecks/isJSUI';
+import isElement from '/Framework/V1.0/TypeChecks/isElement';
 import isNumber from '/Framework/V1.0/TypeChecks/isNumber';
 import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import isString from '/Framework/V1.0/TypeChecks/isString';
@@ -50,13 +50,13 @@ export default class StyleSheetRule extends StyleRules {
 	//methods
 	addTo(JSUIElement) {
 		if (!this.isSwitchable || !this.class) { return; }
-		if (isJSUI(JSUIElement)) {
+		if (isElement(JSUIElement)) {
 			JSUIElement.class(this.class).add();
 		}
 	}
 	removeFrom(JSUIElement) {
 		if (!this.isSwitchable || !this.class) { return; }
-		if (isJSUI(JSUIElement)) {
+		if (isElement(JSUIElement)) {
 			JSUIElement.class(this.class).remove();
 		}
 	}

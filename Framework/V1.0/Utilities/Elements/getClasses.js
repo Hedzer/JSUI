@@ -1,14 +1,14 @@
 
 //TypeChecks
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
-import isElement from '/Framework/V1.0/TypeChecks/isElement';
+import isDOM from '/Framework/V1.0/TypeChecks/isDOM';
 import isString from '/Framework/V1.0/TypeChecks/isString';
 
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function getClasses(el) {
-	if (!isElement(el)) { return; }
+	if (!isDOM(el)) { return; }
 	let classes = {};
 	if (isString(el.className)) {
 		let list = el.className.split(' ');

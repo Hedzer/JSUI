@@ -2,7 +2,7 @@
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
-export default function _jsui(proto) {
+export default function _element(proto) {
 	let results = [];
 	
 	this.children(function(child) {
@@ -14,4 +14,4 @@ export default function _jsui(proto) {
 	return results;
 }
 
-exports(_jsui).as('/Framework/V1.0/Classes/Core/Element/Handlers/Find/_jsui');
+exports(_element).as('/Framework/V1.0/Classes/Core/Element/Handlers/Find/_element');

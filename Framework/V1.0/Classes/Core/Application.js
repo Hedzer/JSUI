@@ -13,8 +13,8 @@ import Routable from '/Framework/V1.0/Mixins/Routable';
 import Router from '/Framework/V1.0/Singletons/Navigation/Router';
 
 //TypeChecks
+import isDOM from '/Framework/V1.0/TypeChecks/isDOM';
 import isElement from '/Framework/V1.0/TypeChecks/isElement';
-import isJSUI from '/Framework/V1.0/TypeChecks/isJSUI';
 import isNavigation from '/Framework/V1.0/TypeChecks/isNavigation';
 import isPage from '/Framework/V1.0/TypeChecks/isPage';
 import isRouter from '/Framework/V1.0/TypeChecks/isRouter';
@@ -91,11 +91,11 @@ export default class Application extends Distinct
 	set Root(HTMLElement) {
 
 		let element = false;
-		if (isElement(HTMLElement)) {
+		if (isDOM(HTMLElement)) {
 			element = HTMLElement;
 		}
 
-		if (isJSUI(HTMLElement)) {
+		if (isElement(HTMLElement)) {
 			element = HTMLElement.element;
 		}
 

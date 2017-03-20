@@ -9,10 +9,6 @@ import Identity from '/Framework/V1.0/Classes/Core/Identity';
 //Mixins
 import Behaviorlike from '/Framework/V1.0/Mixins/Behaviorlike';
 
-//TypeChecks
-import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
-import isJSUI from '/Framework/V1.0/TypeChecks/isJSUI';
-
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 

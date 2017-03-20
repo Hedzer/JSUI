@@ -5,9 +5,6 @@ import ElementReceipt from '/Framework/V1.0/Classes/Receipts/Element';
 //Constants
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 
-//TypeChecks
-import isElement from '/Framework/V1.0/TypeChecks/isElement';
-
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 import getClasses from '/Framework/V1.0/Utilities/Elements/getClasses';

@@ -3,7 +3,7 @@
 import Collection from '/Framework/V1.0/Classes/Core/Collection';
 
 //TypeChecks
-import isElement from '/Framework/V1.0/TypeChecks/isElement';
+import isDOM from '/Framework/V1.0/TypeChecks/isDOM';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 
 //Utilities
@@ -14,7 +14,7 @@ export default function childNodes(node, callback) {
 	if (!isFunction(callback)) {
 		callback = placeholder;
 	}
-	if (!isElement(node)) {
+	if (!isDOM(node)) {
 		return;
 	}
 	let children = new Collection();

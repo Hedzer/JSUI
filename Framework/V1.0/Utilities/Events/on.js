@@ -7,7 +7,7 @@ import OnEventBoundReceipt from '/Framework/V1.0/Classes/Receipts/OnEventBound';
 import $private from '/Framework/V1.0/Constants/Keys/General/private';
 
 //TypeChecks
-import isElement from '/Framework/V1.0/TypeChecks/isElement';
+import isDOM from '/Framework/V1.0/TypeChecks/isDOM';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 
 //Utilities
@@ -26,7 +26,7 @@ export default function on(name, method) {
 		let dispatcher = dispatch.bind(this, this, pool);
 		dispatchers[name] = new JSUIFunction(dispatcher);
 		let element = this.element;
-		if (isElement(element)) {
+		if (isDOM(element)) {
 			element.addEventListener(name, dispatcher, false);
 		}
 	}

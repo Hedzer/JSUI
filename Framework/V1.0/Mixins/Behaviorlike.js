@@ -4,6 +4,9 @@ import $private from '/Framework/V1.0/Constants/Keys/General/private';
 import isClass from '/Framework/V1.0/Constants/Keys/TypeChecks/Behaviorlike/isStatic';
 import isInstance from '/Framework/V1.0/Constants/Keys/TypeChecks/Behaviorlike/isInstance';
 
+//TypeChecks
+import isElement from '/Framework/V1.0/TypeChecks/isElement';
+
 //Utilities
 import define from '/Framework/V1.0/Utilities/Properties/addHiddenValue';
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
@@ -21,7 +24,7 @@ let Behaviorlike = (descendant) => class BehaviorlikeMixin extends descendant {
 	
 	//methods
 	attach(host) {
-		if (isJSUI(host)) {
+		if (isElement(host)) {
 			let id = host.uid;
 			if (this[$private].hosts[id]) { return; }
 			this[$private].hosts[id] = host;
@@ -43,7 +46,7 @@ let Behaviorlike = (descendant) => class BehaviorlikeMixin extends descendant {
 	}
 	detach(host) {
 		let id;
-		if (isJSUI(host)) {
+		if (isElement(host)) {
 			id = host.uid;
 		}
 		host = this[$private].hosts[id];

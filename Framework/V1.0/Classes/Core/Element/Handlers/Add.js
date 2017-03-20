@@ -2,10 +2,10 @@
 //Handlers
 import _array from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_array';
 import _behavior from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_behavior';
-import _element from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_element';
+import _dom from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_dom';
 import _function from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_function';
 import _html from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_html';
-import _jsui from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_jsui';
+import _element from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_element';
 import _path from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_path';
 import _string from '/Framework/V1.0/Classes/Core/Element/Handlers/Add/_string';
 
@@ -15,10 +15,10 @@ import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 let Add = {
 	array: _array,
 	behavior: _behavior,
-	element: _element,
+	dom: _dom,
 	function: _function,
 	html: _html,
-	jsui: _jsui,
+	element: _element,
 	path: _path,
 	string: _string,
 };

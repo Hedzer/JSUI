@@ -1,14 +1,14 @@
 
 //TypeChecks
 import isUBehavior from '/Framework/V1.0/TypeChecks/isUBehavior';
-import isUJSUI from '/Framework/V1.0/TypeChecks/isUJSUI';
+import isUElement from '/Framework/V1.0/TypeChecks/isUElement';
 
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 
 export default function _function(method) {
 
-	if (isUJSUI(method)) {
+	if (isUElement(method)) {
 		return this.add(new method());
 	}
 

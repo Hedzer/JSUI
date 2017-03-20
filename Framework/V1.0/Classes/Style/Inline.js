@@ -8,7 +8,7 @@ import $private from '/Framework/V1.0/Constants/Keys/General/private';
 
 //TypeChecks
 import isBehavior from '/Framework/V1.0/TypeChecks/isBehavior';
-import isJSUI from '/Framework/V1.0/TypeChecks/isJSUI';
+import isElement from '/Framework/V1.0/TypeChecks/isElement';
 import isObject from '/Framework/V1.0/TypeChecks/isObject';
 import isString from '/Framework/V1.0/TypeChecks/isString';
 
@@ -28,7 +28,7 @@ export default class StyleInline extends StyleRules {
 
 		let handler = (() => {});
 
-		if (isJSUI(host)) {
+		if (isElement(host)) {
 			handler = (ev) => {
 				if (this[$private].host && ev.property) {
 					this[$private].host.element.style[ev.property] = ev.new;
@@ -72,7 +72,7 @@ export default class StyleInline extends StyleRules {
 		return this[$private].host;
 	}
 	set host(element) {
-		if (isJSUI(element)) {
+		if (isElement(element)) {
 			this[$private].host = element.element;
 		}
 	}

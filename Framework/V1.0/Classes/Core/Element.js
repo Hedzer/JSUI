@@ -28,7 +28,7 @@ import trigger from '/Framework/V1.0/Constants/Keys/General/trigger';
 
 //TypeChecks
 import isArray from '/Framework/V1.0/TypeChecks/isArray';
-import isElement from '/Framework/V1.0/TypeChecks/isElement';
+import isDOM from '/Framework/V1.0/TypeChecks/isDOM';
 import isEmptyString from '/Framework/V1.0/TypeChecks/isEmptyString';
 import isFunction from '/Framework/V1.0/TypeChecks/isFunction';
 
@@ -77,7 +77,7 @@ export default class Element extends Styleable {
 		return (action || unhandled).call(this, item);
 	}
 	attribute(name, value) {
-		if (!isElement(this.element) || isEmptyString(name)) { return; }
+		if (!isDOM(this.element) || isEmptyString(name)) { return; }
 		let type = getHandledType(name);
 		let isSet = (arguments.length > 1);
 		let action = Attribute[(isSet ? 'Set' : 'Get')][type];

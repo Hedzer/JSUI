@@ -1,4 +1,7 @@
 
+//Classes
+import Element from '/Framework/V1.0/Classes/Core/Element';
+
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 

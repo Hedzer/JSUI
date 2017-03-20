@@ -8,13 +8,13 @@ import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
 let defaultEventful = {
 	data: eventfulToEventful,
 	eventful: eventfulToEventful,
-	jsui: eventfulToEventful,
+	element: eventfulToEventful,
 };
 
 let relationships = {
 	data: Object.create(defaultEventful),
 	eventful: Object.create(defaultEventful),
-	jsui: Object.create(defaultEventful),
+	element: Object.create(defaultEventful),
 };
 
 export default relationships;
