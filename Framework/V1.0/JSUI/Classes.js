@@ -29,6 +29,7 @@ import StyleRules from '/Framework/V1.0/Classes/Style/Rules';
 import StyleSheet from '/Framework/V1.0/Classes/Style/Sheet';
 import StyleSheetRule from '/Framework/V1.0/Classes/Style/SheetRule';
 import StyleVariables from '/Framework/V1.0/Classes/Style/Variables';
+import StyleValues from '/Framework/V1.0/Classes/Style/Values';
 
 //Utilities
 import exports from '/Framework/V1.0/Utilities/Dependencies/exports';
@@ -62,6 +63,7 @@ let Classes = {
 	StyleSheet: StyleSheet,
 	StyleSheetRule: StyleSheetRule,
 	StyleVariables: StyleVariables,
+	StyleValues: StyleValues,
 };
 
 export default Classes;

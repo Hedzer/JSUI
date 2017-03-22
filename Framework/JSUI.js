@@ -21,6 +21,8 @@ let JSUI = {
 		Rule: Classes.StyleSheetRule,
 		Inline: Classes.StyleInline,
 		Sheets: Singletons.Style.Sheets,
+		Variables: Singletons.Style.Variables,
+		Values: Classes.StyleValues,
 	},
 	Mixins: Mixins,
 	Classes: Classes,

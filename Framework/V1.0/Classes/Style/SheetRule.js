@@ -76,7 +76,7 @@ export default class StyleSheetRule extends StyleRules {
 		let rendered = '';
 		Object.keys(this[$private].styles).forEach((key) => {
 			let name = equivalents[key];
-			let value = this[$private].styles[key];
+			let value = this[key];
 			//needs handlers for values
 			styles.push(`${name}: ${value};`);
 		});

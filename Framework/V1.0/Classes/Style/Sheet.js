@@ -149,8 +149,6 @@ export default class StyleSheet extends Distinct {
 			this[$private].sorter = method;
 		}
 	}
-	get variables() {}
-	set variables(vars) {}
 }
 
 exports(StyleSheet).as('/Framework/V1.0/Classes/Style/Sheet');
