@@ -18,7 +18,7 @@ var runSequence = require('run-sequence');
 
 
 var paths = {
-	'/Framework':path.join(__dirname, '/Framework'),
+	'/JSUI':path.join(__dirname, './'),
 	Tests:path.join(__dirname, '/Tests')						
 }
 gulp.task('compress', function(callback) {
@@ -64,7 +64,7 @@ gulp.task('compress', function(callback) {
 gulp.task('bundle', function(callback) {
 	console.log('-> Building...');
 	return rollup({
-			entry: './Framework/JSUI.js',
+			entry: './Source/JSUI.js',
 			format: 'iife',
 			moduleName: 'JSUI',
 			sourceMap: true,
@@ -87,7 +87,7 @@ gulp.task('bundle', function(callback) {
 gulp.task('bundle-es6', function(callback) {
 	console.log('-> Building...');
 	return rollup({
-			entry: '/Framework/JSUI.js',
+			entry: '/JSUI/Source/JSUI.js',
 			format: 'iife',
 			moduleName: 'JSUI',
 			sourceMap: true,
@@ -141,8 +141,8 @@ gulp.task('default', function() {
 	return gulp.start('dev');
 });
 gulp.task('watch', function() {
-	console.log('-> Watching Framework')
-	gulp.watch('./Framework/**/*.js', ['default']);
+	console.log('-> Watching Source')
+	gulp.watch('./Source/**/*.js', ['default']);
 });
 gulp.task('watch-test', function() {
 	console.log('-> Watching Tests')

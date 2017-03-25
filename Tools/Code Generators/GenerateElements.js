@@ -31,10 +31,10 @@ let imports = '';
 	let name = capitalize(tag);
 	fs.writeFileSync(`./Elements/${name}.js`, [
 		`\n\/\/Classes\n`,
-		`import Element from '/Framework/V1.0/Classes/Core/Element';\n`,
-		`import Identity from '/Framework/V1.0/Classes/Core/Identity';\n\n`,
+		`import Element from '/JSUI/Source/V1.0/Classes/Core/Element';\n`,
+		`import Identity from '/JSUI/Source/V1.0/Classes/Core/Identity';\n\n`,
 		`\/\/Utilities\n`,
-		`import exports from '/Framework/V1.0/Utilities/Dependencies/exports';\n\n`,
+		`import exports from '/JSUI/Source/V1.0/Utilities/Dependencies/exports';\n\n`,
 		`const identity = new Identity({\n`,
 			`\tclass: '${name}',\n`,
 			`\tmajor: 1, minor: 0, patch: 0,\n`,
@@ -45,9 +45,9 @@ let imports = '';
 			`\t\tthis.identity = identity;\n`,
 			`\t}\n`,
 		`}\n\n`,
-		`exports(${name}).as('/Framework/V1.0/Classes/Elements/${name}');\n`
+		`exports(${name}).as('/JSUI/Source/V1.0/Classes/Elements/${name}');\n`
 	].join(''));
-	imports += `import ${name} from '/Framework/V1.0/Classes/Elements/${name}';\n`;
+	imports += `import ${name} from '/JSUI/Source/V1.0/Classes/Elements/${name}';\n`;
 	elements += `\n\t${name}: ${name},`;
 });
 elements += '\n};';
