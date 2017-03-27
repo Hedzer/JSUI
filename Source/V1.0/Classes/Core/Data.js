@@ -28,7 +28,7 @@ class Data extends Class
 		Stateful,
 		Serializable,
 		Eventful,
-		Extensible,
+		Extensible
 	) {
 
 	constructor(values) {

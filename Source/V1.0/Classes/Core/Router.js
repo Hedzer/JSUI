@@ -31,7 +31,7 @@ import getHashParts from '/JSUI/Source/V1.0/Utilities/Navigation/getHashParts';
 export default class Router extends Class
 	.implements(
 		Privatelike,
-		Enableable,
+		Enableable
 	) {
 	
 	constructor(){

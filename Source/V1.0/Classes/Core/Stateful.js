@@ -17,7 +17,7 @@ export default class Stateful extends Class
 	.implements(
 		Privatelike,
 		StatefulMixin,
-		Serializable,
+		Serializable
 	) {
 
 	//methods

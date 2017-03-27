@@ -28,7 +28,7 @@ export default class JSUIFunction extends Class
 		Privatelike,
 		Stateful,
 		Eventful,
-		Enableable,
+		Enableable
 	) {
 
 	constructor(original) {

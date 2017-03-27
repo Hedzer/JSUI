@@ -36,7 +36,7 @@ export default class StyleValues extends Class
 		Stateful,
 		Serializable,
 		Eventful,
-		Extensible,
+		Extensible
 	) {
 
 	constructor(domain, values) {
