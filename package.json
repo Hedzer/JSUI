@@ -34,7 +34,6 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-dereserve": "^0.2.1",
-    "gulp-footer": "^1.0.5",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
@@ -64,6 +63,7 @@
     ]
   },
   "dependencies": {
+    "defaults-deep": "^0.2.3",
     "rollup-plugin-import-alias": "^1.0.1"
   }
 }

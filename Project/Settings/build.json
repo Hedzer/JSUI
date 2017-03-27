@@ -1,5 +1,18 @@
 {
-	"Paths": {
-		"/JSUI": "./"
-	}
+	"default": {
+		"aliases": {
+			"/JSUI": "./"
+		},
+		"extensions": [
+			"js"
+		],
+		"namespace": "JSUI",
+		"entry": "./Source/JSUI.js",
+		"built": {
+			"file": "JSUI.js",
+			"folder": "./build/",
+			"minified": "JSUI.min.js"
+		}
+	},
+	"dev": {}
 }
