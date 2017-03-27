@@ -5,5 +5,5 @@ require('./bundle');
 require('./minify');
 
 module.exports = gulp.task('production', function(){
-	runSequence(['bundle'], ['minify']);
+	runSequence([util.env.es6 ? 'bundle-es6' : 'bundle'], ['minify']);
 });
