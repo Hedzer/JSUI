@@ -1,20 +1,46 @@
-var path = require('path');
-var defaults = require('defaults-deep');
+const fs = require('fs');
+const path = require('path');
+const defaults = require('defaults-deep');
+const util = require('gulp-util');
 var build = require('./Settings/build.json');
 var hasTransformed = false;
 
-var root = path.resolve(path.join(__dirname, '../'));
+const root = path.resolve(path.join(__dirname, '../'));
+var cached;
 module.exports = function build_settings(settings) {
+
+	if (hasTransformed) { return cached; }
+
 	var config = defaults((build[settings] || {}), build.default);
 
-	if (hasTransformed) { return config; }
-
 	//convert aliases to absolute
-	Object.keys(config.aliases || {}).forEach(function(key){
+	Object.keys(config.aliases || {}).forEach((key) => {
 		config.aliases[key] = path.join(root, config.aliases[key]);
 	});
 
-	config.entry = path.join(root, config.entry);
+	var source = path.join(root, config.source.folder);
+
+	//get version
+	var version = util.env.version;
+	var numbers = /\d+/g;
+	if (!version && version !== 0) {
+		var folders = fs.readdirSync(source).filter(dir => fs.statSync(path.join(source, dir)).isDirectory());
+		var max = 10000;
+		var mapper = (n) => { return n.match(numbers); };
+		var reducer = (current, value, index) => {
+			return current + value * (max / Math.pow(10, index));
+		};
+		folders.sort((a, b) => {
+			a = a.split('.').map(mapper).reduce(reducer, 0);
+			b = b.split('.').map(mapper).reduce(reducer, 0);
+			return (b - a);
+		});
+		version = folders[0];
+	}
+
+	var isPolyfilled = !!util.env.polyfilled;
+
+	config.entry = path.join(source, version, isPolyfilled ? config.source.polyfilled : config.source.file);
 	config.built = (config.built || {});
 	config.built.folder = path.join(root, config.built.folder);
 
@@ -30,6 +56,7 @@ module.exports = function build_settings(settings) {
 	config.built.minMap = min + '.map';
 
 	hasTransformed = true;
+	cached = config;
 
 	return config;
 }
