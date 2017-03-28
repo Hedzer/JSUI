@@ -1,6 +1,6 @@
 
 //Singletons
-import exported from '/JSUI/Source/1.0.0/Singletons/Dependencies/exported';
+import exported from '/JSUI/Source/1.0.0/Singletons/Dependencies/Exported';
 
 //TypeChecks
 import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
