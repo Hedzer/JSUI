@@ -40,6 +40,8 @@ import extend from '/JSUI/Source/1.0.0/Utilities/Objects/extend';
 
 //Dependencies
 import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import imports from '/JSUI/Source/1.0.0/Utilities/Dependencies/imports';
+
 let Utilities = {
 	Elements: {
 		addClass: addClass,
@@ -83,6 +85,7 @@ let Utilities = {
 	},
 	Dependencies: {
 		exports: exports,
+		imports: imports,
 	}
 };
 

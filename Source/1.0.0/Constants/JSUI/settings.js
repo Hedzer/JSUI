@@ -2,7 +2,7 @@
 //Utilities
 import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
 
-let defaults = {
+let settings = {
 	namespace: 'JSUI',
 	Development: {
 		enabled: false,
@@ -13,6 +13,6 @@ let defaults = {
 	Production: {},
 };
 
-export default defaults;
+export default settings;
 
-exports(defaults).as('/JSUI/Source/1.0.0/Constants/JSUI/defaults');
+exports(settings).as('/JSUI/Source/1.0.0/Constants/JSUI/settings');
