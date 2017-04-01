@@ -8,8 +8,8 @@
 		],
 		"namespace": "JSUI",
 		"source": {
-			"file": "entry.js",
-			"polyfilled": "entry.polyfilled.js",
+			"file": "API.js",
+			"polyfilled": "API.polyfilled.js",
 			"folder": "./Source"
 		},
 		"built": {

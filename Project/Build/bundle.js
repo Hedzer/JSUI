@@ -10,7 +10,7 @@ const rollup_babel = require('rollup-plugin-babel');
 const rollup_alias = require('rollup-plugin-import-alias');
 const util = require('gulp-util');
 const defaults = require('defaults-deep');
-const settings = require('../settings');
+const settings = require('../Scripts/settings');
 config = settings(util.env.settings);
 
 module.exports = gulp.task('bundle', function(callback) {

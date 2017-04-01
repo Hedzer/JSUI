@@ -2,10 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const defaults = require('defaults-deep');
 const util = require('gulp-util');
-var build = require('./Settings/build.json');
+var build = require('../Settings/build.json');
 var hasTransformed = false;
 
-const root = path.resolve(path.join(__dirname, '../'));
+const root = path.resolve(path.join(__dirname, '../../'));
 var cached;
 module.exports = function build_settings(settings) {
 

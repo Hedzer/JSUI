@@ -9,7 +9,7 @@ const rename = require('gulp-rename');
 const dereserve = require('gulp-dereserve');
 const util = require('gulp-util');
 const defaults = require('defaults-deep');
-const settings = require('../settings');
+const settings = require('../Scripts/settings');
 config = settings(util.env.settings);
 
 gulp.task('minify', function(callback) {
