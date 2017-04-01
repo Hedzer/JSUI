@@ -9,13 +9,10 @@ import AddTo from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/AddTo';
 import Attribute from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute';
 import Class from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Class';
 import constructor from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Constructor';
-import Do from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Do';
 import Find from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Find';
-import Get from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Get';
 import getHandledType from '/JSUI/Source/1.0.0/Classes/Core/Element/getHandledType';
 import On from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/On';
 import Remove from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Remove';
-import Set from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Set';
 import Text from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text';
 import Trigger from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Trigger';
 import unhandled from '/JSUI/Source/1.0.0/Classes/Core/Handlers/unhandled';
@@ -151,20 +148,10 @@ export default class Element extends Styleable {
 		_children = null;
 		return super.destructor();
 	}
-	do(method, args) {
-		let type = getHandledType(method);
-		let action = Do[type];
-		return (action || unhandled).call(this, method, args);
-	}
 	find(what) {
 		let type = getHandledType(what);
 		let action = Find[type];
 		return (action || unhandled([])).call(this, what);
-	}
-	get(property) {
-		let type = getHandledType(property);
-		let action = Get[type];
-		return (action || unhandled).call(this, property);
 	}
 	on() {
 		return this[on].apply(this, arguments);
@@ -173,11 +160,6 @@ export default class Element extends Styleable {
 		let type = getHandledType(item);
 		let action = Remove[type];
 		return (action || unhandled).call(this, item);
-	}
-	set(property, value) {
-		let type = getHandledType(property);
-		let action = Set[type];
-		return (action || unhandled).call(this, property, value);
 	}
 	text(text) {
 		let type = getHandledType(text);

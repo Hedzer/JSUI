@@ -6,10 +6,7 @@ import CollectionWhereReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/Collecti
 import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Handlers
-import Do from '/JSUI/Source/1.0.0/Classes/Core/Collection/Handlers/Do';
-import Get from '/JSUI/Source/1.0.0/Classes/Core/Collection/Handlers/Get';
 import getHandledType from '/JSUI/Source/1.0.0/Classes/Core/Element/getHandledType';
-import Set from '/JSUI/Source/1.0.0/Classes/Core/Collection/Handlers/Set';
 import unhandled from '/JSUI/Source/1.0.0/Classes/Core/Handlers/unhandled';
 
 //TypeChecks
@@ -22,19 +19,13 @@ import native from '/JSUI/Source/1.0.0/Utilities/Classes/native';
 
 export default class Collection extends native(Array) {
 	do(method, args) {
-		let type = getHandledType(method);
-		let action = Do[type];
-		return (action || unhandled).call(this, method, args);
-	}
-	get(property) {
-		let type = getHandledType(property);
-		let action = Get[type];
-		return (action || unhandled).call(this, property);
-	}
-	set(property, value) {
-		let type = getHandledType(property);
-		let action = Set[type];
-		return (action || unhandled).call(this, property, value);
+		let results = new Collection();
+		this.forEach((item) => {
+			if (isFunction(item[method])) {
+				results.push(item[method].apply(item, args));
+			}
+		});
+		return results;
 	}
 	where(selector) {
 		let receipt = new CollectionWhereReceipt();

@@ -14,11 +14,8 @@ import trigger from '/JSUI/Source/1.0.0/Constants/Keys/Extensible/trigger';
 import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
 
 export default class ExtensibleCollection extends Collection {
-	get private() {
-		return this.get($private);
-	}
 	add() {
-		return this.add(add, arguments);
+		return this.do(add, arguments);
 	}
 	destructor() {
 		return this.do(destructor, arguments);
@@ -33,7 +30,7 @@ export default class ExtensibleCollection extends Collection {
 		return this.do(state, arguments);
 	}
 	trigger() {
-		return this.trigger(trigger, arguments);
+		return this.do(trigger, arguments);
 	}
 }
 exports(ExtensibleCollection).as('/JSUI/Source/1.0.0/Classes/Collections/Extensible');

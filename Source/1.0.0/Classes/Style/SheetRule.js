@@ -43,7 +43,9 @@ export default class StyleSheetRule extends StyleRules {
 			this.selector = selector;
 		}
 		if (isObject(properties)) {
-			this.set(properties);
+			Object.keys(properties).forEach((key) => {
+				this[key] = properties[key];
+			});
 		}
 	}
 
