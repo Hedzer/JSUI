@@ -38,9 +38,13 @@ function externalize(dependency) {
 
 module.exports = gulp.task('external', function(callback) {
 	let dir = process.cwd();
+	console.log(dir);
 	let outside = path.join(dir, '../');
 	let source = path.join(dir, config.source.folder);
 	let destination = path.join(dir, config.external.folder);
+	if (destination !== dir) {
+		fsExtra.emptydirSync(destination);
+	}
 	let cache = {};
 	getFiles(source, function(err, files) {
 		files.forEach((file) => {
