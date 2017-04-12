@@ -16,6 +16,30 @@
 			"file": "JSUI.js",
 			"folder": "./build/",
 			"minified": "JSUI.min.js"
+		},
+		"external": {
+			"folder": "./External",
+			"select": [
+				"js"
+			],
+			"ignore": [],
+			"copy": [
+				"/JSUI/Source/1.0.0/Utilities/Dependencies/imports.js",
+				"/JSUI/Source/1.0.0/Singletons/Dependencies/Exported.js",
+				"/JSUI/Source/1.0.0/Entry/Mixins.js",
+				"/JSUI/Source/1.0.0/Entry/TypeChecks.js",
+				"/JSUI/Source/1.0.0/Entry/Classes.js",
+				"/JSUI/Source/1.0.0/Entry/Constants.js",
+				"/JSUI/Source/1.0.0/Entry/Singletons.js",
+				"/JSUI/Source/1.0.0/Entry/Utilities.js",
+				"/JSUI/Source/1.0.0/Entry/Sorts.js",
+				"/JSUI/Source/1.0.0/Entry/Reflection.js",
+				"/JSUI/Source/1.0.0/Classes/Elements.js",
+				"/JSUI/Source/1.0.0/Constants/JSUI/settings.js",
+				"/JSUI/Source/1.0.0/Singletons/Navigation/Router.js",
+				"/JSUI/Source/1.0.0/API.js",
+				"/JSUI/Source/1.0.0/API.polyfilled.js"
+			]
 		}
 	},
 	"dev": {}
