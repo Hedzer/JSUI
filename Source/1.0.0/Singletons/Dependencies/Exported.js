@@ -1,11 +1,13 @@
 
-//Utilities
-import addHiddenValue from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-
 const namespace = 'JSUI.Style.Exported';
 
 if (!(namespace in window)) {
-	addHiddenValue(window, namespace, {});
+	Object.defineProperty(window, namespace, {
+		configurable:true,
+		enumerable:false,
+		writable: true,
+		value: {},
+	});
 }
 const Exported = window[namespace];
 
