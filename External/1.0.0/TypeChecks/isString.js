@@ -1,6 +1,9 @@
 
-import imports from '/JSUI/Source/1.0.0/Utilities/Dependencies/imports';
+//Utilities
+import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
 
-let imported = imports('/JSUI/Source/1.0.0/TypeChecks/isString');
+export default function isString(u) {
+	return (typeof u === 'string');
+}
 
-export default imported;
+exports(isString).as('/JSUI/Source/1.0.0/TypeChecks/isString');
