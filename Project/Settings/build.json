@@ -24,6 +24,7 @@
 			],
 			"ignore": [],
 			"copy": [
+				"/JSUI/Source/1.0.0/TypeChecks/isString.js",
 				"/JSUI/Source/1.0.0/Utilities/Dependencies/imports.js",
 				"/JSUI/Source/1.0.0/Singletons/Dependencies/Exported.js",
 				"/JSUI/Source/1.0.0/Entry/Mixins.js",
