@@ -24,6 +24,13 @@ static symbol keyed default values
 
 
 new line after code potentially dies or when loops
+
 new line between class methods, properties, ...
+
 files end with a new line
+
 export goes at the bottom
+
+class members should be sorted by type first, then alphabetically except constructors, which should be in order of execution
+
+dependencies should be sorted by type first then alphabetically
