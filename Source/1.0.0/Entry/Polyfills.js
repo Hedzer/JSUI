@@ -1,3 +1,5 @@
+//Animation Polyfills
+import requestAnimationFrame from '/JSUI/Source/1.0.0/Polyfills/Animation/requestAnimationFrame';
 
 //Array Polyfills
 import arrayIncludes from '/JSUI/Source/1.0.0/Polyfills/Array/includes';
@@ -23,6 +25,9 @@ import includes from '/JSUI/Source/1.0.0/Polyfills/String/includes';
 import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
 
 let Polyfilled = {
+	Animation: {
+		requestAnimationFrame: requestAnimationFrame,
+	},
 	Array: {
 		forEach: forEach,
 		includes: arrayIncludes,
