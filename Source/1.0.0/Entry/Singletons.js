@@ -15,4 +15,4 @@ let Singletons = {
 
 export default Singletons;
 
-exports(Singletons).as('/JSUI/Source/1.0.0/JSUI/Singletons');
+exports(Singletons).as('/JSUI/Source/1.0.0/Entry/Singletons');

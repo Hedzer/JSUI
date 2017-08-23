@@ -68,4 +68,4 @@ let Classes = {
 
 export default Classes;
 
-exports(Classes).as('/JSUI/Source/1.0.0/JSUI/Classes');
+exports(Classes).as('/JSUI/Source/1.0.0/Entry/Classes');

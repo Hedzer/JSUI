@@ -11,4 +11,4 @@ let Reflection = {
 
 export default Reflection;
 
-exports(Reflection).as('/JSUI/Source/1.0.0/JSUI/Reflection');
+exports(Reflection).as('/JSUI/Source/1.0.0/Entry/Reflection');
