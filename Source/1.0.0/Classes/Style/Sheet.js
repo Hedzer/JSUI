@@ -14,7 +14,6 @@ import sort from '/JSUI/Source/1.0.0/Sorts/StyleSheet/rules';
 
 //TypeChecks
 import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isNumber from '/JSUI/Source/1.0.0/TypeChecks/isNumber';
 import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
 import isStyleSheetRule from '/JSUI/Source/1.0.0/TypeChecks/isStyleSheetRule';
 import isUStyleSheetRule from '/JSUI/Source/1.0.0/TypeChecks/isUStyleSheetRule';
@@ -82,7 +81,7 @@ export default class StyleSheet extends Distinct {
 				entry.references--;
 				if (entry.references < 1) {
 					delete rules[rule];
-					this.render(10);					
+					this.render(true);					
 				}
 			}
 			return;
@@ -91,11 +90,11 @@ export default class StyleSheet extends Distinct {
 			this.remove(rule.uid);
 		}
 	}
-	render(timeout) {
+	render(frameSynced) {
 		let entries = this[$private].rules;
-		clearTimeout(this[$private].timer);
-		if (isNumber(timeout)) {
-			this[$private].timer = setTimeout(this.render.bind(this), timeout);
+		cancelAnimationFrame(this[$private].timer);
+		if (frameSynced) {
+			this[$private].timer = requestAnimationFrame(() => { this.render(); });
 			return;
 		}
 
