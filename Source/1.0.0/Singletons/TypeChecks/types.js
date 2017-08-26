@@ -13,11 +13,13 @@ import isRegex from '/JSUI/Source/1.0.0/TypeChecks/isRegex';
 import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
 
 let types = {
+	class: {
+		element: isElement,
+	},
 	object: {
 		array: isArray,
 		behavior: isBehavior,
 		dom: isDOM,
-		element: isElement,
 		null: isNull,
 		regex: isRegex,
 	},
