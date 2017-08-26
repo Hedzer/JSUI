@@ -5,6 +5,10 @@ import ElementReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/Element';
 //Constants
 import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
 
+//TypeChecks
+import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
+import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+
 //Utilities
 import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
 import getClasses from '/JSUI/Source/1.0.0/Utilities/Elements/getClasses';
@@ -13,7 +17,12 @@ export default class ElementClassReceipt extends ElementReceipt {
 	constructor(element, className) {
 		super(element);
 		this.element = element;
-		this[$private].classes = className.split(' ');
+		let classes = [];
+		if (isArray(className)) { classes = className; }
+		if (isString(className)) {
+			classes = className.split(' ');
+		}
+		this[$private].classes = classes;
 	}
 
 	//methods
