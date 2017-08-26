@@ -17,4 +17,4 @@ let Mixins = {
 
 export default Mixins;
 
-exports(Mixins).as('/JSUI/Source/1.0.0/JSUI/Mixins');
+exports(Mixins).as('/JSUI/Source/1.0.0/Entry/Mixins');

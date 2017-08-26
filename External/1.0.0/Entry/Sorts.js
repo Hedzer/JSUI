@@ -13,4 +13,4 @@ let Sorts = {
 
 export default Sorts;
 
-exports(Sorts).as('/JSUI/Source/1.0.0/JSUI/Sorts');
+exports(Sorts).as('/JSUI/Source/1.0.0/Entry/Sorts');

@@ -73,4 +73,4 @@ let TypeChecks = {
 
 export default TypeChecks;
 
-exports(TypeChecks).as('/JSUI/Source/1.0.0/JSUI/TypeChecks');
+exports(TypeChecks).as('/JSUI/Source/1.0.0/Entry/TypeChecks');

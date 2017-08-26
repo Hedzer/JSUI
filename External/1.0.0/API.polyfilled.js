@@ -1,4 +1,4 @@
-import Polyfills from '/JSUI/Source/1.0.0/JSUI/Polyfills';
-import JSUI from '/JSUI/Source/1.0.0/JSUI';
+import Polyfills from '/JSUI/Source/1.0.0/Entry/Polyfills';
+import API from '/JSUI/Source/1.0.0/API';
 
 window.JSUI.Polyfilled = Polyfills;

@@ -57,4 +57,4 @@ let Constants = {
 
 export default Constants;
 
-exports(Constants).as('/JSUI/Source/1.0.0/JSUI/Constants');
+exports(Constants).as('/JSUI/Source/1.0.0/Entry/Constants');

@@ -91,4 +91,4 @@ let Utilities = {
 
 export default Utilities;
 
-exports(Utilities).as('/JSUI/Source/1.0.0/JSUI/Utilities');
+exports(Utilities).as('/JSUI/Source/1.0.0/Entry/Utilities');
