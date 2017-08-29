@@ -10,7 +10,7 @@ import Elements from '/JSUI/Source/1.0.0/Classes/Elements';
 import Settings from '/JSUI/Source/1.0.0/Constants/JSUI/settings';
 import Router from '/JSUI/Source/1.0.0/Singletons/Navigation/Router';
 
-let JSUI = {
+let API = {
 	Settings: Settings,
 	Behavior: Classes.Behavior,
 	Element: Classes.Element,
@@ -37,6 +37,4 @@ let JSUI = {
 	exports: Utilities.Dependencies.exports,
 };
 
-window.JSUI = JSUI;
-
-export default JSUI;
+export default API;
