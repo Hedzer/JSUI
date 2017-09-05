@@ -7,7 +7,7 @@ import Utilities from '/JSUI/Source/1.0.0/Entry/Utilities';
 import Sorts from '/JSUI/Source/1.0.0/Entry/Sorts';
 import Reflection from '/JSUI/Source/1.0.0/Entry/Reflection';
 import Elements from '/JSUI/Source/1.0.0/Classes/Elements';
-import Settings from '/JSUI/Source/1.0.0/Constants/JSUI/settings';
+import Settings from '/JSUI/Source/1.0.0/Constants/settings';
 import Router from '/JSUI/Source/1.0.0/Singletons/Navigation/Router';
 
 let API = {

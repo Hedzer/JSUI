@@ -20,7 +20,7 @@ import unhandled from '/JSUI/Source/1.0.0/Classes/Core/Handlers/unhandled';
 //Constants
 import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
 import on from '/JSUI/Source/1.0.0/Constants/Keys/General/on';
-import settings from '/JSUI/Source/1.0.0/Constants/JSUI/settings';
+import settings from '/JSUI/Source/1.0.0/Constants/settings';
 import trigger from '/JSUI/Source/1.0.0/Constants/Keys/General/trigger';
 
 //TypeChecks

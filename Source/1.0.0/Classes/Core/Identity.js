@@ -1,7 +1,7 @@
 
 //Constants
 import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import settings from '/JSUI/Source/1.0.0/Constants/JSUI/settings';
+import settings from '/JSUI/Source/1.0.0/Constants/settings';
 
 //TypeChecks
 import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';

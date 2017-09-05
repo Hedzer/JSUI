@@ -15,4 +15,4 @@ let settings = {
 
 export default settings;
 
-exports(settings).as('/JSUI/Source/1.0.0/Constants/JSUI/settings');
+exports(settings).as('/JSUI/Source/1.0.0/Constants/settings');
