@@ -1,7 +1,7 @@
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
-import imports from '/JSUI/Source/1.0.0/Utilities/Dependencies/imports';
+import exports from '/Parcello/exports';
+import imports from '/Parcello/imports';
 
 let types = {
 	object: {

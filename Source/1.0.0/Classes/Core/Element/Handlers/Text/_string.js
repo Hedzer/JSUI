@@ -3,7 +3,7 @@
 import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default function _string(text) {
 	if (this[$private] && this.element) {

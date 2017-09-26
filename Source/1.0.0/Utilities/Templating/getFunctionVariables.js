@@ -3,7 +3,7 @@
 import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import getCodeStrings from '/JSUI/Source/1.0.0/Utilities/Templating/getCodeStrings';
 import getVariables from '/JSUI/Source/1.0.0/Utilities/Templating/getVariables';
 import getCode from '/JSUI/Source/1.0.0/Utilities/Functions/getCode';

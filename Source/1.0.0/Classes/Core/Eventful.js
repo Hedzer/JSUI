@@ -8,7 +8,7 @@ import EventfulMixin from '/JSUI/Source/1.0.0/Mixins/Eventful';
 import Stateful from '/JSUI/Source/1.0.0/Classes/Core/Stateful';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default class Eventful extends Stateful
 	.implements(EventfulMixin) {

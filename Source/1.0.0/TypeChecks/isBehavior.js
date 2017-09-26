@@ -4,7 +4,7 @@
 import Behavior from '/JSUI/Source/1.0.0/Classes/Core/Behavior';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default function isBehavior(u) {
 	return (u instanceof Behavior);

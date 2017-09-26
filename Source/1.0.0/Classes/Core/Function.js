@@ -20,7 +20,7 @@ import isUndefined from '/JSUI/Source/1.0.0/TypeChecks/isUndefined';
 
 //Utilities
 import debounce from '/JSUI/Source/1.0.0/Utilities/Functions/debounce';
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import throttle from '/JSUI/Source/1.0.0/Utilities/Functions/throttle';
 
 export default class JSUIFunction extends Class

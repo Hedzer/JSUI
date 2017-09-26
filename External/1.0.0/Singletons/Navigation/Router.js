@@ -1,11 +1,6 @@
 
-//Classes
-import Router from '/JSUI/Source/1.0.0/Classes/Core/Router';
+import imports from '/Parcello/imports';
 
-//Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+let imported = imports('/JSUI/Source/1.0.0/Singletons/Navigation/Router');
 
-let router = new Router();
-export default router;
-
-exports(router).as('/JSUI/Source/1.0.0/Singletons/Navigation/Router');
+export default imported;

@@ -33,8 +33,6 @@ let API = {
 	Sorts: Sorts,
 	Reflection: Reflection,
 	Router: Router,
-	imports: Utilities.Dependencies.imports,
-	exports: Utilities.Dependencies.exports,
 };
 
 export default API;

@@ -3,7 +3,7 @@
 import eventfulToEventful from '/JSUI/Source/1.0.0/Classes/Receipts/Bind/Eventful/eventful';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let defaultEventful = {
 	data: eventfulToEventful,

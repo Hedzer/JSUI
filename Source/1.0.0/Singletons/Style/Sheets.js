@@ -1,7 +1,7 @@
 
 //Utilities
 import addHiddenValue from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 const namespace = 'JSUI.Style.Sheets';
 

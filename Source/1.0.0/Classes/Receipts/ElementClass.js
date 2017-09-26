@@ -10,7 +10,7 @@ import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
 import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import getClasses from '/JSUI/Source/1.0.0/Utilities/Elements/getClasses';
 
 export default class ElementClassReceipt extends ElementReceipt {

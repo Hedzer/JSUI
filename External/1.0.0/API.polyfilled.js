@@ -1,4 +1,6 @@
-import Polyfills from '/JSUI/Source/1.0.0/Entry/Polyfills';
-import API from '/JSUI/Source/1.0.0/API';
 
-API.Polyfilled = Polyfills;
+import imports from '/Parcello/imports';
+
+let imported = imports('/JSUI/Source/1.0.0/API.polyfilled');
+
+export default imported;

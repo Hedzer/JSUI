@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 // https://tc39.github.io/ecma262/#sec-array.prototype.includes
 let hasIncludes = !!Array.prototype.includes;

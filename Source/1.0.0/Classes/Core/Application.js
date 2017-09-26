@@ -22,7 +22,7 @@ import isUNavigation from '/JSUI/Source/1.0.0/TypeChecks/isUNavigation';
 import isUPage from '/JSUI/Source/1.0.0/TypeChecks/isUPage';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 const identity = new Identity({
 	class: 'Application',

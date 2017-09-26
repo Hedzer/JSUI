@@ -11,7 +11,7 @@ import Serializable from '/JSUI/Source/1.0.0/Mixins/Serializable';
 import StatefulMixin from '/JSUI/Source/1.0.0/Mixins/Stateful';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default class Stateful extends Class
 	.implements(

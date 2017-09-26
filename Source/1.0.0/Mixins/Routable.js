@@ -16,7 +16,7 @@ import isRoutable from '/JSUI/Source/1.0.0/TypeChecks/isRoutable';
 import isURoutable from '/JSUI/Source/1.0.0/TypeChecks/isURoutable';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let Routable = ((descendant) => {
 	return class RoutableMixin extends descendant {

@@ -3,7 +3,7 @@
 import rules from '/JSUI/Source/1.0.0/Sorts/StyleSheet/rules';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let Sorts = {
 	StyleSheet: {

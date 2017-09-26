@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import on from '/JSUI/Source/1.0.0/Utilities/Events/on';
 
 export default function _string(name, method) {

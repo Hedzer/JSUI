@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default function capitalize(text){
 	return text.charAt(0).toUpperCase() + text.slice(1);

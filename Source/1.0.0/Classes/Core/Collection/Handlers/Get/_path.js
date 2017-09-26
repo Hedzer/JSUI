@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import get from '/JSUI/Source/1.0.0/Utilities/Paths/get';
 
 export default function _path(path) {

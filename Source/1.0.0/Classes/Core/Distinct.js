@@ -7,7 +7,7 @@ import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
 import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
 
 const identity = new Identity({

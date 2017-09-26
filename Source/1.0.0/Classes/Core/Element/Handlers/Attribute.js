@@ -13,7 +13,7 @@ import _set_path from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribut
 import _set_string from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute/Set/_string';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let Attribute = {
 	Get:{

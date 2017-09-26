@@ -16,7 +16,7 @@ import isUndefined from '/JSUI/Source/1.0.0/TypeChecks/isUndefined';
 //Utilities
 import addHiddenValue from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
 import debounce from '/JSUI/Source/1.0.0/Utilities/Functions/debounce';
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import getCodeStrings from '/JSUI/Source/1.0.0/Utilities/Templating/getCodeStrings';
 import getVariables from '/JSUI/Source/1.0.0/Utilities/Templating/getVariables';
 import replaceAll from '/JSUI/Source/1.0.0/Utilities/Strings/replaceAll';

@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 // Production steps of ECMA-262, Edition 5, 15.4.4.21
 // Reference: http://es5.github.io/#x15.4.4.21

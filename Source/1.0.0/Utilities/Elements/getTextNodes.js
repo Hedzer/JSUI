@@ -6,7 +6,7 @@ import Collection from '/JSUI/Source/1.0.0/Classes/Core/Collection';
 import isTextNode from '/JSUI/Source/1.0.0/TypeChecks/isTextNode';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default function getTextNodes(el, stopAtFirst){
 	let nodes = new Collection();

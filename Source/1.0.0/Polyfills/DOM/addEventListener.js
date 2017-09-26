@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 //from https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 let hasAddEventListener = !!Element.prototype.addEventListener;

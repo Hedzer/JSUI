@@ -10,7 +10,7 @@ import Eventful from '/JSUI/Source/1.0.0/Classes/Core/Eventful';
 import ExtensibleMixin from '/JSUI/Source/1.0.0/Mixins/Extensible';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default class Extensible extends Eventful
 	.implements(ExtensibleMixin) {

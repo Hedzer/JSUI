@@ -6,7 +6,7 @@ import Privatelike from '/JSUI/Source/1.0.0/Mixins/Privatelike';
 import Routable from '/JSUI/Source/1.0.0/Mixins/Routable';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let Mixins = {
 	Privatelike,

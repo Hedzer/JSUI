@@ -18,7 +18,7 @@ import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
 import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import getFunctionVariables from '/JSUI/Source/1.0.0/Utilities/Templating/getFunctionVariables';
 import getVariables from '/JSUI/Source/1.0.0/Utilities/Templating/getVariables';
 import symbolish from '/JSUI/Source/1.0.0/Utilities/Properties/symbolish';

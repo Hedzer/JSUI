@@ -1,14 +1,6 @@
 
-const namespace = 'JSUI.Style.Exported';
+import imports from '/Parcello/imports';
 
-if (!(namespace in window)) {
-	Object.defineProperty(window, namespace, {
-		configurable:true,
-		enumerable:false,
-		writable: true,
-		value: {},
-	});
-}
-const Exported = window[namespace];
+let imported = imports('/JSUI/Source/1.0.0/Singletons/Dependencies/Exported');
 
-export default Exported;
+export default imported;

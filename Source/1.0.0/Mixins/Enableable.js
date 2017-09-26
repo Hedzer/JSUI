@@ -5,7 +5,7 @@ import isClass from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Enableable/isS
 import isInstance from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Enableable/isInstance';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let Enableable = (descendant) => class EnableableMixin extends descendant {
 	constructor() {

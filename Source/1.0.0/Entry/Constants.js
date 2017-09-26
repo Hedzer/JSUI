@@ -22,7 +22,7 @@ import bindReceiptOn from '/JSUI/Source/1.0.0/Constants/Keys/BindReceipt/on';
 import bindReceiptTo from '/JSUI/Source/1.0.0/Constants/Keys/BindReceipt/to';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let Constants = {
 	CSS: {

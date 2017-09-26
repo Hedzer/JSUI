@@ -1,7 +1,7 @@
 
 //Utilities
 import addProperty from '/JSUI/Source/1.0.0/Utilities/Properties/add';
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default function _string(prop){
 	addProperty(this, prop);

@@ -11,7 +11,7 @@ import isInstance from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Identifiabl
 import isPrivatelike from '/JSUI/Source/1.0.0/TypeChecks/isPrivatelike';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
 
 const identity = new Identity({

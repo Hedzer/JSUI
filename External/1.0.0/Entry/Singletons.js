@@ -1,18 +1,6 @@
 
-//Singletons
-import Sheets from '/JSUI/Source/1.0.0/Singletons/Style/Sheets';
-import Variables from '/JSUI/Source/1.0.0/Singletons/Style/Variables';
+import imports from '/Parcello/imports';
 
-//Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+let imported = imports('/JSUI/Source/1.0.0/Entry/Singletons');
 
-let Singletons = {
-	Style: {
-		Sheets,
-		Variables,
-	},
-};
-
-export default Singletons;
-
-exports(Singletons).as('/JSUI/Source/1.0.0/Entry/Singletons');
+export default imported;

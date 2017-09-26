@@ -10,7 +10,7 @@ import isPath from '/JSUI/Source/1.0.0/TypeChecks/isPath';
 import isRegex from '/JSUI/Source/1.0.0/TypeChecks/isRegex';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let types = {
 	class: {

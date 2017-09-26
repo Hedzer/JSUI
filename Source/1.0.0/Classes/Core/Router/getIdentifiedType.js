@@ -6,7 +6,7 @@ import types from '/JSUI/Source/1.0.0/Classes/Core/Router/types';
 import atomics from '/JSUI/Source/1.0.0/Constants/JS/types';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import getHandledType from '/JSUI/Source/1.0.0/Utilities/TypeChecks/getHandledType';
 
 function getIdentifiedType(u) {

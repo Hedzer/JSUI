@@ -8,7 +8,7 @@ import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
 import define from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
 
 let graph = {}; //prevent infinite loops

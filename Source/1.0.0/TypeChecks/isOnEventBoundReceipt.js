@@ -3,7 +3,7 @@
 import OnEventBoundReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/OnEventBound';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default function isOnEventBoundReceipt(u) {
 	return (u instanceof OnEventBoundReceipt);

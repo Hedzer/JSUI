@@ -4,7 +4,7 @@ import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
 import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import getter from '/JSUI/Source/1.0.0/Utilities/Paths/getter';
 
 export default function get(obj, path) {

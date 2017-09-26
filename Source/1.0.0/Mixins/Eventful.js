@@ -14,7 +14,7 @@ import isExecutable from '/JSUI/Source/1.0.0/TypeChecks/isExecutable';
 //Utilities
 import onEvent from '/JSUI/Source/1.0.0/Utilities/Events/on';
 import capitalize from '/JSUI/Source/1.0.0/Utilities/Strings/capitalize';
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let Eventful = (descendant) => {
 	class EventfulMixin extends descendant {

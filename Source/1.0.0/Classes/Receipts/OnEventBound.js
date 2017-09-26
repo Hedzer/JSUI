@@ -9,7 +9,7 @@ import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
 import Enableable from '/JSUI/Source/1.0.0/Mixins/Enableable';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import remove from '/JSUI/Source/1.0.0/Utilities/Events/remove';
 import removeAll from '/JSUI/Source/1.0.0/Utilities/Events/removeAll';
 import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';

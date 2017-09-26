@@ -10,7 +10,7 @@ import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
 import Behaviorlike from '/JSUI/Source/1.0.0/Mixins/Behaviorlike';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 const identity = new Identity({
 	class: 'Behavior',

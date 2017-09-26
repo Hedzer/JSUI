@@ -11,7 +11,7 @@ import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
 
 //Utilities
 import define from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import extend from '/JSUI/Source/1.0.0/Utilities/Objects/extend';
 
 let Privatelike = (descendant) => class PrivatelikeMixin extends descendant {

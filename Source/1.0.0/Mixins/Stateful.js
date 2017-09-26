@@ -12,7 +12,7 @@ import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
 import isUndefined from '/JSUI/Source/1.0.0/TypeChecks/isUndefined';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let Stateful = (descendant) => {
 

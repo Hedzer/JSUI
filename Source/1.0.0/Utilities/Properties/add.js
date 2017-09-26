@@ -8,7 +8,7 @@ import $trigger from '/JSUI/Source/1.0.0/Constants/Keys/General/trigger';
 import trigger from '/JSUI/Source/1.0.0/Constants/Keys/Eventful/trigger';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default function add(host, name, defaults){
 	Object.defineProperty(host, name, {

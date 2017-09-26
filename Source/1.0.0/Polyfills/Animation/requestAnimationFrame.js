@@ -3,7 +3,7 @@
 import vendors from '/JSUI/Source/1.0.0/Constants/CSS/vendors';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 
 let hasAnimFrame = !!window.requestAnimationFrame;

@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import getUrlParams from '/JSUI/Source/1.0.0/Utilities/Navigation/getUrlParams';
 
 export default function getHashParts(url) {

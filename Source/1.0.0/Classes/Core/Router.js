@@ -25,7 +25,7 @@ import isURoutable from '/JSUI/Source/1.0.0/TypeChecks/isURoutable';
 
 //Utilities
 import capitalize from '/JSUI/Source/1.0.0/Utilities/Strings/capitalize';
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import getHashParts from '/JSUI/Source/1.0.0/Utilities/Navigation/getHashParts';
 
 export default class Router extends Class

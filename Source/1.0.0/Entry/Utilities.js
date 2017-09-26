@@ -37,10 +37,7 @@ import uncapitalize from '/JSUI/Source/1.0.0/Utilities/Strings/uncapitalize';
 
 //Objects
 import extend from '/JSUI/Source/1.0.0/Utilities/Objects/extend';
-
-//Dependencies
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
-import imports from '/JSUI/Source/1.0.0/Utilities/Dependencies/imports';
+import exports from '/Parcello/exports';
 
 let Utilities = {
 	Elements: {
@@ -82,10 +79,6 @@ let Utilities = {
 	},
 	Objects: {
 		extend: extend,
-	},
-	Dependencies: {
-		exports: exports,
-		imports: imports,
 	}
 };
 

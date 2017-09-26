@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 function uncapitalize(text){
 	return text.charAt(0).toLowerCase() + text.slice(1);

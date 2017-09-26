@@ -6,7 +6,7 @@ import JSUIFunction from '/JSUI/Source/1.0.0/Classes/Core/Function';
 import Routable from '/JSUI/Source/1.0.0/Mixins/Routable';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default class Endpoint extends JSUIFunction
 	.implements(Routable) {

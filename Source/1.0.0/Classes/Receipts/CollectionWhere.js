@@ -8,7 +8,7 @@ import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
 import define from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default class CollectionWhereReceipt extends Receipt {
 	constructor() {

@@ -3,7 +3,7 @@
 import _string from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_string';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default function _path(prop) {
 	return _string.call(this, prop);

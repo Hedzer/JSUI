@@ -32,7 +32,7 @@ import StyleVariables from '/JSUI/Source/1.0.0/Classes/Style/Variables';
 import StyleValues from '/JSUI/Source/1.0.0/Classes/Style/Values';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let Classes = {
 	Application: Application,

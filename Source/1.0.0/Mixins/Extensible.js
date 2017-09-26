@@ -20,7 +20,7 @@ import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
 import isUEventful from '/JSUI/Source/1.0.0/TypeChecks/isUEventful';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import onEvent from '/JSUI/Source/1.0.0/Utilities/Events/on';
 import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
 

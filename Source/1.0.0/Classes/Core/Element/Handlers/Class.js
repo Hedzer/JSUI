@@ -5,7 +5,7 @@ import _string from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Class/_str
 import _undefined from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Class/_undefined';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 let Class = {
 	array: _array,

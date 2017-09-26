@@ -6,7 +6,7 @@ import ElementAddedReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/ElementAdde
 import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default function _element(instance){
 	if (this.element && instance.element){

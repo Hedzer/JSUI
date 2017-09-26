@@ -8,7 +8,7 @@ import isElement from '/JSUI/Source/1.0.0/TypeChecks/isElement';
 import isEventful from '/JSUI/Source/1.0.0/TypeChecks/isEventful';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import extend from '/JSUI/Source/1.0.0/Utilities/Objects/extend';
 
 let Types = Object.create(types);

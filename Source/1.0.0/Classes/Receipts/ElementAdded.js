@@ -7,7 +7,7 @@ import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
 import addClass from '/JSUI/Source/1.0.0/Utilities/Elements/addClass';
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default class ElementAddedReceipt extends ElementReceipt {
 	constructor(element, addition) {

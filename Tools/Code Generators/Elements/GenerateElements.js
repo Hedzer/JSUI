@@ -34,7 +34,7 @@ let imports = '';
 		`import Element from '/JSUI/Source/1.0.0/Classes/Core/Element';\n`,
 		`import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';\n\n`,
 		`\/\/Utilities\n`,
-		`import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';\n\n`,
+		`import exports from '/Parcello/exports';\n\n`,
 		`const identity = new Identity({\n`,
 			`\tclass: '${name}',\n`,
 			`\tmajor: 1, minor: 0, patch: 0,\n`,

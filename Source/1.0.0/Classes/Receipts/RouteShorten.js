@@ -9,7 +9,7 @@ import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
 import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default class RouteShortenReceipt extends Receipt {
 	constructor(router, url) {

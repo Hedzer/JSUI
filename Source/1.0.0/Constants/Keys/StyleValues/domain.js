@@ -1,5 +1,5 @@
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import symbolish from '/JSUI/Source/1.0.0/Utilities/Properties/symbolish';
 
 let symbol = symbolish('StyleValues.domain');

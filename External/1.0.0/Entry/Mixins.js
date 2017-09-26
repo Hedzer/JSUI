@@ -1,20 +1,6 @@
 
-//Mixins
-import Enableable from '/JSUI/Source/1.0.0/Mixins/Enableable';
-import Extensible from '/JSUI/Source/1.0.0/Mixins/Extensible';
-import Privatelike from '/JSUI/Source/1.0.0/Mixins/Privatelike';
-import Routable from '/JSUI/Source/1.0.0/Mixins/Routable';
+import imports from '/Parcello/imports';
 
-//Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+let imported = imports('/JSUI/Source/1.0.0/Entry/Mixins');
 
-let Mixins = {
-	Privatelike,
-	Extensible,
-	Enableable,
-	Routable,
-};
-
-export default Mixins;
-
-exports(Mixins).as('/JSUI/Source/1.0.0/Entry/Mixins');
+export default imported;

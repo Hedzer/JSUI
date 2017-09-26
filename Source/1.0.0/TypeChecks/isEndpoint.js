@@ -3,7 +3,7 @@
 import Endpoint from '/JSUI/Source/1.0.0/Classes/Core/Endpoint';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 function isEndpoint(u) {
 	return (u instanceof Endpoint);

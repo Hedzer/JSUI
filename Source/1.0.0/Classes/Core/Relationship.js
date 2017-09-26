@@ -16,7 +16,7 @@ import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
 import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
 
 const identity = new Identity({

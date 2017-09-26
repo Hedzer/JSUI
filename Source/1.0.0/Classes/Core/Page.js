@@ -10,7 +10,7 @@ import Routable from '/JSUI/Source/1.0.0/Mixins/Routable';
 import isApplication from '/JSUI/Source/1.0.0/TypeChecks/isApplication';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 const identity = new Identity({
 	class: 'Page',

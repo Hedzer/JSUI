@@ -3,7 +3,7 @@
 import Feature from '/JSUI/Source/1.0.0/Classes/Core/Feature';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 function isFeature(u) {
 	return (u instanceof Feature);

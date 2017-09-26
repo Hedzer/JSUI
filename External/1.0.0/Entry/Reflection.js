@@ -1,14 +1,6 @@
 
-//Reflextion
-import feval from '/JSUI/Source/1.0.0/Reflection/feval';
+import imports from '/Parcello/imports';
 
-//Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+let imported = imports('/JSUI/Source/1.0.0/Entry/Reflection');
 
-let Reflection = {
-	feval: feval,
-};
-
-export default Reflection;
-
-exports(Reflection).as('/JSUI/Source/1.0.0/Entry/Reflection');
+export default imported;

@@ -18,7 +18,7 @@ import isUEndpoint from '/JSUI/Source/1.0.0/TypeChecks/isUEndpoint';
 import isURoutable from '/JSUI/Source/1.0.0/TypeChecks/isURoutable';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import extend from '/JSUI/Source/1.0.0/Utilities/Objects/extend';
 
 export default function map(routable, prefix = '', items, history = {}) {

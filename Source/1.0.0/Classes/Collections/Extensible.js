@@ -11,7 +11,7 @@ import state from '/JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
 import trigger from '/JSUI/Source/1.0.0/Constants/Keys/Extensible/trigger';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 
 export default class ExtensibleCollection extends Collection {
 	add() {

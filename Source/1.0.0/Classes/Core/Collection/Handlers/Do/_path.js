@@ -4,7 +4,7 @@ import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
 import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import getWithContext from '/JSUI/Source/1.0.0/Utilities/Paths/getWithContext';
 
 export default function _path(command, args) {

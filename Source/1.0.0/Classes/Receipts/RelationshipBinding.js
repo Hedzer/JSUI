@@ -12,7 +12,7 @@ import Enableable from '/JSUI/Source/1.0.0/Mixins/Enableable';
 import isOnEventBoundReceipt from '/JSUI/Source/1.0.0/TypeChecks/isOnEventBoundReceipt';
 
 //Utilities
-import exports from '/JSUI/Source/1.0.0/Utilities/Dependencies/exports';
+import exports from '/Parcello/exports';
 import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
 
 //local constants
