@@ -1,6 +1,6 @@
 
 import imports from '/Parcello/imports';
 
-let imported = imports('/JSUI/Source/1.0.0/API.polyfilled');
+let imported = imports('/JSUI/Source/1.0.0/entry.polyfilled');
 
 export default imported;

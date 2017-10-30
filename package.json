@@ -40,7 +40,7 @@
           "js"
         ],
         "source": {
-          "file": "API.js",
+          "file": "entry.js",
           "auto-externalize": true
         },
         "build": {
