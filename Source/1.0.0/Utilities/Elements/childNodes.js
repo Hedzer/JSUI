@@ -1,13 +1,13 @@
 
 //Classes
-import Collection from '/JSUI/Source/1.0.0/Classes/Core/Collection';
+import Collection from 'JSUI/Source/1.0.0/Classes/Core/Collection';
 
 //TypeChecks
-import isDOM from '/JSUI/Source/1.0.0/TypeChecks/isDOM';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isDOM from 'JSUI/Source/1.0.0/TypeChecks/isDOM';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 function placeholder(){}
 export default function childNodes(node, callback) {
@@ -27,4 +27,4 @@ export default function childNodes(node, callback) {
 	return children;
 }
 
-exports(childNodes).as('/JSUI/Source/1.0.0/Utilities/Elements/childNodes');
+exports(childNodes).as('JSUI/Source/1.0.0/Utilities/Elements/childNodes');

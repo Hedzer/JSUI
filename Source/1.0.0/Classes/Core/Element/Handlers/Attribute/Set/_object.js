@@ -1,9 +1,9 @@
 
 //TypeChecks
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _object(macro, value){
 	let result = (isObject(value) ? value : {});
@@ -15,4 +15,4 @@ export default function _object(macro, value){
 	return results;
 }
 
-exports(_object).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute/Set/_object');
+exports(_object).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute/Set/_object');

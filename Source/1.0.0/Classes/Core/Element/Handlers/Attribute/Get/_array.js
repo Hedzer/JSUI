@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _get_array(collection) {
 	let results = {};
@@ -12,4 +12,4 @@ export default function _get_array(collection) {
 	return results;
 }
 
-exports(_get_array).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute/Get/_get_array');
+exports(_get_array).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute/Get/_get_array');

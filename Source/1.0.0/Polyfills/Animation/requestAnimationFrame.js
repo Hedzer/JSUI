@@ -1,9 +1,9 @@
 
 //Constants
-import vendors from '/JSUI/Source/1.0.0/Constants/CSS/vendors';
+import vendors from 'JSUI/Source/1.0.0/Constants/CSS/vendors';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 
 let hasAnimFrame = !!window.requestAnimationFrame;
@@ -40,4 +40,4 @@ if (!hasAnimFrame) {
 	}());
 }
 
-exports(!hasAnimFrame).as('/JSUI/Source/1.0.0/Polyfills/Animation/requestAnimationFrame');
+exports(!hasAnimFrame).as('JSUI/Source/1.0.0/Polyfills/Animation/requestAnimationFrame');

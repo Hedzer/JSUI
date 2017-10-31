@@ -1,14 +1,14 @@
 
 //Classes
-import Collection from '/JSUI/Source/1.0.0/Classes/Core/Collection';
-import Receipt from '/JSUI/Source/1.0.0/Classes/Core/Receipt';
+import Collection from 'JSUI/Source/1.0.0/Classes/Core/Collection';
+import Receipt from 'JSUI/Source/1.0.0/Classes/Core/Receipt';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
-import define from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/Parcello/exports';
+import define from 'JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
+import exports from 'Parcello/exports';
 
 export default class CollectionWhereReceipt extends Receipt {
 	constructor() {
@@ -28,4 +28,4 @@ export default class CollectionWhereReceipt extends Receipt {
 	}
 }
 
-exports(CollectionWhereReceipt).as('/JSUI/Source/1.0.0/Classes/Receipts/CollectionWhere');
+exports(CollectionWhereReceipt).as('JSUI/Source/1.0.0/Classes/Receipts/CollectionWhere');

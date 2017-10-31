@@ -1,10 +1,10 @@
 
 //Typechecks
-import isNull from '/JSUI/Source/1.0.0/TypeChecks/isNull';
-import isUndefined from '/JSUI/Source/1.0.0/TypeChecks/isUndefined';
+import isNull from 'JSUI/Source/1.0.0/TypeChecks/isNull';
+import isUndefined from 'JSUI/Source/1.0.0/TypeChecks/isUndefined';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _set_string(name, value) {
 	
@@ -17,4 +17,4 @@ export default function _set_string(name, value) {
 	return true;
 }
 
-exports(_set_string).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute/Set/_set_string');
+exports(_set_string).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute/Set/_set_string');

@@ -1,13 +1,13 @@
 
 //Classes
-import Distinct from '/JSUI/Source/1.0.0/Classes/Core/Distinct';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
+import Distinct from 'JSUI/Source/1.0.0/Classes/Core/Distinct';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
 
 //Mixins
-import Routable from '/JSUI/Source/1.0.0/Mixins/Routable';
+import Routable from 'JSUI/Source/1.0.0/Mixins/Routable';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 const identity = new Identity({
 	class: 'Role',
@@ -23,4 +23,4 @@ export default class Role extends Distinct
 	}
 }
 
-exports(Role).as('/JSUI/Source/1.0.0/Classes/Core/Role');
+exports(Role).as('JSUI/Source/1.0.0/Classes/Core/Role');

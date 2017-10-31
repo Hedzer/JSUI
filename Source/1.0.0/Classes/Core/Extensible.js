@@ -1,16 +1,16 @@
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import add from '/JSUI/Source/1.0.0/Constants/Keys/Extensible/add';
-import destructor from '/JSUI/Source/1.0.0/Constants/Keys/General/destructor';
-import remove from '/JSUI/Source/1.0.0/Constants/Keys/Extensible/remove';
-import state from '/JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import add from 'JSUI/Source/1.0.0/Constants/Keys/Extensible/add';
+import destructor from 'JSUI/Source/1.0.0/Constants/Keys/General/destructor';
+import remove from 'JSUI/Source/1.0.0/Constants/Keys/Extensible/remove';
+import state from 'JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
 
 //Mixins
-import Eventful from '/JSUI/Source/1.0.0/Classes/Core/Eventful';
-import ExtensibleMixin from '/JSUI/Source/1.0.0/Mixins/Extensible';
+import Eventful from 'JSUI/Source/1.0.0/Classes/Core/Eventful';
+import ExtensibleMixin from 'JSUI/Source/1.0.0/Mixins/Extensible';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default class Extensible extends Eventful
 	.implements(ExtensibleMixin) {
@@ -35,4 +35,4 @@ export default class Extensible extends Eventful
 	}
 }
 
-exports(Extensible).as('/JSUI/Source/1.0.0/Classes/Core/Extensible');
+exports(Extensible).as('JSUI/Source/1.0.0/Classes/Core/Extensible');

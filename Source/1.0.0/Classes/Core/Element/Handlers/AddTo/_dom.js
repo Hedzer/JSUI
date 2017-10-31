@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _dom(element){
 	if (element){
@@ -8,4 +8,4 @@ export default function _dom(element){
 	}
 }
 
-exports(_dom).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/AddTo/_dom');
+exports(_dom).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/AddTo/_dom');

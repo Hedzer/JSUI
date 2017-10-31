@@ -1,27 +1,27 @@
 
 //Classes
-import Class from '/JSUI/Source/1.0.0/Classes/Core/Class';
+import Class from 'JSUI/Source/1.0.0/Classes/Core/Class';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 //Mixins
-import Enableable from '/JSUI/Source/1.0.0/Mixins/Enableable';
-import Eventful from '/JSUI/Source/1.0.0/Mixins/Eventful';
-import Privatelike from '/JSUI/Source/1.0.0/Mixins/Privatelike';
-import Stateful from '/JSUI/Source/1.0.0/Mixins/Stateful';
+import Enableable from 'JSUI/Source/1.0.0/Mixins/Enableable';
+import Eventful from 'JSUI/Source/1.0.0/Mixins/Eventful';
+import Privatelike from 'JSUI/Source/1.0.0/Mixins/Privatelike';
+import Stateful from 'JSUI/Source/1.0.0/Mixins/Stateful';
 
 //TypeChecks
-import isBoolean from '/JSUI/Source/1.0.0/TypeChecks/isBoolean';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isNumber from '/JSUI/Source/1.0.0/TypeChecks/isNumber';
-import isUndefined from '/JSUI/Source/1.0.0/TypeChecks/isUndefined';
+import isBoolean from 'JSUI/Source/1.0.0/TypeChecks/isBoolean';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isNumber from 'JSUI/Source/1.0.0/TypeChecks/isNumber';
+import isUndefined from 'JSUI/Source/1.0.0/TypeChecks/isUndefined';
 
 //Utilities
-import debounce from '/JSUI/Source/1.0.0/Utilities/Functions/debounce';
-import exports from '/Parcello/exports';
-import throttle from '/JSUI/Source/1.0.0/Utilities/Functions/throttle';
+import debounce from 'JSUI/Source/1.0.0/Utilities/Functions/debounce';
+import exports from 'Parcello/exports';
+import throttle from 'JSUI/Source/1.0.0/Utilities/Functions/throttle';
 
 export default class JSUIFunction extends Class
 	.implements(
@@ -131,4 +131,4 @@ export default class JSUIFunction extends Class
 	}
 }
 
-exports(JSUIFunction).as('/JSUI/Source/1.0.0/Classes/Core/Function');
+exports(JSUIFunction).as('JSUI/Source/1.0.0/Classes/Core/Function');

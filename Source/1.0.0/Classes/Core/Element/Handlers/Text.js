@@ -1,11 +1,11 @@
 
 //Handlers
-import _path from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text/_path';
-import _string from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text/_string';
-import _undefined from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text/_undefined';
+import _path from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text/_path';
+import _string from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text/_string';
+import _undefined from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text/_undefined';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let Text = {
 	path: _path,
@@ -15,4 +15,4 @@ let Text = {
 
 export default Text;
 
-exports(Text).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text');
+exports(Text).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text');

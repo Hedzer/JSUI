@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _html(markup){
 	if (this.element && this.element.appendChild){
@@ -17,4 +17,4 @@ export default function _html(markup){
 	}
 }
 
-exports(_html).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_html');
+exports(_html).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_html');

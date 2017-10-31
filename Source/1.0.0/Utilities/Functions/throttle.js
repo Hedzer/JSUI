@@ -1,9 +1,9 @@
 
 //TypeChecks
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function throttle(fn, time) {
 	let nextCall = 0;
@@ -18,4 +18,4 @@ export default function throttle(fn, time) {
 	}
 }
 
-exports(throttle).as('/JSUI/Source/1.0.0/Utilities/Functions/throttle');
+exports(throttle).as('JSUI/Source/1.0.0/Utilities/Functions/throttle');

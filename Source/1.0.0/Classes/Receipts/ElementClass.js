@@ -1,17 +1,17 @@
 
 //Classes
-import ElementReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/Element';
+import ElementReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/Element';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
-import getClasses from '/JSUI/Source/1.0.0/Utilities/Elements/getClasses';
+import exports from 'Parcello/exports';
+import getClasses from 'JSUI/Source/1.0.0/Utilities/Elements/getClasses';
 
 export default class ElementClassReceipt extends ElementReceipt {
 	constructor(element, className) {
@@ -68,4 +68,4 @@ export default class ElementClassReceipt extends ElementReceipt {
 	}
 }
 
-exports(ElementClassReceipt).as('/JSUI/Source/1.0.0/Classes/Receipts/ElementClass');
+exports(ElementClassReceipt).as('JSUI/Source/1.0.0/Classes/Receipts/ElementClass');

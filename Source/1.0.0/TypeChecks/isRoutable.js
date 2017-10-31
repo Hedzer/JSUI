@@ -1,12 +1,12 @@
 
 //Classes
-import isInstance from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Routable/isInstance';
+import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Routable/isInstance';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function isRoutable(u) {
 	return !!u[isInstance];
 }
 
-exports(isRoutable).as('/JSUI/Source/1.0.0/TypeChecks/isRoutable');
+exports(isRoutable).as('JSUI/Source/1.0.0/TypeChecks/isRoutable');

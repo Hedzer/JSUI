@@ -1,10 +1,10 @@
 
 //TypeChecks
-import isDOM from '/JSUI/Source/1.0.0/TypeChecks/isDOM';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isDOM from 'JSUI/Source/1.0.0/TypeChecks/isDOM';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 function placeholder(){}
 export default function nodeAttributes(node, callback) {
@@ -24,4 +24,4 @@ export default function nodeAttributes(node, callback) {
 	return attributes;
 }
 
-exports(nodeAttributes).as('/JSUI/Source/1.0.0/Utilities/Elements/nodeAttributes');
+exports(nodeAttributes).as('JSUI/Source/1.0.0/Utilities/Elements/nodeAttributes');

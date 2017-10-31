@@ -1,9 +1,9 @@
 
 //TypeChecks
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function getCode(fn) {
 
@@ -15,4 +15,4 @@ export default function getCode(fn) {
 	return body;
 }
 
-exports(getCode).as('/JSUI/Source/1.0.0/Utilities/Functions/getCode');
+exports(getCode).as('JSUI/Source/1.0.0/Utilities/Functions/getCode');

@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 //from https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
 let hasCustomEvent = (typeof window.CustomEvent === "function");
@@ -17,4 +17,4 @@ if (!hasCustomEvent) {
 
 export default !hasCustomEvent;
 
-exports(!hasCustomEvent).as('/JSUI/Source/1.0.0/Polyfills/DOM/CustomEvent');
+exports(!hasCustomEvent).as('JSUI/Source/1.0.0/Polyfills/DOM/CustomEvent');

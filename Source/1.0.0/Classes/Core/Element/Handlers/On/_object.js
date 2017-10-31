@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _object(assignments) {
 	let results = {};
@@ -13,4 +13,4 @@ export default function _object(assignments) {
 	return results;
 }
 
-exports(_object).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/On/_object');
+exports(_object).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/On/_object');

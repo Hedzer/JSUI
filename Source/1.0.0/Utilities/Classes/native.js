@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function native(nativeClass){
 	function Native(){
@@ -12,4 +12,4 @@ export default function native(nativeClass){
 	return Native;
 }
 
-exports(native).as('/JSUI/Source/1.0.0/Utilities/Classes/native');
+exports(native).as('JSUI/Source/1.0.0/Utilities/Classes/native');

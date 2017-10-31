@@ -1,9 +1,9 @@
 
 //TypeChecks
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _object(classes) {
 	let className = '';
@@ -18,4 +18,4 @@ export default function _object(classes) {
 	return className;
 }
 
-exports(_object).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Class/_object');
+exports(_object).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Class/_object');

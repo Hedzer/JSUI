@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function removeAll() {
 	Object.keys(this.pool).forEach((eid) => {
@@ -8,4 +8,4 @@ export default function removeAll() {
 	});
 }
 
-exports(removeAll).as('/JSUI/Source/1.0.0/Utilities/Events/removeAll');
+exports(removeAll).as('JSUI/Source/1.0.0/Utilities/Events/removeAll');

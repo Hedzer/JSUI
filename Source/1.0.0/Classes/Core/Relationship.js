@@ -1,23 +1,23 @@
 
 //Classes
-import Class from '/JSUI/Source/1.0.0/Classes/Core/Class';
-import BindReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/Bind';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
+import Class from 'JSUI/Source/1.0.0/Classes/Core/Class';
+import BindReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/Bind';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Mixins
-import Enableable from '/JSUI/Source/1.0.0/Mixins/Enableable';
+import Enableable from 'JSUI/Source/1.0.0/Mixins/Enableable';
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
-import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
+import exports from 'Parcello/exports';
+import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 const identity = new Identity({
 	class: 'Relationship',
@@ -65,7 +65,7 @@ export default class Relationship extends Class
 	}
 }
 
-exports(Relationship).as('/JSUI/Source/1.0.0/Classes/Core/Relationship');
+exports(Relationship).as('JSUI/Source/1.0.0/Classes/Core/Relationship');
 
 //(new Bond(data)).to(element).
 /*

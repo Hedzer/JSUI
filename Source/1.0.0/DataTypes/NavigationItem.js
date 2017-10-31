@@ -1,9 +1,9 @@
 
 //Classes
-import Data from '/JSUI/Source/1.0.0/Classes/Core/Data';
+import Data from 'JSUI/Source/1.0.0/Classes/Core/Data';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default class NavigationItem extends Data {
 	
@@ -95,4 +95,4 @@ export default class NavigationItem extends Data {
 	}
 }
 
-exports(NavigationItem).as('/JSUI/Source/1.0.0/DataTypes/NavigationItem');
+exports(NavigationItem).as('JSUI/Source/1.0.0/DataTypes/NavigationItem');

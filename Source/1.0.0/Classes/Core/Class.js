@@ -1,14 +1,14 @@
 
 //Constants
-import exposable from '/JSUI/Source/1.0.0/Constants/Keys/General/exposable';
+import exposable from 'JSUI/Source/1.0.0/Constants/Keys/General/exposable';
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default class Class {
 	//methods
@@ -95,4 +95,4 @@ export default class Class {
 	}
 }
 
-exports(Class).as('/JSUI/Source/1.0.0/Classes/Core/Class');
+exports(Class).as('JSUI/Source/1.0.0/Classes/Core/Class');

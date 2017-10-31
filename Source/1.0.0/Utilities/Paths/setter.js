@@ -1,7 +1,7 @@
 
 //Utilities
-import exports from '/Parcello/exports';
-import get from '/JSUI/Source/1.0.0/Utilities/Paths/get';
+import exports from 'Parcello/exports';
+import get from 'JSUI/Source/1.0.0/Utilities/Paths/get';
 
 export default function setter(obj, path, value) {
 	let parts = path.substring(1).split('.');
@@ -19,4 +19,4 @@ export default function setter(obj, path, value) {
 	return false;
 }
 
-exports(setter).as('/JSUI/Source/1.0.0/Utilities/Paths/setter');
+exports(setter).as('JSUI/Source/1.0.0/Utilities/Paths/setter');

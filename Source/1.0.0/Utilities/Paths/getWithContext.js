@@ -1,7 +1,7 @@
 
 //Utilities
-import exports from '/Parcello/exports';
-import get from '/JSUI/Source/1.0.0/Utilities/Paths/get';
+import exports from 'Parcello/exports';
+import get from 'JSUI/Source/1.0.0/Utilities/Paths/get';
 
 export default function getWithContext(obj, path) {
 	let parts = path.substring(1).split('.');
@@ -23,4 +23,4 @@ export default function getWithContext(obj, path) {
 	return false;
 }
 
-exports(getWithContext).as('/JSUI/Source/1.0.0/Utilities/Paths/getWithContext');
+exports(getWithContext).as('JSUI/Source/1.0.0/Utilities/Paths/getWithContext');

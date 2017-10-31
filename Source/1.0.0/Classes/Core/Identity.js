@@ -1,15 +1,15 @@
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import settings from '/JSUI/Source/1.0.0/Constants/settings';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import settings from 'JSUI/Source/1.0.0/Constants/settings';
 
 //TypeChecks
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import define from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/Parcello/exports';
+import define from 'JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
+import exports from 'Parcello/exports';
 
 let namespace = settings.namespace;
 export default class Identity {
@@ -56,4 +56,4 @@ export default class Identity {
 	}
 }
 
-exports(Identity).as('/JSUI/Source/1.0.0/Classes/Core/Identity');
+exports(Identity).as('JSUI/Source/1.0.0/Classes/Core/Identity');

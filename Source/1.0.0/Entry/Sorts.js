@@ -1,9 +1,9 @@
 
 //Sorts
-import rules from '/JSUI/Source/1.0.0/Sorts/StyleSheet/rules';
+import rules from 'JSUI/Source/1.0.0/Sorts/StyleSheet/rules';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let Sorts = {
 	StyleSheet: {
@@ -13,4 +13,4 @@ let Sorts = {
 
 export default Sorts;
 
-exports(Sorts).as('/JSUI/Source/1.0.0/Entry/Sorts');
+exports(Sorts).as('JSUI/Source/1.0.0/Entry/Sorts');

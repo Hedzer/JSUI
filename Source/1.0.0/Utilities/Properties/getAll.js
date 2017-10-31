@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let ObjectPrototype = Object.getPrototypeOf({});
 export default function getAll(obj) {
@@ -16,4 +16,4 @@ export default function getAll(obj) {
 	return props;
 }
 
-exports(getAll).as('/JSUI/Source/1.0.0/Utilities/Properties/getAll');
+exports(getAll).as('JSUI/Source/1.0.0/Utilities/Properties/getAll');

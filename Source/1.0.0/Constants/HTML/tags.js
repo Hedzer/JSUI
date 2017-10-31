@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let tags = [
 	'a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio',
@@ -28,4 +28,4 @@ let tags = [
 
 export default tags;
 
-exports(tags).as('/JSUI/Source/1.0.0/Constants/HTML/tags');
+exports(tags).as('JSUI/Source/1.0.0/Constants/HTML/tags');

@@ -1,13 +1,13 @@
 
 //Classes
-import Collection from '/JSUI/Source/1.0.0/Classes/Core/Collection';
+import Collection from 'JSUI/Source/1.0.0/Classes/Core/Collection';
 
 //TypeChecks
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isJSUIFunction from '/JSUI/Source/1.0.0/TypeChecks/isJSUIFunction';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isJSUIFunction from 'JSUI/Source/1.0.0/TypeChecks/isJSUIFunction';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _string(command, args) {
 	let results = new Collection();
@@ -27,4 +27,4 @@ export default function _string(command, args) {
 	return results;	
 }
 
-exports(_string).as('/JSUI/Source/1.0.0/Classes/Core/Collection/Handlers/Do/_string');
+exports(_string).as('JSUI/Source/1.0.0/Classes/Core/Collection/Handlers/Do/_string');

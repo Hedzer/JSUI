@@ -1,7 +1,7 @@
 
 //Utilities
-import addHiddenValue from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/Parcello/exports';
+import addHiddenValue from 'JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
+import exports from 'Parcello/exports';
 
 const namespace = 'JSUI.Style.Sheets';
 
@@ -12,4 +12,4 @@ const Sheets = window[namespace];
 
 export default Sheets;
 
-exports(Sheets).as('/JSUI/Source/1.0.0/Singletons/Style/Sheets');
+exports(Sheets).as('JSUI/Source/1.0.0/Singletons/Style/Sheets');

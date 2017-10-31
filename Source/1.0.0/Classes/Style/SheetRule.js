@@ -1,26 +1,26 @@
 
 //Classes
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
-import JSUIError from '/JSUI/Source/1.0.0/Classes/Core/Error';
-import StateChangeReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/StateChange';
-import StyleRules from '/JSUI/Source/1.0.0/Classes/Style/Rules';
-import StyleSheet from '/JSUI/Source/1.0.0/Classes/Style/Sheet';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
+import JSUIError from 'JSUI/Source/1.0.0/Classes/Core/Error';
+import StateChangeReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/StateChange';
+import StyleRules from 'JSUI/Source/1.0.0/Classes/Style/Rules';
+import StyleSheet from 'JSUI/Source/1.0.0/Classes/Style/Sheet';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import equivalents from '/JSUI/Source/1.0.0/Constants/CSS/equivalents';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import equivalents from 'JSUI/Source/1.0.0/Constants/CSS/equivalents';
 
 //Singletons
-import Sheets from '/JSUI/Source/1.0.0/Singletons/Style/Sheets';
+import Sheets from 'JSUI/Source/1.0.0/Singletons/Style/Sheets';
 
 //TypeChecks
-import isElement from '/JSUI/Source/1.0.0/TypeChecks/isElement';
-import isNumber from '/JSUI/Source/1.0.0/TypeChecks/isNumber';
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isElement from 'JSUI/Source/1.0.0/TypeChecks/isElement';
+import isNumber from 'JSUI/Source/1.0.0/TypeChecks/isNumber';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 const identity = new Identity({
 	class: 'StyleSheetRule',
@@ -210,4 +210,4 @@ export default class StyleSheetRule extends StyleRules {
 	}
 }
 
-exports(StyleSheetRule).as('/JSUI/Source/1.0.0/Classes/Style/SheetRule');
+exports(StyleSheetRule).as('JSUI/Source/1.0.0/Classes/Style/SheetRule');

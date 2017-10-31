@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let hasIsArray = !!Array.isArray;
 if (!hasIsArray) {
@@ -11,4 +11,4 @@ if (!hasIsArray) {
 
 export default !hasIsArray;
 
-exports(!hasIsArray).as('/JSUI/Source/1.0.0/Polyfills/Array/isArray');
+exports(!hasIsArray).as('JSUI/Source/1.0.0/Polyfills/Array/isArray');

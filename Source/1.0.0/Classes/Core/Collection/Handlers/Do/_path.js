@@ -1,11 +1,11 @@
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/Parcello/exports';
-import getWithContext from '/JSUI/Source/1.0.0/Utilities/Paths/getWithContext';
+import exports from 'Parcello/exports';
+import getWithContext from 'JSUI/Source/1.0.0/Utilities/Paths/getWithContext';
 
 export default function _path(command, args) {
 	let results = new Collection();
@@ -22,4 +22,4 @@ export default function _path(command, args) {
 	});
 }
 
-exports(_path).as('/JSUI/Source/1.0.0/Core/Collection/Handlers/Do/_path');
+exports(_path).as('JSUI/Source/1.0.0/Core/Collection/Handlers/Do/_path');

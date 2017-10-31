@@ -1,12 +1,12 @@
 
 //Classes
-import Collection from '/JSUI/Source/1.0.0/Classes/Core/Collection';
+import Collection from 'JSUI/Source/1.0.0/Classes/Core/Collection';
 
 //TypeChecks
-import isTextNode from '/JSUI/Source/1.0.0/TypeChecks/isTextNode';
+import isTextNode from 'JSUI/Source/1.0.0/TypeChecks/isTextNode';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function getTextNodes(el, stopAtFirst){
 	let nodes = new Collection();
@@ -22,4 +22,4 @@ export default function getTextNodes(el, stopAtFirst){
 	return nodes;
 }
 
-exports(getTextNodes).as('/JSUI/Source/1.0.0/Utilities/Elements/getTextNodes');
+exports(getTextNodes).as('JSUI/Source/1.0.0/Utilities/Elements/getTextNodes');

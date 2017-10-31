@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let prefix = '';
 let current = 0;
@@ -13,4 +13,4 @@ export default function uid(){
 	return prefix + current++;
 }
 
-exports(uid).as('/JSUI/Source/1.0.0/Utilities/General/uid');
+exports(uid).as('JSUI/Source/1.0.0/Utilities/General/uid');

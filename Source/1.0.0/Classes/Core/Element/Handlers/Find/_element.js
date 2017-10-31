@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _element(proto) {
 	let results = [];
@@ -14,4 +14,4 @@ export default function _element(proto) {
 	return results;
 }
 
-exports(_element).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Find/_element');
+exports(_element).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Find/_element');

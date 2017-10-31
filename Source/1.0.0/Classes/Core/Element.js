@@ -1,37 +1,37 @@
 
 //Classes
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
-import Styleable from '/JSUI/Source/1.0.0/Classes/Core/Styleable';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
+import Styleable from 'JSUI/Source/1.0.0/Classes/Core/Styleable';
 
 //Handlers
-import Add from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add';
-import AddTo from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/AddTo';
-import Attribute from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute';
-import Class from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Class';
-import constructor from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Constructor';
-import Find from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Find';
-import getHandledType from '/JSUI/Source/1.0.0/Classes/Core/Element/getHandledType';
-import On from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/On';
-import Remove from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Remove';
-import Text from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text';
-import Trigger from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Trigger';
-import unhandled from '/JSUI/Source/1.0.0/Classes/Core/Handlers/unhandled';
+import Add from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add';
+import AddTo from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/AddTo';
+import Attribute from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute';
+import Class from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Class';
+import constructor from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Constructor';
+import Find from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Find';
+import getHandledType from 'JSUI/Source/1.0.0/Classes/Core/Element/getHandledType';
+import On from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/On';
+import Remove from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Remove';
+import Text from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text';
+import Trigger from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Trigger';
+import unhandled from 'JSUI/Source/1.0.0/Classes/Core/Handlers/unhandled';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import on from '/JSUI/Source/1.0.0/Constants/Keys/General/on';
-import settings from '/JSUI/Source/1.0.0/Constants/settings';
-import trigger from '/JSUI/Source/1.0.0/Constants/Keys/General/trigger';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import on from 'JSUI/Source/1.0.0/Constants/Keys/General/on';
+import settings from 'JSUI/Source/1.0.0/Constants/settings';
+import trigger from 'JSUI/Source/1.0.0/Constants/Keys/General/trigger';
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isDOM from '/JSUI/Source/1.0.0/TypeChecks/isDOM';
-import isEmptyString from '/JSUI/Source/1.0.0/TypeChecks/isEmptyString';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isDOM from 'JSUI/Source/1.0.0/TypeChecks/isDOM';
+import isEmptyString from 'JSUI/Source/1.0.0/TypeChecks/isEmptyString';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import addClass from '/JSUI/Source/1.0.0/Utilities/Elements/addClass';
-import exports from '/Parcello/exports';
+import addClass from 'JSUI/Source/1.0.0/Utilities/Elements/addClass';
+import exports from 'Parcello/exports';
 
 const identity = new Identity({
 	class: 'Element',
@@ -213,4 +213,4 @@ export default class Element extends Styleable {
 	}
 }
 
-exports(Element).as('/JSUI/Source/1.0.0/Classes/Core/Element');
+exports(Element).as('JSUI/Source/1.0.0/Classes/Core/Element');

@@ -1,19 +1,19 @@
 
 //Classes
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
-import StyleRules from '/JSUI/Source/1.0.0/Classes/Style/Rules';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
+import StyleRules from 'JSUI/Source/1.0.0/Classes/Style/Rules';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //TypeChecks
-import isBehavior from '/JSUI/Source/1.0.0/TypeChecks/isBehavior';
-import isElement from '/JSUI/Source/1.0.0/TypeChecks/isElement';
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isBehavior from 'JSUI/Source/1.0.0/TypeChecks/isBehavior';
+import isElement from 'JSUI/Source/1.0.0/TypeChecks/isElement';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 const identity = new Identity({
 	class: 'StyleInline',
@@ -78,4 +78,4 @@ export default class StyleInline extends StyleRules {
 	}
 }
 
-exports(StyleInline).as('/JSUI/Source/1.0.0/Classes/Style/Inline');
+exports(StyleInline).as('JSUI/Source/1.0.0/Classes/Style/Inline');

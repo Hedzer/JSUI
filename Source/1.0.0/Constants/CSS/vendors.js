@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let vendors = [
 	'webkit',
@@ -10,4 +10,4 @@ let vendors = [
 ];
 export default vendors;
 
-exports(vendors).as('/JSUI/Source/1.0.0/Constants/CSS/vendors');
+exports(vendors).as('JSUI/Source/1.0.0/Constants/CSS/vendors');

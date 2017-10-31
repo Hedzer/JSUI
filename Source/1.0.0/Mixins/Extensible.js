@@ -1,28 +1,28 @@
 
 //Classes
-import StateChangeReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/StateChange';
+import StateChangeReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/StateChange';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import add from '/JSUI/Source/1.0.0/Constants/Keys/Extensible/add';
-import destructor from '/JSUI/Source/1.0.0/Constants/Keys/General/destructor';
-import isInstance from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Extensible/isInstance';
-import isClass from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Extensible/isStatic';
-import on from '/JSUI/Source/1.0.0/Constants/Keys/Eventful/on';
-import remove from '/JSUI/Source/1.0.0/Constants/Keys/Extensible/remove';
-import state from '/JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
-import trigger from '/JSUI/Source/1.0.0/Constants/Keys/Eventful/trigger';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import add from 'JSUI/Source/1.0.0/Constants/Keys/Extensible/add';
+import destructor from 'JSUI/Source/1.0.0/Constants/Keys/General/destructor';
+import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Extensible/isInstance';
+import isClass from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Extensible/isStatic';
+import on from 'JSUI/Source/1.0.0/Constants/Keys/Eventful/on';
+import remove from 'JSUI/Source/1.0.0/Constants/Keys/Extensible/remove';
+import state from 'JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
+import trigger from 'JSUI/Source/1.0.0/Constants/Keys/Eventful/trigger';
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
-import isUEventful from '/JSUI/Source/1.0.0/TypeChecks/isUEventful';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
+import isUEventful from 'JSUI/Source/1.0.0/TypeChecks/isUEventful';
 
 //Utilities
-import exports from '/Parcello/exports';
-import onEvent from '/JSUI/Source/1.0.0/Utilities/Events/on';
-import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
+import exports from 'Parcello/exports';
+import onEvent from 'JSUI/Source/1.0.0/Utilities/Events/on';
+import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 let Extensible = (descendant) => {
 	if (!isUEventful(descendant)) {
@@ -121,4 +121,4 @@ Extensible.exposable = { add, destructor, remove };
 
 export default Extensible;
 
-exports(Extensible).as('/JSUI/Source/1.0.0/Mixins/Extensible');
+exports(Extensible).as('JSUI/Source/1.0.0/Mixins/Extensible');

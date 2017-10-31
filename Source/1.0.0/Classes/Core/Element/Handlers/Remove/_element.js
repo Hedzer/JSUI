@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _element(instance) {
 	if (instance.remove) {
@@ -8,4 +8,4 @@ export default function _element(instance) {
 	}
 }
 
-exports(_element).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Remove/_element');
+exports(_element).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Remove/_element');

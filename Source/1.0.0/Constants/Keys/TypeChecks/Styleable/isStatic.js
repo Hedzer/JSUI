@@ -1,9 +1,9 @@
 
 //Utilities
-import exports from '/Parcello/exports';
-import symbolish from '/JSUI/Source/1.0.0/Utilities/Properties/symbolish';
+import exports from 'Parcello/exports';
+import symbolish from 'JSUI/Source/1.0.0/Utilities/Properties/symbolish';
 
 let symbol = symbolish('Mixins.Styleable.isStatic');
 export default symbol;
 
-exports(symbol).as('/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Styleable/isStatic');
+exports(symbol).as('JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Styleable/isStatic');

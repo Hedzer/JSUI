@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _undefined() {
 	let results = [];
@@ -10,4 +10,4 @@ export default function _undefined() {
 	return results;
 }
 
-exports(_undefined).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Find/_undefined');
+exports(_undefined).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Find/_undefined');

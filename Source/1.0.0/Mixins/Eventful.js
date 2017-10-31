@@ -1,20 +1,20 @@
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import isClass from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Eventful/isStatic';
-import isInstance from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Eventful/isInstance';
-import on from '/JSUI/Source/1.0.0/Constants/Keys/Eventful/on';
-import trigger from '/JSUI/Source/1.0.0/Constants/Keys/Eventful/trigger';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import isClass from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Eventful/isStatic';
+import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Eventful/isInstance';
+import on from 'JSUI/Source/1.0.0/Constants/Keys/Eventful/on';
+import trigger from 'JSUI/Source/1.0.0/Constants/Keys/Eventful/trigger';
 
 //TypeChecks
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isExecutable from '/JSUI/Source/1.0.0/TypeChecks/isExecutable';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isExecutable from 'JSUI/Source/1.0.0/TypeChecks/isExecutable';
 
 //Utilities
-import onEvent from '/JSUI/Source/1.0.0/Utilities/Events/on';
-import capitalize from '/JSUI/Source/1.0.0/Utilities/Strings/capitalize';
-import exports from '/Parcello/exports';
+import onEvent from 'JSUI/Source/1.0.0/Utilities/Events/on';
+import capitalize from 'JSUI/Source/1.0.0/Utilities/Strings/capitalize';
+import exports from 'Parcello/exports';
 
 let Eventful = (descendant) => {
 	class EventfulMixin extends descendant {
@@ -71,4 +71,4 @@ Eventful.exposable = { on, trigger };
 
 export default Eventful;
 
-exports(Eventful).as('/JSUI/Source/1.0.0/Mixins/Eventful');
+exports(Eventful).as('JSUI/Source/1.0.0/Mixins/Eventful');

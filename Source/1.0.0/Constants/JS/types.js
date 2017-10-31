@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let types = [
 	'boolean',
@@ -13,4 +13,4 @@ let types = [
 
 export default types;
 
-exports(types).as('/JSUI/Source/1.0.0/Constants/JS/types');
+exports(types).as('JSUI/Source/1.0.0/Constants/JS/types');

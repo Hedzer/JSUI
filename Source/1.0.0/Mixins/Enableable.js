@@ -1,11 +1,11 @@
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import isClass from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Enableable/isStatic';
-import isInstance from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Enableable/isInstance';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import isClass from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Enableable/isStatic';
+import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Enableable/isInstance';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let Enableable = (descendant) => class EnableableMixin extends descendant {
 	constructor() {
@@ -36,4 +36,4 @@ let Enableable = (descendant) => class EnableableMixin extends descendant {
 
 export default Enableable;
 
-exports(Enableable).as('/JSUI/Source/1.0.0/Mixins/Enableable');
+exports(Enableable).as('JSUI/Source/1.0.0/Mixins/Enableable');

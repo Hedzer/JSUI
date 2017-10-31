@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 // https://tc39.github.io/ecma262/#sec-array.prototype.includes
 let hasIncludes = !!Array.prototype.includes;
@@ -54,4 +54,4 @@ if (!hasIncludes) {
 
 export default !hasIncludes;
 
-exports(!hasIncludes).as('/JSUI/Source/1.0.0/Polyfills/Array/includes');
+exports(!hasIncludes).as('JSUI/Source/1.0.0/Polyfills/Array/includes');

@@ -1,7 +1,7 @@
 
 //Utilities
-import exports from '/Parcello/exports';
-import nodeAttributes from '/JSUI/Source/1.0.0/Utilities/Elements/nodeAttributes';
+import exports from 'Parcello/exports';
+import nodeAttributes from 'JSUI/Source/1.0.0/Utilities/Elements/nodeAttributes';
 
 export default function _undefined() {
 	let results = {};
@@ -13,4 +13,4 @@ export default function _undefined() {
 	return results;
 }
 
-exports(_undefined).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute/Get/_undefined');
+exports(_undefined).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Attribute/Get/_undefined');

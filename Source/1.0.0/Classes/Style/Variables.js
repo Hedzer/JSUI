@@ -1,25 +1,25 @@
 
 //Classes
-import Distinct from '/JSUI/Source/1.0.0/Classes/Core/Distinct';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
+import Distinct from 'JSUI/Source/1.0.0/Classes/Core/Distinct';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
 
 //Singletons
-import Sheets from '/JSUI/Source/1.0.0/Singletons/Style/Sheets';
+import Sheets from 'JSUI/Source/1.0.0/Singletons/Style/Sheets';
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
-import isUndefined from '/JSUI/Source/1.0.0/TypeChecks/isUndefined';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
+import isUndefined from 'JSUI/Source/1.0.0/TypeChecks/isUndefined';
 
 //Utilities
-import addHiddenValue from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import debounce from '/JSUI/Source/1.0.0/Utilities/Functions/debounce';
-import exports from '/Parcello/exports';
-import getCodeStrings from '/JSUI/Source/1.0.0/Utilities/Templating/getCodeStrings';
-import getVariables from '/JSUI/Source/1.0.0/Utilities/Templating/getVariables';
-import replaceAll from '/JSUI/Source/1.0.0/Utilities/Strings/replaceAll';
+import addHiddenValue from 'JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
+import debounce from 'JSUI/Source/1.0.0/Utilities/Functions/debounce';
+import exports from 'Parcello/exports';
+import getCodeStrings from 'JSUI/Source/1.0.0/Utilities/Templating/getCodeStrings';
+import getVariables from 'JSUI/Source/1.0.0/Utilities/Templating/getVariables';
+import replaceAll from 'JSUI/Source/1.0.0/Utilities/Strings/replaceAll';
 
 const identity = new Identity({
 	class: 'StyleVariables',
@@ -119,4 +119,4 @@ export default class StyleVariables extends Distinct {
 	}
 }
 
-exports(StyleVariables).as('/JSUI/Source/1.0.0/Classes/Style/Variables');
+exports(StyleVariables).as('JSUI/Source/1.0.0/Classes/Style/Variables');

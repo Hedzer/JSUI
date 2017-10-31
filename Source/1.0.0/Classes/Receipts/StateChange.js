@@ -1,12 +1,12 @@
 
 //Classes
-import Receipt from '/JSUI/Source/1.0.0/Classes/Core/Receipt';
+import Receipt from 'JSUI/Source/1.0.0/Classes/Core/Receipt';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default class StateChangeReceipt extends Receipt {
 	constructor(changes = {}) {
@@ -41,4 +41,4 @@ export default class StateChangeReceipt extends Receipt {
 	}
 }
 
-exports(StateChangeReceipt).as('/JSUI/Source/1.0.0/Classes/Receipts/StateChange');
+exports(StateChangeReceipt).as('JSUI/Source/1.0.0/Classes/Receipts/StateChange');

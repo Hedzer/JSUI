@@ -1,10 +1,10 @@
 
 //TypeChecks
-import isDOM from '/JSUI/Source/1.0.0/TypeChecks/isDOM';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isDOM from 'JSUI/Source/1.0.0/TypeChecks/isDOM';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function addClass(el, name) {
 	if (!isString(name) || !isDOM(el)) { return; }
@@ -18,4 +18,4 @@ export default function addClass(el, name) {
 	el.className = classes.join(' ');
 }
 
-exports(addClass).as('/JSUI/Source/1.0.0/Utilities/Elements/addClass');
+exports(addClass).as('JSUI/Source/1.0.0/Utilities/Elements/addClass');

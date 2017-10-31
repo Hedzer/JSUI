@@ -1,12 +1,12 @@
 
 //Classes
-import ElementAddedReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/ElementAdded';
+import ElementAddedReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/ElementAdded';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _element(instance){
 	if (this.element && instance.element){
@@ -22,4 +22,4 @@ export default function _element(instance){
 	return receipt;
 }
 
-exports(_element).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_element');
+exports(_element).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_element');

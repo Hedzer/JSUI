@@ -1,9 +1,9 @@
 
 //Handlers
-import eventfulToEventful from '/JSUI/Source/1.0.0/Classes/Receipts/Bind/Eventful/eventful';
+import eventfulToEventful from 'JSUI/Source/1.0.0/Classes/Receipts/Bind/Eventful/eventful';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let defaultEventful = {
 	data: eventfulToEventful,
@@ -19,4 +19,4 @@ let relationships = {
 
 export default relationships;
 
-exports(relationships).as('/JSUI/Source/1.0.0/Classes/Receipts/Bind/relationships');
+exports(relationships).as('JSUI/Source/1.0.0/Classes/Receipts/Bind/relationships');

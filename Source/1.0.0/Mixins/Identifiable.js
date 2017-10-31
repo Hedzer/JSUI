@@ -1,18 +1,18 @@
 
 //Classes
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import isClass from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Identifiable/isStatic';
-import isInstance from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Identifiable/isInstance';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import isClass from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Identifiable/isStatic';
+import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Identifiable/isInstance';
  
  //TypeChecks
-import isPrivatelike from '/JSUI/Source/1.0.0/TypeChecks/isPrivatelike';
+import isPrivatelike from 'JSUI/Source/1.0.0/TypeChecks/isPrivatelike';
 
 //Utilities
-import exports from '/Parcello/exports';
-import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
+import exports from 'Parcello/exports';
+import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 const identity = new Identity({
 	class: 'Identifiable',
@@ -64,4 +64,4 @@ let Identifiable = (descendant) => {
 
 export default Identifiable;
 
-exports(Identifiable).as('/JSUI/Source/1.0.0/Mixins/Identifiable');
+exports(Identifiable).as('JSUI/Source/1.0.0/Mixins/Identifiable');

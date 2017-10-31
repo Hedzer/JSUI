@@ -1,11 +1,11 @@
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isDOM from '/JSUI/Source/1.0.0/TypeChecks/isDOM';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isDOM from 'JSUI/Source/1.0.0/TypeChecks/isDOM';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function getClasses(el) {
 	if (!isDOM(el)) { return; }
@@ -21,4 +21,4 @@ export default function getClasses(el) {
 	return classes;
 }
 
-exports(getClasses).as('/JSUI/Source/1.0.0/Utilities/Elements/getClasses');
+exports(getClasses).as('JSUI/Source/1.0.0/Utilities/Elements/getClasses');

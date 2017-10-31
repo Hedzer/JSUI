@@ -1,11 +1,11 @@
 
 //Typechecks
-import isDOM from '/JSUI/Source/1.0.0/TypeChecks/isDOM';
-import isTextNode from '/JSUI/Source/1.0.0/TypeChecks/isTextNode';
+import isDOM from 'JSUI/Source/1.0.0/TypeChecks/isDOM';
+import isTextNode from 'JSUI/Source/1.0.0/TypeChecks/isTextNode';
 
 //Utilities
-import childNodes from '/JSUI/Source/1.0.0/Utilities/Elements/childNodes';
-import exports from '/Parcello/exports';
+import childNodes from 'JSUI/Source/1.0.0/Utilities/Elements/childNodes';
+import exports from 'Parcello/exports';
 
 export default function getFirstNonTextChild(node) {
 	if (isDOM(node)) {
@@ -20,4 +20,4 @@ export default function getFirstNonTextChild(node) {
 	}
 }
 
-exports(getFirstNonTextChild).as('/JSUI/Source/1.0.0/Utilities/Elements/getFirstNonTextChild');
+exports(getFirstNonTextChild).as('JSUI/Source/1.0.0/Utilities/Elements/getFirstNonTextChild');

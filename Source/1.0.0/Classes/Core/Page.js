@@ -1,16 +1,16 @@
 
 //Classes
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
-import Main from '/JSUI/Source/1.0.0/Classes/Elements/Main';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
+import Main from 'JSUI/Source/1.0.0/Classes/Elements/Main';
 
 //Mixins
-import Routable from '/JSUI/Source/1.0.0/Mixins/Routable';
+import Routable from 'JSUI/Source/1.0.0/Mixins/Routable';
 
 //TypeChecks
-import isApplication from '/JSUI/Source/1.0.0/TypeChecks/isApplication';
+import isApplication from 'JSUI/Source/1.0.0/TypeChecks/isApplication';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 const identity = new Identity({
 	class: 'Page',
@@ -37,4 +37,4 @@ export default class Page extends Main
 	}
 }
 
-exports(Page).as('/JSUI/Source/1.0.0/Classes/Core/Page');
+exports(Page).as('JSUI/Source/1.0.0/Classes/Core/Page');

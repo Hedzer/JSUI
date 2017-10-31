@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 //from https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 let hasAddEventListener = !!Element.prototype.addEventListener;
@@ -89,4 +89,4 @@ if (!hasAddEventListener) {
 
 export default !hasAddEventListener;
 
-exports(!hasAddEventListener).as('/JSUI/Source/1.0.0/Polyfills/DOM/addEventListener');
+exports(!hasAddEventListener).as('JSUI/Source/1.0.0/Polyfills/DOM/addEventListener');

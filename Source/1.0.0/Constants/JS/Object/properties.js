@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 const properties = [
 	'toString',
@@ -12,4 +12,4 @@ const properties = [
 	'constructor',
 ];
 
-exports(properties).as('/JSUI/Source/1.0.0/Constants/JS/Object/properties');
+exports(properties).as('JSUI/Source/1.0.0/Constants/JS/Object/properties');

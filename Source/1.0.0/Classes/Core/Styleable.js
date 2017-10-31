@@ -1,20 +1,20 @@
 
 //Classes
-import Distinct from '/JSUI/Source/1.0.0/Classes/Core/Distinct';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
-import StyleBehavior from '/JSUI/Source/1.0.0/Classes/Behaviors/Style';
+import Distinct from 'JSUI/Source/1.0.0/Classes/Core/Distinct';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
+import StyleBehavior from 'JSUI/Source/1.0.0/Classes/Behaviors/Style';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Singletons
-import Sheets from '/JSUI/Source/1.0.0/Singletons/Style/Sheets';
+import Sheets from 'JSUI/Source/1.0.0/Singletons/Style/Sheets';
 
 //TypeChecks
-import isStyleSheetRule from '/JSUI/Source/1.0.0/TypeChecks/isStyleSheetRule';
+import isStyleSheetRule from 'JSUI/Source/1.0.0/TypeChecks/isStyleSheetRule';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 const identity = new Identity({
 	class: 'Styleable',
@@ -66,4 +66,4 @@ export default class Styleable extends Distinct {
 	}
 }
 
-exports(Styleable).as('/JSUI/Source/1.0.0/Classes/Core/Styleable');
+exports(Styleable).as('JSUI/Source/1.0.0/Classes/Core/Styleable');

@@ -1,13 +1,13 @@
 
 //Classes
-import Receipt from '/JSUI/Source/1.0.0/Classes/Core/Receipt';
+import Receipt from 'JSUI/Source/1.0.0/Classes/Core/Receipt';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
-import define from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/Parcello/exports';
+import define from 'JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
+import exports from 'Parcello/exports';
 
 export default class ElementReceipt extends Receipt {
 	constructor(element) {
@@ -24,4 +24,4 @@ export default class ElementReceipt extends Receipt {
 	}
 }
 
-exports(ElementReceipt).as('/JSUI/Source/1.0.0/Classes/Receipts/Element');
+exports(ElementReceipt).as('JSUI/Source/1.0.0/Classes/Receipts/Element');

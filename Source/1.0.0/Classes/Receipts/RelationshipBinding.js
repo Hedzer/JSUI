@@ -1,19 +1,19 @@
 
 //Classes
-import Receipt from '/JSUI/Source/1.0.0/Classes/Core/Receipt';
+import Receipt from 'JSUI/Source/1.0.0/Classes/Core/Receipt';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Mixins
-import Enableable from '/JSUI/Source/1.0.0/Mixins/Enableable';
+import Enableable from 'JSUI/Source/1.0.0/Mixins/Enableable';
 
 //TypeChecks
-import isOnEventBoundReceipt from '/JSUI/Source/1.0.0/TypeChecks/isOnEventBoundReceipt';
+import isOnEventBoundReceipt from 'JSUI/Source/1.0.0/TypeChecks/isOnEventBoundReceipt';
 
 //Utilities
-import exports from '/Parcello/exports';
-import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
+import exports from 'Parcello/exports';
+import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 //local constants
 const removable = [
@@ -100,4 +100,4 @@ export default class RelationshipBindingReceipt extends Receipt
 	}
 }
 
-exports(RelationshipBindingReceipt).as('/JSUI/Source/1.0.0/Classes/Receipts/RelationshipBinding');
+exports(RelationshipBindingReceipt).as('JSUI/Source/1.0.0/Classes/Receipts/RelationshipBinding');

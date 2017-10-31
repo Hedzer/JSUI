@@ -1,15 +1,15 @@
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import $uid from '/JSUI/Source/1.0.0/Constants/Keys/General/uid';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $uid from 'JSUI/Source/1.0.0/Constants/Keys/General/uid';
 
 //TypeChecks
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import define from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/Parcello/exports';
-import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
+import define from 'JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
+import exports from 'Parcello/exports';
+import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 let graph = {}; //prevent infinite loops
 
@@ -126,4 +126,4 @@ let actions = {
 
 export default actions;
 
-exports(actions).as('/JSUI/Source/1.0.0/Classes/Receipts/Bind/actions');
+exports(actions).as('JSUI/Source/1.0.0/Classes/Receipts/Bind/actions');

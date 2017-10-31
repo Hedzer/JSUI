@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _regex(expression) {
 	let results = [];
@@ -16,4 +16,4 @@ export default function _regex(expression) {
 	return results;
 }
 
-exports(_regex).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Find/_regex');
+exports(_regex).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Find/_regex');

@@ -1,28 +1,28 @@
 
 //Classes
-import Distinct from '/JSUI/Source/1.0.0/Classes/Core/Distinct';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
+import Distinct from 'JSUI/Source/1.0.0/Classes/Core/Distinct';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Mixins
-import Routable from '/JSUI/Source/1.0.0/Mixins/Routable';
+import Routable from 'JSUI/Source/1.0.0/Mixins/Routable';
 
 //Singletons
-import Router from '/JSUI/Source/1.0.0/Singletons/Navigation/Router';
+import Router from 'JSUI/Source/1.0.0/Singletons/Navigation/Router';
 
 //TypeChecks
-import isDOM from '/JSUI/Source/1.0.0/TypeChecks/isDOM';
-import isElement from '/JSUI/Source/1.0.0/TypeChecks/isElement';
-import isNavigation from '/JSUI/Source/1.0.0/TypeChecks/isNavigation';
-import isPage from '/JSUI/Source/1.0.0/TypeChecks/isPage';
-import isRouter from '/JSUI/Source/1.0.0/TypeChecks/isRouter';
-import isUNavigation from '/JSUI/Source/1.0.0/TypeChecks/isUNavigation';
-import isUPage from '/JSUI/Source/1.0.0/TypeChecks/isUPage';
+import isDOM from 'JSUI/Source/1.0.0/TypeChecks/isDOM';
+import isElement from 'JSUI/Source/1.0.0/TypeChecks/isElement';
+import isNavigation from 'JSUI/Source/1.0.0/TypeChecks/isNavigation';
+import isPage from 'JSUI/Source/1.0.0/TypeChecks/isPage';
+import isRouter from 'JSUI/Source/1.0.0/TypeChecks/isRouter';
+import isUNavigation from 'JSUI/Source/1.0.0/TypeChecks/isUNavigation';
+import isUPage from 'JSUI/Source/1.0.0/TypeChecks/isUPage';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 const identity = new Identity({
 	class: 'Application',
@@ -141,4 +141,4 @@ export default class Application extends Distinct
 	}
 }
 
-exports(Application).as('/JSUI/Source/1.0.0/Classes/Core/Application');
+exports(Application).as('JSUI/Source/1.0.0/Classes/Core/Application');

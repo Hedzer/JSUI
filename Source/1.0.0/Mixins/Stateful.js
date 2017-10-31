@@ -1,18 +1,18 @@
 
 //Classes
-import StateChangeReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/StateChange';
+import StateChangeReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/StateChange';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import state from '/JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
-import trigger from '/JSUI/Source/1.0.0/Constants/Keys/Eventful/trigger';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import state from 'JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
+import trigger from 'JSUI/Source/1.0.0/Constants/Keys/Eventful/trigger';
 
 //TypeChecks
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isUndefined from '/JSUI/Source/1.0.0/TypeChecks/isUndefined';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isUndefined from 'JSUI/Source/1.0.0/TypeChecks/isUndefined';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let Stateful = (descendant) => {
 
@@ -78,4 +78,4 @@ Stateful.exposable = { state };
 
 export default Stateful;
 
-exports(Stateful).as('/JSUI/Source/1.0.0/Mixins/Stateful');
+exports(Stateful).as('JSUI/Source/1.0.0/Mixins/Stateful');

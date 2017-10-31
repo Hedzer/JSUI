@@ -1,14 +1,14 @@
 
 //Classes
-import StateChangeReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/StateChange';
+import StateChangeReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/StateChange';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import $trigger from '/JSUI/Source/1.0.0/Constants/Keys/General/trigger';
-import trigger from '/JSUI/Source/1.0.0/Constants/Keys/Eventful/trigger';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $trigger from 'JSUI/Source/1.0.0/Constants/Keys/General/trigger';
+import trigger from 'JSUI/Source/1.0.0/Constants/Keys/Eventful/trigger';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function add(host, name, defaults){
 	Object.defineProperty(host, name, {
@@ -39,4 +39,4 @@ export default function add(host, name, defaults){
 	});
 }
 
-exports(add).as('/JSUI/Source/1.0.0/Utilities/Properties/add');
+exports(add).as('JSUI/Source/1.0.0/Utilities/Properties/add');

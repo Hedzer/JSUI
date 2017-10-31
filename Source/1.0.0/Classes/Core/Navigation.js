@@ -1,15 +1,15 @@
 
 //Classes
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
-import Nav from '/JSUI/Source/1.0.0/Classes/Elements/Nav';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
+import Nav from 'JSUI/Source/1.0.0/Classes/Elements/Nav';
 
 //TypeChecks
-import isRoutable from '/JSUI/Source/1.0.0/TypeChecks/isRoutable';
-import isURoutable from '/JSUI/Source/1.0.0/TypeChecks/isURoutable';
+import isRoutable from 'JSUI/Source/1.0.0/TypeChecks/isRoutable';
+import isURoutable from 'JSUI/Source/1.0.0/TypeChecks/isURoutable';
 
 //Utilities
-import exports from '/Parcello/exports';
-import map from '/JSUI/Source/1.0.0/Utilities/Navigation/map';
+import exports from 'Parcello/exports';
+import map from 'JSUI/Source/1.0.0/Utilities/Navigation/map';
 
 const identity = new Identity({
 	class: 'Navigation',
@@ -43,4 +43,4 @@ export default class Navigation extends Nav {
 	}
 }
 
-exports(Navigation).as('/JSUI/Source/1.0.0/Classes/Core/Navigation');
+exports(Navigation).as('JSUI/Source/1.0.0/Classes/Core/Navigation');

@@ -1,14 +1,14 @@
 
 //Classes
-import Extensible from '/JSUI/Source/1.0.0/Classes/Core/Extensible';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
+import Extensible from 'JSUI/Source/1.0.0/Classes/Core/Extensible';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
-import exports from '/Parcello/exports';
-import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
+import exports from 'Parcello/exports';
+import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 const identity = new Identity({
 	class: 'Distinct',
@@ -42,4 +42,4 @@ export default class Distinct extends Extensible {
 	}
 }
 
-exports(Distinct).as('/JSUI/Source/1.0.0/Classes/Core/Distinct');
+exports(Distinct).as('JSUI/Source/1.0.0/Classes/Core/Distinct');

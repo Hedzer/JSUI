@@ -1,9 +1,9 @@
 
 //TypeChecks
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function debounce(fn, time) {
 	if (isFunction(fn)) {
@@ -15,4 +15,4 @@ export default function debounce(fn, time) {
 	}
 }
 
-exports(debounce).as('/JSUI/Source/1.0.0/Utilities/Functions/debounce');
+exports(debounce).as('JSUI/Source/1.0.0/Utilities/Functions/debounce');

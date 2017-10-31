@@ -1,34 +1,34 @@
 
 //Classes
-import Receipt from '/JSUI/Source/1.0.0/Classes/Core/Receipt';
+import Receipt from 'JSUI/Source/1.0.0/Classes/Core/Receipt';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import normalize from '/JSUI/Source/1.0.0/Constants/Keys/BindReceipt/normalize';
-import on from '/JSUI/Source/1.0.0/Constants/Keys/BindReceipt/on';
-import remove from '/JSUI/Source/1.0.0/Constants/Keys/BindReceipt/remove';
-import removeAll from '/JSUI/Source/1.0.0/Constants/Keys/BindReceipt/removeAll';
-import to from '/JSUI/Source/1.0.0/Constants/Keys/BindReceipt/to';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import normalize from 'JSUI/Source/1.0.0/Constants/Keys/BindReceipt/normalize';
+import on from 'JSUI/Source/1.0.0/Constants/Keys/BindReceipt/on';
+import remove from 'JSUI/Source/1.0.0/Constants/Keys/BindReceipt/remove';
+import removeAll from 'JSUI/Source/1.0.0/Constants/Keys/BindReceipt/removeAll';
+import to from 'JSUI/Source/1.0.0/Constants/Keys/BindReceipt/to';
 
 //Handlers
-import getHandledType from '/JSUI/Source/1.0.0/Classes/Receipts/Bind/getHandledType';
-import relationships from '/JSUI/Source/1.0.0/Classes/Receipts/Bind/relationships';
+import getHandledType from 'JSUI/Source/1.0.0/Classes/Receipts/Bind/getHandledType';
+import relationships from 'JSUI/Source/1.0.0/Classes/Receipts/Bind/relationships';
 
 //Mixins
-import Enableable from '/JSUI/Source/1.0.0/Mixins/Enableable';
+import Enableable from 'JSUI/Source/1.0.0/Mixins/Enableable';
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isJSUIFunction from '/JSUI/Source/1.0.0/TypeChecks/isJSUIFunction';
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isRelationshipBindingReceipt from '/JSUI/Source/1.0.0/TypeChecks/isRelationshipBindingReceipt';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isJSUIFunction from 'JSUI/Source/1.0.0/TypeChecks/isJSUIFunction';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isRelationshipBindingReceipt from 'JSUI/Source/1.0.0/TypeChecks/isRelationshipBindingReceipt';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import define from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/Parcello/exports';
-import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
+import define from 'JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
+import exports from 'Parcello/exports';
+import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 export default class BindReceipt extends Receipt
 	.implements(Enableable) {
@@ -160,4 +160,4 @@ export default class BindReceipt extends Receipt
 	}
 }
 
-exports(BindReceipt).as('/JSUI/Source/1.0.0/Classes/Receipts/Bind');
+exports(BindReceipt).as('JSUI/Source/1.0.0/Classes/Receipts/Bind');

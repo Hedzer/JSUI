@@ -1,29 +1,29 @@
 
 //Classes
-import Class from '/JSUI/Source/1.0.0/Classes/Core/Class';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
+import Class from 'JSUI/Source/1.0.0/Classes/Core/Class';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
 
 //Constants
-import $domain from '/JSUI/Source/1.0.0/Constants/Keys/StyleValues/domain';
-import map from '/JSUI/Source/1.0.0/Constants/Keys/StyleValues/map';
+import $domain from 'JSUI/Source/1.0.0/Constants/Keys/StyleValues/domain';
+import map from 'JSUI/Source/1.0.0/Constants/Keys/StyleValues/map';
 
 //Mixins
-import Privatelike from '/JSUI/Source/1.0.0/Mixins/Privatelike';
-import Eventful from '/JSUI/Source/1.0.0/Mixins/Eventful';
-import Extensible from '/JSUI/Source/1.0.0/Mixins/Extensible';
-import Serializable from '/JSUI/Source/1.0.0/Mixins/Serializable';
-import Stateful from '/JSUI/Source/1.0.0/Mixins/Stateful';
+import Privatelike from 'JSUI/Source/1.0.0/Mixins/Privatelike';
+import Eventful from 'JSUI/Source/1.0.0/Mixins/Eventful';
+import Extensible from 'JSUI/Source/1.0.0/Mixins/Extensible';
+import Serializable from 'JSUI/Source/1.0.0/Mixins/Serializable';
+import Stateful from 'JSUI/Source/1.0.0/Mixins/Stateful';
 
 //Singletons
-import Variables from '/JSUI/Source/1.0.0/Singletons/Style/Variables';
+import Variables from 'JSUI/Source/1.0.0/Singletons/Style/Variables';
 
 //TypeChecks
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
-import symbolish from '/JSUI/Source/1.0.0/Utilities/Properties/symbolish';
+import exports from 'Parcello/exports';
+import symbolish from 'JSUI/Source/1.0.0/Utilities/Properties/symbolish';
 
 const identity = new Identity({
 	class: 'StyleValues',
@@ -92,4 +92,4 @@ export default class StyleValues extends Class
 	}
 }
 
-exports(StyleValues).as('/JSUI/Source/1.0.0/Classes/Style/Values');
+exports(StyleValues).as('JSUI/Source/1.0.0/Classes/Style/Values');

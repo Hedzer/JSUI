@@ -1,13 +1,13 @@
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //TypeChecks
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let Serializable = (descendant) => {
 	//check if it's stateful, otherwise throw error
@@ -43,4 +43,4 @@ let Serializable = (descendant) => {
 
 export default Serializable;
 
-exports(Serializable).as('/JSUI/Source/1.0.0/Mixins/Serializable');
+exports(Serializable).as('JSUI/Source/1.0.0/Mixins/Serializable');

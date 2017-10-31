@@ -29,7 +29,7 @@ function externalize(dependency) {
 	extension = (typeof extension === 'string' ? extension : '');
 	dependency = dependency.substring(0, dependency.length - extension.length)
 	let code = [
-		`\nimport imports from '/JSUI/Source/1.0.0/Utilities/Dependencies/imports';\n`,
+		`\nimport imports from 'JSUI/Source/1.0.0/Utilities/Dependencies/imports';\n`,
 		`\nlet imported = imports('${dependency}');\n`,
 		`\nexport default imported;\n`
 	].join('');

@@ -1,15 +1,15 @@
 
 //Classes
-import Receipt from '/JSUI/Source/1.0.0/Classes/Core/Receipt';
+import Receipt from 'JSUI/Source/1.0.0/Classes/Core/Receipt';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //TypeChecks
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default class RouteShortenReceipt extends Receipt {
 	constructor(router, url) {
@@ -45,4 +45,4 @@ export default class RouteShortenReceipt extends Receipt {
 	}
 }
 
-exports(RouteShortenReceipt).as('/JSUI/Source/1.0.0/Classes/Receipts/RouteShorten');
+exports(RouteShortenReceipt).as('JSUI/Source/1.0.0/Classes/Receipts/RouteShorten');

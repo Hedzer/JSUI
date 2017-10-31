@@ -1,21 +1,21 @@
 
 //Classes
-import RelationshipBindingReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/RelationshipBinding';
+import RelationshipBindingReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/RelationshipBinding';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import eventfulOn from '/JSUI/Source/1.0.0/Constants/Keys/Eventful/on';
-import on from '/JSUI/Source/1.0.0/Constants/Keys/General/on';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import eventfulOn from 'JSUI/Source/1.0.0/Constants/Keys/Eventful/on';
+import on from 'JSUI/Source/1.0.0/Constants/Keys/General/on';
 
 //Handlers
-import actions from '/JSUI/Source/1.0.0/Classes/Receipts/Bind/actions';
+import actions from 'JSUI/Source/1.0.0/Classes/Receipts/Bind/actions';
 
 //TypeChecks
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isStateChangeReceipt from '/JSUI/Source/1.0.0/TypeChecks/isStateChangeReceipt';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isStateChangeReceipt from 'JSUI/Source/1.0.0/TypeChecks/isStateChangeReceipt';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let none = function(v){ return v; };
 
@@ -52,4 +52,4 @@ export default function eventfulToEventful(receipt, event, bind, arrow, to) {
 	return binding;
 }
 
-exports(eventfulToEventful).as('/JSUI/Source/1.0.0/Classes/Receipts/Bind/Eventful/eventful');
+exports(eventfulToEventful).as('JSUI/Source/1.0.0/Classes/Receipts/Bind/Eventful/eventful');

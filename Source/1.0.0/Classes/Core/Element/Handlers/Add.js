@@ -1,16 +1,16 @@
 
 //Handlers
-import _array from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_array';
-import _behavior from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_behavior';
-import _dom from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_dom';
-import _function from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_function';
-import _html from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_html';
-import _element from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_element';
-import _path from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_path';
-import _string from '/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_string';
+import _array from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_array';
+import _behavior from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_behavior';
+import _dom from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_dom';
+import _function from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_function';
+import _html from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_html';
+import _element from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_element';
+import _path from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_path';
+import _string from 'JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add/_string';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let Add = {
 	array: _array,
@@ -25,4 +25,4 @@ let Add = {
 
 export default Add;
 
-exports(Add).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add');
+exports(Add).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Add');

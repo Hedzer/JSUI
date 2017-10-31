@@ -1,10 +1,10 @@
 
 //TypeChecks
-import isClass from '/JSUI/Source/1.0.0/TypeChecks/isClass';
-import isUClass from '/JSUI/Source/1.0.0/TypeChecks/isUClass';
+import isClass from 'JSUI/Source/1.0.0/TypeChecks/isClass';
+import isUClass from 'JSUI/Source/1.0.0/TypeChecks/isUClass';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function getHandledType(types, u){
 	let type = typeof u;
@@ -30,4 +30,4 @@ export default function getHandledType(types, u){
 	return type;
 };
 
-exports(getHandledType).as('/JSUI/Source/1.0.0/Utilities/TypeChecks/getHandledType');
+exports(getHandledType).as('JSUI/Source/1.0.0/Utilities/TypeChecks/getHandledType');

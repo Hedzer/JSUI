@@ -1,10 +1,10 @@
 
 //TypeChecks
-import isClass from '/JSUI/Source/1.0.0/TypeChecks/isClass';
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
+import isClass from 'JSUI/Source/1.0.0/TypeChecks/isClass';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function extend(a) {
 	if (!isObject(a)) { return a; }
@@ -27,4 +27,4 @@ export default function extend(a) {
 	};
 }
 
-exports(extend).as('/JSUI/Source/1.0.0/Utilities/Objects/extend');
+exports(extend).as('JSUI/Source/1.0.0/Utilities/Objects/extend');

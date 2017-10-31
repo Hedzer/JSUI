@@ -1,22 +1,22 @@
 //Classes
-import Distinct from '/JSUI/Source/1.0.0/Classes/Core/Distinct';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
-import StyleInline from '/JSUI/Source/1.0.0/Classes/Style/Inline';
+import Distinct from 'JSUI/Source/1.0.0/Classes/Core/Distinct';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
+import StyleInline from 'JSUI/Source/1.0.0/Classes/Style/Inline';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Mixins
-import Behaviorlike from '/JSUI/Source/1.0.0/Mixins/Behaviorlike';
+import Behaviorlike from 'JSUI/Source/1.0.0/Mixins/Behaviorlike';
 
 //Singletons
-import Sheets from '/JSUI/Source/1.0.0/Singletons/Style/Sheets';
+import Sheets from 'JSUI/Source/1.0.0/Singletons/Style/Sheets';
 
 //TypeChecks
-import isStyleSheetRule from '/JSUI/Source/1.0.0/TypeChecks/isStyleSheetRule';
+import isStyleSheetRule from 'JSUI/Source/1.0.0/TypeChecks/isStyleSheetRule';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 const identity = new Identity({
 	class: 'StyleBehavior',
@@ -77,4 +77,4 @@ export default class StyleBehavior extends Behaviorlike(Distinct) {
 	}
 }
 
-exports(StyleBehavior).as('/JSUI/Source/1.0.0/Classes/Behavior/Style');
+exports(StyleBehavior).as('JSUI/Source/1.0.0/Classes/Behavior/Style');

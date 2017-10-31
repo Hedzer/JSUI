@@ -1,27 +1,27 @@
 
 //Classes
-import Distinct from '/JSUI/Source/1.0.0/Classes/Core/Distinct';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
-import StateChangeReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/StateChange';
+import Distinct from 'JSUI/Source/1.0.0/Classes/Core/Distinct';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
+import StateChangeReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/StateChange';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import equivalents from '/JSUI/Source/1.0.0/Constants/CSS/equivalents';
-import vendors from '/JSUI/Source/1.0.0/Constants/CSS/vendors';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import equivalents from 'JSUI/Source/1.0.0/Constants/CSS/equivalents';
+import vendors from 'JSUI/Source/1.0.0/Constants/CSS/vendors';
 
 //Singletons
-import Variables from '/JSUI/Source/1.0.0/Singletons/Style/Variables';
+import Variables from 'JSUI/Source/1.0.0/Singletons/Style/Variables';
 
 //TypeChecks
-import isNull from '/JSUI/Source/1.0.0/TypeChecks/isNull';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isNull from 'JSUI/Source/1.0.0/TypeChecks/isNull';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/Parcello/exports';
-import getFunctionVariables from '/JSUI/Source/1.0.0/Utilities/Templating/getFunctionVariables';
-import getVariables from '/JSUI/Source/1.0.0/Utilities/Templating/getVariables';
-import symbolish from '/JSUI/Source/1.0.0/Utilities/Properties/symbolish';
+import exports from 'Parcello/exports';
+import getFunctionVariables from 'JSUI/Source/1.0.0/Utilities/Templating/getFunctionVariables';
+import getVariables from 'JSUI/Source/1.0.0/Utilities/Templating/getVariables';
+import symbolish from 'JSUI/Source/1.0.0/Utilities/Properties/symbolish';
 
 const identity = new Identity({
 	class: 'StyleRules',
@@ -84,4 +84,4 @@ Object.keys(equivalents).forEach((key) => {
 
 export default StyleRules;
 
-exports(StyleRules).as('/JSUI/Source/1.0.0/Classes/Styles/Rules');
+exports(StyleRules).as('JSUI/Source/1.0.0/Classes/Styles/Rules');

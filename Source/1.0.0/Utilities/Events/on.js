@@ -1,18 +1,18 @@
 
 //Classes
-import JSUIFunction from '/JSUI/Source/1.0.0/Classes/Core/Function';
-import OnEventBoundReceipt from '/JSUI/Source/1.0.0/Classes/Receipts/OnEventBound';
+import JSUIFunction from 'JSUI/Source/1.0.0/Classes/Core/Function';
+import OnEventBoundReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/OnEventBound';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //TypeChecks
-import isDOM from '/JSUI/Source/1.0.0/TypeChecks/isDOM';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isDOM from 'JSUI/Source/1.0.0/TypeChecks/isDOM';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import dispatch from '/JSUI/Source/1.0.0/Utilities/Events/dispatch';
-import exports from '/Parcello/exports';
+import dispatch from 'JSUI/Source/1.0.0/Utilities/Events/dispatch';
+import exports from 'Parcello/exports';
 
 export default function on(name, method) {
 	if (!isFunction(method)) { return; }
@@ -36,4 +36,4 @@ export default function on(name, method) {
 	return receipt;
 }
 
-exports(on).as('/JSUI/Source/1.0.0/Utilities/Events/on');
+exports(on).as('JSUI/Source/1.0.0/Utilities/Events/on');

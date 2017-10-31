@@ -1,9 +1,9 @@
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _undefined() {
 	if (this[$private].text) {
@@ -11,4 +11,4 @@ export default function _undefined() {
 	}
 }
 
-exports(_undefined).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text/_undefined');
+exports(_undefined).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Text/_undefined');

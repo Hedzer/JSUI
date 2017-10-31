@@ -1,9 +1,9 @@
 
 //TypeChecks
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function doOrSet(obj, prop, value) {
 	if (obj.hasOwnProperty(prop)) {
@@ -17,4 +17,4 @@ export default function doOrSet(obj, prop, value) {
 	return false;
 }
 
-exports(doOrSet).as('/JSUI/Source/1.0.0/Utilities/Properties/doOrSet');
+exports(doOrSet).as('JSUI/Source/1.0.0/Utilities/Properties/doOrSet');

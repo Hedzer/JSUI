@@ -1,18 +1,18 @@
 
 //Classes
-import Receipt from '/JSUI/Source/1.0.0/Classes/Core/Receipt';
+import Receipt from 'JSUI/Source/1.0.0/Classes/Core/Receipt';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Mixins
-import Enableable from '/JSUI/Source/1.0.0/Mixins/Enableable';
+import Enableable from 'JSUI/Source/1.0.0/Mixins/Enableable';
 
 //Utilities
-import exports from '/Parcello/exports';
-import remove from '/JSUI/Source/1.0.0/Utilities/Events/remove';
-import removeAll from '/JSUI/Source/1.0.0/Utilities/Events/removeAll';
-import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
+import exports from 'Parcello/exports';
+import remove from 'JSUI/Source/1.0.0/Utilities/Events/remove';
+import removeAll from 'JSUI/Source/1.0.0/Utilities/Events/removeAll';
+import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 export default class OnEventBoundReceipt extends Receipt
 	.implements(Enableable) {
@@ -74,4 +74,4 @@ export default class OnEventBoundReceipt extends Receipt
 	}
 }
 
-exports(OnEventBoundReceipt).as('/JSUI/Source/1.0.0/Classes/Receipts/OnEventBound');
+exports(OnEventBoundReceipt).as('JSUI/Source/1.0.0/Classes/Receipts/OnEventBound');

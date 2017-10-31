@@ -1,9 +1,9 @@
 
 //Constants
-import dontEnums from '/JSUI/Source/1.0.0/Constants/JS/Object/properties';
+import dontEnums from 'JSUI/Source/1.0.0/Constants/JS/Object/properties';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 let hasObjectValues = !!Object.values;
@@ -44,4 +44,4 @@ if (!hasObjectValues) {
 
 export default !hasObjectValues;
 
-exports(!hasObjectValues).as('/JSUI/Source/1.0.0/Polyfills/Object/values');
+exports(!hasObjectValues).as('JSUI/Source/1.0.0/Polyfills/Object/values');

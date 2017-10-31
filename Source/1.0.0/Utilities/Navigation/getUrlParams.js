@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function getUrlParams(url) {
 	let result = {};
@@ -36,4 +36,4 @@ export default function getUrlParams(url) {
 	return result;
 }
 
-exports(getUrlParams).as('/JSUI/Source/1.0.0/Utilities/Navigation/getUrlParams');
+exports(getUrlParams).as('JSUI/Source/1.0.0/Utilities/Navigation/getUrlParams');

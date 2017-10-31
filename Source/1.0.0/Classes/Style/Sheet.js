@@ -1,25 +1,25 @@
 
 //Classes
-import Distinct from '/JSUI/Source/1.0.0/Classes/Core/Distinct';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
+import Distinct from 'JSUI/Source/1.0.0/Classes/Core/Distinct';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
 
 //Singletons
-import Sheets from '/JSUI/Source/1.0.0/Singletons/Style/Sheets';
+import Sheets from 'JSUI/Source/1.0.0/Singletons/Style/Sheets';
 
 //Sorts
-import sort from '/JSUI/Source/1.0.0/Sorts/StyleSheet/rules';
+import sort from 'JSUI/Source/1.0.0/Sorts/StyleSheet/rules';
 
 //TypeChecks
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
-import isStyleSheetRule from '/JSUI/Source/1.0.0/TypeChecks/isStyleSheetRule';
-import isUStyleSheetRule from '/JSUI/Source/1.0.0/TypeChecks/isUStyleSheetRule';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
+import isStyleSheetRule from 'JSUI/Source/1.0.0/TypeChecks/isStyleSheetRule';
+import isUStyleSheetRule from 'JSUI/Source/1.0.0/TypeChecks/isUStyleSheetRule';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 
 const identity = new Identity({
@@ -150,4 +150,4 @@ export default class StyleSheet extends Distinct {
 	}
 }
 
-exports(StyleSheet).as('/JSUI/Source/1.0.0/Classes/Style/Sheet');
+exports(StyleSheet).as('JSUI/Source/1.0.0/Classes/Style/Sheet');

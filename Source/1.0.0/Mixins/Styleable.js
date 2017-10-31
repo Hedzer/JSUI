@@ -1,23 +1,23 @@
 
 //Classes
-import Distinct from '/JSUI/Source/1.0.0/Classes/Core/Distinct';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
-import StyleBehavior from '/JSUI/Source/1.0.0/Classes/Behaviors/Style';;
+import Distinct from 'JSUI/Source/1.0.0/Classes/Core/Distinct';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
+import StyleBehavior from 'JSUI/Source/1.0.0/Classes/Behaviors/Style';;
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import isClass from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Styleable/isStatic';
-import isInstance from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Styleable/isInstance';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import isClass from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Styleable/isStatic';
+import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Styleable/isInstance';
 
 //Singletons
-import Sheets from '/JSUI/Source/1.0.0/Singletons/Style/Sheets';
+import Sheets from 'JSUI/Source/1.0.0/Singletons/Style/Sheets';
  
  //TypeChecks
-import isIdentifiable from '/JSUI/Source/1.0.0/TypeChecks/isIdentifiable';
-import isStyleSheetRule from '/JSUI/Source/1.0.0/TypeChecks/isStyleSheetRule';
+import isIdentifiable from 'JSUI/Source/1.0.0/TypeChecks/isIdentifiable';
+import isStyleSheetRule from 'JSUI/Source/1.0.0/TypeChecks/isStyleSheetRule';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 const identity = new Identity({
 	class: 'Styleable',
@@ -85,4 +85,4 @@ let Styleable = (descendant) => {
 
 export default Styleable;
 
-exports(Styleable).as('/JSUI/Source/1.0.0/Mixins/Styleable');
+exports(Styleable).as('JSUI/Source/1.0.0/Mixins/Styleable');

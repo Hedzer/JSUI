@@ -1,7 +1,7 @@
 
 //Utilities
-import exports from '/Parcello/exports';
-import uid from '/JSUI/Source/1.0.0/Utilities/General/uid';
+import exports from 'Parcello/exports';
+import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 let hasSymbol = (typeof Symbol == 'function');
 export default function symbolish(name) {
@@ -9,4 +9,4 @@ export default function symbolish(name) {
 	return (hasSymbol ? Symbol(name) : `Symbol(${name})@${id}`);
 }
 
-exports(symbolish).as('/JSUI/Source/1.0.0/Utilities/Properties/symbolish');
+exports(symbolish).as('JSUI/Source/1.0.0/Utilities/Properties/symbolish');

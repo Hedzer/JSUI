@@ -1,8 +1,8 @@
 //TypeChecks
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function isPath(u) {
 
@@ -14,4 +14,4 @@ export default function isPath(u) {
 	return (u.charAt(0) === '@' && u.charAt(1) === '{' && u.charAt(count - 1) === '}');
 }
 
-exports(isPath).as('/JSUI/Source/1.0.0/TypeChecks/isPath');
+exports(isPath).as('JSUI/Source/1.0.0/TypeChecks/isPath');

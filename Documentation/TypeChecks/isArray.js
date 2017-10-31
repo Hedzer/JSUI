@@ -13,7 +13,7 @@ var isArray = {
 			}
 		}
 	},
-	file: '/JSUI/Source/TypeChecks/isArray',
+	file: 'JSUI/Source/TypeChecks/isArray',
 	test: '/Tests/TypeChecks/isArray',
 	examples: [
 		{

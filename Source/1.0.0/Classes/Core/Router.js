@@ -1,32 +1,32 @@
 
 //Classes
-import Class from '/JSUI/Source/1.0.0/Classes/Core/Class';
-import RouteShorten from '/JSUI/Source/1.0.0/Classes/Receipts/RouteShorten';
+import Class from 'JSUI/Source/1.0.0/Classes/Core/Class';
+import RouteShorten from 'JSUI/Source/1.0.0/Classes/Receipts/RouteShorten';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import destructor from '/JSUI/Source/1.0.0/Constants/Keys/General/destructor';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import destructor from 'JSUI/Source/1.0.0/Constants/Keys/General/destructor';
 
 //Handlers
-import getIdentifiedType from '/JSUI/Source/1.0.0/Classes/Core/Router/getIdentifiedType';
+import getIdentifiedType from 'JSUI/Source/1.0.0/Classes/Core/Router/getIdentifiedType';
 
 //Mixins
-import Enableable from '/JSUI/Source/1.0.0/Mixins/Enableable';
-import Privatelike from '/JSUI/Source/1.0.0/Mixins/Privatelike';
+import Enableable from 'JSUI/Source/1.0.0/Mixins/Enableable';
+import Privatelike from 'JSUI/Source/1.0.0/Mixins/Privatelike';
 
 //TypeChecks
-import isExecutable from '/JSUI/Source/1.0.0/TypeChecks/isExecutable';
-import isFunction from '/JSUI/Source/1.0.0/TypeChecks/isFunction';
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isRoutable from '/JSUI/Source/1.0.0/TypeChecks/isRoutable';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
-import isUndefined from '/JSUI/Source/1.0.0/TypeChecks/isUndefined';
-import isURoutable from '/JSUI/Source/1.0.0/TypeChecks/isURoutable';
+import isExecutable from 'JSUI/Source/1.0.0/TypeChecks/isExecutable';
+import isFunction from 'JSUI/Source/1.0.0/TypeChecks/isFunction';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isRoutable from 'JSUI/Source/1.0.0/TypeChecks/isRoutable';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
+import isUndefined from 'JSUI/Source/1.0.0/TypeChecks/isUndefined';
+import isURoutable from 'JSUI/Source/1.0.0/TypeChecks/isURoutable';
 
 //Utilities
-import capitalize from '/JSUI/Source/1.0.0/Utilities/Strings/capitalize';
-import exports from '/Parcello/exports';
-import getHashParts from '/JSUI/Source/1.0.0/Utilities/Navigation/getHashParts';
+import capitalize from 'JSUI/Source/1.0.0/Utilities/Strings/capitalize';
+import exports from 'Parcello/exports';
+import getHashParts from 'JSUI/Source/1.0.0/Utilities/Navigation/getHashParts';
 
 export default class Router extends Class
 	.implements(
@@ -251,5 +251,5 @@ export default class Router extends Class
 	}
 }
 
-exports(Router).as('/JSUI/Source/1.0.0/Classes/Core/Router');
+exports(Router).as('JSUI/Source/1.0.0/Classes/Core/Router');
 

@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 // Polyfill from https://github.com/JamesMGreene/Function.name
 (function() {
@@ -123,4 +123,4 @@ import exports from '/Parcello/exports';
 let hasName = ("name" in Function.prototype && "name" in (function x() {}));
 export default !hasName;
 
-exports(!hasName).as('/JSUI/Source/1.0.0/Polyfills/Function/name');
+exports(!hasName).as('JSUI/Source/1.0.0/Polyfills/Function/name');

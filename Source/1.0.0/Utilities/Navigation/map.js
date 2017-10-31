@@ -1,25 +1,25 @@
 
 //DataTypes
-import NavigationItem from '/JSUI/Source/1.0.0/DataTypes/NavigationItem';
+import NavigationItem from 'JSUI/Source/1.0.0/DataTypes/NavigationItem';
 
 //Handlers
-import getIdentifiedType from '/JSUI/Source/1.0.0/Classes/Core/Router/getIdentifiedType';
+import getIdentifiedType from 'JSUI/Source/1.0.0/Classes/Core/Router/getIdentifiedType';
 
 //Singletons
-import Router from '/JSUI/Source/1.0.0/Singletons/Navigation/Router';
+import Router from 'JSUI/Source/1.0.0/Singletons/Navigation/Router';
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isData from '/JSUI/Source/1.0.0/TypeChecks/isData';
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isRoutable from '/JSUI/Source/1.0.0/TypeChecks/isRoutable';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
-import isUEndpoint from '/JSUI/Source/1.0.0/TypeChecks/isUEndpoint';
-import isURoutable from '/JSUI/Source/1.0.0/TypeChecks/isURoutable';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isData from 'JSUI/Source/1.0.0/TypeChecks/isData';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isRoutable from 'JSUI/Source/1.0.0/TypeChecks/isRoutable';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
+import isUEndpoint from 'JSUI/Source/1.0.0/TypeChecks/isUEndpoint';
+import isURoutable from 'JSUI/Source/1.0.0/TypeChecks/isURoutable';
 
 //Utilities
-import exports from '/Parcello/exports';
-import extend from '/JSUI/Source/1.0.0/Utilities/Objects/extend';
+import exports from 'Parcello/exports';
+import extend from 'JSUI/Source/1.0.0/Utilities/Objects/extend';
 
 export default function map(routable, prefix = '', items, history = {}) {
 	if ((!isRoutable(routable) && !isURoutable(routable))) { return false; }
@@ -66,4 +66,4 @@ export default function map(routable, prefix = '', items, history = {}) {
 	return items;
 }
 
-exports(map).as('/JSUI/Source/1.0.0/Utilities/Navigation/map');
+exports(map).as('JSUI/Source/1.0.0/Utilities/Navigation/map');

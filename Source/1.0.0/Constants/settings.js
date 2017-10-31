@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let settings = {
 	namespace: 'JSUI',
@@ -15,4 +15,4 @@ let settings = {
 
 export default settings;
 
-exports(settings).as('/JSUI/Source/1.0.0/Constants/settings');
+exports(settings).as('JSUI/Source/1.0.0/Constants/settings');

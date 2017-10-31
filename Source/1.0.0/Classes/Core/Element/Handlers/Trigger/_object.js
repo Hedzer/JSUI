@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _object(assignments) {
 	Object.keys(assignments).forEach((name) => {
@@ -9,4 +9,4 @@ export default function _object(assignments) {
 	});
 }
 
-exports(_object).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Trigger/_object');
+exports(_object).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Trigger/_object');

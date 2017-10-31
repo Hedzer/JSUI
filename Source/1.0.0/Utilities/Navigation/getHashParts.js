@@ -1,7 +1,7 @@
 
 //Utilities
-import exports from '/Parcello/exports';
-import getUrlParams from '/JSUI/Source/1.0.0/Utilities/Navigation/getUrlParams';
+import exports from 'Parcello/exports';
+import getUrlParams from 'JSUI/Source/1.0.0/Utilities/Navigation/getUrlParams';
 
 export default function getHashParts(url) {
 	let hash = (url || window.location.hash);
@@ -20,4 +20,4 @@ export default function getHashParts(url) {
 	return result;
 }
 
-exports(getHashParts).as('/JSUI/Source/1.0.0/Utilities/Navigation/getHashParts');
+exports(getHashParts).as('JSUI/Source/1.0.0/Utilities/Navigation/getHashParts');

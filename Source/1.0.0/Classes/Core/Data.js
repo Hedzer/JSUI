@@ -1,26 +1,26 @@
 
 //Classes
-import Class from '/JSUI/Source/1.0.0/Classes/Core/Class';
+import Class from 'JSUI/Source/1.0.0/Classes/Core/Class';
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import state from '/JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import state from 'JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
 
 //Mixins
-import Privatelike from '/JSUI/Source/1.0.0/Mixins/Privatelike';
-import Eventful from '/JSUI/Source/1.0.0/Mixins/Eventful';
-import Extensible from '/JSUI/Source/1.0.0/Mixins/Extensible';
-import Serializable from '/JSUI/Source/1.0.0/Mixins/Serializable';
-import Stateful from '/JSUI/Source/1.0.0/Mixins/Stateful';
+import Privatelike from 'JSUI/Source/1.0.0/Mixins/Privatelike';
+import Eventful from 'JSUI/Source/1.0.0/Mixins/Eventful';
+import Extensible from 'JSUI/Source/1.0.0/Mixins/Extensible';
+import Serializable from 'JSUI/Source/1.0.0/Mixins/Serializable';
+import Stateful from 'JSUI/Source/1.0.0/Mixins/Stateful';
 
 //TypeChecks
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
-import isUndefined from '/JSUI/Source/1.0.0/TypeChecks/isUndefined';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
+import isUndefined from 'JSUI/Source/1.0.0/TypeChecks/isUndefined';
 
 //Utilities
-import exports from '/Parcello/exports';
-import extend from '/JSUI/Source/1.0.0/Utilities/Objects/extend';
+import exports from 'Parcello/exports';
+import extend from 'JSUI/Source/1.0.0/Utilities/Objects/extend';
 
 class Data extends Class
 	.implements(
@@ -49,4 +49,4 @@ class Data extends Class
 
 export default Data;
 
-exports(Data).as('/JSUI/Source/1.0.0/Classes/Core/Data');
+exports(Data).as('JSUI/Source/1.0.0/Classes/Core/Data');

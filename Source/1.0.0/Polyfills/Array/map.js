@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 // Production steps of ECMA-262, Edition 5, 15.4.4.19
 // Reference: http://es5.github.io/#x15.4.4.19
@@ -95,4 +95,4 @@ if (!hasMap) {
 
 export default !hasMap;
 
-exports(!hasMap).as('/JSUI/Source/1.0.0/Polyfills/Array/map');
+exports(!hasMap).as('JSUI/Source/1.0.0/Polyfills/Array/map');

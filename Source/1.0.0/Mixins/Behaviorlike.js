@@ -1,15 +1,15 @@
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import isClass from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Behaviorlike/isStatic';
-import isInstance from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Behaviorlike/isInstance';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import isClass from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Behaviorlike/isStatic';
+import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Behaviorlike/isInstance';
 
 //TypeChecks
-import isElement from '/JSUI/Source/1.0.0/TypeChecks/isElement';
+import isElement from 'JSUI/Source/1.0.0/TypeChecks/isElement';
 
 //Utilities
-import define from '/JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
-import exports from '/Parcello/exports';
+import define from 'JSUI/Source/1.0.0/Utilities/Properties/addHiddenValue';
+import exports from 'Parcello/exports';
 
 let Behaviorlike = (descendant) => class BehaviorlikeMixin extends descendant {
 	constructor(host) {
@@ -83,4 +83,4 @@ let Behaviorlike = (descendant) => class BehaviorlikeMixin extends descendant {
 
 export default Behaviorlike;
 
-exports(Behaviorlike).as('/JSUI/Source/1.0.0/Mixins/Behaviorlike');
+exports(Behaviorlike).as('JSUI/Source/1.0.0/Mixins/Behaviorlike');

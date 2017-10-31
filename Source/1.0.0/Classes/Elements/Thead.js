@@ -1,10 +1,10 @@
 
 //Classes
-import Element from '/JSUI/Source/1.0.0/Classes/Core/Element';
-import Identity from '/JSUI/Source/1.0.0/Classes/Core/Identity';
+import Element from 'JSUI/Source/1.0.0/Classes/Core/Element';
+import Identity from 'JSUI/Source/1.0.0/Classes/Core/Identity';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 const identity = new Identity({
 	class: 'Thead',
@@ -18,4 +18,4 @@ export default class Thead extends Element {
 	}
 }
 
-exports(Thead).as('/JSUI/Source/1.0.0/Classes/Elements/Thead');
+exports(Thead).as('JSUI/Source/1.0.0/Classes/Elements/Thead');

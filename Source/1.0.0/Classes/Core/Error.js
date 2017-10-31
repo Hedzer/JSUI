@@ -1,6 +1,6 @@
 //Utilities
-import exports from '/Parcello/exports';
-import native from '/JSUI/Source/1.0.0/Utilities/Classes/native';
+import exports from 'Parcello/exports';
+import native from 'JSUI/Source/1.0.0/Utilities/Classes/native';
 
 export default class JSUIError extends native(Error) {
 	constructor(title, message, severity) {
@@ -15,4 +15,4 @@ export default class JSUIError extends native(Error) {
 	}
 }
 
-exports(JSUIError).as('/JSUI/Source/1.0.0/Classes/Core/JSUIError');
+exports(JSUIError).as('JSUI/Source/1.0.0/Classes/Core/JSUIError');

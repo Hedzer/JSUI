@@ -1,13 +1,13 @@
 
 //Handlers
-import types from '/JSUI/Source/1.0.0/Classes/Core/Router/types';
+import types from 'JSUI/Source/1.0.0/Classes/Core/Router/types';
 
 //Constants
-import atomics from '/JSUI/Source/1.0.0/Constants/JS/types';
+import atomics from 'JSUI/Source/1.0.0/Constants/JS/types';
 
 //Utilities
-import exports from '/Parcello/exports';
-import getHandledType from '/JSUI/Source/1.0.0/Utilities/TypeChecks/getHandledType';
+import exports from 'Parcello/exports';
+import getHandledType from 'JSUI/Source/1.0.0/Utilities/TypeChecks/getHandledType';
 
 function getIdentifiedType(u) {
 	let type = getHandledType(types, u);
@@ -21,4 +21,4 @@ function getIdentifiedType(u) {
 
 export default getIdentifiedType;
 
-exports(getIdentifiedType).as('/JSUI/Source/1.0.0/Classes/Core/Router/getIdentifiedType');
+exports(getIdentifiedType).as('JSUI/Source/1.0.0/Classes/Core/Router/getIdentifiedType');

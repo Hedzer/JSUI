@@ -1,17 +1,17 @@
 
 //Classes
-import Class from '/JSUI/Source/1.0.0/Classes/Core/Class';
+import Class from 'JSUI/Source/1.0.0/Classes/Core/Class';
 
 //Constants
-import state from '/JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
+import state from 'JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
 
 //Mixins
-import Privatelike from '/JSUI/Source/1.0.0/Mixins/Privatelike';
-import Serializable from '/JSUI/Source/1.0.0/Mixins/Serializable';
-import StatefulMixin from '/JSUI/Source/1.0.0/Mixins/Stateful';
+import Privatelike from 'JSUI/Source/1.0.0/Mixins/Privatelike';
+import Serializable from 'JSUI/Source/1.0.0/Mixins/Serializable';
+import StatefulMixin from 'JSUI/Source/1.0.0/Mixins/Stateful';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default class Stateful extends Class
 	.implements(
@@ -26,4 +26,4 @@ export default class Stateful extends Class
 	}
 }
 
-exports(Stateful).as('/JSUI/Source/1.0.0/Classes/Core/Stateful');
+exports(Stateful).as('JSUI/Source/1.0.0/Classes/Core/Stateful');

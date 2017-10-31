@@ -1,11 +1,11 @@
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isString from '/JSUI/Source/1.0.0/TypeChecks/isString';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isString from 'JSUI/Source/1.0.0/TypeChecks/isString';
 
 //Utilities
-import exports from '/Parcello/exports';
-import getter from '/JSUI/Source/1.0.0/Utilities/Paths/getter';
+import exports from 'Parcello/exports';
+import getter from 'JSUI/Source/1.0.0/Utilities/Paths/getter';
 
 export default function get(obj, path) {
 	if (isString(path)) {
@@ -16,4 +16,4 @@ export default function get(obj, path) {
 	}
 }
 
-exports(get).as('/JSUI/Source/1.0.0/Utilities/Paths/get');
+exports(get).as('JSUI/Source/1.0.0/Utilities/Paths/get');

@@ -1,6 +1,6 @@
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default function _string(name, args){
 	if (!this.element){ return false; }
@@ -9,4 +9,4 @@ export default function _string(name, args){
 	return true;
 }
 
-exports(_string).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Trigger/_string');
+exports(_string).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/Trigger/_string');

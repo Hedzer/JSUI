@@ -1,22 +1,22 @@
 
 //Constants
-import $private from '/JSUI/Source/1.0.0/Constants/Keys/General/private';
-import isClass from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Routable/isStatic';
-import isInstance from '/JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Routable/isInstance';
-import state from '/JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
+import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import isClass from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Routable/isStatic';
+import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Routable/isInstance';
+import state from 'JSUI/Source/1.0.0/Constants/Keys/Stateful/state';
 
 //Singletons
-import Router from '/JSUI/Source/1.0.0/Singletons/Navigation/Router';
+import Router from 'JSUI/Source/1.0.0/Singletons/Navigation/Router';
 
 //TypeChecks
-import isArray from '/JSUI/Source/1.0.0/TypeChecks/isArray';
-import isExecutable from '/JSUI/Source/1.0.0/TypeChecks/isExecutable';
-import isObject from '/JSUI/Source/1.0.0/TypeChecks/isObject';
-import isRoutable from '/JSUI/Source/1.0.0/TypeChecks/isRoutable';
-import isURoutable from '/JSUI/Source/1.0.0/TypeChecks/isURoutable';
+import isArray from 'JSUI/Source/1.0.0/TypeChecks/isArray';
+import isExecutable from 'JSUI/Source/1.0.0/TypeChecks/isExecutable';
+import isObject from 'JSUI/Source/1.0.0/TypeChecks/isObject';
+import isRoutable from 'JSUI/Source/1.0.0/TypeChecks/isRoutable';
+import isURoutable from 'JSUI/Source/1.0.0/TypeChecks/isURoutable';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 let Routable = ((descendant) => {
 	return class RoutableMixin extends descendant {
@@ -114,4 +114,4 @@ let Routable = ((descendant) => {
 
 export default Routable;
 
-exports(Routable).as('/JSUI/Source/1.0.0/Mixins/Routable');
+exports(Routable).as('JSUI/Source/1.0.0/Mixins/Routable');

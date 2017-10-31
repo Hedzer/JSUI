@@ -1,12 +1,12 @@
 
 //Classes
-import JSUIFunction from '/JSUI/Source/1.0.0/Classes/Core/Function';
+import JSUIFunction from 'JSUI/Source/1.0.0/Classes/Core/Function';
 
 //Mixins
-import Routable from '/JSUI/Source/1.0.0/Mixins/Routable';
+import Routable from 'JSUI/Source/1.0.0/Mixins/Routable';
 
 //Utilities
-import exports from '/Parcello/exports';
+import exports from 'Parcello/exports';
 
 export default class Endpoint extends JSUIFunction
 	.implements(Routable) {
@@ -24,4 +24,4 @@ export default class Endpoint extends JSUIFunction
 	}
 }
 
-exports(JSUIFunction).as('/JSUI/Source/1.0.0/Classes/Core/JSUIFunction');
+exports(JSUIFunction).as('JSUI/Source/1.0.0/Classes/Core/JSUIFunction');

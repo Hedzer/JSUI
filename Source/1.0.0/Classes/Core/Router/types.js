@@ -1,22 +1,22 @@
 
 //Utilities
-import exports from '/Parcello/exports';
-import imports from '/Parcello/imports';
+import exports from 'Parcello/exports';
+import imports from 'Parcello/imports';
 
 let types = {
 	object: {
-		application: '/JSUI/Source/1.0.0/TypeChecks/isApplication',
-		endpoint: '/JSUI/Source/1.0.0/TypeChecks/isEndpoint',
-		feature: '/JSUI/Source/1.0.0/TypeChecks/isFeature',
-		page: '/JSUI/Source/1.0.0/TypeChecks/isPage',
-		role: '/JSUI/Source/1.0.0/TypeChecks/isRole',
+		application: 'JSUI/Source/1.0.0/TypeChecks/isApplication',
+		endpoint: 'JSUI/Source/1.0.0/TypeChecks/isEndpoint',
+		feature: 'JSUI/Source/1.0.0/TypeChecks/isFeature',
+		page: 'JSUI/Source/1.0.0/TypeChecks/isPage',
+		role: 'JSUI/Source/1.0.0/TypeChecks/isRole',
 	},
 	function: {
-		Application: '/JSUI/Source/1.0.0/TypeChecks/isUApplication',
-		Endpoint: '/JSUI/Source/1.0.0/TypeChecks/isUEndpoint',
-		Feature: '/JSUI/Source/1.0.0/TypeChecks/isUFeature',
-		Page: '/JSUI/Source/1.0.0/TypeChecks/isUPage',
-		Role: '/JSUI/Source/1.0.0/TypeChecks/isURole',
+		Application: 'JSUI/Source/1.0.0/TypeChecks/isUApplication',
+		Endpoint: 'JSUI/Source/1.0.0/TypeChecks/isUEndpoint',
+		Feature: 'JSUI/Source/1.0.0/TypeChecks/isUFeature',
+		Page: 'JSUI/Source/1.0.0/TypeChecks/isUPage',
+		Role: 'JSUI/Source/1.0.0/TypeChecks/isURole',
 	}
 };
 
@@ -41,4 +41,4 @@ Object.values(types).forEach((type) => {
 
 export default types;
 
-exports(types).as('/JSUI/Source/1.0.0/Classes/Core/Router/types');
+exports(types).as('JSUI/Source/1.0.0/Classes/Core/Router/types');

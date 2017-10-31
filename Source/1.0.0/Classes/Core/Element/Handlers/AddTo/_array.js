@@ -1,9 +1,9 @@
  
  //Classes
- import Collection from '/JSUI/Source/1.0.0/Classes/Core/Collection';
+ import Collection from 'JSUI/Source/1.0.0/Classes/Core/Collection';
 
  //Utilities
- import exports from '/Parcello/exports';
+ import exports from 'Parcello/exports';
 
  export default function _array(collection){
 	let results = new Collection();
@@ -15,4 +15,4 @@
 	return results;
 }
 
-exports(_array).as('/JSUI/Source/1.0.0/Classes/Core/Element/Handlers/AddTo/_array');
+exports(_array).as('JSUI/Source/1.0.0/Classes/Core/Element/Handlers/AddTo/_array');
