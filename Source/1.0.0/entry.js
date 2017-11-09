@@ -1,3 +1,5 @@
+
+//entries
 import Mixins from 'JSUI/Source/1.0.0/Entry/Mixins';
 import TypeChecks from 'JSUI/Source/1.0.0/Entry/TypeChecks';
 import Classes from 'JSUI/Source/1.0.0/Entry/Classes';
@@ -9,6 +11,9 @@ import Reflection from 'JSUI/Source/1.0.0/Entry/Reflection';
 import Elements from 'JSUI/Source/1.0.0/Classes/Elements';
 import Settings from 'JSUI/Source/1.0.0/Constants/settings';
 import Router from 'JSUI/Source/1.0.0/Singletons/Navigation/Router';
+
+//Utilities
+import exports from 'Parcello/exports';
 
 let API = {
 	Settings: Settings,
@@ -36,3 +41,5 @@ let API = {
 };
 
 export default API;
+
+exports(API).as('JSUI');
