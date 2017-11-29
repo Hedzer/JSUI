@@ -48,14 +48,14 @@ let Extensible = (descendant) => {
 
 			if (isArray(item)) {
 				item.forEach((key) => {
-					(this.add || this[add])(key, value);
+					(this.add || this[add]).call(this, key, value);
 				});
 				return;
 			}
 
 			if (isObject(item)) {
 				Object.keys(item).forEach((key) => {
-					(this.add || this[add])(key, item[key]);
+					(this.add || this[add]).call(this, key, item[key]);
 				});
 				return;
 			}
