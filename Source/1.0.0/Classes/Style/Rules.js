@@ -84,4 +84,4 @@ Object.keys(equivalents).forEach((key) => {
 
 export default StyleRules;
 
-exports(StyleRules).as('JSUI/Source/1.0.0/Classes/Styles/Rules');
+exports(StyleRules).as('JSUI/Source/1.0.0/Classes/Style/Rules');
