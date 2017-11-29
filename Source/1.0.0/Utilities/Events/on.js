@@ -1,7 +1,7 @@
 
 //Classes
-//import JSUIFunction from 'JSUI/Source/1.0.0/Classes/Core/Function';
-import OnEventBoundReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/OnEventBound';
+let JSUIFunction; //import JSUIFunction from 'JSUI/Source/1.0.0/Classes/Core/Function';
+let OnEventBoundReceipt; //import OnEventBoundReceipt from 'JSUI/Source/1.0.0/Classes/Receipts/OnEventBound';
 
 //Constants
 import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
@@ -18,7 +18,8 @@ import imports from 'Parcello/imports';
 export default function on(name, method) {
 
 	// lazy import, due to circular issues
-	const JSUIFunction = imports('JSUI/Source/1.0.0/Classes/Core/Function');
+	JSUIFunction = JSUIFunction || imports('JSUI/Source/1.0.0/Classes/Core/Function');
+	OnEventBoundReceipt = OnEventBoundReceipt || imports('JSUI/Source/1.0.0/Classes/Receipts/OnEventBound');
 
 	if (!isFunction(method)) { return; }
 	method = new JSUIFunction(method);
