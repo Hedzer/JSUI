@@ -1,12 +1,12 @@
 
-//Classes
-import JSUIFunction from 'JSUI/Source/1.0.0/Classes/Core/Function';
+//Constants
+import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/JSUIFunction/isInstance';
 
 //Utilities
 import exports from 'Parcello/exports';
 
 export default function isJSUIFunction(u) {
-	return (u instanceof JSUIFunction);
+	return !!u[isInstance];
 }
 
 exports(isJSUIFunction).as('JSUI/Source/1.0.0/TypeChecks/isJSUIFunction');

@@ -4,6 +4,8 @@ import Class from 'JSUI/Source/1.0.0/Classes/Core/Class';
 
 //Constants
 import $private from 'JSUI/Source/1.0.0/Constants/Keys/General/private';
+import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/JSUIFunction/isInstance';
+import isStatic from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/JSUIFunction/isStatic';
 import uid from 'JSUI/Source/1.0.0/Utilities/General/uid';
 
 //Mixins
@@ -128,6 +130,12 @@ export default class JSUIFunction extends Class
 	}
 	set uid(id) {
 		this[$private].uid = id;
+	}
+	get [isInstance]() {
+		return true;
+	}
+	static get [isStatic]() {
+		return true;
 	}
 }
 
