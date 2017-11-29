@@ -6,6 +6,7 @@ import isStatic from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Eventful/isSta
 import exports from 'Parcello/exports';
 
 export default function isUEventful(u) {
+	if (!u) { return false; }
 	return !!u[isStatic];
 }
 

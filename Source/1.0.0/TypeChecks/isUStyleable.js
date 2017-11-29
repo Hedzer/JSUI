@@ -6,6 +6,7 @@ import isStatic from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Styleable/isSt
 import exports from 'Parcello/exports';
 
 export default function isUStyleable(u) {
+	if (!u) { return false; }
 	return !!u[isStatic];
 }
 

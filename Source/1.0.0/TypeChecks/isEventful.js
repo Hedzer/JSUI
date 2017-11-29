@@ -6,6 +6,7 @@ import isInstance from 'JSUI/Source/1.0.0/Constants/Keys/TypeChecks/Eventful/isI
 import exports from 'Parcello/exports';
 
 export default function isEventful(u) {
+	if (!u) { return false; }
 	return !!u[isInstance];
 }
 
