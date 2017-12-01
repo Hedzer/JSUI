@@ -128,8 +128,9 @@ export default class Element extends Styleable {
 					});
 				}
 			}
-			if (_parent.children){
-				delete _parent.children[this.uid];
+			let _$parent = _parent[$private];
+			if (_$parent && _$parent.children){
+				delete _$parent.children[this.uid];
 			}
 		}
 		let _children = _private.children;
