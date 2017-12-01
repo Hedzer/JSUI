@@ -10,6 +10,8 @@ import exports from 'Parcello/exports';
 let Text = {
 	path: _path,
 	string: _string,
+	number: _string,
+	boolean: _string,
 	undefined: _undefined,
 };
 
