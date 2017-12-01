@@ -36,20 +36,20 @@ let Stateful = (descendant) => {
 		//properties
 		static state(context, property, value) {
 			let state = context[$private].state;
-			let old = state[property];
+			let current = state[property];
 			let isDefault = false;
 
 			let defaults = (context.constructor || this)[property];
 			if (!isUndefined(defaults)) {
-				isDefault = (old === defaults);
-				old = defaults;
+				isDefault = (current === defaults);
+				current = (property in state ? current : defaults);
 			}
 
 			if (arguments.length === 2) {
-				return old;
+				return current;
 			}
 
-			let hasChanged = (old !== value);
+			let hasChanged = (current !== value);
 
 			if (hasChanged) {
 				state[property] = value;
@@ -57,7 +57,7 @@ let Stateful = (descendant) => {
 				let data = new StateChangeReceipt({
 					isDefault: isDefault,
 					new: value,
-					old: old,
+					old: current,
 					owner: context,
 					property: property,
 				});
