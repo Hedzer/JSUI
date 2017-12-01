@@ -39,7 +39,7 @@ let Stateful = (descendant) => {
 			let old = state[property];
 			let isDefault = false;
 
-			let defaults = this[property];
+			let defaults = (context.constructor || this)[property];
 			if (!isUndefined(defaults)) {
 				isDefault = (old === defaults);
 				old = defaults;
