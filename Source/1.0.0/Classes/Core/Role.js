@@ -20,6 +20,7 @@ export default class Role extends Distinct
 	constructor(){
 		super();
 		this.identity = identity;
+		this.construct('features');
 	}
 }
 

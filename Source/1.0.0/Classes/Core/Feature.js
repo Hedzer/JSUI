@@ -20,6 +20,7 @@ export default class Feature extends Distinct
 	constructor(){
 		super();
 		this.identity = identity;
+		this.construct('pages');
 	}
 }
 

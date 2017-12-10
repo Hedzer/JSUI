@@ -23,6 +23,7 @@ export default class Page extends Main
 	constructor(){
 		super();
 		this.identity = identity;
+		this.construct('endpoints');
 		this.Style.context = 'page';
 	}
 

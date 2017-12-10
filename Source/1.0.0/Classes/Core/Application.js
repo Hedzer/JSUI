@@ -48,6 +48,9 @@ export default class Application extends Distinct
 		this.Navigation = (isUNavigation(DefaultNavigation) ? new DefaultNavigation() : false);
 		this.Page = (isUPage(DefaultPage) ? new DefaultPage() : false);
 		this.Router = (isRouter(DefaultRouter) ? DefaultRouter : Router);
+
+		//construct roles
+		this.construct('roles');
 	}
 
 	//properties
