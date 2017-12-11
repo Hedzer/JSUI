@@ -35,7 +35,7 @@ let Routable = ((descendant) => {
 		subroute(name) {
 			let subroutes = this.constructor.subroutes;
 			if (!isArray(subroutes)) { return false; }
-			for (var i = subroutes.length - 1; i >= 0; i--) {
+			for (let i = subroutes.length - 1; i >= 0; i--) {
 				let routable = subroutes[i];
 				if (!isURoutable(routable)) { continue; }
 				if (routable.route === name) {
