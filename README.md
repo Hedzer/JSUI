@@ -1,4 +1,5 @@
-#JSUI
+
+# JSUI
 ### A full featured, object oriented front-end framework with a fluent API.
 
 ## Goals
@@ -72,3 +73,5 @@ You don't have to build your whole app using JSUI's scaffolding. Components can 
 
 ### Building components
 All HTML elements inherit from JSUI's ```Element``` class.
+
+### API is in progress, so docs are in progress
